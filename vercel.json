@@ -4,6 +4,34 @@
     {
       "src": "server.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "index.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "styles.css",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "app.js",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "favicon.svg",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "robots.txt",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "sitemap.xml",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "eng.traineddata",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -13,27 +41,31 @@
     },
     {
       "src": "/styles.css",
-      "dest": "/styles.css"
+      "dest": "styles.css"
     },
     {
       "src": "/app.js",
-      "dest": "/app.js"
+      "dest": "app.js"
     },
     {
       "src": "/favicon.svg",
-      "dest": "/favicon.svg"
+      "dest": "favicon.svg"
     },
     {
       "src": "/robots.txt",
-      "dest": "/robots.txt"
+      "dest": "robots.txt"
     },
     {
       "src": "/sitemap.xml",
-      "dest": "/sitemap.xml"
+      "dest": "sitemap.xml"
     },
     {
       "src": "/eng.traineddata",
-      "dest": "/eng.traineddata"
+      "dest": "eng.traineddata"
+    },
+    {
+      "src": "/index.html",
+      "dest": "index.html"
     },
     {
       "src": "/(.*)",
