@@ -134,7 +134,157 @@ function selectTool(id, options = {}) {
   if (options.push !== false && location.pathname !== `/${id}`) history.pushState(null, "", `/${id}`);
   setRouteMode();
   renderPreview();
+  renderToolGuide(id);
   if (options.scroll !== false) window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+const toolGuides = {
+  "merge-pdf": `
+    <h2>How to Merge PDF Files Online for Free?</h2>
+    <p>Merging multiple PDF files into a single document is incredibly easy with <strong>We Love PDF</strong>. Whether you need to combine reports, invoices, receipts, or study materials, our browser-first tool does it securely without uploading your files to a server.</p>
+    
+    <h3>Step-by-Step Guide to Combine PDFs:</h3>
+    <ol>
+      <li><strong>Select Files:</strong> Click the "Select files" button above or drag and drop your PDFs directly into the workspace drop zone.</li>
+      <li><strong>Reorder Pages:</strong> Drag and drop the page thumbnails to rearrange them in the exact order you want them to appear in the final merged PDF.</li>
+      <li><strong>Combine:</strong> Click the "Run tool" button. The combined file will compile locally in your browser instantly.</li>
+      <li><strong>Download:</strong> Click the "Download" link to save your new merged PDF file.</li>
+    </ol>
+
+    <div class="tool-guide-faq">
+      <h2>Frequently Asked Questions about Merging PDFs</h2>
+      <h3>Is it safe to merge my sensitive PDF documents on your site?</h3>
+      <p>Absolutely. Unlike other online converters that upload your confidential contracts and documents to external servers, We Love PDF uses browser-side processing. Your files never leave your device, ensuring 100% data privacy and security.</p>
+      <h3>Can I combine files of different sizes?</h3>
+      <p>Yes. Our tool is optimized to merge PDF documents of various sizes, page layouts, and orientations. Vercel's fast architecture and our client-side compiler make the operation smooth and rapid.</p>
+    </div>
+  `,
+  "split-pdf": `
+    <h2>How to Split PDF Pages Online?</h2>
+    <p>Extract specific pages or split a large PDF document into separate files instantly. Our tool is designed for precision and absolute data safety, operating directly within your browser sandbox.</p>
+    
+    <h3>Step-by-Step Guide to Split a PDF:</h3>
+    <ol>
+      <li><strong>Choose File:</strong> Upload the PDF document you wish to split.</li>
+      <li><strong>Specify Range:</strong> In the Settings panel, enter the page numbers you want to extract (e.g., <code>1-3, 5</code> to split pages 1 to 3 and page 5).</li>
+      <li><strong>Process:</strong> Click the "Run tool" button to execute page extraction.</li>
+      <li><strong>Download:</strong> Save your newly split PDF files instantly.</li>
+    </ol>
+
+    <div class="tool-guide-faq">
+      <h2>Split PDF FAQs</h2>
+      <h3>Can I split password-protected PDFs?</h3>
+      <p>Yes. You can unlock and load password-protected files in your browser locally, specify the pages to extract, and export the new PDF with zero server upload needed.</p>
+      <h3>Does splitting a PDF reduce its original quality?</h3>
+      <p>No. Our tool extracts the exact byte-level vector data of the selected pages, maintaining the original resolutions of images, texts, and links without compression loss.</p>
+    </div>
+  `,
+  "compress-pdf": `
+    <h2>How to Compress PDF and Reduce File Size Online?</h2>
+    <p>Reduce the storage footprint of your PDF documents to make sharing via email or messaging apps easy. We Love PDF applies optimized deflation algorithms to clean metadata and compress redundant structures.</p>
+    
+    <h3>Step-by-Step Guide to Shrink PDF Size:</h3>
+    <ol>
+      <li><strong>Add PDF:</strong> Drag and drop your large PDF file into the upload zone above.</li>
+      <li><strong>Select Quality:</strong> Choose from the compression profiles: High (maximum size reduction), Balanced (optimized for email), or Small (light compression to keep print quality).</li>
+      <li><strong>Compress:</strong> Click the "Run tool" button.</li>
+      <li><strong>Save:</strong> Download the compressed PDF file.</li>
+    </ol>
+
+    <div class="tool-guide-faq">
+      <h2>Compress PDF FAQs</h2>
+      <h3>Will compressing my PDF make the text blurry?</h3>
+      <p>No. Our balanced compression algorithm preserves font vector graphics and vector drawings. Only high-resolution images are downsampled to a screen-friendly 150 DPI to save space while keeping text crisp.</p>
+      <h3>Is there a file size limit for compression?</h3>
+      <p>For standard browser-side cleanups, you can compress files up to 20MB completely free. For larger files, our secure server-side compression engine takes over to process files up to 200MB.</p>
+    </div>
+  `,
+  "jpg-to-pdf": `
+    <h2>How to Convert JPG Images to PDF online?</h2>
+    <p>Convert your photos, scans, and graphic documents (JPG/JPEG format) into a professional, shareable PDF document in one click.</p>
+    
+    <h3>Step-by-Step Guide to Convert JPG to PDF:</h3>
+    <ol>
+      <li><strong>Select Images:</strong> Upload one or more JPG images to the workspace.</li>
+      <li><strong>Set Quality:</strong> Choose your output quality (High, Balanced, Small).</li>
+      <li><strong>Convert:</strong> Hit "Run tool" to merge the images into a single PDF document.</li>
+      <li><strong>Download:</strong> Save the resulting PDF file to your device.</li>
+    </ol>
+
+    <div class="tool-guide-faq">
+      <h2>JPG to PDF FAQs</h2>
+      <h3>Can I convert multiple images at once?</h3>
+      <p>Yes. You can upload up to 30 images at once and arrange them in order to compile them into a single, multi-page PDF document.</p>
+      <h3>Is it safe to upload personal photos?</h3>
+      <p>Yes, all conversions are performed locally in your browser memory. Your private photos are never uploaded to any remote server.</p>
+    </div>
+  `,
+  "pdf-to-jpg": `
+    <h2>How to Convert PDF to JPG Images?</h2>
+    <p>Extract pages from a PDF document and save them as high-quality JPG images for presentations, web design, or social media sharing.</p>
+    
+    <h3>Step-by-Step Guide to Convert PDF to Images:</h3>
+    <ol>
+      <li><strong>Select PDF:</strong> Upload the PDF document you want to extract images from.</li>
+      <li><strong>Process:</strong> Click the "Run tool" button. The tool renders your pages into standard image formats.</li>
+      <li><strong>Download:</strong> Save the JPG images to your computer.</li>
+    </ol>
+
+    <div class="tool-guide-faq">
+      <h2>PDF to JPG FAQs</h2>
+      <h3>Does it convert all pages to images?</h3>
+      <p>Yes, each page of the PDF will be rendered into a separate JPG image at high resolution (1.8x scale for crisp rendering).</p>
+      <h3>Is this tool free?</h3>
+      <p>Yes, our PDF-to-image converter runs completely client-side in Javascript, meaning it is 100% free with no limits or watermarks.</p>
+    </div>
+  `,
+  "ocr-pdf": `
+    <h2>How to OCR PDF and Extract Text from Scans?</h2>
+    <p>Convert scanned PDF documents or image files into searchable, selectable PDF files using state-of-the-art Optical Character Recognition (OCR) technology.</p>
+    
+    <h3>Step-by-Step Guide to Run OCR:</h3>
+    <ol>
+      <li><strong>Upload Document:</strong> Select a scanned PDF or a picture (JPG/PNG) containing text.</li>
+      <li><strong>Run OCR:</strong> Click "Run tool". Our engine will analyze pixel layouts to recognize alphabetic characters.</li>
+      <li><strong>Download:</strong> Save the PDF. The output will contain a searchable invisible text layer overlay on top of the original image.</li>
+    </ol>
+
+    <div class="tool-guide-faq">
+      <h2>OCR PDF FAQs</h2>
+      <h3>How accurate is the OCR text recognition?</h3>
+      <p>We Love PDF uses Tesseract OCR, one of the most accurate open-source text recognition engines in the world, capable of recognizing English text with over 98% accuracy on clean scans.</p>
+      <h3>Can I copy-paste text from the OCR result?</h3>
+      <p>Yes, the resulting PDF file allows you to select, highlight, and copy-paste text directly, just like a digitally created PDF document.</p>
+    </div>
+  `
+};
+
+function renderToolGuide(id) {
+  const guideSection = $("toolGuideSection");
+  if (!guideSection) return;
+  
+  const defaultGuide = `
+    <h2>How to Use ${activeTool()[1]} Tool?</h2>
+    <p>Optimize your PDF workflows securely using our browser-first tool suite. We Love PDF is designed to provide professional document tools that respect your data privacy.</p>
+    
+    <h3>Instructions:</h3>
+    <ol>
+      <li><strong>Add Files:</strong> Upload your PDF document or relevant text/images above.</li>
+      <li><strong>Configure Settings:</strong> Use the options panel on the right to customize the tool output (e.g. text sizes, numbers, positions).</li>
+      <li><strong>Run:</strong> Click the "Run tool" button.</li>
+      <li><strong>Save:</strong> Download your processed document instantly.</li>
+    </ol>
+
+    <div class="tool-guide-faq">
+      <h2>General FAQs</h2>
+      <h3>Are my documents secure?</h3>
+      <p>Yes, We Love PDF operates primarily inside your local web browser sandbox. Documents are processed locally and are never stored or logged on our servers, ensuring GDPR compliance.</p>
+      <h3>Do I need to sign up?</h3>
+      <p>No registration or payment is required to use our core tools. Simply upload your files and download the results.</p>
+    </div>
+  `;
+  
+  guideSection.innerHTML = toolGuides[id] || defaultGuide;
 }
 
 function uploadHint(id) {
