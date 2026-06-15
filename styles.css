@@ -1500,3 +1500,124 @@ input:checked + .slider:before {
   color: var(--amber);
 }
 
+/* AUTHOR PAGE STYLING */
+.author-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 32px;
+  margin-top: 32px;
+  align-items: start;
+}
+.author-avatar-card {
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+}
+.author-avatar-img {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 96px;
+  height: 96px;
+  font-size: 48px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+.author-avatar-card h3 {
+  font-size: 20px;
+  color: var(--ink);
+  margin: 0 0 6px 0;
+}
+.author-role {
+  font-size: 13.5px;
+  color: var(--muted);
+  margin: 0 0 20px 0;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.author-socials {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--line);
+}
+.author-socials a {
+  color: var(--accent-dark);
+  font-weight: 750;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.author-socials a:hover {
+  color: var(--amber);
+}
+.author-bio-content h2 {
+  font-size: 22px;
+  margin-top: 0;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 8px;
+}
+.author-bio-content p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #374151;
+  margin-bottom: 20px;
+}
+.author-bio-content ul {
+  padding-left: 20px;
+  margin-bottom: 24px;
+}
+.author-bio-content li {
+  margin-bottom: 10px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #374151;
+}
+
+/* COMPARISON PAGE STYLING */
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+}
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 14.5px;
+  background: #fff;
+}
+.comparison-table th, .comparison-table td {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--line);
+}
+.comparison-table th {
+  background: var(--soft);
+  color: var(--ink);
+  font-weight: 800;
+  font-size: 15px;
+}
+.comparison-table tr:hover td {
+  background: rgba(229, 174, 85, 0.02);
+}
+.comparison-table td strong {
+  color: var(--ink);
+}
+
+/* Responsive author page */
+@media (max-width: 768px) {
+  .author-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+

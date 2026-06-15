@@ -1,0 +1,31 @@
+# WeLovePDF
+
+WeLovePDF is a privacy-first, browser-based PDF toolkit. It allows users to process PDF files locally in their web browser without uploading sensitive documents to external servers.
+
+## Core Value Proposition
+- **Privacy First:** All core operations (merge, split, rotate, delete, metadata edit, watermark) run client-side in WebAssembly/JavaScript.
+- **No Account Required:** Free access to all browser-side tools without registrations.
+- **Fast:** Processing happens on the client machine with zero network latency.
+
+## Key Features & Tools
+- **Organize:** Merge PDF, Split PDF, Delete Pages, Extract Pages, Reorder Pages, Rotate PDF, Duplicate Pages, Add Blank Page, Crop PDF.
+- **Edit:** Page Numbers, Watermark PDF, Header & Footer, Metadata Editor, Flatten PDF, Annotate PDF, Redact PDF, Compare PDFs, Bookmark Editor.
+- **Optimize:** Compress PDF, Grayscale PDF, Repair PDF, Remove Hidden Data.
+- **Scan & OCR:** Deskew Scan, Auto Enhance Scan, Remove Background, OCR PDF.
+- **Convert to/from PDF:** PDF to Text, PDF to Markdown, PDF to JPG, PDF to PNG, PDF to Word, PDF to Excel, PDF to PowerPoint, PDF to HTML, PDF to CSV, JPG to PDF, PNG to PDF, Word to PDF, Excel to PDF, PowerPoint to PDF, HTML to PDF, Markdown to PDF, Text to PDF, URL to PDF.
+- **Security & AI:** Protect PDF, Unlock PDF, Sign PDF, Verify Signature, Bates Numbering, Ask PDF (AI), Translate PDF (AI), Summarize PDF (AI), Quiz from PDF (AI), Invoice Extractor (AI).
+
+## AI Assistants (Server-Ready Features)
+WeLovePDF integrates advanced server-side features powered by Tesseract OCR and Gemini LLM.
+- **AI PDF Summarizer:** Generates extractive summaries from document contents.
+- **AI PDF Translator:** Translates text to Hindi, Spanish, French, or German.
+- **Ask PDF:** Semantic document Q&A.
+- **PDF Quiz Generator:** Automatically compiles quizzes based on PDF contents.
+
+## Comparisons
+- **WeLovePDF vs iLovePDF:** WeLovePDF processes documents locally in browser memory for maximum privacy, whereas iLovePDF uploads documents to cloud servers.
+- **WeLovePDF vs Smallpdf:** WeLovePDF offers unlimited free browser-side processing without mandatory registration.
+
+## Developer & Contact
+- **Founder:** Nilesh (Software Developer)
+- **Email:** support@welovepdf.com

@@ -36,6 +36,10 @@
     {
       "src": "google98b75bc1f3bc0c44.html",
       "use": "@vercel/static"
+    },
+    {
+      "src": "llms.txt",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -70,6 +74,10 @@
     {
       "src": "/google98b75bc1f3bc0c44.html",
       "dest": "google98b75bc1f3bc0c44.html"
+    },
+    {
+      "src": "/llms.txt",
+      "dest": "llms.txt"
     },
     {
       "src": "/index.html",

@@ -820,61 +820,101 @@ const subpages = [
   "contact",
   "blog",
   "press",
-  "sitemap"
+  "sitemap",
+  "ai-pdf-summarizer",
+  "ai-pdf-translator",
+  "ask-pdf",
+  "pdf-quiz-generator",
+  "welovepdf-vs-ilovepdf",
+  "welovepdf-vs-smallpdf",
+  "welovepdf-vs-adobe",
+  "author/nilesh"
 ];
 
 const seoMeta = {
   "": {
-    title: "We Love PDF - Free Browser-First PDF Tools",
-    desc: "Convert, organize, optimize, secure, and edit PDF documents in a polished browser-first workspace. 100% private local processing."
+    title: "WeLovePDF - Free Browser-First PDF Tools",
+    desc: "WeLovePDF is a browser-based PDF toolkit that lets users merge, split, compress, convert, and secure PDF files without uploading documents to external servers."
   },
   "features": {
-    title: "Features - We Love PDF",
+    title: "Features - WeLovePDF",
     desc: "Discover all 60 PDF tools. Learn about browser-first local processing, server-side OCR, and AI document assistant capabilities."
   },
   "pricing": {
-    title: "Pricing Plans - We Love PDF",
+    title: "Pricing Plans - WeLovePDF",
     desc: "Simple, transparent pricing. Use browser-side PDF tools for free, or upgrade to Pro for advanced server OCR, batch uploads, and AI assistance."
   },
   "faq": {
-    title: "FAQ - We Love PDF",
-    desc: "Got questions? Find answers about We Love PDF's file safety, browser local sandbox, Pro plan limits, and AI document helpers."
+    title: "FAQ - WeLovePDF",
+    desc: "Got questions? Find answers about WeLovePDF's file safety, browser local sandbox, Pro plan limits, and AI document helpers."
   },
   "security": {
-    title: "Security and Privacy Standards - We Love PDF",
+    title: "Security and Privacy Standards - WeLovePDF",
     desc: "Your data is safe with us. Learn about our local processing sandboxes, encrypted transit pipelines, and strict 1-hour automatic deletion rules."
   },
   "privacy-policy": {
-    title: "Privacy Policy - We Love PDF",
+    title: "Privacy Policy - WeLovePDF",
     desc: "Read our Privacy Policy to understand how we protect your personal details, utilize local storage, and process files with zero logging."
   },
   "terms-and-conditions": {
-    title: "Terms and Conditions - We Love PDF",
-    desc: "Read the We Love PDF Terms of Service. Learn about user guidelines, fair use limits, license grants, and governing liabilities."
+    title: "Terms and Conditions - WeLovePDF",
+    desc: "Read the WeLovePDF Terms of Service. Learn about user guidelines, fair use limits, license grants, and governing liabilities."
   },
   "cookies": {
-    title: "Cookies and Storage Statement - We Love PDF",
+    title: "Cookies and Storage Statement - WeLovePDF",
     desc: "Understand what cookies and local storage tokens we use to keep you signed in and preserve your workspace preferences."
   },
   "about-us": {
-    title: "About Our Mission - We Love PDF",
+    title: "About Our Mission - WeLovePDF",
     desc: "Meet the team dedicated to making document processing simple, private, and accessible. Our history, core values, and philosophy."
   },
   "contact": {
-    title: "Contact Us - We Love PDF Support",
+    title: "Contact Us - WeLovePDF Support",
     desc: "Need help or have questions? Get in touch with our team for technical support, billing inquiries, or API integrations. We reply in 24 hours."
   },
   "blog": {
-    title: "Blog & Document Guides - We Love PDF",
+    title: "Blog & Document Guides - WeLovePDF",
     desc: "Read practical guides and tech updates on PDF compression, OCR scanning, Bates numbering, and auto-compiling templates."
   },
   "press": {
-    title: "Press & Media Kit - We Love PDF",
-    desc: "Access brand assets, official vector logos, founding dates, fast statistics, and press contact details for We Love PDF."
+    title: "Press & Media Kit - WeLovePDF",
+    desc: "Access brand assets, official vector logos, founding dates, fast statistics, and press contact details for WeLovePDF."
   },
   "sitemap": {
-    title: "Sitemap - We Love PDF Directory",
-    desc: "Full HTML directory of We Love PDF. Easily find and navigate all 12 informational sections and all 60 individual PDF tools."
+    title: "Sitemap - WeLovePDF Directory",
+    desc: "Full HTML directory of WeLovePDF. Easily find and navigate all 12 informational sections and all 60 individual PDF tools."
+  },
+  "ai-pdf-summarizer": {
+    title: "AI PDF Summarizer - WeLovePDF",
+    desc: "Summarize PDF documents using advanced local and cloud-based AI. Get instant key takeaways, outlines, and summaries safely."
+  },
+  "ai-pdf-translator": {
+    title: "AI PDF Translator - WeLovePDF",
+    desc: "Translate PDF files and documents to Hindi, Spanish, French, and German while keeping formatting intact."
+  },
+  "ask-pdf": {
+    title: "Ask PDF - AI Document Q&A Assistant - WeLovePDF",
+    desc: "Chat with your PDF files. Ask questions, extract tables, and find insights instantly using our secure AI assistant."
+  },
+  "pdf-quiz-generator": {
+    title: "AI PDF Quiz Generator - WeLovePDF",
+    desc: "Generate custom quizzes, multiple-choice questions, and test sheets from any PDF textbook or document using AI."
+  },
+  "welovepdf-vs-ilovepdf": {
+    title: "WeLovePDF vs iLovePDF: Why Offline Privacy Matters - WeLovePDF",
+    desc: "Compare WeLovePDF and iLovePDF. Read an honest comparison of security, speed, offline capabilities, and pricing."
+  },
+  "welovepdf-vs-smallpdf": {
+    title: "WeLovePDF vs Smallpdf: A Fair Comparison - WeLovePDF",
+    desc: "Compare WeLovePDF and Smallpdf. Learn about the privacy advantages of local browser processing over cloud uploads."
+  },
+  "welovepdf-vs-adobe": {
+    title: "WeLovePDF vs Adobe Acrobat Online - WeLovePDF",
+    desc: "Compare WeLovePDF and Adobe Acrobat online services. See why a lightweight, browser-based, no-registration tool is faster."
+  },
+  "author/nilesh": {
+    title: "Nilesh - Software Developer & Founder - WeLovePDF",
+    desc: "Meet Nilesh, the software developer and founder of WeLovePDF. Read about the mission, projects, and bio of the creator."
   }
 };
 
@@ -895,16 +935,16 @@ const blogArticles = {
       </ul>
 
       <h3>The Browser-First Solution</h3>
-      <p>We Love PDF utilizes a modern <strong>Browser-First</strong> approach. By leveraging WebAssembly and Javascript engines, we compile tools directly in the client-side browser runtime. When you merge or split documents, the calculations take place strictly inside your browser's sandboxed memory. Your files never leave your computer, ensuring absolute privacy.</p>
+      <p>WeLovePDF utilizes a modern <strong>Browser-First</strong> approach. By leveraging WebAssembly and Javascript engines, we compile tools directly in the client-side browser runtime. When you merge or split documents, the calculations take place strictly inside your browser's sandboxed memory. Your files never leave your computer, ensuring absolute privacy.</p>
 
       <h3>Conclusion</h3>
-      <p>If you are working with non-public documents, always prefer browser-local tools. We Love PDF gives you the best of both worlds: premium, fast editing without compromising on security.</p>
+      <p>If you are working with non-public documents, always prefer browser-local tools. WeLovePDF gives you the best of both worlds: premium, fast editing without compromising on security.</p>
     `
   },
   2: {
     tag: "Optimization",
     date: "May 18, 2026",
-    title: "How to Compress PDFs Without Losing Image Quality",
+    title: "PDF Compression Without Quality Loss",
     content: `
       <p>A common headache when sharing PDFs is file size limits. Email servers often restrict attachments to 20MB, but detailed documents or image scans can easily exceed 50MB. Compression is the answer, but how do you do it without making the text unreadable or images blurry?</p>
       
@@ -917,7 +957,7 @@ const blogArticles = {
       </ol>
 
       <h3>Our Balanced Compression Approach</h3>
-      <p>We Love PDF offers three tailored compression levels: <strong>High</strong> (maximum reduction, lowest resolution), <strong>Balanced</strong> (optimized for screen reading and email), and <strong>Small</strong> (light compression, print quality). By analyzing the document tree in real time, our tool optimizes file containers while preserving font clarity.</p>
+      <p>WeLovePDF offers three tailored compression levels: <strong>High</strong> (maximum reduction, lowest resolution), <strong>Balanced</strong> (optimized for screen reading and email), and <strong>Small</strong> (light compression, print quality). By analyzing the document tree in real time, our tool optimizes file containers while preserving font clarity.</p>
     `
   },
   3: {
@@ -928,7 +968,7 @@ const blogArticles = {
       <p>Legal teams, corporate archives, and researchers often deal with boxes of historical papers. To make these documents usable in the digital world, scanning is only the first step. You need searchability and systematic indexing.</p>
       
       <h3>What is OCR (Optical Character Recognition)?</h3>
-      <p>OCR is a technology that analyzes the pixel shapes in a document scan or image and matches them to alphabetic characters, generating a selectable text overlay. Without OCR, a scanned PDF is just a giant image; you cannot search for keywords, copy text, or feed it into AI tools. We Love PDF integrates state-of-the-art OCR engines to restore full searchability to your archives.</p>
+      <p>OCR is a technology that analyzes the pixel shapes in a document scan or image and matches them to alphabetic characters, generating a selectable text overlay. Without OCR, a scanned PDF is just a giant image; you cannot search for keywords, copy text, or feed it into AI tools. WeLovePDF integrates state-of-the-art OCR engines to restore full searchability to your archives.</p>
 
       <h3>The Importance of Bates Numbering</h3>
       <p>In legal and medical fields, documents must be indexed sequentially for identification. Bates Numbering applies a unique, serial number prefix (e.g., CASE-000001) to every page. This ensures pages aren't lost and can be referenced easily during trials or audits. Our bates tool allows you to customize the prefix, suffix, digit padding, and position dynamically.</p>
@@ -944,8 +984,79 @@ const blogArticles = {
       <h3>Why Markdown and HTML?</h3>
       <p>Markdown and HTML are plain-text formats, making them easy to write, edit, and version-control. By defining document content in Markdown and rendering it to PDF, you separate design from content. You can write your resume text once and apply different CSS layouts instantly.</p>
 
-      <h3>Automated Workflows on We Love PDF</h3>
-      <p>With tools like <strong>Resume to PDF</strong> and <strong>Invoice Extractor</strong>, We Love PDF enables template-based compilation. You type or paste structured text directly into the workspace, and our pdf-lib layout engine automatically handles pagination, font styles, and margins to output a beautiful, print-ready document.</p>
+      <h3>Automated Workflows on WeLovePDF</h3>
+      <p>With tools like <strong>Resume to PDF</strong> and <strong>Invoice Extractor</strong>, WeLovePDF enables template-based compilation. You type or paste structured text directly into the workspace, and our pdf-lib layout engine automatically handles pagination, font styles, and margins to output a beautiful, print-ready document.</p>
+    `
+  },
+  5: {
+    tag: "Review",
+    date: "June 12, 2026",
+    title: "Best Free PDF Tools in 2026",
+    content: `
+      <p>Finding high-quality, free PDF tools in 2026 can be challenging. Most tools online claim to be free but hit you with daily page limits, hidden subscription requirements, or ugly watermarks on your finished documents. Here is an honest review of the best options available today.</p>
+      
+      <h3>1. WeLovePDF (Best for Privacy & Speed)</h3>
+      <p>WeLovePDF stands out as a browser-first, privacy-focused toolkit. Unlike traditional web converters, WeLovePDF processes all core file adjustments (merging, splitting, rotating) directly inside your browser. This means your files never leave your device. It is completely free, does not require an account, has zero page limits, and places no watermarks.</p>
+      
+      <h3>2. iLovePDF (Best for Cloud Workflows)</h3>
+      <p>iLovePDF is a well-established cloud editor. It has a rich selection of features, but because it relies on cloud uploads, it raises data privacy concerns for sensitive documents. Free users are limited to smaller file sizes and encounter registration prompts.</p>
+      
+      <h3>3. Smallpdf (Good UI, but Heavy Restraints)</h3>
+      <p>Smallpdf offers a clean visual layout, but restricts free accounts to just 2 documents per day. To process more, users are forced to pay for a premium subscription.</p>
+      
+      <h3>Conclusion</h3>
+      <p>If you want speed, zero limits, and complete file privacy, WeLovePDF is the top free PDF workspace of 2026.</p>
+    `
+  },
+  6: {
+    tag: "Tutorials",
+    date: "June 08, 2026",
+    title: "How to Merge PDF Files Offline",
+    content: `
+      <p>Whether you need to combine reports, assemble invoices, or compile tax papers, merging multiple PDF files is one of the most common document tasks. But did you know you can do it completely offline without downloading heavy desktop software?</p>
+      
+      <h3>The Browser-Offline Revolution</h3>
+      <p>Historically, offline merging required Adobe Acrobat Pro or native command-line utilities. However, modern browsers support WebAssembly and local Javascript engines. Websites like <strong>WeLovePDF</strong> download the compiler code to your browser once, and then run it locally on your device.</p>
+      
+      <h3>Step-by-Step Offline Merging on WeLovePDF:</h3>
+      <ol>
+        <li>Open <a href="/merge-pdf">WeLovePDF Merge PDF</a> in your browser.</li>
+        <li>Disconnect your internet connection (turn on Airplane mode) to verify offline functionality.</li>
+        <li>Drag and drop your PDF files into the upload zone.</li>
+        <li>Reorder thumbnails as desired.</li>
+        <li>Click "Run tool" and download your combined document instantly.</li>
+      </ol>
+      <p>By compiling the documents in the browser sandbox, WeLovePDF merges files instantly without any web server transmissions.</p>
+    `
+  },
+  7: {
+    tag: "Technology",
+    date: "June 01, 2026",
+    title: "Browser-Based PDF Processing vs Cloud Processing",
+    content: `
+      <p>When using an online PDF tool, you are typically using one of two architectures: Browser-Based (Client-Side) or Cloud-Based (Server-Side). Understanding the differences is critical for document safety and processing speed.</p>
+      
+      <h3>Cloud-Based (Server-Side) Processing</h3>
+      <p>This is the model used by traditional sites like iLovePDF, Smallpdf, and Adobe Online. Your files are uploaded to their cloud servers, processed on their remote machines, and then downloaded back to your system. 
+      <strong>Drawbacks:</strong> Bandwidth consumption (slow uploads for large files), queues during high traffic, and significant privacy exposure if the server is compromised.</p>
+      
+      <h3>Browser-Based (Client-Side) Processing</h3>
+      <p>Used by modern platforms like <strong>WeLovePDF</strong>, this architecture downloads the processing engine (using HTML5 and WebAssembly) directly to your browser tab. All manipulation happens inside your browser's local memory.
+      <strong>Advantages:</strong> Instant execution (no upload/download wait times), complete privacy (zero server logs), and the ability to work fully offline.</p>
+    `
+  },
+  8: {
+    tag: "Security",
+    date: "May 29, 2026",
+    title: "Is iLovePDF Safe for Sensitive Documents?",
+    content: `
+      <p>iLovePDF is one of the most visited utility websites in the world, and many businesses rely on it for daily document conversions. But is it safe for sensitive corporate documents, contracts, and personal data?</p>
+      
+      <h3>The Reality of Cloud Uploads</h3>
+      <p>While iLovePDF employs secure HTTPS transfer protocols and automatically deletes processed files from their servers within 2 hours, the fact remains: your documents leave your device. For highly confidential files (e.g. NDAs, financial audits, medical records), uploading them to external servers can violate corporate compliance policies or GDPR regulations.</p>
+      
+      <h3>A Safer Alternative</h3>
+      <p>For sensitive documents, a browser-first toolkit like <strong>WeLovePDF</strong> is the safest alternative. Because WeLovePDF operates inside your local web browser sandbox, your documents are never uploaded to any remote server. Your files stay 100% on your device, giving you total peace of mind and strict data compliance.</p>
     `
   }
 };
@@ -960,11 +1071,102 @@ function updateMetaDescription(text) {
   meta.setAttribute("content", text);
 }
 
+const toolFaqs = {
+  "merge-pdf": [
+    { q: "Is WeLovePDF's Merge PDF tool free?", a: "Yes, WeLovePDF's Merge PDF tool is 100% free with no hidden charges, page limits, or watermarks." },
+    { q: "Are files uploaded to a remote server?", a: "No. All merging operations are processed entirely inside your local browser sandbox via Javascript/WebAssembly. Your documents never leave your computer." },
+    { q: "Is there a file size limit for merging PDFs?", a: "Free local processing supports files up to 20MB. Pro tier supports server-assisted processing for documents up to 200MB." },
+    { q: "Can I merge password-protected PDFs?", a: "Yes, you can upload and unlock password-protected files in your browser locally before combining them." },
+    { q: "Can I rearrange the order of pages?", a: "Yes. Our visual workspace renders page thumbnails so you can drag and drop pages to arrange them in the exact order you want." },
+    { q: "Does merging PDFs reduce original document quality?", a: "No. The pages are combined at the structural layer without re-compressing elements, keeping images and text crisp." },
+    { q: "Can I merge PDFs offline without an internet connection?", a: "Yes. Once WeLovePDF loads, core tools like Merge PDF operate fully offline in your browser sandbox without any server dependency." },
+    { q: "Is WeLovePDF GDPR-compliant?", a: "Yes. Because no files are uploaded, stored, or processed on our servers, WeLovePDF complies fully with strict GDPR privacy standards." }
+  ],
+  "split-pdf": [
+    { q: "How does the Split PDF tool work?", a: "Upload your PDF and specify page ranges (e.g., 1-3, 5) in the Settings panel to extract them into a new document." },
+    { q: "Are my documents secure during splitting?", a: "Yes. Since the splitting is done client-side, your files never leave your device, ensuring complete security." },
+    { q: "Can I split password-protected PDFs?", a: "Yes. You can unlock the file locally with its password and proceed to split it." },
+    { q: "Does page extraction reduce PDF resolution?", a: "No. The vector data is extracted at the byte level, maintaining identical text and image quality." },
+    { q: "Is there a daily limit on how many PDFs I can split?", a: "No. WeLovePDF has no daily caps or document limits on its browser-based tools." }
+  ],
+  "compress-pdf": [
+    { q: "How does PDF compression reduce file size?", a: "Our tool removes redundant metadata, strips unused font subsets, and applies high-efficiency compression filters." },
+    { q: "Will the text in my PDF become blurry after compression?", a: "No. Font vectors are preserved so text remains sharp, while only high-resolution images are optimized to save space." },
+    { q: "What compression profiles are available?", a: "We offer High (max size reduction), Balanced (optimized for email/screen), and Small (light compression to keep print quality)." },
+    { q: "Is my document secure when using compression?", a: "Yes. Files under 20MB are compressed entirely in your browser sandbox with zero upload risk." }
+  ],
+  "jpg-to-pdf": [
+    { q: "Is the JPG to PDF converter free?", a: "Yes, it is completely free with no registration or watermarks." },
+    { q: "How many images can I convert at once?", a: "You can upload and compile up to 30 JPG, PNG, WEBP, or GIF images into a single PDF." },
+    { q: "Are my photos private?", a: "Yes. The images are converted locally in the browser memory, so no photos are uploaded to any server." }
+  ],
+  "pdf-to-jpg": [
+    { q: "How do I convert PDF pages to images?", a: "Simply select your PDF, choose output quality, and our engine converts the pages to JPG." },
+    { q: "Are my documents secure during image conversion?", a: "Yes. The rendering is done locally on your machine with zero server transmission." },
+    { q: "Can I select specific pages to convert?", a: "Yes. You can specify page ranges or convert all pages into individual JPG images." }
+  ],
+  "ocr-pdf": [
+    { q: "What is OCR?", a: "OCR stands for Optical Character Recognition. It scans pixel layouts to recognize characters." },
+    { q: "Is the OCR processing done locally?", a: "Yes, our browser engine runs OCR locally for quick scans. For large scans, it runs on our server." },
+    { q: "What languages are supported?", a: "Standard OCR supports English, with more languages available on the server." },
+    { q: "Is it safe to OCR financial scans?", a: "Yes, we process scans in memory." }
+  ]
+};
+
+function updateFaqSchema(slug) {
+  // Remove existing FAQ schema tag
+  const existing = document.getElementById("faq-schema-jsonld");
+  if (existing) existing.remove();
+
+  // Find relevant FAQs
+  let faqs = toolFaqs[slug];
+  
+  // Fallback FAQs for non-tool pages
+  if (!faqs) {
+    if (slug === "ai-pdf-summarizer") {
+      faqs = [
+        { q: "Is my data shared when using the AI Summarizer?", a: "No. WeLovePDF processes your files temporarily in memory to generate the summary and permanently deletes them in 1 hour." },
+        { q: "What is the maximum file size for summarizing?", a: "Free users can summarize documents up to 20MB, while Pro users can process up to 200MB." }
+      ];
+    } else if (slug === "welovepdf-vs-ilovepdf") {
+      faqs = [
+        { q: "Is WeLovePDF faster than iLovePDF?", a: "Yes, for local tasks like merging, splitting, and rotating, WeLovePDF is faster because it processes files instantly in your browser without uploading." }
+      ];
+    }
+  }
+
+  if (!faqs || faqs.length === 0) return;
+
+  // Build JSON-LD object
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": f.a
+      }
+    }))
+  };
+
+  // Inject tag
+  const script = document.createElement("script");
+  script.type = "application/ld+json";
+  script.id = "faq-schema-jsonld";
+  script.textContent = JSON.stringify(schema);
+  document.head.appendChild(script);
+}
+
 function updateSEO(slug) {
+  // Always update FAQ schema first
+  updateFaqSchema(slug);
+
   // If slug is a tool, handle tool SEO
   if (tools.some((t) => t[0] === slug)) {
     const t = tools.find((tool) => tool[0] === slug);
-    document.title = `${t[1]} - We Love PDF`;
+    document.title = `${t[1]} - WeLovePDF`;
     updateMetaDescription(`Use our free, sandboxed ${t[1]} tool to ${t[3].toLowerCase()} Process files instantly in your browser.`);
     return;
   }
@@ -983,14 +1185,14 @@ function setRouteMode() {
   // Reset all route classes from body
   document.body.classList.remove("tool-view", "subpage-view", "home-view");
   for (const page of subpages) {
-    document.body.classList.remove("route-" + page);
+    document.body.classList.remove("route-" + page.replace(/\//g, "-"));
   }
   
   // Update visibility state
   if (isTool) {
     document.body.classList.add("tool-view");
   } else if (isSubpage) {
-    document.body.classList.add("subpage-view", "route-" + slug);
+    document.body.classList.add("subpage-view", "route-" + slug.replace(/\//g, "-"));
     // Special setup for subpages
     if (slug === "blog") {
       // Show blog index, hide detail view
