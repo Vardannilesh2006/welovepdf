@@ -1621,3 +1621,14 @@ input:checked + .slider:before {
   }
 }
 
+/* Drag and Drop File Reordering Styles */
+.page-thumb.dragging {
+  opacity: 0.4;
+  border: 2px dashed var(--accent) !important;
+}
+.page-thumb.dragover {
+  border: 2px solid var(--accent) !important;
+  transform: scale(1.04);
+  background: var(--soft);
+}
+

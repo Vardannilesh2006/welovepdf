@@ -110,6 +110,19 @@ function getAcceptAttribute(id) {
 
 function selectTool(id, options = {}) {
   if (!tools.some((t) => t[0] === id)) id = "merge-pdf";
+  
+  // Clear files when switching tools to prevent auto-selecting files on new tools
+  if (state.active !== id) {
+    state.files = [];
+    const fileInput = $("fileInput");
+    if (fileInput) fileInput.value = "";
+    const fileList = $("fileList");
+    if (fileList) {
+      fileList.classList.add("empty");
+      fileList.innerHTML = "No files selected.";
+    }
+  }
+
   state.active = id;
   const t = activeTool();
   $("activeToolName").textContent = t[1];
@@ -421,19 +434,53 @@ async function renderPreview() {
       const wrap = document.createElement("div");
       wrap.className = "page-thumb";
       
+      // Make card draggable for reordering
+      wrap.setAttribute("draggable", "true");
+      wrap.dataset.index = i;
+      
+      wrap.addEventListener("dragstart", (e) => {
+        e.dataTransfer.setData("text/plain", i);
+        wrap.classList.add("dragging");
+      });
+      wrap.addEventListener("dragend", () => {
+        wrap.classList.remove("dragging");
+      });
+      wrap.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        wrap.classList.add("dragover");
+      });
+      wrap.addEventListener("dragleave", () => {
+        wrap.classList.remove("dragover");
+      });
+      wrap.addEventListener("drop", (e) => {
+        e.preventDefault();
+        wrap.classList.remove("dragover");
+        const fromIndex = parseInt(e.dataTransfer.getData("text/plain"), 10);
+        const toIndex = i;
+        if (fromIndex !== toIndex && !isNaN(fromIndex)) {
+          const temp = state.files.splice(fromIndex, 1)[0];
+          state.files.splice(toIndex, 0, temp);
+          setFiles(state.files);
+        }
+      });
+      
       // Index badge
       const badge = document.createElement("span");
       badge.className = "card-index-badge";
       badge.textContent = i + 1;
       wrap.appendChild(badge);
 
-      // Delete button
+      // Delete button with direct click event listener
       const deleteBtn = document.createElement("button");
       deleteBtn.className = "card-delete-btn";
       deleteBtn.type = "button";
       deleteBtn.innerHTML = "×";
       deleteBtn.title = "Remove file";
-      deleteBtn.setAttribute("onclick", `deleteFile(${i})`);
+      deleteBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        window.deleteFile(i);
+      });
       wrap.appendChild(deleteBtn);
 
       // Card details container
@@ -503,7 +550,11 @@ async function renderPreview() {
       deleteBtn.className = "card-delete-btn";
       deleteBtn.type = "button";
       deleteBtn.innerHTML = "×";
-      deleteBtn.setAttribute("onclick", "deleteFile(0)");
+      deleteBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        window.deleteFile(0);
+      });
       wrap.appendChild(deleteBtn);
 
       const details = document.createElement("div");
@@ -594,6 +645,31 @@ async function makePdfFromText(title, body) {
   return doc.save();
 }
 
+async function handleOfficeToPdf(id) {
+  let fileText = "";
+  if (state.files.length > 0) {
+    const file = state.files[0];
+    const ext = file.name.toLowerCase().split('.').pop();
+    if (["docx", "xlsx", "pptx", "zip"].includes(ext)) {
+      throw new Error("Office files (.docx, .xlsx, .pptx) are compressed binary files and cannot be parsed client-side. For secure local processing, please save your document as a Text (.txt), Markdown (.md), or CSV (.csv) file first, or paste the text directly into the Settings panel on the right.");
+    }
+    fileText = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => resolve(e.target.result);
+      reader.onerror = (err) => reject(new Error("Failed to read text file: " + err.message));
+      reader.readAsText(file);
+    });
+  } else {
+    fileText = $("textValue")?.value || "";
+  }
+  
+  if (!fileText.trim()) {
+    throw new Error("Please upload a text file or type/paste text in the Settings panel on the right.");
+  }
+  
+  return download(await makePdfFromText(activeTool()[1], fileText), `${id}.pdf`);
+}
+
 async function runTool() {
   const id = state.active;
   const result = $("result");
@@ -601,8 +677,8 @@ async function runTool() {
   try {
     if (!activeTool()[5]) throw new Error("This tool needs a production backend service. UI workflow is ready.");
     if (shouldUseBackend(id)) return runBackendTool(id);
-    if (["text-to-pdf", "markdown-to-pdf", "html-to-pdf", "resume-to-pdf"].includes(id)) {
-      return download(await makePdfFromText(activeTool()[1], $("textValue")?.value || ""), `${id}.pdf`);
+    if (["text-to-pdf", "markdown-to-pdf", "html-to-pdf", "resume-to-pdf", "word-to-pdf", "excel-to-pdf", "powerpoint-to-pdf"].includes(id)) {
+      return handleOfficeToPdf(id);
     }
     if (id.includes("to-pdf") && !id.startsWith("pdf-to") && state.files.some((f) => f.type.startsWith("image/"))) {
       return download(await imagesToPdf(state.files), `${id}.pdf`);
@@ -619,6 +695,8 @@ async function runTool() {
 }
 
 function shouldUseBackend(id) {
+  if (["word-to-pdf", "excel-to-pdf", "powerpoint-to-pdf", "text-to-pdf", "markdown-to-pdf", "html-to-pdf"].includes(id)) return false;
+
   const backendOnly = [
     "crop-pdf",
     "bookmark-editor",
