@@ -527,16 +527,16 @@
               <div class="form-row">
                 <label>
                   <span>Full Name</span>
-                  <input type="text" id="contactName" placeholder="Your Name" required />
+                  <input type="text" id="contactName" name="name" placeholder="Your Name" required />
                 </label>
                 <label>
                   <span>Email Address</span>
-                  <input type="email" id="contactEmail" placeholder="your@email.com" required />
+                  <input type="email" id="contactEmail" name="email" placeholder="your@email.com" required />
                 </label>
               </div>
               <label>
                 <span>Topic</span>
-                <select id="contactTopic">
+                <select id="contactTopic" name="topic">
                   <option value="support">Technical Support</option>
                   <option value="billing">Billing & Premium Plans</option>
                   <option value="feedback">General Feedback</option>
@@ -545,7 +545,7 @@
               </label>
               <label>
                 <span>Message</span>
-                <textarea id="contactMessage" placeholder="How can we help you?" required></textarea>
+                <textarea id="contactMessage" name="message" placeholder="How can we help you?" required></textarea>
               </label>
               <button type="submit" class="primary-btn submit-btn" id="contactSubmitBtn">Send Message</button>
             </form>

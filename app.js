@@ -1391,13 +1391,37 @@ $("contactForm").addEventListener("submit", (e) => {
   submitBtn.disabled = true;
   submitBtn.textContent = "Sending Message...";
   
-  // Simulate API post request delay
-  setTimeout(() => {
+  const formData = new FormData($("contactForm"));
+  
+  fetch("https://formsubmit.co/ajax/nileshverma99731@gmail.com", {
+    method: "POST",
+    headers: { 
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify({
+      name: formData.get("name"),
+      email: formData.get("email"),
+      topic: formData.get("topic"),
+      message: formData.get("message")
+    })
+  })
+  .then(res => {
+    if (!res.ok) throw new Error("Server error");
+    return res.json();
+  })
+  .then(data => {
     $("contactForm").style.display = "none";
     $("contactSuccess").style.display = "block";
     submitBtn.disabled = false;
     submitBtn.textContent = originalText;
-  }, 1000);
+  })
+  .catch(err => {
+    console.error("Error sending support message:", err);
+    alert("Oops! There was an issue sending your message. Please try again or email us directly at nileshverma99731@gmail.com");
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalText;
+  });
 });
 
 // Reset Contact Form
