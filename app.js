@@ -695,8 +695,6 @@ async function runTool() {
 }
 
 function shouldUseBackend(id) {
-  if (["word-to-pdf", "excel-to-pdf", "powerpoint-to-pdf", "text-to-pdf", "markdown-to-pdf", "html-to-pdf"].includes(id)) return false;
-
   const backendOnly = [
     "crop-pdf",
     "bookmark-editor",
@@ -709,11 +707,7 @@ function shouldUseBackend(id) {
     "ask-pdf",
     "translate-pdf"
   ];
-  if (backendOnly.includes(id)) return true;
-
-  return state.files.some((file) => file.name.toLowerCase().endsWith(".pdf")) &&
-    !id.startsWith("pdf-to") &&
-    !["search-in-pdf", "summarize-pdf", "quiz-from-pdf", "invoice-extractor"].includes(id);
+  return backendOnly.includes(id);
 }
 
 async function runBackendTool(id) {
@@ -834,7 +828,13 @@ async function convertFromPdf(id) {
   if (id === "pdf-to-word") return download(new TextEncoder().encode(`<html><body><pre>${escapeHtml(text)}</pre></body></html>`), "pdf-word.doc", "application/msword");
   if (id === "pdf-to-powerpoint") return download(new TextEncoder().encode(`<h1>PDF slide outline</h1><p>${escapeHtml(text.slice(0, 5000))}</p>`), "pdf-slides.html", "text/html");
   if (["pdf-to-jpg", "pdf-to-png", "pdf-to-long-image"].includes(id)) return renderPdfImage(id);
-  if (id === "search-in-pdf") return $("result").innerHTML = `<strong>Matches:</strong> ${(text.match(new RegExp(escapeRegExp($("searchText")?.value || ""), "gi")) || []).length}`;
+  if (id === "search-in-pdf") {
+    const query = $("searchText")?.value || "";
+    if (!query.trim()) {
+      return $("result").innerHTML = `<strong>Matches:</strong> 0`;
+    }
+    return $("result").innerHTML = `<strong>Matches:</strong> ${(text.match(new RegExp(escapeRegExp(query), "gi")) || []).length}`;
+  }
   if (id === "summarize-pdf") return download(new TextEncoder().encode(text.split(".").slice(0, 5).join(".") + "."), "summary.txt", "text/plain");
   if (id === "quiz-from-pdf") return download(new TextEncoder().encode(text.split(".").filter(Boolean).slice(0, 8).map((s, i) => `${i + 1}. What is meant by: ${s.trim().slice(0, 90)}?`).join("\n")), "quiz.txt", "text/plain");
   if (id === "invoice-extractor") return download(new TextEncoder().encode(extractInvoice(text)), "invoice-fields.txt", "text/plain");
