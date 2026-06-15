@@ -28,4 +28,4 @@ WeLovePDF integrates advanced server-side features powered by Tesseract OCR and 
 
 ## Developer & Contact
 - **Founder:** Nilesh (Software Developer)
-- **Email:** support@welovepdf.com
+- **Email:** nileshverma99731@gmail.com
