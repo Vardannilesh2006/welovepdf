@@ -1306,6 +1306,15 @@ function toolFromPath() {
   return "";
 }
 
+// Smart top bar close button
+const smartTopBarCloseBtn = document.getElementById("smartTopBarClose");
+if (smartTopBarCloseBtn) {
+  smartTopBarCloseBtn.addEventListener("click", () => {
+    const bar = document.getElementById("smartTopBar");
+    if (bar) bar.style.display = "none";
+  });
+}
+
 // Click interception for SPA links
 document.addEventListener("click", (event) => {
   // 1. Intercept normal anchor link clicks
