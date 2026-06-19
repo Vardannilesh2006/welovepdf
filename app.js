@@ -866,7 +866,11 @@ function download(bytes, name, type = "application/pdf") {
   const blob = bytes instanceof Blob ? bytes : new Blob([bytes], { type });
   const url = URL.createObjectURL(blob);
   $("result").innerHTML = `<strong>Done.</strong> Your file is ready.<br><a class="download-link" download="${name}" href="${url}">Download ${name}</a>`;
+  // Show Smartlink post-result ad
+  const adEl = document.getElementById("postResultAd");
+  if (adEl) adEl.style.display = "flex";
 }
+
 
 function formatSize(bytes) {
   if (bytes < 1024) return `${bytes} B`;
