@@ -53,6 +53,9 @@ export default function Navbar({ lang, setLang, theme, setTheme }: NavbarProps) 
           <span className="font-heading font-bold text-[18px] tracking-tight text-text-primaryLight dark:text-text-primaryDark">
             WeLovePDF
           </span>
+          <span className="hidden sm:inline-block px-8 py-2 text-[9px] font-bold text-brand-success bg-brand-success/15 border border-brand-success/20 rounded uppercase tracking-wider">
+            100% Private
+          </span>
         </a>
 
         {/* Desktop Navigation Links */}

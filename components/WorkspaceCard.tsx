@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Upload, FileText, CheckCircle2, AlertCircle, RefreshCw, Layers, Sliders, Play, Download, Keyboard, Eye, EyeOff, RotateCw, Shield, Type, Trash, Send, Plus, Scissors, Sparkles, SlidersHorizontal } from "lucide-react";
+import { Upload, FileText, CheckCircle2, AlertCircle, RefreshCw, Layers, Sliders, Play, Download, Keyboard, Eye, EyeOff, RotateCw, Shield, ShieldCheck, Type, Trash, Send, Plus, Scissors, Sparkles, SlidersHorizontal } from "lucide-react";
 
 interface WorkspaceCardProps {
   toolSlug: string;
@@ -640,8 +640,9 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
                 >
                   {lang === "en" ? "Browse Files" : "फ़ाइलें चुनें"}
                 </button>
-                <p className="text-[11px] text-text-secondaryLight/80 dark:text-text-secondaryDark/80 mt-16">
-                  Max size: 20MB for free users
+                <p className="text-[11px] text-brand-success font-semibold mt-16 flex items-center gap-4">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  Your file stays in your browser — never uploaded
                 </p>
               </div>
             ) : (
@@ -1280,6 +1281,9 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
                 <Play className="w-4 h-4" />
                 {lang === "en" ? "Run Tool" : "टूल चलाएं"}
               </button>
+              <p className="text-[10px] text-center text-text-secondaryLight/80 dark:text-text-secondaryDark/80 mt-8">
+                Processed in your browser. Zero server contact.
+              </p>
             </div>
           </div>
         </div>

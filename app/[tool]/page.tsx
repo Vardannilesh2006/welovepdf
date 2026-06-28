@@ -148,8 +148,22 @@ export default function ToolPage({ params, lang = "en" }: { params: { tool: stri
   };
 
   const faqs = toolFaqs[tool.slug] || [
-    { q: `Is WeLovePDF's ${tool.name} free?`, a: `Yes, WeLovePDF's ${tool.name} tool is 100% free with no page limits, signup triggers, or watermarks.` },
-    { q: "Is my document secure?", a: "Yes. All operations run in-memory locally inside your browser sandbox. Your files never leave your computer." }
+    {
+      q: `Is WeLovePDF's ${tool.name} tool free to use?`,
+      a: `Yes, WeLovePDF's ${tool.name} tool is 100% free. You can process your documents online with no file count limits, daily caps, page locks, or watermarks.`
+    },
+    {
+      q: `Does the ${tool.name} utility upload my document files?`,
+      a: `No. Unlike other utilities, WeLovePDF executes ${tool.name} locally inside your web browser sandbox using JavaScript and WebAssembly. Your files never reach any server.`
+    },
+    {
+      q: `Can I use WeLovePDF ${tool.name} offline without internet?`,
+      a: `Yes. Once the page is loaded, the ${tool.name} utility runs fully offline since all processing logic runs client-side in your browser.`
+    },
+    {
+      q: `Is there a file size limit for using the ${tool.name} tool?`,
+      a: `We support files up to 20MB for free local processing. Pro tier accounts support server-powered operations for files up to 200MB.`
+    }
   ];
 
   const faqSchema = {
@@ -202,9 +216,23 @@ export default function ToolPage({ params, lang = "en" }: { params: { tool: stri
 
         {/* Head Segment */}
         <div className="mb-32">
-          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-8">
-            {tool.name} — Free Online, No Upload
-          </h1>
+          <div className="flex items-center gap-12 mb-8 flex-wrap">
+            <h1 className="text-3xl md:text-4xl font-heading font-extrabold tracking-tight">
+              {tool.name}
+            </h1>
+            {tool.isBrowserWorking !== false ? (
+              <span className="px-8 py-2 text-[10px] font-bold text-brand-success bg-brand-success/15 border border-brand-success/20 rounded uppercase tracking-wider">
+                ✓ Processed in Browser
+              </span>
+            ) : (
+              <span className="px-8 py-2 text-[10px] font-bold text-brand-blue bg-brand-blue/15 border border-brand-blue/20 rounded uppercase tracking-wider group relative cursor-help">
+                Server-Powered
+                <span className="absolute bottom-full mb-6 hidden group-hover:block bg-bg-dark text-white text-[10px] rounded p-8 w-[200px] border border-border-dark leading-normal shadow-modal z-50">
+                  This advanced utility requires server-side logic (e.g. template layouts) to run. Files are processed over encrypted pipelines and deleted instantly.
+                </span>
+              </span>
+            )}
+          </div>
           <p className="text-text-secondaryLight dark:text-text-secondaryDark text-[15px] leading-relaxed max-w-[700px]">
             {toolDescriptions[tool.slug] || `Process ${tool.name} directly inside your browser memory.`}
           </p>

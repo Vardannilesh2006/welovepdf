@@ -38,8 +38,8 @@ export default function Home() {
   const t = {
     en: {
       badge: "⚡ World-Class Browser-First PDF Sandbox",
-      title: "Every PDF Tool You Need. Instant. Private. Free.",
-      subtext: "60+ web utilities running in client memory. Your files never touch a server.",
+      title: "PDF Tasks. Processed in your Browser. 100% Private.",
+      subtext: "60+ browser-based tools. Your files never leave your device. Absolute security for sensitive files.",
       exploreBtn: "Start for Free",
       workspaceBtn: "View All Tools",
       trustPill1: "✓ No Uploads",
@@ -52,8 +52,8 @@ export default function Home() {
     },
     hi: {
       badge: "⚡ भारत का पहला लोकल ब्राउज़र पीडीएफ सैंडबॉक्स",
-      title: "सभी पीडीएफ टूल्स। तुरंत। सुरक्षित। मुफ्त।",
-      subtext: "60+ वेब टूल्स जो क्लाइंट मेमोरी में चलते हैं। आपकी फाइलें सर्वर को नहीं छूतीं।",
+      title: "पीडीएफ कार्य। आपके ब्राउज़र में संसाधित। 100% सुरक्षित।",
+      subtext: "60+ ब्राउज़र-आधारित टूल्स। आपकी फाइलें आपके डिवाइस से कभी बाहर नहीं जातीं।",
       exploreBtn: "मुफ्त में शुरू करें",
       workspaceBtn: "सभी टूल्स देखें",
       trustPill1: "✓ कोई अपलोड नहीं",
