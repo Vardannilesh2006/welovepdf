@@ -17,5 +17,5 @@ export async function generateMetadata({ params }: { params: { tool: string } })
 }
 
 export default function HindiToolPage({ params }: { params: { tool: string } }) {
-  return <ToolPage params={params} />;
+  return <ToolPage params={params} lang="hi" />;
 }

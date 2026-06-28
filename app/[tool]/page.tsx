@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: { params: { tool: string } })
   };
 }
 
-export default function ToolPage({ params }: { params: { tool: string } }) {
+export default function ToolPage({ params, lang = "en" }: { params: { tool: string }; lang?: "en" | "hi" }) {
   const tool = tools.find((t) => t.slug === params.tool);
   if (!tool) {
     notFound();
@@ -118,7 +118,7 @@ export default function ToolPage({ params }: { params: { tool: string } }) {
 
         {/* Dynamic Tool Workspace Card Component */}
         <div className="mb-48">
-          <WorkspaceCard toolSlug={tool.slug} toolName={tool.name} lang="en" />
+          <WorkspaceCard toolSlug={tool.slug} toolName={tool.name} lang={lang} />
         </div>
 
         {/* Below-the-fold content */}
