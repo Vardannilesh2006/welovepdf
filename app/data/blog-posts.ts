@@ -1,4 +1,11 @@
-export const blogArticles = {
+export interface BlogArticle {
+  tag: string;
+  date: string;
+  title: string;
+  content: string;
+}
+
+export const blogArticles: Record<number, BlogArticle> = {
   1: {
     tag: "Security",
     date: "May 24, 2026",
@@ -138,5 +145,45 @@ export const blogArticles = {
       <h3>A Safer Alternative</h3>
       <p>For sensitive documents, a browser-first toolkit like <a href="/">WeLovePDF</a> is the safest alternative. Because WeLovePDF operates inside your local web browser sandbox, your documents are never uploaded to any remote server. Your files stay 100% on your device, giving you total peace of mind and strict data compliance.</p>
     `
+  }
+};
+export const blogArticlesHindi: Record<number, BlogArticle> = {
+  1: {
+    tag: "सुरक्षा",
+    date: "मई 24, 2026",
+    title: "ब्राउज़र-फर्स्ट पीडीएफ टूल्स डेटा सुरक्षा के लिए क्यों बेहतर हैं",
+    content: `<p>डिजिटल युग में, पीडीएफ दस्तावेजों में अक्सर हमारे सबसे संवेदनशील विवरण होते हैं... WeLovePDF फाइलों को बिना किसी सर्वर अपलोड के सीधे ब्राउज़र में सुरक्षित रूप से प्रोसेस करता है।</p>`
+  },
+  2: {
+    tag: "ऑप्टिमाइज़ेशन",
+    date: "मई 18, 2026",
+    title: "क्वालिटी खोए बिना पीडीएफ कंप्रेस कैसे करें",
+    content: `<p>गुणवत्ता को प्रभावित किए बिना पीडीएफ का आकार कैसे कम करें। WeLovePDF कंप्रेस पीडीएफ टूल आपके ब्राउज़र में ही फ़ाइल का आकार कम कर देता है।</p>`
+  }
+};
+export const blogGuidesHindi: Record<string, BlogArticle> = {
+  "pdf-compress-kaise-kare": {
+    tag: "कंप्रेस",
+    date: "जून 2026",
+    title: "PDF compress kaise kare bina quality khoye - WeLovePDF Guide",
+    content: `<p>यह मार्गदर्शिका हिंदी में बताती है कि आप WeLovePDF का उपयोग करके आसानी से पीडीएफ फ़ाइलों का आकार कैसे कम कर सकते हैं।</p>`
+  },
+  "pdf-merge-karne-ka-tarika": {
+    tag: "मर्ज",
+    date: "जून 2026",
+    title: "PDF merge karne ka tarika - WeLovePDF Guide",
+    content: `<p>मल्टीपल पीडीएफ फाइलों को एक साथ जोड़ने की हिंदी में पूरी जानकारी।</p>`
+  },
+  "pdf-to-word-hindi-guide": {
+    tag: "वर्ड",
+    date: "जून 2026",
+    title: "PDF to Word hindi guide - WeLovePDF Guide",
+    content: `<p>पीडीएफ को एमएस वर्ड फ़ाइल में बदलने का हिंदी ट्यूटोरियल।</p>`
+  },
+  "pdf-tool-students-ke-liye": {
+    tag: "छात्र",
+    date: "जून 2026",
+    title: "PDF tool students ke liye - WeLovePDF Guide",
+    content: `<p>भारतीय छात्रों के लिए सर्वश्रेष्ठ और मुफ्त पीडीएफ टूल्स के बारे में जानें।</p>`
   }
 };
