@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import HelperChatbot from "./HelperChatbot";
 import { LangProvider, useLang } from "./LangContext";
 
 function AppShellContent({ children }: { children: React.ReactNode }) {
@@ -22,6 +23,7 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
       <Navbar lang={lang} setLang={setLang} theme={theme} setTheme={setTheme} />
       <main className="flex-1 w-full">{children}</main>
       <Footer lang={lang} />
+      <HelperChatbot lang={lang} />
     </div>
   );
 }
