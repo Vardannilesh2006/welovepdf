@@ -3,70 +3,71 @@
 import React, { useState, useEffect } from "react";
 import { useLang } from "../components/LangContext";
 import { tools } from "./data/tools-config";
-import { ArrowRight, Check, Play, UserCheck, ShieldAlert, Cpu, Sparkles, Star, ChevronDown, BookOpen } from "lucide-react";
+import { ArrowRight, Check, Play, UserCheck, ShieldAlert, Cpu, Sparkles, Star, ChevronDown, BookOpen, Layers, CheckCircle2, ShieldCheck, Flame } from "lucide-react";
 
 export default function Home() {
   const { lang } = useLang();
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredCategory, setFilteredCategory] = useState("All");
-  const [userCount, setUserCount] = useState(50000);
+  
+  // Counter states
+  const [toolsCount, setToolsCount] = useState(0);
+  const [privacyPercent, setPrivacyPercent] = useState(0);
+  const [uploadsCount, setUploadsCount] = useState(10);
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("yearly");
 
-  // Simulated live user processing counter
+  // Animate counters on mount
   useEffect(() => {
-    const interval = setInterval(() => {
-      setUserCount(prev => prev + Math.floor(Math.random() * 4) + 1);
-    }, 4000);
-    return () => clearInterval(interval);
+    const toolsTimer = setInterval(() => {
+      setToolsCount((prev) => (prev >= 60 ? 60 : prev + 2));
+    }, 40);
+    const privacyTimer = setInterval(() => {
+      setPrivacyPercent((prev) => (prev >= 100 ? 100 : prev + 4));
+    }, 45);
+    const uploadsTimer = setInterval(() => {
+      setUploadsCount((prev) => (prev <= 0 ? 0 : prev - 1));
+    }, 150);
+
+    return () => {
+      clearInterval(toolsTimer);
+      clearInterval(privacyTimer);
+      clearInterval(uploadsTimer);
+    };
   }, []);
 
   const t = {
     en: {
-      badge: "🇮🇳 India's Privacy-First PDF Platform",
-      title: "Every PDF Tool You Need. Free. Private. Instant.",
-      subtext: "60+ tools that run inside your browser. Your files never leave your device. No signup, no limits, no compromise.",
-      exploreBtn: "Explore 60+ Tools ↓",
-      workspaceBtn: "Open Workspace →",
-      trustPill1: "✓ No Upload",
+      badge: "⚡ World-Class Browser-First PDF Sandbox",
+      title: "Every PDF Tool You Need. Instant. Private. Free.",
+      subtext: "60+ web utilities running in client memory. Your files never touch a server.",
+      exploreBtn: "Start for Free",
+      workspaceBtn: "View All Tools",
+      trustPill1: "✓ No Uploads",
       trustPill2: "✓ No Signup",
       trustPill3: "✓ No Watermark",
-      trustedCounter: "documents processed securely this week",
-      companies: "Professionals at these companies use WeLovePDF:",
-      mostUsed: "Most Used Tools",
-      viewAll: "View All 60+ Tools →",
       socialProofTitle: "Join 50,000+ users across India",
       aiTitle: "Work Smarter with AI PDF Tools",
       pricingTitle: "Simple, Transparent Pricing",
       blogTitle: "Learn PDF Tips & Tricks",
-      readMore: "Read →",
-      minRead: "min read",
     },
     hi: {
-      badge: "🇮🇳 भारत का पहला प्राइवेसी-फर्स्ट पीडीएफ प्लेटफॉर्म",
-      title: "सभी पीडीएफ टूल्स। मुफ्त। सुरक्षित। तुरंत।",
-      subtext: "60+ टूल्स जो आपके ब्राउज़र के अंदर चलते हैं। आपकी फाइलें आपके डिवाइस से बाहर नहीं जातीं। कोई साइनअप नहीं, कोई सीमा नहीं।",
-      exploreBtn: "सभी 60+ टूल्स देखें ↓",
-      workspaceBtn: "वर्क्सपेस खोलें →",
+      badge: "⚡ भारत का पहला लोकल ब्राउज़र पीडीएफ सैंडबॉक्स",
+      title: "सभी पीडीएफ टूल्स। तुरंत। सुरक्षित। मुफ्त।",
+      subtext: "60+ वेब टूल्स जो क्लाइंट मेमोरी में चलते हैं। आपकी फाइलें सर्वर को नहीं छूतीं।",
+      exploreBtn: "मुफ्त में शुरू करें",
+      workspaceBtn: "सभी टूल्स देखें",
       trustPill1: "✓ कोई अपलोड नहीं",
       trustPill2: "✓ कोई साइनअप नहीं",
       trustPill3: "✓ कोई वॉटरमार्क नहीं",
-      trustedCounter: "दस्तावेज़ इस सप्ताह सुरक्षित रूप से प्रोसेस किए गए",
-      companies: "इन कंपनियों के पेशेवर WeLovePDF का उपयोग करते हैं:",
-      mostUsed: "सबसे लोकप्रिय टूल्स",
-      viewAll: "सभी 60+ टूल्स देखें →",
       socialProofTitle: "भारत भर में 50,000+ उपयोगकर्ताओं से जुड़ें",
       aiTitle: "एआई पीडीएफ टूल्स के साथ स्मार्ट काम करें",
       pricingTitle: "सरल और स्पष्ट मूल्य निर्धारण",
       blogTitle: "पीडीएफ टिप्स और ट्रिक्स सीखें",
-      readMore: "पढ़ें →",
-      minRead: "मिनट पठन",
     }
   }[lang];
 
-  // Category listing map
   const categories = ["All", "Organize", "Edit", "Optimize", "Convert from/to PDF", "Security", "AI PDF"];
 
-  // Filter tools
   const getTools = () => {
     const query = searchQuery.toLowerCase().trim();
     return tools.filter(tool => {
@@ -90,418 +91,250 @@ export default function Home() {
     }
   };
 
-  const testimonials = [
-    {
-      name: "Riya Sharma",
-      city: "Jaipur",
-      stars: 5,
-      text: lang === "en" 
-        ? "Finally a PDF tool that doesn't force me to create an account. Compress PDF works in one second!"
-        : "आखिरकार एक ऐसा पीडीएफ टूल जिसे अकाउंट बनाने की जरूरत नहीं है। कंप्रेस पीडीएफ एक सेकंड में काम करता है!"
-    },
-    {
-      name: "Aman Verma",
-      city: "Bengaluru",
-      stars: 5,
-      text: lang === "en" 
-        ? "The digital signature verified instantly in my browser. Completely local and safe for my legal templates."
-        : "डिजिटल हस्ताक्षर मेरे ब्राउज़र में तुरंत सत्यापित हो गए। मेरे कानूनी टेम्पलेट्स के लिए पूरी तरह से सुरक्षित!"
-    },
-    {
-      name: "Sonia Gupta",
-      city: "Delhi",
-      stars: 5,
-      text: lang === "en"
-        ? "I use the AI Summarizer for my textbooks. Extracts exactly what I need without uploading pages."
-        : "मैं अपनी पाठ्यपुस्तकों के लिए एआई समराइज़र का उपयोग करती हूँ। पृष्ठों को अपलोड किए बिना मुझे वही मिलता है जो मुझे चाहिए।"
-    }
-  ];
-
   return (
-    <div className="w-full">
-      {/* 1. Hero Section */}
-      <section className="relative overflow-hidden pt-48 pb-64 px-16 border-b border-border-light dark:border-border-dark grid-bg">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-48 items-center">
+    <div className="w-full bg-white dark:bg-bg-dark text-text-primaryLight dark:text-text-primaryDark overflow-hidden transition-colors duration-200">
+      
+      {/* 1. Full-Viewport Hero Section */}
+      <section className="relative min-h-[90vh] flex items-center justify-center pt-32 pb-48 px-24 border-b border-border-light dark:border-border-dark bg-[#FAFAFA] dark:bg-bg-dark dot-grid">
+        
+        {/* Soft Glowing Drifting Orbs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-[10%] left-[15%] w-[350px] h-[350px] rounded-pill bg-brand-blue/5 dark:bg-brand-blue/10 blur-[100px] animate-orb-drift-1" />
+          <div className="absolute bottom-[20%] right-[10%] w-[400px] h-[400px] rounded-pill bg-brand-amber/5 dark:bg-brand-amber/5 blur-[120px] animate-orb-drift-2" />
+        </div>
+
+        <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-48 items-center relative z-10">
+          
+          {/* Left Text Block */}
           <div className="lg:col-span-7 flex flex-col items-start gap-24">
-            {/* Pill Badge */}
-            <span className="px-12 py-6 rounded-pill bg-brand-amber/10 border border-brand-amber/30 text-brand-amber font-semibold text-[13px] tracking-wide animate-pulse-soft">
+            <span className="px-12 py-6 rounded-pill bg-brand-blue/10 border border-brand-blue/20 text-brand-blue font-semibold text-[12px] tracking-wider uppercase">
               {t.badge}
             </span>
-            <h1 className="text-[36px] md:text-[54px] font-extrabold tracking-tight leading-[1.1] text-text-primaryLight dark:text-text-primaryDark">
+            <h1 className="font-heading font-extrabold text-[42px] md:text-[68px] lg:text-[72px] leading-[1.05] tracking-tight text-text-primaryLight dark:text-text-primaryDark">
               {t.title}
             </h1>
-            <p className="text-[16px] md:text-[18px] text-text-secondaryLight dark:text-text-secondaryDark max-w-[600px] leading-relaxed">
+            <p className="text-[16px] md:text-[19px] text-text-secondaryLight dark:text-text-secondaryDark max-w-[620px] leading-relaxed font-normal">
               {t.subtext}
             </p>
-            
-            {/* CTAs */}
+
+            {/* Two Premium CTAs */}
             <div className="flex flex-wrap items-center gap-16 mt-8 w-full">
               <a 
                 href="#tools" 
-                className="px-24 py-14 bg-brand-blue hover:bg-brand-blue/90 text-white font-bold rounded-btn shadow-btn flex items-center gap-8 transition-transform hover:scale-[1.02]"
+                className="px-28 py-16 bg-brand-blue hover:bg-brand-blue/95 text-white font-bold rounded-btn shadow-btn flex items-center gap-8 transition-transform hover:scale-[0.98] active:scale-[0.95]"
               >
                 {t.exploreBtn}
+                <ArrowRight className="w-4 h-4" />
               </a>
               <a 
-                href="/merge-pdf" 
-                className="px-24 py-14 border border-border-light dark:border-border-dark text-text-primaryLight dark:text-text-primaryDark font-semibold rounded-btn hover:bg-bg-light dark:hover:bg-surface-dark transition-all flex items-center gap-8"
+                href="#tools" 
+                className="px-28 py-16 border border-border-light dark:border-border-dark text-text-primaryLight dark:text-text-primaryDark font-semibold rounded-btn hover:bg-white dark:hover:bg-surface-dark transition-all flex items-center gap-8"
               >
                 {t.workspaceBtn}
               </a>
             </div>
 
-            {/* Trust Pills */}
-            <div className="flex flex-wrap items-center gap-16 mt-8 text-[13px] font-medium text-text-secondaryLight dark:text-text-secondaryDark">
-              <span className="flex items-center gap-6 px-12 py-4 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-pill">
+            {/* Trust Badges */}
+            <div className="flex flex-wrap items-center gap-16 mt-16 text-[12px] font-semibold text-text-secondaryLight dark:text-text-secondaryDark/80">
+              <span className="flex items-center gap-6 px-12 py-4 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-pill shadow-sm">
                 {t.trustPill1}
               </span>
-              <span className="flex items-center gap-6 px-12 py-4 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-pill">
+              <span className="flex items-center gap-6 px-12 py-4 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-pill shadow-sm">
                 {t.trustPill2}
               </span>
-              <span className="flex items-center gap-6 px-12 py-4 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-pill">
+              <span className="flex items-center gap-6 px-12 py-4 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-pill shadow-sm">
                 {t.trustPill3}
               </span>
             </div>
+          </div>
 
-            {/* Live Counter */}
-            <div className="mt-16 text-[14px] text-text-secondaryLight dark:text-text-secondaryDark">
-              <span className="font-mono font-bold text-brand-blue text-lg mr-6">
-                {userCount.toLocaleString()}
-              </span>
-              {t.trustedCounter}
+          {/* Right 3D Document Illustration */}
+          <div className="lg:col-span-5 flex justify-center items-center">
+            <div className="relative w-[340px] h-[340px] flex items-center justify-center">
+              
+              {/* Drifting Backlight Radial Gradient Blobs */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-brand-blue/20 to-brand-amber/20 rounded-pill filter blur-[50px] opacity-40 animate-pulse-soft" />
+              
+              {/* 3D Animated Card */}
+              <div className="relative w-[220px] h-[300px] bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-modal shadow-modal p-24 flex flex-col justify-between animate-float-3d shimmer-card cursor-pointer transform-gpu">
+                <div className="flex items-start justify-between">
+                  <div className="w-10 h-10 rounded bg-brand-blue/10 flex items-center justify-center font-extrabold text-brand-blue">
+                    PDF
+                  </div>
+                  <span className="text-[10px] font-extrabold text-brand-success bg-brand-success/15 px-8 py-2 rounded uppercase tracking-wide">
+                    Private
+                  </span>
+                </div>
+                <div className="flex flex-col gap-8">
+                  <div className="w-full h-8 bg-border-light dark:bg-border-dark/60 rounded" />
+                  <div className="w-[85%] h-8 bg-border-light dark:bg-border-dark/60 rounded" />
+                  <div className="w-[60%] h-8 bg-border-light dark:bg-border-dark/60 rounded" />
+                </div>
+                <div className="flex items-center justify-between border-t border-border-light dark:border-border-dark/60 pt-16">
+                  <span className="text-[11px] font-mono text-text-secondaryLight dark:text-text-secondaryDark">sandbox_doc.pdf</span>
+                  <CheckCircle2 className="w-4.5 h-4.5 text-brand-success" />
+                </div>
+              </div>
+
             </div>
           </div>
 
-          {/* SVG Sandbox Processing Illustration */}
-          <div className="lg:col-span-5 flex justify-center">
-            <svg width="340" height="340" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full max-w-[320px]">
-              <rect x="20" y="20" width="160" height="160" rx="16" className="fill-white dark:fill-surface-dark stroke-border-light dark:stroke-border-dark" strokeWidth="2" />
-              <rect x="40" y="40" width="120" height="8" rx="4" className="fill-brand-blue/20" />
-              <rect x="40" y="56" width="90" height="6" rx="3" className="fill-text-secondaryLight/20 dark:fill-text-secondaryDark/20" />
-              {/* PDF Document Icons */}
-              <g className="animate-pulse-soft">
-                <rect x="60" y="80" width="80" height="90" rx="8" className="fill-white dark:fill-bg-dark stroke-brand-blue" strokeWidth="2" />
-                <path d="M75 100 H125 M75 116 H125 M75 132 H105" className="stroke-border-light dark:stroke-border-dark" strokeWidth="2" strokeLinecap="round" />
-                <circle cx="100" cy="120" r="16" className="fill-brand-amber/10 stroke-brand-amber" strokeWidth="1.5" />
-                <path d="M96 120 L104 120 M100 116 L100 124" className="stroke-brand-amber" strokeWidth="2" strokeLinecap="round" />
-              </g>
-              {/* Shield lock status */}
-              <circle cx="160" cy="160" r="22" className="fill-brand-success/15 stroke-brand-success" strokeWidth="2" />
-              <path d="M155 160 L158 163 L166 155" className="stroke-brand-success" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </div>
         </div>
       </section>
 
-      {/* 2. Companies Trust Bar */}
-      <section className="py-24 border-b border-border-light dark:border-border-dark bg-white dark:bg-bg-dark transition-colors duration-200">
-        <div className="max-w-7xl mx-auto px-16 text-center">
-          <p className="text-[12px] uppercase tracking-wider font-semibold text-text-secondaryLight dark:text-text-secondaryDark/80 mb-16">
-            {t.companies}
-          </p>
-          <div className="flex flex-wrap justify-center items-center gap-32 md:gap-64 opacity-50 dark:opacity-40 filter grayscale hover:grayscale-0 transition-all duration-300">
-            <span className="font-bold text-lg">Google</span>
-            <span className="font-bold text-lg">Microsoft</span>
-            <span className="font-bold text-lg">Infosys</span>
-            <span className="font-bold text-lg">TCS</span>
-            <span className="font-bold text-lg">HDFC</span>
-            <span className="font-bold text-lg">Zomato</span>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. Quick Access Tool Grid */}
-      <section id="tools" className="py-48 px-16 max-w-7xl mx-auto scroll-mt-20">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-16 mb-32">
+      {/* 2. Interactive Scrolling Counters */}
+      <section className="py-24 border-b border-border-light dark:border-border-dark bg-white dark:bg-bg-dark">
+        <div className="max-w-7xl mx-auto px-24 grid grid-cols-2 md:grid-cols-4 gap-24 text-center">
           <div>
-            <h2 className="text-2xl font-bold tracking-tight">{t.mostUsed}</h2>
-            <p className="text-[14px] text-text-secondaryLight mt-4">
-              Select any of our 60+ tools. Files are processed locally.
+            <div className="font-heading font-extrabold text-[36px] md:text-[48px] text-brand-blue leading-none mb-6">
+              {toolsCount}+
+            </div>
+            <p className="text-[13px] font-bold text-text-secondaryLight dark:text-text-secondaryDark uppercase tracking-wider">
+              {lang === "en" ? "Browser Utilities" : "ब्राउज़र टूल्स"}
             </p>
           </div>
-          {/* Search bar */}
+          <div>
+            <div className="font-heading font-extrabold text-[36px] md:text-[48px] text-brand-success leading-none mb-6">
+              {privacyPercent}%
+            </div>
+            <p className="text-[13px] font-bold text-text-secondaryLight dark:text-text-secondaryDark uppercase tracking-wider">
+              {lang === "en" ? "100% In-Memory Safe" : "लोकल मेमोरी सुरक्षित"}
+            </p>
+          </div>
+          <div>
+            <div className="font-heading font-extrabold text-[36px] md:text-[48px] text-brand-amber leading-none mb-6">
+              {uploadsCount}
+            </div>
+            <p className="text-[13px] font-bold text-text-secondaryLight dark:text-text-secondaryDark uppercase tracking-wider">
+              {lang === "en" ? "Uploads to Server" : "सर्वर अपलोड संख्या"}
+            </p>
+          </div>
+          <div>
+            <div className="font-heading font-extrabold text-[36px] md:text-[48px] text-text-primaryLight dark:text-text-primaryDark leading-none mb-6 font-mono">
+              ∞
+            </div>
+            <p className="text-[13px] font-bold text-text-secondaryLight dark:text-text-secondaryDark uppercase tracking-wider">
+              {lang === "en" ? "Free Forever" : "हमेशा के लिए मुफ्त"}
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Filterable Tools Grid Section */}
+      <section id="tools" className="py-64 px-24 max-w-7xl mx-auto scroll-mt-20">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-16 mb-40">
+          <div>
+            <h2 className="font-heading font-bold text-[32px] md:text-[42px] tracking-tight">
+              {lang === "en" ? "Discover PDF Tools" : "टूल्स खोजें"}
+            </h2>
+            <p className="text-[14px] text-text-secondaryLight dark:text-text-secondaryDark mt-4 max-w-[500px]">
+              No queues. Adjust quality parameters and preview outputs locally inside your sandbox client.
+            </p>
+          </div>
+          
+          {/* Search box */}
           <div className="w-full max-w-[320px]">
             <input
               type="text"
               placeholder={lang === "en" ? "Search any tool..." : "टूल खोजें..."}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-16 py-8 border border-border-light dark:border-border-dark rounded-input bg-white dark:bg-surface-dark text-[14px] outline-none focus:border-brand-blue"
+              className="w-full px-16 py-10 border border-border-light dark:border-border-dark rounded-btn bg-white dark:bg-surface-dark text-[14px] outline-none focus:border-brand-blue transition-all"
             />
           </div>
         </div>
 
-        {/* Category Tabs */}
-        <div className="flex items-center gap-8 mb-24 overflow-x-auto pb-4 scrollbar-none">
+        {/* Animated underlines categories slider */}
+        <div className="flex items-center gap-12 mb-32 overflow-x-auto pb-4 scrollbar-none border-b border-border-light dark:border-border-dark/60">
           {categories.map((cat, idx) => (
             <button
               key={idx}
               onClick={() => setFilteredCategory(cat)}
-              className={`px-14 py-8 rounded-pill text-[13px] font-semibold transition-all whitespace-nowrap ${
+              className={`pb-12 text-[14px] font-semibold transition-all relative whitespace-nowrap ${
                 filteredCategory === cat
-                  ? "bg-brand-blue text-white"
-                  : "border border-border-light dark:border-border-dark text-text-secondaryLight hover:border-brand-blue"
+                  ? "text-brand-blue"
+                  : "text-text-secondaryLight dark:text-text-secondaryDark hover:text-text-primaryLight dark:hover:text-white"
               }`}
               type="button"
             >
               {cat}
+              {filteredCategory === cat && (
+                <div className="absolute bottom-0 inset-x-0 h-2 bg-brand-blue rounded-pill animate-fade-in" />
+              )}
             </button>
           ))}
         </div>
 
-        {/* Tool Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16">
+        {/* Hover-Lift Premium Tool Cards Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-20">
           {getTools().map((tool, idx) => (
             <a 
               key={idx}
               href={`/${tool.slug}`}
-              className="relative p-20 border border-border-light dark:border-border-dark rounded-card bg-white dark:bg-surface-dark flex gap-16 items-start transition-all hover:scale-[1.02] hover:border-brand-blue hover:shadow-card-hover"
+              className="relative p-24 border border-border-light dark:border-border-dark rounded-card bg-white dark:bg-surface-dark flex gap-16 items-start transition-all hover:-translate-y-4 hover:shadow-card-hover hover:border-brand-blue duration-200 group shimmer-card"
             >
-              {/* Category-coded Icon */}
-              <div className={`w-10 h-10 rounded-btn flex items-center justify-center font-bold text-[16px] flex-shrink-0 ${getCategoryColor(tool.category)}`}>
+              {/* Animated Category Icon */}
+              <div className={`w-11 h-11 rounded-btn flex items-center justify-center font-bold text-[18px] flex-shrink-0 transition-transform group-hover:scale-110 ${getCategoryColor(tool.category)}`}>
                 {tool.icon}
               </div>
               <div className="min-w-0 flex-1">
-                <h3 className="font-bold text-[15px] mb-4 text-text-primaryLight dark:text-text-primaryDark">
+                <h3 className="font-heading font-bold text-[16px] mb-4 text-text-primaryLight dark:text-text-primaryDark">
                   {tool.name}
                 </h3>
                 <p className="text-[13px] text-text-secondaryLight dark:text-text-secondaryDark leading-relaxed">
                   {tool.desc}
                 </p>
               </div>
-              {/* Badge */}
-              <span className="absolute top-12 right-12 text-[9px] font-bold px-6 py-2 rounded-pill bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark uppercase tracking-wide">
-                {tool.category === "AI PDF" ? "AI" : "Free"}
-              </span>
+              {/* Popular Badge */}
+              {tool.category === "AI PDF" && (
+                <span className="absolute top-12 right-12 text-[9px] font-bold px-6 py-2 rounded bg-brand-amber/15 border border-brand-amber/30 text-brand-amber uppercase tracking-wide">
+                  Popular
+                </span>
+              )}
             </a>
           ))}
         </div>
       </section>
 
-      {/* 4. Social Proof Section */}
-      <section className="py-64 px-16 border-t border-border-light dark:border-border-dark bg-bg-light/40 dark:bg-bg-dark/10">
+      {/* 4. Simple Transparent Pricing */}
+      <section id="pricing" className="py-64 px-24 border-t border-border-light dark:border-border-dark bg-[#FAFAFA] dark:bg-bg-dark/50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-[620px] mx-auto mb-48">
-            <h2 className="text-2xl font-bold mb-8">{t.socialProofTitle}</h2>
-            <p className="text-[14px] text-text-secondaryLight">
-              See what professionals from Delhi, Bengaluru, and Mumbai say about WeLovePDF.
+            <h2 className="font-heading font-bold text-[32px] md:text-[42px] mb-8">{t.pricingTitle}</h2>
+            <p className="text-[14px] text-text-secondaryLight dark:text-text-secondaryDark">
+              Unlock larger document volumes (up to 200MB) and multi-signature batch operations.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-24">
-            {testimonials.map((test, idx) => (
-              <div key={idx} className="p-24 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-card shadow-sm flex flex-col justify-between">
-                <p className="text-[14px] italic text-text-primaryLight dark:text-text-primaryDark leading-relaxed mb-20">
-                  "{test.text}"
-                </p>
-                <div className="flex items-center justify-between pt-12 border-t border-border-light/40 dark:border-border-dark/40">
-                  <div>
-                    <h4 className="font-bold text-[14px]">{test.name}</h4>
-                    <p className="text-[11px] text-text-secondaryLight">{test.city}</p>
-                  </div>
-                  <div className="flex gap-2">
-                    {[...Array(test.stars)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-brand-amber text-brand-amber" />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 5. AI Features Section */}
-      <section id="ai-assistant" className="py-64 px-16 max-w-7xl mx-auto border-t border-border-light dark:border-border-dark">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-48 items-center">
-          <div className="lg:col-span-6 flex flex-col items-start gap-16">
-            <span className="px-10 py-4 bg-brand-blue/10 border border-brand-blue/30 text-brand-blue rounded-pill text-[12px] font-bold flex items-center gap-6">
-              <Cpu className="w-4 h-4" />
-              🤖 AI-Powered
-            </span>
-            <h2 className="text-3xl font-extrabold tracking-tight">{t.aiTitle}</h2>
-            <p className="text-[14px] text-text-secondaryLight leading-relaxed">
-              Unlock advanced operations. Converse directly with long contracts, translate page nodes, extract invoice lists, or build flashcards automatically.
-            </p>
-            
-            {/* AI Feature cards list */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-16 mt-16 w-full">
-              {tools.filter(t => t.category === "AI PDF").slice(0, 4).map((tool, idx) => (
-                <div key={idx} className="p-16 border border-border-light dark:border-border-dark rounded-card bg-bg-light/20 dark:bg-bg-dark/10 flex flex-col gap-6">
-                  <h4 className="font-bold text-[14px] flex items-center gap-6">
-                    <Sparkles className="w-4 h-4 text-brand-amber" />
-                    {tool.name}
-                  </h4>
-                  <p className="text-[12px] text-text-secondaryLight">{tool.desc}</p>
-                  <a href={`/${tool.slug}`} className="text-[11px] font-bold text-brand-blue hover:underline mt-4">
-                    Try Free →
-                  </a>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Real-time chat visual mock */}
-          <div className="lg:col-span-6 border border-border-light dark:border-border-dark rounded-modal shadow-lg overflow-hidden bg-white dark:bg-surface-dark">
-            <div className="p-16 border-b border-border-light dark:border-border-dark bg-bg-light/30 dark:bg-bg-dark/5 flex items-center gap-8">
-              <div className="w-6 h-6 rounded-pill bg-brand-blue flex items-center justify-center text-white text-[11px] font-bold">W</div>
-              <span className="text-[13px] font-semibold">WeLovePDF AI Assistant</span>
-            </div>
-            <div className="p-24 flex flex-col gap-12 max-h-[260px] overflow-y-auto font-mono text-[12px]">
-              <div className="self-end px-12 py-8 bg-brand-blue/10 border border-brand-blue/20 rounded-card max-w-[80%]">
-                Summarize section 4 of the invoice.
-              </div>
-              <div className="self-start px-12 py-8 bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark rounded-card max-w-[85%]">
-                Section 4 summary:<br />
-                - GST Rate: 18%<br />
-                - CGST: ₹67.50<br />
-                - SGST: ₹67.50<br />
-                Total invoice balance: ₹885.00
-              </div>
-            </div>
-            <div className="p-16 border-t border-border-light dark:border-border-dark flex justify-between items-center bg-bg-light/30 dark:bg-bg-dark/5">
-              <span className="text-[12px] text-text-secondaryLight">Ask anything about your document...</span>
-              <button className="px-12 py-6 bg-brand-blue text-white rounded-btn text-[11px] font-bold" type="button">Send</button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 6. Pricing Section */}
-      <section id="pricing" className="py-64 px-16 border-t border-border-light dark:border-border-dark bg-bg-light/40 dark:bg-bg-dark/10">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center max-w-[620px] mx-auto mb-48">
-            <h2 className="text-3xl font-extrabold tracking-tight mb-8">{t.pricingTitle}</h2>
-            <p className="text-[14px] text-text-secondaryLight mb-24">
-              All core browser tools are free forever. Upgrade to Pro for large files & server OCR.
-            </p>
-
-            {/* Toggle Monthly/Yearly */}
-            <div className="inline-flex items-center gap-8 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-pill p-4 shadow-sm">
-              <button 
-                onClick={() => setBillingCycle("monthly")}
-                className={`px-16 py-6 rounded-pill text-[13px] font-semibold transition-all ${billingCycle === "monthly" ? "bg-brand-blue text-white" : ""}`}
-                type="button"
-              >
-                Monthly
-              </button>
-              <button 
-                onClick={() => setBillingCycle("yearly")}
-                className={`px-16 py-6 rounded-pill text-[13px] font-semibold transition-all flex items-center gap-6 ${billingCycle === "yearly" ? "bg-brand-blue text-white" : ""}`}
-                type="button"
-              >
-                Yearly
-                <span className="text-[10px] bg-brand-amber text-text-primaryLight font-bold px-6 py-1 rounded-pill uppercase tracking-wider">Save 30%</span>
-              </button>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-24 items-stretch">
-            {/* Free plan */}
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-32 max-w-4xl mx-auto">
+            {/* Free Plan */}
             <div className="p-32 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-modal shadow-sm flex flex-col justify-between">
               <div>
-                <h3 className="font-bold text-xl mb-8">Free</h3>
-                <p className="text-[13px] text-text-secondaryLight mb-24">Core browser-based processing</p>
-                <div className="text-3xl font-bold mb-24">₹0</div>
-                <ul className="flex flex-col gap-12 text-[14px]">
-                  <li className="flex items-center gap-8"><Check className="w-4 h-4 text-brand-success" /> All 60+ Browser tools</li>
-                  <li className="flex items-center gap-8"><Check className="w-4 h-4 text-brand-success" /> 100% Private local sandbox</li>
-                  <li className="flex items-center gap-8 text-text-secondaryLight/50"><span className="text-brand-error">✗</span> Up to 200MB files</li>
-                  <li className="flex items-center gap-8 text-text-secondaryLight/50"><span className="text-brand-error">✗</span> Server OCR & AI assistance</li>
+                <h3 className="font-heading font-bold text-xl mb-8">Basic</h3>
+                <div className="text-[32px] font-heading font-bold mb-16">₹0 <span className="text-[14px] font-normal text-text-secondaryLight">/ forever</span></div>
+                <ul className="flex flex-col gap-12 mb-32 text-[14px]">
+                  <li className="flex items-center gap-8"><Check className="w-4 h-4 text-brand-success" /> Max 20MB file sizes</li>
+                  <li className="flex items-center gap-8"><Check className="w-4 h-4 text-brand-success" /> 100% private sandbox</li>
+                  <li className="flex items-center gap-8"><Check className="w-4 h-4 text-brand-success" /> Watermark text overlays</li>
                 </ul>
               </div>
-              <a href="#tools" className="mt-32 w-full py-10 border border-brand-blue text-brand-blue rounded-btn text-center font-bold text-[14px] hover:bg-brand-blue/5">
-                Get Started
-              </a>
+              <a href="#tools" className="w-full py-10 border border-border-light dark:border-border-dark rounded-btn font-semibold text-center hover:bg-bg-light dark:hover:bg-surface-dark transition-all block">Get Started</a>
             </div>
 
             {/* Pro Plan */}
-            <div className="p-32 bg-white dark:bg-surface-dark border-2 border-brand-blue rounded-modal shadow-lg flex flex-col justify-between relative transform scale-[1.02]">
-              <span className="absolute top-0 right-32 transform -translate-y-1/2 bg-brand-blue text-white text-[10px] font-bold px-12 py-4 rounded-pill uppercase tracking-wider shadow-sm">
-                Most Popular
-              </span>
+            <div className="p-32 bg-white dark:bg-surface-dark border-2 border-brand-blue rounded-modal shadow-modal flex flex-col justify-between relative overflow-hidden">
+              <div className="absolute top-12 right-12 bg-brand-blue text-white font-extrabold text-[9px] px-8 py-2 rounded uppercase tracking-wider">Most Popular</div>
               <div>
-                <h3 className="font-bold text-xl mb-8">Pro Plan</h3>
-                <p className="text-[13px] text-text-secondaryLight mb-24">For advanced document workflows</p>
-                <div className="text-3xl font-bold mb-24">
-                  {billingCycle === "yearly" ? "₹524" : "₹749"}
-                  <span className="text-sm font-normal text-text-secondaryLight"> / month</span>
-                </div>
-                <ul className="flex flex-col gap-12 text-[14px]">
-                  <li className="flex items-center gap-8"><Check className="w-4 h-4 text-brand-success" /> 200MB File size limit</li>
-                  <li className="flex items-center gap-8"><Check className="w-4 h-4 text-brand-success" /> Advanced Tesseract OCR</li>
-                  <li className="flex items-center gap-8"><Check className="w-4 h-4 text-brand-success" /> Gemini AI summarizations</li>
-                  <li className="flex items-center gap-8"><Check className="w-4 h-4 text-brand-success" /> GST Hindi Invoice creator</li>
+                <h3 className="font-heading font-bold text-xl mb-8">Professional</h3>
+                <div className="text-[32px] font-heading font-bold mb-16">₹499 <span className="text-[14px] font-normal text-text-secondaryLight">/ month</span></div>
+                <ul className="flex flex-col gap-12 mb-32 text-[14px]">
+                  <li className="flex items-center gap-8"><Check className="w-4 h-4 text-brand-success" /> Max 200MB file sizes</li>
+                  <li className="flex items-center gap-8"><Check className="w-4 h-4 text-brand-success" /> OCR Accuracy (High Presets)</li>
+                  <li className="flex items-center gap-8"><Check className="w-4 h-4 text-brand-success" /> Unlimited AI Ask PDF query credits</li>
                 </ul>
               </div>
-              <div className="mt-32">
-                <button className="w-full py-12 bg-brand-blue hover:bg-brand-blue/90 text-white rounded-btn font-bold text-[14px] shadow-btn" type="button">
-                  Start 7-Day Free Trial
-                </button>
-                <p className="text-[11px] text-text-secondaryLight/80 text-center mt-12">
-                  No credit card required • 30-day refund guarantee
-                </p>
-              </div>
+              <button className="w-full py-10 bg-brand-blue text-white rounded-btn font-semibold text-center hover:bg-brand-blue/90 shadow-btn transition-all">Buy Pro Plan</button>
             </div>
-
-            {/* Enterprise plan */}
-            <div className="p-32 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-modal shadow-sm flex flex-col justify-between">
-              <div>
-                <h3 className="font-bold text-xl mb-8">Enterprise</h3>
-                <p className="text-[13px] text-text-secondaryLight mb-24">For departments & large volumes</p>
-                <div className="text-3xl font-bold mb-24">Custom</div>
-                <ul className="flex flex-col gap-12 text-[14px]">
-                  <li className="flex items-center gap-8"><Check className="w-4 h-4 text-brand-success" /> Dedicated REST API keys</li>
-                  <li className="flex items-center gap-8"><Check className="w-4 h-4 text-brand-success" /> Unlimited processing limits</li>
-                  <li className="flex items-center gap-8"><Check className="w-4 h-4 text-brand-success" /> SSO integration & dashboards</li>
-                  <li className="flex items-center gap-8"><Check className="w-4 h-4 text-brand-success" /> 24/7 SLA response times</li>
-                </ul>
-              </div>
-              <a href="/contact" className="mt-32 w-full py-10 border border-border-light dark:border-border-dark text-center font-bold text-[14px] hover:bg-bg-light dark:hover:bg-surface-dark rounded-btn">
-                Contact Sales
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 7. Blog Preview Section */}
-      <section id="blog" className="py-64 px-16 max-w-7xl mx-auto border-t border-border-light dark:border-border-dark">
-        <div className="text-center max-w-[620px] mx-auto mb-48">
-          <h2 className="text-3xl font-extrabold tracking-tight mb-8">{t.blogTitle}</h2>
-          <p className="text-[14px] text-text-secondaryLight">
-            Practical tutorials and reviews on document workflows and local privacy.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-24">
-          <div className="p-24 border border-border-light dark:border-border-dark rounded-card hover:border-brand-blue transition-colors flex flex-col justify-between">
-            <div>
-              <span className="text-[10px] bg-brand-blue/10 text-brand-blue font-bold px-8 py-2 rounded-pill uppercase tracking-wider">Security</span>
-              <h3 className="font-bold text-[16px] mt-12 mb-8">Why Browser-First PDF Tools are Better for Data Security</h3>
-              <p className="text-[13px] text-text-secondaryLight leading-relaxed mb-16">Explore how client-side WebAssembly structures process sensitive contracts safely.</p>
-            </div>
-            <a href="/blog" className="text-[13px] font-bold text-brand-blue flex items-center gap-6 hover:underline">
-              {t.readMore}
-            </a>
-          </div>
-          <div className="p-24 border border-border-light dark:border-border-dark rounded-card hover:border-brand-blue transition-colors flex flex-col justify-between">
-            <div>
-              <span className="text-[10px] bg-brand-success/10 text-brand-success font-bold px-8 py-2 rounded-pill uppercase tracking-wider">Optimization</span>
-              <h3 className="font-bold text-[16px] mt-12 mb-8">PDF Compression Without Quality Loss</h3>
-              <p className="text-[13px] text-text-secondaryLight leading-relaxed mb-16">How resolution downsampling and subsets compress files without text blur.</p>
-            </div>
-            <a href="/blog" className="text-[13px] font-bold text-brand-blue flex items-center gap-6 hover:underline">
-              {t.readMore}
-            </a>
-          </div>
-          <div className="p-24 border border-border-light dark:border-border-dark rounded-card hover:border-brand-blue transition-colors flex flex-col justify-between">
-            <div>
-              <span className="text-[10px] bg-brand-amber/10 text-brand-amber font-bold px-8 py-2 rounded-pill uppercase tracking-wider">Workflows</span>
-              <h3 className="font-bold text-[16px] mt-12 mb-8">A Guide to Digitizing Scans with OCR and Bates Numbering</h3>
-              <p className="text-[13px] text-text-secondaryLight leading-relaxed mb-16">Perform keyword searches inside historical archives by generating character overlays.</p>
-            </div>
-            <a href="/blog" className="text-[13px] font-bold text-brand-blue flex items-center gap-6 hover:underline">
-              {t.readMore}
-            </a>
           </div>
         </div>
       </section>

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Menu, X, Sun, Moon, Globe } from "lucide-react";
+import { Menu, X, Sun, Moon, Globe, ArrowRight } from "lucide-react";
 import { tools } from "../app/data/tools-config";
 
 interface NavbarProps {
@@ -14,8 +14,6 @@ interface NavbarProps {
 export default function Navbar({ lang, setLang, theme, setTheme }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<any[]>([]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,69 +30,54 @@ export default function Navbar({ lang, setLang, theme, setTheme }: NavbarProps) 
     localStorage.setItem("theme", newTheme);
   };
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    setSearchQuery(val);
-    if (!val.trim()) {
-      setSearchResults([]);
-      return;
-    }
-    const query = val.toLowerCase();
-    const matches = tools.filter(t => 
-      t.name.toLowerCase().includes(query) || 
-      t.category.toLowerCase().includes(query)
-    ).slice(0, 5);
-    setSearchResults(matches);
-  };
-
   const navLinks = [
     { label: lang === "en" ? "Tools" : "टूल्स", href: "#tools" },
     { label: lang === "en" ? "AI PDF" : "एआई पीडीएफ", href: "#ai-assistant" },
     { label: lang === "en" ? "Pricing" : "मूल्य निर्धारण", href: "#pricing" },
     { label: lang === "en" ? "Blog" : "ब्लॉग", href: "#blog" },
-    { label: lang === "en" ? "API" : "एपीआई", href: "#tools" },
   ];
 
   return (
-    <header className={`sticky top-0 w-full z-50 transition-all duration-200 ${
+    <header className={`sticky top-0 w-full z-50 transition-all duration-300 ${
       isScrolled 
-        ? "bg-white/80 dark:bg-bg-dark/80 backdrop-blur-xl border-b border-border-light dark:border-border-dark shadow-sm" 
+        ? "bg-white/80 dark:bg-bg-dark/80 backdrop-blur-[12px] border-b border-border-light dark:border-border-dark shadow-sm" 
         : "bg-transparent border-b border-transparent"
     }`}>
-      <div className="max-w-7xl mx-auto px-16 h-16 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-24 h-16 flex items-center justify-between">
+        
         {/* Brand Logo */}
         <a href="/" className="flex items-center gap-8 group">
-          <div className="w-8 h-8 rounded-btn bg-brand-blue flex items-center justify-center text-white font-bold text-lg shadow-btn transition-transform group-hover:scale-105">
+          <div className="w-8 h-8 rounded-btn bg-brand-blue flex items-center justify-center text-white font-extrabold text-md shadow-btn transition-transform group-hover:scale-105">
             W
           </div>
-          <span className="font-semibold text-xl tracking-tight text-text-primaryLight dark:text-text-primaryDark">
+          <span className="font-heading font-bold text-[18px] tracking-tight text-text-primaryLight dark:text-text-primaryDark">
             WeLovePDF
           </span>
         </a>
 
-        {/* Desktop Navigation links */}
-        <nav className="hidden md:flex items-center gap-24">
+        {/* Desktop Navigation Links */}
+        <nav className="hidden md:flex items-center gap-32">
           {navLinks.map((link, idx) => (
             <a 
               key={idx} 
               href={`/${link.href}`}
-              className="text-text-secondaryLight dark:text-text-secondaryDark hover:text-brand-blue dark:hover:text-white font-medium transition-colors text-[15px]"
+              className="text-text-secondaryLight dark:text-text-secondaryDark hover:text-brand-blue dark:hover:text-white font-medium transition-colors text-[14px]"
             >
               {link.label}
             </a>
           ))}
         </nav>
 
-        {/* Right Action buttons */}
+        {/* Right Actions */}
         <div className="hidden md:flex items-center gap-16">
           {/* Language Selector */}
           <button 
             onClick={() => setLang(lang === "en" ? "hi" : "en")}
-            className="flex items-center gap-6 px-12 py-6 rounded-btn border border-border-light dark:border-border-dark text-[14px] font-medium text-text-secondaryLight dark:text-text-secondaryDark hover:bg-bg-light dark:hover:bg-surface-dark transition-all"
+            className="flex items-center gap-6 px-12 py-6 rounded-btn border border-border-light dark:border-border-dark text-[13px] font-medium text-text-secondaryLight dark:text-text-secondaryDark hover:bg-bg-light dark:hover:bg-surface-dark transition-all"
             aria-label="Toggle Language"
             type="button"
           >
-            <Globe className="w-4 h-4" />
+            <Globe className="w-3.5 h-3.5" />
             {lang === "en" ? "हिन्दी" : "English"}
           </button>
 
@@ -105,19 +88,28 @@ export default function Navbar({ lang, setLang, theme, setTheme }: NavbarProps) 
             aria-label="Toggle Theme"
             type="button"
           >
-            {theme === "dark" ? <Sun className="w-[18px] h-[18px]" /> : <Moon className="w-[18px] h-[18px]" />}
+            {theme === "dark" ? <Sun className="w-[16px] h-[16px]" /> : <Moon className="w-[16px] h-[16px]" />}
           </button>
 
-          {/* Pro Plan CTA */}
+          {/* Workspace Trigger */}
+          <a
+            href="/merge-pdf"
+            className="text-[13px] font-semibold text-text-primaryLight dark:text-text-primaryDark hover:text-brand-blue transition-colors px-12 py-8"
+          >
+            {lang === "en" ? "Open Workspace" : "वर्क्सपेस खोलें"}
+          </a>
+
+          {/* Pro CTA */}
           <a 
             href="#pricing" 
-            className="px-16 py-8 rounded-btn bg-brand-amber hover:bg-brand-amber/90 text-text-primaryLight font-bold text-[14px] transition-all duration-150 shadow-sm"
+            className="px-16 py-8 rounded-btn bg-brand-blue hover:bg-brand-blue/90 text-white font-bold text-[13px] transition-all duration-150 shadow-btn flex items-center gap-4"
           >
-            {lang === "en" ? "Pro Plan" : "प्रो प्लान"}
+            {lang === "en" ? "Pro" : "प्रो"}
+            <ArrowRight className="w-3.5 h-3.5" />
           </a>
         </div>
 
-        {/* Mobile Hamburger toggle */}
+        {/* Mobile menu toggle */}
         <div className="flex md:hidden items-center gap-12">
           <button
             onClick={toggleTheme}
@@ -138,16 +130,16 @@ export default function Navbar({ lang, setLang, theme, setTheme }: NavbarProps) 
         </div>
       </div>
 
-      {/* Mobile drawer menu */}
+      {/* Mobile Menu Panel */}
       {mobileMenuOpen && (
-        <div className="md:hidden w-full bg-white dark:bg-bg-dark border-b border-border-light dark:border-border-dark px-16 py-24 flex flex-col gap-16 transition-all duration-200">
+        <div className="md:hidden w-full bg-white dark:bg-bg-dark border-b border-border-light dark:border-border-dark px-24 py-24 flex flex-col gap-16 transition-all duration-300">
           <nav className="flex flex-col gap-12">
             {navLinks.map((link, idx) => (
               <a 
                 key={idx} 
                 href={`/${link.href}`}
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-[16px] font-medium text-text-primaryLight dark:text-text-primaryDark py-8"
+                className="text-[15px] font-medium text-text-primaryLight dark:text-text-primaryDark py-8 border-b border-border-light/40 dark:border-border-dark/40"
               >
                 {link.label}
               </a>
@@ -159,7 +151,7 @@ export default function Navbar({ lang, setLang, theme, setTheme }: NavbarProps) 
                 setLang(lang === "en" ? "hi" : "en");
                 setMobileMenuOpen(false);
               }}
-              className="flex items-center justify-center gap-8 w-full py-10 rounded-btn border border-border-light dark:border-border-dark text-[15px] font-medium"
+              className="flex items-center justify-center gap-8 w-full py-10 rounded-btn border border-border-light dark:border-border-dark text-[14px] font-medium"
               type="button"
             >
               <Globe className="w-4 h-4" />
@@ -168,7 +160,7 @@ export default function Navbar({ lang, setLang, theme, setTheme }: NavbarProps) 
             <a 
               href="#pricing"
               onClick={() => setMobileMenuOpen(false)}
-              className="w-full py-10 rounded-btn bg-brand-amber text-center font-bold text-text-primaryLight text-[15px]"
+              className="w-full py-10 rounded-btn bg-brand-blue text-white text-center font-bold text-[14px]"
             >
               {lang === "en" ? "Pro Plan" : "प्रो प्लान"}
             </a>

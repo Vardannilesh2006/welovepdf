@@ -84,7 +84,7 @@ export default function ToolPage({ params, lang = "en" }: { params: { tool: stri
   ];
 
   return (
-    <div className="w-full bg-bg-light dark:bg-bg-dark transition-colors duration-200">
+    <div className="w-full bg-bg-light dark:bg-bg-dark dot-grid transition-colors duration-200">
       
       {/* Dynamic Schema Injection */}
       <script
