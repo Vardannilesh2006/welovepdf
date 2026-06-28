@@ -3,6 +3,54 @@ import { PDFDocument, PDFName, PDFString, StandardFonts, rgb } from "pdf-lib";
 import { Jimp } from "jimp";
 import Tesseract from "tesseract.js";
 
+// Gemini API Integration Helper
+async function callGemini(pdfBuffer: Buffer, prompt: string, mimeType: string = "application/pdf"): Promise<string> {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    throw new Error("GEMINI_API_KEY is not configured in environment variables.");
+  }
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+
+  const payload = {
+    contents: [
+      {
+        parts: [
+          {
+            inlineData: {
+              mimeType: mimeType,
+              data: pdfBuffer.toString("base64")
+            }
+          },
+          {
+            text: prompt
+          }
+        ]
+      }
+    ]
+  };
+
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  });
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(`Gemini API error: ${res.statusText} - ${errorText}`);
+  }
+
+  const json = await res.json();
+  const textResponse = json.candidates?.[0]?.content?.parts?.[0]?.text;
+  if (!textResponse) {
+    throw new Error("No text response received from Gemini API.");
+  }
+
+  return textResponse;
+}
+
 // Magic Number Validation Helpers
 function isPdf(buffer: Buffer): boolean {
   return buffer && buffer.length >= 4 && buffer.toString("hex", 0, 4) === "25504446";
@@ -505,7 +553,67 @@ export async function POST(req: NextRequest, { params }: { params: { tool: strin
 
     let output: Uint8Array;
 
-    if (tool === "merge-pdf") {
+    const aiTools = [
+      "ask-pdf",
+      "summarize-pdf",
+      "translate-pdf",
+      "quiz-from-pdf",
+      "invoice-extractor",
+      "resume-to-pdf",
+      "ocr-pdf",
+      "pdf-to-email",
+      "red-flag-detector",
+      "compare-summary",
+      "alt-text-generator"
+    ];
+
+    if (aiTools.includes(tool)) {
+      let prompt = "";
+      if (tool === "ask-pdf") {
+        prompt = `Answer the following question about this PDF document: ${text}`;
+      } else if (tool === "summarize-pdf") {
+        prompt = "Summarize this PDF in a detailed report including key highlights, bullet points, and an executive summary.";
+      } else if (tool === "translate-pdf") {
+        prompt = `Translate this PDF text into the requested target language: ${text || "Hindi"} completely while keeping structural sections.`;
+      } else if (tool === "quiz-from-pdf") {
+        prompt = "Generate a multiple-choice quiz from this PDF document. Include 5 questions with options and an answer key at the end.";
+      } else if (tool === "invoice-extractor") {
+        prompt = "Extract all structured information from this invoice PDF, including Invoice Number, Date, Due Date, Vendor, Line Items, Totals, and Taxes. Return in a clean structured report.";
+      } else if (tool === "resume-to-pdf") {
+        prompt = "Analyze this resume PDF. Score it out of 100, suggest improvements, identify missing sections, and list layout recommendations.";
+      } else if (tool === "ocr-pdf") {
+        prompt = "Extract all readable text, tabular details, and handwritten notes from this scanned document. Maintain the structural layouts.";
+      } else if (tool === "pdf-to-email") {
+        prompt = "Summarize this report and draft a professional email based on its core takeaways.";
+      } else if (tool === "red-flag-detector") {
+        prompt = "Analyze this contract PDF. Highlight risky clauses, missing parameters, and termination flags.";
+      } else if (tool === "compare-summary") {
+        prompt = "Compare this document with itself or highlight key structure categories.";
+      } else if (tool === "alt-text-generator") {
+        prompt = "Generate descriptive accessibility alt text details for all image segments found in this PDF.";
+      }
+
+      let mimeType = "application/pdf";
+      const fileName = files[0]?.name?.toLowerCase() || "";
+      if (fileName.endsWith(".png")) {
+        mimeType = "image/png";
+      } else if (fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")) {
+        mimeType = "image/jpeg";
+      }
+
+      const aiResponse = await callGemini(buffers[0].buffer, prompt, mimeType);
+
+      if (tool === "ask-pdf") {
+        return new NextResponse(aiResponse, {
+          status: 200,
+          headers: {
+            "Content-Type": "text/plain; charset=utf-8"
+          }
+        });
+      }
+
+      output = await makePdfFromText(`${tool.toUpperCase()} REPORT`, aiResponse);
+    } else if (tool === "merge-pdf") {
       output = await merge(buffers.map(b => b.buffer));
     } else if (["split-pdf", "extract-pages", "delete-pages", "duplicate-pages"].includes(tool)) {
       output = await pageOperation(tool, buffers[0].buffer, pagesRange);
@@ -516,9 +624,6 @@ export async function POST(req: NextRequest, { params }: { params: { tool: strin
     } else if (["deskew-scan", "auto-enhance-scan", "remove-background"].includes(tool)) {
       const isPdfFile = files[0].name.toLowerCase().endsWith(".pdf");
       output = await jimpImageFilter(buffers[0].buffer, isPdfFile, tool);
-    } else if (tool === "ocr-pdf") {
-      const isPdfFile = files[0].name.toLowerCase().endsWith(".pdf");
-      output = await ocrPdf(buffers[0].buffer, isPdfFile);
     } else if (tool === "verify-signature") {
       output = await verifySignature(buffers[0].buffer);
     } else if (tool === "accessibility-checker") {

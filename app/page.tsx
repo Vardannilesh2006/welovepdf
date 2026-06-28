@@ -69,9 +69,27 @@ export default function Home() {
   const categories = ["All", "Organize", "Edit", "Optimize", "Convert from/to PDF", "Security", "AI PDF"];
 
   const getTools = () => {
-    const query = searchQuery.toLowerCase().trim();
+    let query = searchQuery.toLowerCase().trim();
+
+    // Smart search synonyms mapping
+    if (query === "make pdf smaller" || query === "reduce size" || query === "shrink pdf") {
+      query = "compress";
+    } else if (query === "combine pages" || query === "join pdf" || query === "combine pdf") {
+      query = "merge";
+    } else if (query === "lock pdf" || query === "password" || query === "protect") {
+      query = "protect";
+    } else if (query === "unlock") {
+      query = "unlock";
+    } else if (query === "write alt text" || query === "alt text") {
+      query = "accessibility";
+    } else if (query === "invoice" || query === "bill") {
+      query = "invoice";
+    }
+
     return tools.filter(tool => {
-      const matchQuery = tool.name.toLowerCase().includes(query) || tool.desc.toLowerCase().includes(query);
+      const matchQuery = tool.name.toLowerCase().includes(query) || 
+                         tool.desc.toLowerCase().includes(query) || 
+                         tool.category.toLowerCase().includes(query);
       if (filteredCategory === "All") return matchQuery;
       if (filteredCategory === "Convert from/to PDF") {
         return (tool.category.includes("Convert") && matchQuery);

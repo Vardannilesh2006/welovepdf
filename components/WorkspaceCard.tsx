@@ -467,19 +467,40 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
   const strength = getPasswordStrength(openPassword);
 
   // Chat submit for Ask PDF
-  const handleChatSend = () => {
-    if (!chatInput.trim()) return;
-    const userMsg = { sender: "user" as const, text: chatInput };
+  const handleChatSend = async () => {
+    if (!chatInput.trim() || files.length === 0) return;
+    const currentInput = chatInput;
+    const userMsg = { sender: "user" as const, text: currentInput };
     setChatLog((prev) => [...prev, userMsg]);
     setChatInput("");
 
-    setTimeout(() => {
+    try {
+      const formData = new FormData();
+      formData.append("files", files[0]);
+      formData.append("text", currentInput);
+
+      const res = await fetch("/api/process/ask-pdf", {
+        method: "POST",
+        body: formData
+      });
+
+      if (!res.ok) {
+        throw new Error("Chat engine encountered an error.");
+      }
+
+      const reply = await res.text();
       const botMsg = {
         sender: "bot" as const,
-        text: `Regarding page ${citePages ? "2" : "references"} of ${files[0]?.name || "document"}: We extracted the GST details. The net pricing equals INR 634.75 plus CGST/SGST.`
+        text: reply
       };
       setChatLog((prev) => [...prev, botMsg]);
-    }, 600);
+    } catch (err: any) {
+      const botMsg = {
+        sender: "bot" as const,
+        text: `Error: ${err.message}`
+      };
+      setChatLog((prev) => [...prev, botMsg]);
+    }
   };
 
   const handleRunTool = async () => {
