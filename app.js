@@ -145,10 +145,83 @@ function selectTool(id, options = {}) {
   renderSettings();
   updateRunState();
   if (options.push !== false && location.pathname !== `/${id}`) history.pushState(null, "", `/${id}`);
+  
+  // === DYNAMIC SEO META UPDATE ===
+  updateSEOMeta(id, t[1], t[3]);
+  
   setRouteMode();
   renderPreview();
   renderToolGuide(id);
   if (options.scroll !== false) window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// ========================================================
+//  SEO — Dynamic meta tag updates per tool page
+// ========================================================
+function updateSEOMeta(toolId, toolName, toolDesc) {
+  const base = "https://welovepdf.com";
+  const url  = `${base}/${toolId}`;
+
+  // Extended per-tool descriptions for better SEO
+  const toolDescriptions = {
+    "merge-pdf":           "Merge multiple PDF files into one document for free. No file upload, no signup. 100% browser-based and private.",
+    "split-pdf":           "Split a PDF into separate pages or ranges for free. Runs entirely in your browser — files never leave your device.",
+    "compress-pdf":        "Compress PDF file size online for free without losing quality. Instant browser-based compression, no upload needed.",
+    "rotate-pdf":          "Rotate PDF pages 90, 180, or 270 degrees for free. Works directly in your browser with no file upload.",
+    "delete-pages":        "Delete specific pages from a PDF for free. Select pages to remove and download the result instantly.",
+    "extract-pages":       "Extract specific pages from a PDF and save as a new file. Free, browser-based, no upload required.",
+    "reorder-pages":       "Reorder PDF pages by drag and drop for free. Rearrange page order and download the updated PDF instantly.",
+    "watermark-pdf":       "Add a text watermark to every page of a PDF for free. Customize font, opacity, and position in your browser.",
+    "pdf-to-word":         "Convert PDF to Word (DOC) online for free. Extract text from PDF into an editable Word document instantly.",
+    "pdf-to-jpg":          "Convert PDF pages to JPG images for free. Render PDF pages as high-quality JPEG images in your browser.",
+    "pdf-to-png":          "Convert PDF to PNG image online free. Render PDF pages as transparent PNG images without any upload.",
+    "jpg-to-pdf":          "Convert JPG images to PDF for free. Combine multiple JPGs into one PDF file instantly in your browser.",
+    "png-to-pdf":          "Convert PNG images to PDF online for free. Turn PNG files into a PDF document without uploading to a server.",
+    "ocr-pdf":             "Extract text from scanned PDF using OCR for free. Convert image-based PDFs to searchable, copyable text.",
+    "protect-pdf":         "Add password protection to PDF files for free. Secure your PDF documents directly in your browser.",
+    "unlock-pdf":          "Remove PDF password and restrictions for free. Unlock encrypted PDF files online without any server upload.",
+    "sign-pdf":            "Add a digital signature to PDF online for free. Sign PDF documents with a typed signature in seconds.",
+    "ask-pdf":             "Ask questions about your PDF using AI for free. Chat with your document and get instant answers.",
+    "summarize-pdf":       "Summarize a PDF document using AI for free. Get a concise summary of long PDF files instantly.",
+    "translate-pdf":       "Translate PDF to Hindi, Spanish, French, or German for free using AI. Browser-based PDF translator.",
+    "quiz-from-pdf":       "Generate quiz questions from a PDF using AI for free. Create study questions automatically from any document.",
+    "invoice-extractor":   "Extract invoice data from PDF automatically using AI. Free browser-based invoice PDF data extractor.",
+    "pdf-to-excel":        "Convert PDF to Excel (CSV) online for free. Extract table data from PDF into spreadsheet format.",
+    "pdf-to-text":         "Extract text from PDF online for free. Convert PDF content to plain text format instantly in your browser.",
+    "header-footer":       "Add header and footer text to PDF pages for free. Customize position and text of PDF headers and footers.",
+    "page-numbers":        "Add page numbers to PDF for free. Automatically number all pages in your PDF document.",
+    "bookmark-editor":     "Edit PDF bookmarks and table of contents for free. Add, remove, or rename PDF chapters and outlines.",
+    "image-to-pdf":        "Convert images to PDF online for free. Turn JPG, PNG, and other image formats into a single PDF.",
+  };
+
+  const desc = toolDescriptions[toolId]
+    || `${toolName} online for free — no file upload, no signup. Runs 100% in your browser with WeLovePDF.`;
+  const title = `${toolName} Online Free — WeLovePDF`;
+
+  // Update <title>
+  document.title = title;
+
+  // Update <meta name="description">
+  let metaDesc = document.querySelector("meta[name='description']");
+  if (metaDesc) metaDesc.setAttribute("content", desc);
+
+  // Update canonical
+  const canonical = document.getElementById("canonicalTag");
+  if (canonical) canonical.setAttribute("href", url);
+
+  // Update Open Graph
+  const ogTitle = document.getElementById("ogTitle");
+  const ogDesc  = document.getElementById("ogDesc");
+  const ogUrl   = document.getElementById("ogUrl");
+  if (ogTitle) ogTitle.setAttribute("content", title);
+  if (ogDesc)  ogDesc.setAttribute("content", desc);
+  if (ogUrl)   ogUrl.setAttribute("content", url);
+
+  // Update Twitter Card
+  const twTitle = document.getElementById("twTitle");
+  const twDesc  = document.getElementById("twDesc");
+  if (twTitle) twTitle.setAttribute("content", title);
+  if (twDesc)  twDesc.setAttribute("content", desc);
 }
 
 const toolGuides = {

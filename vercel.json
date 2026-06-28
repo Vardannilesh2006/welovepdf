@@ -1,91 +1,75 @@
 {
   "version": 2,
   "builds": [
+    { "src": "server.js",                  "use": "@vercel/node" },
+    { "src": "index.html",                 "use": "@vercel/static" },
+    { "src": "styles.css",                 "use": "@vercel/static" },
+    { "src": "app.js",                     "use": "@vercel/static" },
+    { "src": "favicon.svg",                "use": "@vercel/static" },
+    { "src": "og-image.png",               "use": "@vercel/static" },
+    { "src": "robots.txt",                 "use": "@vercel/static" },
+    { "src": "sitemap.xml",                "use": "@vercel/static" },
+    { "src": "eng.traineddata",            "use": "@vercel/static" },
+    { "src": "google98b75bc1f3bc0c44.html","use": "@vercel/static" },
+    { "src": "llms.txt",                   "use": "@vercel/static" }
+  ],
+  "headers": [
     {
-      "src": "server.js",
-      "use": "@vercel/node"
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options",  "value": "nosniff" },
+        { "key": "X-Frame-Options",          "value": "SAMEORIGIN" },
+        { "key": "Referrer-Policy",          "value": "strict-origin-when-cross-origin" },
+        { "key": "X-Robots-Tag",             "value": "index, follow" },
+        { "key": "Permissions-Policy",       "value": "camera=(), microphone=(), geolocation=()" }
+      ]
     },
     {
-      "src": "index.html",
-      "use": "@vercel/static"
+      "source": "/sitemap.xml",
+      "headers": [
+        { "key": "Content-Type",   "value": "application/xml; charset=utf-8" },
+        { "key": "Cache-Control",  "value": "public, max-age=86400, stale-while-revalidate=3600" }
+      ]
     },
     {
-      "src": "styles.css",
-      "use": "@vercel/static"
+      "source": "/robots.txt",
+      "headers": [
+        { "key": "Content-Type",   "value": "text/plain; charset=utf-8" },
+        { "key": "Cache-Control",  "value": "public, max-age=86400" }
+      ]
     },
     {
-      "src": "app.js",
-      "use": "@vercel/static"
+      "source": "/llms.txt",
+      "headers": [
+        { "key": "Content-Type",   "value": "text/plain; charset=utf-8" },
+        { "key": "Cache-Control",  "value": "public, max-age=86400" }
+      ]
     },
     {
-      "src": "favicon.svg",
-      "use": "@vercel/static"
+      "source": "/(styles\\.css|app\\.js)",
+      "headers": [
+        { "key": "Cache-Control",  "value": "public, max-age=31536000, immutable" }
+      ]
     },
     {
-      "src": "robots.txt",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "sitemap.xml",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "eng.traineddata",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "google98b75bc1f3bc0c44.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "llms.txt",
-      "use": "@vercel/static"
+      "source": "/favicon\\.svg",
+      "headers": [
+        { "key": "Cache-Control",  "value": "public, max-age=604800" }
+      ]
     }
   ],
   "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "server.js"
-    },
-    {
-      "src": "/styles.css",
-      "dest": "styles.css"
-    },
-    {
-      "src": "/app.js",
-      "dest": "app.js"
-    },
-    {
-      "src": "/favicon.svg",
-      "dest": "favicon.svg"
-    },
-    {
-      "src": "/robots.txt",
-      "dest": "robots.txt"
-    },
-    {
-      "src": "/sitemap.xml",
-      "dest": "sitemap.xml"
-    },
-    {
-      "src": "/eng.traineddata",
-      "dest": "eng.traineddata"
-    },
-    {
-      "src": "/google98b75bc1f3bc0c44.html",
-      "dest": "google98b75bc1f3bc0c44.html"
-    },
-    {
-      "src": "/llms.txt",
-      "dest": "llms.txt"
-    },
-    {
-      "src": "/index.html",
-      "dest": "index.html"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "server.js"
-    }
+    { "src": "/api/(.*)",                  "dest": "server.js" },
+    { "src": "/styles.css",                "dest": "styles.css" },
+    { "src": "/app.js",                    "dest": "app.js" },
+    { "src": "/favicon.svg",               "dest": "favicon.svg" },
+    { "src": "/og-image.png",              "dest": "og-image.png" },
+    { "src": "/robots.txt",                "dest": "robots.txt" },
+    { "src": "/sitemap.xml",               "dest": "sitemap.xml" },
+    { "src": "/eng.traineddata",           "dest": "eng.traineddata" },
+    { "src": "/google98b75bc1f3bc0c44.html","dest": "google98b75bc1f3bc0c44.html" },
+    { "src": "/llms.txt",                  "dest": "llms.txt" },
+    { "src": "/index.html",                "dest": "index.html" },
+    { "src": "/(.*)",                      "dest": "server.js" }
   ]
 }
