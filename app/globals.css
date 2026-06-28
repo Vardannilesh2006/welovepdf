@@ -111,3 +111,60 @@
 .animate-pulse-soft {
   animation: pulse-soft 3s ease-in-out infinite;
 }
+
+/* 3D Intro Overhaul Keyframes */
+@keyframes merge-3d-sheet-1 {
+  0% { transform: perspective(800px) rotateX(60deg) rotateY(0deg) rotateZ(-30deg) translate3d(-100px, -100px, 150px); opacity: 0; }
+  30%, 100% { transform: perspective(800px) rotateX(40deg) rotateY(0deg) rotateZ(-10deg) translate3d(0, 0, 30px); opacity: 1; }
+}
+@keyframes merge-3d-sheet-2 {
+  0% { transform: perspective(800px) rotateX(60deg) rotateY(0deg) rotateZ(30deg) translate3d(100px, -80px, 150px); opacity: 0; }
+  45%, 100% { transform: perspective(800px) rotateX(40deg) rotateY(0deg) rotateZ(-10deg) translate3d(0, 0, 15px); opacity: 1; }
+}
+@keyframes merge-3d-sheet-3 {
+  0% { transform: perspective(800px) rotateX(60deg) rotateY(0deg) rotateZ(0deg) translate3d(0px, 120px, 150px); opacity: 0; }
+  60%, 100% { transform: perspective(800px) rotateX(40deg) rotateY(0deg) rotateZ(-10deg) translate3d(0, 0, 0px); opacity: 1; }
+}
+.animate-merge-3d-1 { animation: merge-3d-sheet-1 3.5s cubic-bezier(0.19, 1, 0.22, 1) infinite; }
+.animate-merge-3d-2 { animation: merge-3d-sheet-2 3.5s cubic-bezier(0.19, 1, 0.22, 1) infinite; }
+.animate-merge-3d-3 { animation: merge-3d-sheet-3 3.5s cubic-bezier(0.19, 1, 0.22, 1) infinite; }
+
+@keyframes split-3d-book {
+  0%, 100% { transform: perspective(800px) rotateX(25deg) rotateY(0deg); }
+  50% { transform: perspective(800px) rotateX(35deg) rotateY(-15deg); }
+}
+@keyframes split-3d-page-left {
+  0%, 100% { transform: perspective(800px) rotateY(0deg); }
+  50% { transform: perspective(800px) rotateY(-140deg); }
+}
+@keyframes split-3d-page-right {
+  0%, 100% { transform: perspective(800px) rotateY(0deg); }
+  50% { transform: perspective(800px) rotateY(20deg) translate3d(80px, -20px, 50px); }
+}
+.animate-split-book { animation: split-3d-book 4s ease-in-out infinite; }
+.animate-split-page-left { animation: split-3d-page-left 4s ease-in-out infinite; transform-origin: left center; }
+.animate-split-page-right { animation: split-3d-page-right 4s ease-in-out infinite; transform-origin: right center; }
+
+@keyframes delete-3d-crumple {
+  0% { transform: scale(1) rotate(0deg); border-radius: 4px; opacity: 1; }
+  40% { transform: scale(0.6) rotate(15deg) skew(10deg, 10deg); border-radius: 30%; }
+  70% { transform: scale(0.3) rotate(90deg) translate3d(50px, -150px, 0); border-radius: 50%; filter: blur(2px); opacity: 0.8; }
+  100% { transform: scale(0) rotate(180deg) translate3d(100px, -300px, 0); border-radius: 50%; opacity: 0; }
+}
+.animate-delete-crumple { animation: delete-3d-crumple 3s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite; }
+
+@keyframes rotate-3d-spin {
+  0% { transform: perspective(800px) rotateY(0deg) rotateX(15deg); }
+  80% { transform: perspective(800px) rotateY(360deg) rotateX(15deg); }
+  90% { transform: perspective(800px) rotateY(350deg) rotateX(15deg); }
+  100% { transform: perspective(800px) rotateY(360deg) rotateX(15deg); }
+}
+.animate-rotate-spin { animation: rotate-3d-spin 3s cubic-bezier(0.25, 0.8, 0.25, 1) infinite; }
+
+@keyframes compress-3d-squeeze {
+  0%, 100% { transform: perspective(800px) scale3d(1, 1, 1) rotateX(20deg); }
+  45% { transform: perspective(800px) scale3d(1, 0.25, 1.3) rotateX(30deg); }
+  60% { transform: perspective(800px) scale3d(1, 1.1, 0.9) rotateX(15deg); }
+}
+.animate-compress-squeeze { animation: compress-3d-squeeze 3.5s ease-in-out infinite; }
+
