@@ -107,7 +107,7 @@ export const toolDescriptions: Record<string, string> = {
 export const toolGuides: Record<string, string> = {
   "merge-pdf": `
     <h2>How to Merge PDF Files Online for Free?</h2>
-    <p>Merging multiple PDF files into a single document is incredibly easy with <strong>WeLovePDF</strong>. Whether you need to combine reports, invoices, receipts, or study materials, our browser-first tool does it securely without uploading your files to a server.</p>
+    <p>Merging multiple PDF files into a single document is incredibly easy with <strong>WeLovePDF</strong>. Whether you need to combine reports, invoices, receipts, or study materials, our browser-first tool does it securely without uploading your files to a server. Combining files locally ensures that your private data never leaves your computer, which is ideal for sensitive corporate agreements, academic transcripts, or personal records.</p>
     
     <h3>Step-by-Step Guide to Combine PDFs:</h3>
     <ol>
@@ -117,17 +117,12 @@ export const toolGuides: Record<string, string> = {
       <li><strong>Download:</strong> Click the "Download" link to save your new merged PDF file.</li>
     </ol>
 
-    <div class="tool-guide-faq">
-      <h2>Frequently Asked Questions about Merging PDFs</h2>
-      <h3>Is it safe to merge my sensitive PDF documents on your site?</h3>
-      <p>Absolutely. Unlike other online converters that upload your confidential contracts and documents to external servers, WeLovePDF uses browser-side processing. Your files never leave your device, ensuring 100% data privacy and security.</p>
-      <h3>Can I combine files of different sizes?</h3>
-      <p>Yes. Our tool is optimized to merge PDF documents of various sizes, page layouts, and orientations. Vercel's fast architecture and our client-side compiler make the operation smooth and rapid.</p>
-    </div>
+    <h3>Tips for Best Merging Results:</h3>
+    <p>Before combining your files, ensure they are not password protected. If they are, use our Unlock PDF tool first to clear restrictions. Rearranging pages using our drag-and-drop workspace gives you full visual control, avoiding ordering mistakes. Our client-side compiler preserves original font subsets and high-resolution images, guaranteeing no quality degradation during combination.</p>
   `,
   "split-pdf": `
     <h2>How to Split PDF Pages Online?</h2>
-    <p>Extract specific pages or split a large PDF document into separate files instantly. Our tool is designed for precision and absolute data safety, operating directly within your browser sandbox.</p>
+    <p>Extract specific pages or split a large PDF document into separate files instantly. Our tool is designed for precision and absolute data safety, operating directly within your browser sandbox. Whether you need to pull out a single invoice from a monthly batch or separate chapters of an eBook, our split tool gives you absolute control without any upload limits or registrations.</p>
     
     <h3>Step-by-Step Guide to Split a PDF:</h3>
     <ol>
@@ -137,13 +132,128 @@ export const toolGuides: Record<string, string> = {
       <li><strong>Save File:</strong> Click "Download" to retrieve your newly split PDF file containing only your specified pages.</li>
     </ol>
 
-    <div class="tool-guide-faq">
-      <h2>Frequently Asked Questions about Splitting PDFs</h2>
-      <h3>Can I split password-protected PDFs?</h3>
-      <p>Yes, but you must first load the file and enter the password in the editor panel to allow our client-side reader to compile the preview and split parameters.</p>
-      <h3>Does splitting a PDF reduce the visual layout or font quality?</h3>
-      <p>No. WeLovePDF copies the exact page nodes, metadata coordinates, and font streams from the original document, ensuring zero compression loss during the split.</p>
-    </div>
+    <h3>Useful Tips for Page Extraction:</h3>
+    <p>Use the custom ranges option to specify multiple non-adjacent page selections. If you need each page saved as an individual standalone document, toggle the "Individual files (ZIP)" checkbox. Since our tool processes everything client-side, the extraction takes less than a second even for 100+ page documents, and your raw data remains fully protected inside your local browser memory.</p>
+  `,
+  "compress-pdf": `
+    <h2>How to Compress PDF Online Without Quality Loss?</h2>
+    <p>Reduce the file size of your PDF documents instantly using WeLovePDF. Large PDFs are often rejected by email attachments (like Gmail's 25MB limit), government portals, and chat applications. Our compress tool solves this by scanning your document structure, cleaning up unused data, and optimizing image resolutions locally without uploading your file to a server.</p>
+    
+    <h3>Steps to Compress Your PDF:</h3>
+    <ol>
+      <li><strong>Choose File:</strong> Drag and drop your PDF into the upload container.</li>
+      <li><strong>Select Preset:</strong> Select a compression level (Screen, Ebook, Balanced, or Print) that matches your quality preferences.</li>
+      <li><strong>Optimize:</strong> Click "Run Tool" to shrink the document size.</li>
+      <li><strong>Download:</strong> Save your compressed PDF instantly.</li>
+    </ol>
+
+    <h3>Understanding Compression Levels:</h3>
+    <p>Select "Screen (72 DPI)" for maximum size reduction, which is perfect for mobile sharing and web display. Choose "Print (300 DPI)" to maintain high-quality vector paths and image streams for physical printing. Enabling the "Grayscale" toggle will convert all colored elements, reducing the bytes needed to store pixel arrays and making the final file even smaller.</p>
+  `,
+  "pdf-to-word": `
+    <h2>How to Convert PDF to Word (DOCX) Online?</h2>
+    <p>Turn your PDF files into editable Microsoft Word documents instantly. WeLovePDF uses browser-first text extraction algorithms to reconstruct paragraphs, tables, and lists from your PDF format, making it easy to edit text without starting from scratch. Best of all, your file content remains 100% private and is never uploaded to any remote server.</p>
+    
+    <h3>Steps to Convert PDF to DOCX:</h3>
+    <ol>
+      <li><strong>Upload:</strong> Drag your PDF file into the workspace panel.</li>
+      <li><strong>Set Mode:</strong> Choose between "Preserve layout" or "Flowing text" settings.</li>
+      <li><strong>Convert:</strong> Click "Run Tool" to extract text structures.</li>
+      <li><strong>Download:</strong> Save the resulting editable Word document.</li>
+    </ol>
+
+    <h3>Tips for Precise Layout Preservation:</h3>
+    <p>If your PDF was created from a scanned paper, make sure to use our OCR PDF tool first to recognize the characters. Choosing the "Preserve layout" option keeps column alignments and table cells intact, which is ideal for CVs and invoices. Flowing text is better if you want to copy large blocks of text into a document editor.</p>
+  `,
+  "word-to-pdf": `
+    <h2>How to Convert Word to PDF Online for Free?</h2>
+    <p>Convert your DOCX files to secure, universally compatible PDF format instantly. Sharing documents as Word files can lead to layout distortions on different operating systems or devices. Converting them to PDF ensures that your fonts, alignments, and formatting look exactly as intended. Our tool operates locally in your browser sandbox with zero uploads.</p>
+    
+    <h3>Steps to Convert DOCX to PDF:</h3>
+    <ol>
+      <li><strong>Upload:</strong> Select your DOCX file or drag it into the drop zone.</li>
+      <li><strong>Configure:</strong> Choose layout fit parameters if needed.</li>
+      <li><strong>Compile:</strong> Click "Run Tool" to generate the PDF nodes.</li>
+      <li><strong>Download:</strong> Save your completed PDF file.</li>
+    </ol>
+
+    <h3>Why Convert Word Documents to PDF?</h3>
+    <p>PDF is the industry standard for professional resume sharing, business proposals, and legal contracts because it cannot be easily edited without authorization. Using WeLovePDF ensures your private files are never stored or processed on third-party servers, keeping your proprietary templates, financial reports, or personal summaries completely safe.</p>
+  `,
+  "ocr-pdf": `
+    <h2>How to Extract Text from Scanned PDFs with OCR?</h2>
+    <p>Turn scanned images and uncopyable PDF files into editable, searchable documents. Scanned PDFs are essentially flat images, meaning you cannot highlight, search, or copy text within them. WeLovePDF's Optical Character Recognition (OCR) scanner resolves this by analyzing the pixel shapes and mapping them to text streams locally in your browser sandbox.</p>
+    
+    <h3>Steps to Perform OCR on PDF:</h3>
+    <ol>
+      <li><strong>Upload Scan:</strong> Drag and drop your scanned PDF document.</li>
+      <li><strong>Set Language:</strong> Select the primary document language (English, Hindi, etc.) for high recognition accuracy.</li>
+      <li><strong>Process:</strong> Click "Run Tool" to extract the text characters.</li>
+      <li><strong>Download:</strong> Save the searchable PDF or plain text outline.</li>
+    </ol>
+
+    <h3>Tips for Maximizing OCR Accuracy:</h3>
+    <p>Ensure your scan is clear and free from skew angles (if tilted, run our Deskew Scan tool first). Selecting the correct language from our 50+ list prevents recognition errors on characters. Scanned invoices and receipts compile text layers instantly, showing confidence scores so you can review low-contrast matches before saving.</p>
+  `,
+  "protect-pdf": `
+    <h2>How to Password Protect and Secure your PDF?</h2>
+    <p>Lock your confidential PDF documents with enterprise-grade encryption. WeLovePDF allows you to set open passwords and owner permissions directly in your browser. This prevents unauthorized users from viewing, copying, or printing your sensitive financial files, personal records, legal contracts, or trade secrets.</p>
+    
+    <h3>Steps to Protect Your PDF:</h3>
+    <ol>
+      <li><strong>Select PDF:</strong> Drag and drop your document into the workspace.</li>
+      <li><strong>Set Password:</strong> Enter a strong open password and choose your permissions checklist.</li>
+      <li><strong>Encrypt:</strong> Click "Run Tool" to lock the file using AES-256 encryption.</li>
+      <li><strong>Download:</strong> Save your newly secured PDF.</li>
+    </ol>
+
+    <h3>Best Practices for PDF Security:</h3>
+    <p>Use our visual strength indicator to create strong passwords containing numbers, symbols, and mixed cases. Checking the permissions options allows you to restrict editing and printing while still allowing users to fill out form fields. Since the encryption runs client-side, the password never travels across the web, guaranteeing absolute safety.</p>
+  `,
+  "unlock-pdf": `
+    <h2>How to Remove Password and Restrictions from PDF?</h2>
+    <p>Remove passwords, editing bans, and printing locks from your PDF files instantly. If you have lost the owner password to your own document or need to extract content from restricted files, WeLovePDF can decrypt and strip the lock parameters locally. Our browser-side decryption does not require uploading files to external servers.</p>
+    
+    <h3>Steps to Unlock Your PDF:</h3>
+    <ol>
+      <li><strong>Upload:</strong> Drag your locked PDF file into the drop zone.</li>
+      <li><strong>Enter Password:</strong> If the file requires an open password, type it into the settings panel.</li>
+      <li><strong>Strip:</strong> Click "Run Tool" to remove all user and owner restrictions.</li>
+      <li><strong>Download:</strong> Save your unlocked document.</li>
+    </ol>
+
+    <h3>Important Note on Decryption:</h3>
+    <p>This tool is designed to unlock files for which you have authorized access. If the document is locked with standard permission restrictions (no printing or no text copying), our browser sandbox can bypass it instantly without requiring a password. Strong AES-256 user-locked files require entering the password to authorize decryption.</p>
+  `,
+  "sign-pdf": `
+    <h2>How to Digitally Sign PDF Documents Online?</h2>
+    <p>Sign contracts, lease agreements, NDAs, and onboarding forms securely from your browser. WeLovePDF provides a premium digital signing wizard that runs entirely client-side, ensuring your signature assets and sensitive agreements never leave your computer. You can draw, type, or upload signature images in seconds.</p>
+    
+    <h3>Steps to Sign a PDF:</h3>
+    <ol>
+      <li><strong>Upload:</strong> Drag your document into the sign workspace.</li>
+      <li><strong>Create Signature:</strong> Choose between drawing (canvas), typing with font presets, or uploading an image.</li>
+      <li><strong>Place:</strong> Position the signature box on the document page and resize as needed.</li>
+      <li><strong>Save:</strong> Click "Run Tool" to merge the signature layout and download.</li>
+    </ol>
+
+    <h3>Features of WeLovePDF Sign Wizard:</h3>
+    <p>Enable the "Date stamp" toggle to automatically append the current signing date next to your initials. You can check the "Save signature" box to store your signature securely in your local browser storage, allowing you to instantly sign files during your next visit. Multi-signature support allows you to place multiple signature stamps across pages.</p>
+  `,
+  "watermark-pdf": `
+    <h2>How to Add Watermark to PDF for Free?</h2>
+    <p>Protect your intellectual property and brand your documents by adding text or image watermarks. Watermarks prevent unauthorized distribution of drafts, design proofs, invoices, and certificates. WeLovePDF allows you to configure, position, and preview watermarks in real-time inside your browser memory with zero uploads.</p>
+    
+    <h3>Steps to Watermark a PDF:</h3>
+    <ol>
+      <li><strong>Upload PDF:</strong> Select the file you wish to brand.</li>
+      <li><strong>Configure:</strong> Enter your text, customize colors, opacity, and choose a position.</li>
+      <li><strong>Apply:</strong> Click "Run Tool" to overlay the watermark pattern on all pages.</li>
+      <li><strong>Download:</strong> Save your brand-marked PDF document.</li>
+    </ol>
+
+    <h3>Watermark Styling Tips:</h3>
+    <p>Use a diagonal rotation angle (like 45°) to prevent users from cropping or hiding the watermark. Adjust the opacity slider to 20-30% to keep the background text readable while maintaining clear copyright markings. You can choose to apply the watermark pattern to all pages, only selected page indexes, or odd/even pages.</p>
   `
 };
 

@@ -17,20 +17,52 @@ export async function generateMetadata({ params }: { params: { tool: string } })
   const tool = tools.find((t) => t.slug === params.tool);
   if (!tool) return {};
 
-  const title = `${tool.name} Free Online — No Upload Required | WeLovePDF`;
+  const title = `${tool.name} — Free Online Tool | WeLovePDF`;
   const desc = toolDescriptions[params.tool] || `${tool.name} online for free — no file upload, no signup. Runs 100% in your browser sandbox with WeLovePDF.`;
+
+  const top10 = [
+    "compress-pdf",
+    "merge-pdf",
+    "split-pdf",
+    "pdf-to-word",
+    "word-to-pdf",
+    "ocr-pdf",
+    "protect-pdf",
+    "unlock-pdf",
+    "sign-pdf",
+    "watermark-pdf"
+  ];
+  const isTop10 = top10.includes(params.tool);
+  const ogImage = isTop10 ? `/images/og/${params.tool}.png` : "/og-image.png";
 
   return {
     title,
     description: desc.slice(0, 160),
     alternates: {
       canonical: `https://welovepdf.best/${params.tool}`,
+      languages: {
+        en: `https://welovepdf.best/${params.tool}`,
+      }
     },
     openGraph: {
       title,
       description: desc.slice(0, 160),
       url: `https://welovepdf.best/${params.tool}`,
       type: "website",
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: `${tool.name} tool screenshot preview`,
+        }
+      ]
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: desc.slice(0, 160),
+      images: [ogImage],
     }
   };
 }
@@ -78,10 +110,60 @@ export default function ToolPage({ params, lang = "en" }: { params: { tool: stri
     ]
   };
 
+  const softwareAppSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": tool.name,
+    "description": toolDescriptions[tool.slug] || `${tool.name} tool on WeLovePDF`,
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web Browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "INR"
+    }
+  };
+
+  const howToSchema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": `How to use ${tool.name}`,
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Upload Files",
+        "text": "Drag and drop your document file directly into the local browser sandbox workspace."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Configure settings",
+        "text": "Adjust processing mode levels, file parameters, passwords, or margins in the settings panel."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Run and Download",
+        "text": "Click the run action button and download your compiled output document instantly."
+      }
+    ]
+  };
+
   const faqs = toolFaqs[tool.slug] || [
     { q: `Is WeLovePDF's ${tool.name} free?`, a: `Yes, WeLovePDF's ${tool.name} tool is 100% free with no page limits, signup triggers, or watermarks.` },
     { q: "Is my document secure?", a: "Yes. All operations run in-memory locally inside your browser sandbox. Your files never leave your computer." }
   ];
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((f) => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": f.a
+      }
+    }))
+  };
 
   return (
     <div className="w-full bg-bg-light dark:bg-bg-dark dot-grid transition-colors duration-200">
@@ -94,6 +176,18 @@ export default function ToolPage({ params, lang = "en" }: { params: { tool: stri
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <div className="max-w-7xl mx-auto px-16 py-32">

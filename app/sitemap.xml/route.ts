@@ -1,20 +1,53 @@
 import { NextResponse } from "next/server";
 import { tools } from "../data/tools-config";
+import { blogArticles, blogArticlesHindi, blogGuidesHindi } from "../data/blog-posts";
 
 export async function GET() {
   const lastmod = new Date().toISOString().split("T")[0];
-  const urls = [
+  
+  // Dynamic tool pages
+  const toolUrls = tools.map((t) => t.slug);
+  const toolUrlsHindi = tools.map((t) => `hi/${t.slug}`);
+
+  // Dynamic blog pages
+  const blogUrls = [
+    ...Object.keys(blogArticles).map((slug) => `blog/${slug}`),
+    ...Object.keys(blogArticlesHindi).map((slug) => `blog/${slug}`),
+    ...Object.keys(blogGuidesHindi).map((slug) => `blog/${slug}`),
+  ];
+
+  // Static / comparison pages
+  const comparisonUrls = [
+    "vs/ilovepdf",
+    "vs/smallpdf",
+    "vs/adobe-acrobat"
+  ];
+
+  const staticPages = [
     "",
     "hi",
     "pricing",
-    "blog",
-    ...tools.map((t) => t.slug),
-    ...tools.map((t) => `hi/${t.slug}`),
+    "faq",
+    "about-us",
+    "contact",
+    "cookies",
+    "privacy-policy",
+    "security",
+    "terms-and-conditions",
+    "blog"
+  ];
+
+  const allPaths = [
+    ...staticPages,
+    ...comparisonUrls,
+    ...blogUrls,
+    ...toolUrls,
+    ...toolUrlsHindi
   ];
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  ${urls
+  ${allPaths
     .map(
       (url) => `
   <url>

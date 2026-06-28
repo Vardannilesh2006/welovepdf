@@ -10,9 +10,9 @@ export default function BlogList() {
 
   // Pick articles based on language setting
   const articlesList = lang === "en" 
-    ? Object.entries(blogArticles).map(([id, art]) => ({ slug: id, ...art }))
+    ? Object.entries(blogArticles).map(([slug, art]) => ({ slug, ...art }))
     : [
-        ...Object.entries(blogArticlesHindi).map(([id, art]) => ({ slug: id, ...art })),
+        ...Object.entries(blogArticlesHindi).map(([slug, art]) => ({ slug, ...art })),
         ...Object.entries(blogGuidesHindi).map(([slug, art]) => ({ slug, ...art }))
       ];
 
@@ -24,7 +24,7 @@ export default function BlogList() {
   return (
     <div className="max-w-7xl mx-auto px-16 py-64">
       <div className="max-w-3xl mb-48">
-        <h1 className="text-4xl font-extrabold tracking-tight mb-16 flex items-center gap-12">
+        <h1 className="text-4xl font-extrabold tracking-tight mb-16 flex items-center gap-12 font-heading">
           <BookOpen className="w-8 h-8 text-brand-blue" />
           {title}
         </h1>
@@ -41,7 +41,7 @@ export default function BlogList() {
                 {art.tag}
               </span>
               <p className="text-[11px] text-text-secondaryLight/80 mt-12">{art.date}</p>
-              <h3 className="font-bold text-[16px] mt-8 mb-12 text-text-primaryLight dark:text-text-primaryDark line-clamp-2">
+              <h3 className="font-heading font-bold text-[16px] mt-8 mb-12 text-text-primaryLight dark:text-text-primaryDark line-clamp-2">
                 {art.title}
               </h3>
             </div>
