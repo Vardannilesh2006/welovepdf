@@ -168,3 +168,37 @@
 }
 .animate-compress-squeeze { animation: compress-3d-squeeze 3.5s ease-in-out infinite; }
 
+/* 3D Finished AI Logo animations */
+@keyframes rotate-3d-x {
+  0% { transform: rotateX(0deg) rotateY(15deg); }
+  100% { transform: rotateX(360deg) rotateY(15deg); }
+}
+@keyframes rotate-3d-y {
+  0% { transform: rotateX(15deg) rotateY(0deg); }
+  100% { transform: rotateX(15deg) rotateY(360deg); }
+}
+@keyframes rotate-3d-z {
+  0% { transform: rotateZ(0deg); }
+  100% { transform: rotateZ(360deg); }
+}
+.animate-rotate-3d-x {
+  animation: rotate-3d-x 8s linear infinite;
+  transform-style: preserve-3d;
+}
+.animate-rotate-3d-y {
+  animation: rotate-3d-y 12s linear infinite;
+  transform-style: preserve-3d;
+}
+.animate-rotate-3d-z {
+  animation: rotate-3d-z 15s linear infinite;
+}
+
+@keyframes laser-scan {
+  0%, 100% { top: 0%; opacity: 0.1; }
+  50% { top: 100%; opacity: 0.9; }
+}
+.animate-laser-scan {
+  animation: laser-scan 2s ease-in-out infinite;
+}
+
+

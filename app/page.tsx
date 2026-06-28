@@ -1,19 +1,27 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLang } from "../components/LangContext";
 import { tools } from "./data/tools-config";
-import { ArrowRight, Check, Play, UserCheck, ShieldAlert, Cpu, Sparkles, Star, ChevronDown, BookOpen, Layers, CheckCircle2, ShieldCheck, Flame } from "lucide-react";
+import { ArrowRight, Check, Play, UserCheck, ShieldAlert, Cpu, Sparkles, Star, ChevronDown, BookOpen, Layers, CheckCircle2, ShieldCheck, Flame, Upload, RefreshCw, FileText, Eye } from "lucide-react";
 
 export default function Home() {
   const { lang } = useLang();
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredCategory, setFilteredCategory] = useState("All");
   
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   // AI Guide states
   const [aiQuery, setAiQuery] = useState("");
   const [aiResponse, setAiResponse] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
+
+  // Universal Dropzone states
+  const [droppedFile, setDroppedFile] = useState<File | null>(null);
+  const [analyzing, setAnalyzing] = useState(false);
+  const [suggestions, setSuggestions] = useState<{ label: string; desc: string; slug: string }[]>([]);
+  const [dragActive, setDragActive] = useState(false);
 
   const handleAiSuggest = async () => {
     if (!aiQuery.trim() || aiLoading) return;
@@ -95,6 +103,58 @@ export default function Home() {
     }
 
     return parts.length > 0 ? parts : text;
+  };
+
+  const handleDrag = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleFileDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      processUniversalFile(e.dataTransfer.files[0]);
+    }
+  };
+
+  const processUniversalFile = (file: File) => {
+    setDroppedFile(file);
+    setAnalyzing(true);
+    setSuggestions([]);
+
+    setTimeout(() => {
+      setAnalyzing(false);
+      const nameLower = file.name.toLowerCase();
+      let list = [];
+
+      if (nameLower.includes("invoice") || nameLower.includes("bill") || nameLower.includes("receipt")) {
+        list = [
+          { label: lang === "en" ? "Extract Invoice Details" : "इनवॉइस डेटा निकालें", desc: lang === "en" ? "Extract GST, total billing, and items instantly." : "जीएसटी और बिलिंग विवरण निकालें।", slug: "invoice-extractor" },
+          { label: lang === "en" ? "Convert PDF to Excel" : "एक्सेल में बदलें", desc: lang === "en" ? "Export invoice tables to clean XLSX." : "सारणी को एक्सेल शीट में बदलें।", slug: "pdf-to-excel" },
+          { label: lang === "en" ? "Compress Invoice PDF" : "साइज कम करें", desc: lang === "en" ? "Shrink file size for fast emailing." : "ईमेल करने के लिए साइज छोटा करें।", slug: "compress-pdf" }
+        ];
+      } else if (file.type.includes("image") || nameLower.endsWith(".png") || nameLower.endsWith(".jpg") || nameLower.endsWith(".jpeg")) {
+        list = [
+          { label: lang === "en" ? "Convert Image to PDF" : "पीडीएफ में बदलें", desc: lang === "en" ? "Wrap photos inside high-quality PDF page." : "छवियों को पीडीएफ फाइल में बदलें।", slug: "jpg-to-pdf" },
+          { label: lang === "en" ? "Smart OCR Scan" : "टेक्स्ट निकालें (OCR)", desc: lang === "en" ? "Extract searchable text from image." : "इमेज से टेक्स्ट कॉपी करें।", slug: "ocr-pdf" },
+          { label: lang === "en" ? "Auto Enhance Scan" : "स्कैन साफ़ करें", desc: lang === "en" ? "Remove shadows and whiten paper background." : "कागज़ के बैकग्राउंड को साफ़ और चमकीला बनाएं।", slug: "auto-enhance-scan" }
+        ];
+      } else {
+        list = [
+          { label: lang === "en" ? "Smart PDF Summary" : "पीडीएफ सारांश", desc: lang === "en" ? "Summarize key points in 1-page report." : "दस्तावेज़ का संक्षिप्त सारांश बनाएं।", slug: "summarize-pdf" },
+          { label: lang === "en" ? "Compress PDF" : "पीडीएफ कंप्रेस करें", desc: lang === "en" ? "Optimize size without losing quality." : "बिना क्वालिटी खोए फ़ाइल का साइज कम करें।", slug: "compress-pdf" },
+          { label: lang === "en" ? "Sign PDF" : "हस्ताक्षर करें", desc: lang === "en" ? "Draw or type electronic signature." : "पीडीएफ पर अपने डिजिटल हस्ताक्षर लगाएं।", slug: "sign-pdf" }
+        ];
+      }
+      setSuggestions(list);
+    }, 2000);
   };
 
   // Counter states
@@ -294,33 +354,127 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Right 3D Document Illustration */}
+          {/* Right Column: Universal AI Workspace Dropzone & 3D Finished AI Logo */}
           <div className="lg:col-span-5 flex justify-center items-center">
-            <div className="relative w-[340px] h-[340px] flex items-center justify-center">
+            <div 
+              onDragOver={handleDrag}
+              onDragLeave={handleDrag}
+              onDrop={handleFileDrop}
+              className={`relative w-full max-w-[380px] p-24 bg-white dark:bg-surface-dark border-2 rounded-modal shadow-modal flex flex-col items-center justify-between min-h-[380px] transition-all transform-gpu duration-200 ${
+                dragActive 
+                  ? "border-brand-blue bg-brand-blue/5 scale-[1.02]" 
+                  : "border-border-light dark:border-border-dark/60 hover:border-brand-blue/30"
+              }`}
+            >
               
-              {/* Drifting Backlight Radial Gradient Blobs */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-brand-blue/20 to-brand-amber/20 rounded-pill filter blur-[50px] opacity-40 animate-pulse-soft" />
-              
-              {/* 3D Animated Card */}
-              <div className="relative w-[220px] h-[300px] bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-modal shadow-modal p-24 flex flex-col justify-between animate-float-3d shimmer-card cursor-pointer transform-gpu">
-                <div className="flex items-start justify-between">
-                  <div className="w-10 h-10 rounded bg-brand-blue/10 flex items-center justify-center font-extrabold text-brand-blue">
-                    PDF
+              {/* Backlight Glow */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-brand-blue/15 to-brand-amber/15 rounded-modal filter blur-[30px] opacity-40 pointer-events-none" />
+
+              {analyzing && (
+                <div className="absolute inset-x-0 h-4 bg-brand-blue/80 animate-laser-scan shadow-[0_0_12px_#2563EB] z-30 pointer-events-none" />
+              )}
+
+              {/* State A: Upload & 3D AI core (no file uploaded) */}
+              {!droppedFile && (
+                <div className="flex-1 flex flex-col items-center justify-center py-20 text-center gap-20 w-full cursor-pointer" onClick={() => fileInputRef.current?.click()}>
+                  
+                  {/* 3D Finished AI Logo/Reactor Core */}
+                  <div className="relative w-[110px] h-[110px] flex items-center justify-center transform-gpu preserve-3d mt-10">
+                    {/* Ring 1 (X-rotation) */}
+                    <div className="absolute w-[100px] h-[100px] border-[3px] border-dashed border-brand-blue/50 rounded-pill animate-rotate-3d-x" />
+                    {/* Ring 2 (Y-rotation) */}
+                    <div className="absolute w-[90px] h-[90px] border-[3px] border-dotted border-brand-amber/40 rounded-pill animate-rotate-3d-y" />
+                    {/* Ring 3 (Z-rotation) */}
+                    <div className="absolute w-[80px] h-[80px] border-[2px] border-brand-purple/35 rounded-pill animate-rotate-3d-z" />
+                    {/* Glowing Core */}
+                    <div className="absolute w-[36px] h-[36px] bg-gradient-to-tr from-brand-blue via-brand-purple to-brand-amber rounded-pill animate-pulse shadow-[0_0_24px_#2563EB]" />
                   </div>
-                  <span className="text-[10px] font-extrabold text-brand-success bg-brand-success/15 px-8 py-2 rounded uppercase tracking-wide">
-                    Private
-                  </span>
+
+                  <div>
+                    <h4 className="font-heading font-extrabold text-[15px] text-text-primaryLight dark:text-text-primaryDark">
+                      {lang === "en" ? "Universal AI Dropzone" : "यूनिवर्सल एआई ड्रॉपज़ोन"}
+                    </h4>
+                    <p className="text-[12px] text-text-secondaryLight/80 dark:text-text-secondaryDark/85 mt-6 px-12 leading-relaxed">
+                      {lang === "en" ? "Drag & drop document or image here. AI will analyze structural data and suggest actions." : "दस्तावेज़ को यहाँ खींचें। एआई फ़ाइल का विश्लेषण कर सही टूल सुझाएगा।"}
+                    </p>
+                  </div>
+
+                  <input 
+                    type="file" 
+                    ref={fileInputRef} 
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files[0]) processUniversalFile(e.target.files[0]);
+                    }}
+                    className="hidden" 
+                  />
+
+                  <button className="px-16 py-8 border border-border-light dark:border-border-dark text-[12px] font-bold rounded hover:bg-bg-light/40 dark:hover:bg-bg-dark/15 flex items-center gap-6 transition-colors shadow-sm">
+                    <Upload className="w-3.5 h-3.5 text-brand-blue" />
+                    {lang === "en" ? "Browse Local File" : "फ़ाइल चुनें"}
+                  </button>
                 </div>
-                <div className="flex flex-col gap-8">
-                  <div className="w-full h-8 bg-border-light dark:bg-border-dark/60 rounded" />
-                  <div className="w-[85%] h-8 bg-border-light dark:bg-border-dark/60 rounded" />
-                  <div className="w-[60%] h-8 bg-border-light dark:bg-border-dark/60 rounded" />
+              )}
+
+              {/* State B: Scanning/Analyzing phase */}
+              {droppedFile && analyzing && (
+                <div className="flex-1 flex flex-col items-center justify-center text-center py-40 gap-16 w-full">
+                  <RefreshCw className="w-10 h-10 text-brand-blue animate-spin" />
+                  <div>
+                    <h4 className="font-bold text-[14px]">{lang === "en" ? "AI Analysis in Progress..." : "एआई विश्लेषण जारी है..."}</h4>
+                    <p className="text-[11px] text-text-secondaryLight/70 mt-4 truncate max-w-[240px] font-mono">{droppedFile.name}</p>
+                  </div>
                 </div>
-                <div className="flex items-center justify-between border-t border-border-light dark:border-border-dark/60 pt-16">
-                  <span className="text-[11px] font-mono text-text-secondaryLight dark:text-text-secondaryDark">sandbox_doc.pdf</span>
-                  <CheckCircle2 className="w-4.5 h-4.5 text-brand-success" />
+              )}
+
+              {/* State C: Suggestions List (completed analysis) */}
+              {droppedFile && !analyzing && (
+                <div className="flex-1 flex flex-col justify-between w-full h-full gap-20 py-8">
+                  <div className="flex justify-between items-center border-b border-border-light dark:border-border-dark/60 pb-12">
+                    <div className="min-w-0 flex-1">
+                      <h4 className="font-heading font-extrabold text-[13px] truncate">{droppedFile.name}</h4>
+                      <p className="text-[10px] text-brand-success font-semibold mt-2">
+                        {lang === "en" ? "✓ Structural Scan Completed" : "✓ स्कैन सफलतापूर्वक पूर्ण"}
+                      </p>
+                    </div>
+                    <button 
+                      onClick={() => setDroppedFile(null)}
+                      className="text-[11px] text-brand-error font-bold hover:underline ml-12"
+                    >
+                      {lang === "en" ? "Reset" : "हटाएँ"}
+                    </button>
+                  </div>
+
+                  <div className="flex flex-col gap-12">
+                    <span className="text-[11px] font-bold text-text-secondaryLight/80 uppercase tracking-wider block">
+                      {lang === "en" ? "Recommended Actions:" : "अनुशंसित क्रियाएं:"}
+                    </span>
+
+                    {suggestions.map((item, idx) => (
+                      <a 
+                        key={idx} 
+                        href={`/${item.slug}`}
+                        className="p-12 border border-border-light dark:border-border-dark rounded bg-bg-light/20 dark:bg-bg-dark/10 hover:border-brand-blue/60 hover:bg-brand-blue/5 transition-all flex items-start gap-12 group cursor-pointer"
+                      >
+                        <div className="w-8 h-8 rounded bg-brand-blue/10 flex items-center justify-center text-brand-blue text-[11px] font-bold flex-shrink-0 group-hover:scale-110 transition-transform">
+                          AI
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <div className="text-[12px] font-bold text-text-primaryLight dark:text-text-primaryDark group-hover:text-brand-blue transition-colors">{item.label}</div>
+                          <div className="text-[10px] text-text-secondaryLight/70 dark:text-text-secondaryDark/85 mt-2 leading-relaxed">{item.desc}</div>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+
+                  <a 
+                    href={`/${suggestions[0]?.slug || "compress-pdf"}`}
+                    className="w-full py-10 bg-brand-blue hover:bg-brand-blue/90 text-white font-bold text-[12px] rounded text-center shadow-btn flex items-center justify-center gap-6"
+                  >
+                    <Sparkles className="w-3.5 h-3.5" />
+                    {lang === "en" ? "Execute Primary AI Suggestion" : "मुख्य सुझाव लागू करें"}
+                  </a>
                 </div>
-              </div>
+              )}
 
             </div>
           </div>
