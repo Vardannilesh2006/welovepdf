@@ -776,9 +776,7 @@ function download(bytes, name, type = "application/pdf") {
   const blob = bytes instanceof Blob ? bytes : new Blob([bytes], { type });
   const url = URL.createObjectURL(blob);
   $("result").innerHTML = `<strong>Done.</strong> Your file is ready.<br><a class="download-link" download="${name}" href="${url}">Download ${name}</a>`;
-  // Show Smartlink post-result ad
-  const adEl = document.getElementById("postResultAd");
-  if (adEl) adEl.style.display = "flex";
+
 }
 
 
@@ -799,14 +797,7 @@ function extractInvoice(text) {
 // Routing and subpages have been decoupled into router.js
 
 
-// Smart top bar close button
-const smartTopBarCloseBtn = document.getElementById("smartTopBarClose");
-if (smartTopBarCloseBtn) {
-  smartTopBarCloseBtn.addEventListener("click", () => {
-    const bar = document.getElementById("smartTopBar");
-    if (bar) bar.style.display = "none";
-  });
-}
+
 
 // Click interception for SPA links
 document.addEventListener("click", (event) => {
