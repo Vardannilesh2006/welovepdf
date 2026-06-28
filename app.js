@@ -1,72 +1,67 @@
-import * as pdfjsLib from "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.min.mjs";
+let pdfjsLib = null;
+let PDFDocument = null;
+let StandardFonts = null;
+let rgb = null;
+let degrees = null;
+let librariesLoaded = false;
 
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-  "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.min.mjs";
+async function loadDependencies() {
+  if (librariesLoaded) return;
+  
+  // Dynamic import of PDF.js
+  pdfjsLib = await import("https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.min.mjs");
+  pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.min.mjs";
+  
+  // Dynamic load of PDF-Lib script
+  if (!window.PDFLib) {
+    await new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = "https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js";
+      script.onload = resolve;
+      script.onerror = reject;
+      document.head.appendChild(script);
+    });
+  }
+  
+  PDFDocument = window.PDFLib.PDFDocument;
+  StandardFonts = window.PDFLib.StandardFonts;
+  rgb = window.PDFLib.rgb;
+  degrees = window.PDFLib.degrees;
+  
+  librariesLoaded = true;
+}
 
-const { PDFDocument, StandardFonts, rgb, degrees } = PDFLib;
+function lazyRenderPdfPage(docOrFile, pageNumber, canvas) {
+  const observer = new IntersectionObserver((entries, observerInstance) => {
+    entries.forEach(async (entry) => {
+      if (entry.isIntersecting) {
+        observerInstance.unobserve(entry.target);
+        try {
+          let doc = docOrFile;
+          if (docOrFile instanceof File || docOrFile instanceof Blob) {
+            const bytes = await docOrFile.arrayBuffer();
+            doc = await pdfjsLib.getDocument({ data: bytes }).promise;
+          }
+          const page = await doc.getPage(pageNumber);
+          const viewport = page.getViewport({ scale: 0.22 });
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          await page.render({ canvasContext: canvas.getContext("2d"), viewport }).promise;
+        } catch (err) {
+          console.error("Lazy preview page render failed:", err);
+        }
+      }
+    });
+  }, { root: $("pagePreview"), rootMargin: "150px" });
+  observer.observe(canvas);
+}
 
-const tools = [
-  ["merge-pdf", "Merge PDF", "Organize", "Combine multiple PDFs in order.", "M", true],
-  ["split-pdf", "Split PDF", "Organize", "Create a new PDF from selected page ranges.", "S", true],
-  ["delete-pages", "Delete Pages", "Organize", "Remove specific pages from a PDF.", "D", true],
-  ["extract-pages", "Extract Pages", "Organize", "Save selected pages as a separate PDF.", "E", true],
-  ["reorder-pages", "Reorder Pages", "Organize", "Export pages in a custom order.", "R", true],
-  ["rotate-pdf", "Rotate PDF", "Organize", "Rotate all pages by 90, 180, or 270 degrees.", "↻", true],
-  ["duplicate-pages", "Duplicate Pages", "Organize", "Duplicate selected pages inside a new PDF.", "2", true],
-  ["add-blank-page", "Add Blank Page", "Organize", "Insert a blank page at the start or end.", "+", true],
-  ["crop-pdf", "Crop PDF", "Organize", "Crop PDF margins relative to page bounds.", "C", true],
-  ["page-numbers", "Page Numbers", "Edit", "Add page numbers to every page.", "#", true],
-  ["watermark-pdf", "Watermark PDF", "Edit", "Add text watermark to each page.", "W", true],
-  ["header-footer", "Header & Footer", "Edit", "Add reusable header and footer text.", "H", true],
-  ["metadata-editor", "Metadata Editor", "Edit", "Edit document title, author, and subject.", "I", true],
-  ["flatten-pdf", "Flatten PDF", "Edit", "Export a normalized copy of the PDF.", "F", true],
-  ["annotate-pdf", "Annotate PDF", "Edit", "Add a note stamp on pages.", "A", true],
-  ["redact-pdf", "Redact PDF", "Edit", "Cover a chosen area on all pages.", "X", true],
-  ["compare-pdf", "Compare PDFs", "Edit", "Compare file names, sizes, and page counts.", "=", true],
-  ["bookmark-editor", "Bookmark Editor", "Edit", "Edit PDF document outlines and chapters.", "B", true],
-  ["compress-pdf", "Compress PDF", "Optimize", "Re-save the PDF with object cleanup.", "C", true],
-  ["grayscale-pdf", "Grayscale PDF", "Optimize", "Create a print-friendly copy marker.", "G", true],
-  ["repair-pdf", "Repair PDF", "Optimize", "Try loading and re-saving a damaged PDF.", "R", true],
-  ["remove-hidden-data", "Remove Hidden Data", "Optimize", "Clear common metadata fields.", "Z", true],
-  ["deskew-scan", "Deskew Scan", "Scan & OCR", "Align page rotations for scans.", "/", true],
-  ["auto-enhance-scan", "Auto Enhance Scan", "Scan & OCR", "Optimize page contrast & brightness.", "☼", true],
-  ["remove-background", "Remove Background", "Scan & OCR", "Clean scan backgrounds and threshold page colors.", "N", true],
-  ["ocr-pdf", "OCR PDF", "Scan & OCR", "Generate searchable text overlays using OCR.", "O", true],
-  ["pdf-to-text", "PDF to Text", "Convert from PDF", "Extract readable text from a PDF.", "T", true],
-  ["pdf-to-markdown", "PDF to Markdown", "Convert from PDF", "Extract text into Markdown format.", "MD", true],
-  ["pdf-to-jpg", "PDF to JPG", "Convert from PDF", "Render first PDF page as a JPG image.", "J", true],
-  ["pdf-to-png", "PDF to PNG", "Convert from PDF", "Render first PDF page as a PNG image.", "P", true],
-  ["pdf-to-long-image", "PDF to Long Image", "Convert from PDF", "Render pages into one tall PNG.", "L", true],
-  ["pdf-to-word", "PDF to Word", "Convert from PDF", "Extract text into a Word-readable document.", "W", true],
-  ["pdf-to-excel", "PDF to Excel", "Convert from PDF", "Extract text tables into CSV.", "X", true],
-  ["pdf-to-powerpoint", "PDF to PowerPoint", "Convert from PDF", "Create an HTML slide handoff from pages.", "PPT", true],
-  ["pdf-to-html", "PDF to HTML", "Convert from PDF", "Extract text into a clean HTML file.", "H", true],
-  ["pdf-to-csv", "PDF to CSV", "Convert from PDF", "Extract line text into CSV rows.", "CSV", true],
-  ["jpg-to-pdf", "JPG to PDF", "Convert to PDF", "Convert JPG images into a PDF.", "J", true],
-  ["png-to-pdf", "PNG to PDF", "Convert to PDF", "Convert PNG images into a PDF.", "P", true],
-  ["image-to-pdf", "Image to PDF", "Convert to PDF", "Convert multiple images into one PDF.", "I", true],
-  ["word-to-pdf", "Word to PDF", "Convert to PDF", "Create a PDF from readable text files.", "W", true],
-  ["excel-to-pdf", "Excel to PDF", "Convert to PDF", "Create a PDF from CSV or spreadsheet text.", "X", true],
-  ["powerpoint-to-pdf", "PowerPoint to PDF", "Convert to PDF", "Create a PDF from slide text outline.", "PPT", true],
-  ["html-to-pdf", "HTML to PDF", "Convert to PDF", "Convert pasted HTML text into PDF.", "H", true],
-  ["markdown-to-pdf", "Markdown to PDF", "Convert to PDF", "Convert Markdown text into PDF.", "MD", true],
-  ["text-to-pdf", "Text to PDF", "Convert to PDF", "Convert typed or uploaded text into PDF.", "T", true],
-  ["url-to-pdf", "URL to PDF", "Convert to PDF", "Render URL webpage contents into PDF.", "U", true],
-  ["protect-pdf", "Protect PDF", "Security", "Add a visible protected-copy notice.", "P", true],
-  ["unlock-pdf", "Unlock PDF", "Security", "Load and re-save PDFs that are not strongly encrypted.", "U", true],
-  ["sign-pdf", "Sign PDF", "Security", "Add typed signature text.", "S", true],
-  ["verify-signature", "Verify Signature", "Security", "Scan and verify cryptographic digital signatures.", "V", true],
-  ["bates-numbering", "Bates Numbering", "Security", "Add legal-style Bates numbers.", "B", true],
-  ["invert-colors", "Invert Colors", "Reader", "Create a dark reading preview marker.", "D", true],
-  ["pdf-reader", "PDF Reader", "Reader", "Preview PDFs with page thumbnails.", "R", true],
-  ["search-in-pdf", "Search in PDF", "Reader", "Find text inside the selected PDF.", "S", true],
-  ["ask-pdf", "Ask PDF", "AI PDF", "Ask questions about document contents using AI.", "AI", true],
-  ["summarize-pdf", "Summarize PDF", "AI PDF", "Create a short extractive text summary.", "Σ", true],
-  ["translate-pdf", "Translate PDF", "AI PDF", "Translate document text to Hindi, Spanish, French, or German.", "TR", true],
-  ["quiz-from-pdf", "Quiz from PDF", "AI PDF", "Generate basic questions from extracted text.", "Q", true],
-  ["invoice-extractor", "Invoice Extractor", "AI PDF", "Extract likely invoice fields from text.", "₹", true],
-  ["resume-to-pdf", "Resume to PDF", "Templates", "Generate a clean resume PDF from text.", "CV", true],
-];
+
+
+import { tools, toolDescriptions, toolGuides, subpages, seoMeta, toolFaqs } from "./tools-config.js";
+import { blogArticles } from "./blog-posts.js";
+import { setRouteMode, toolFromPath } from "./router.js";
+
 
 const state = { active: tools[0][0], category: "All", files: [] };
 const $ = (id) => document.getElementById(id);
@@ -162,37 +157,7 @@ function updateSEOMeta(toolId, toolName, toolDesc) {
   const base = "https://welovepdf.com";
   const url  = `${base}/${toolId}`;
 
-  // Extended per-tool descriptions for better SEO
-  const toolDescriptions = {
-    "merge-pdf":           "Merge multiple PDF files into one document for free. No file upload, no signup. 100% browser-based and private.",
-    "split-pdf":           "Split a PDF into separate pages or ranges for free. Runs entirely in your browser — files never leave your device.",
-    "compress-pdf":        "Compress PDF file size online for free without losing quality. Instant browser-based compression, no upload needed.",
-    "rotate-pdf":          "Rotate PDF pages 90, 180, or 270 degrees for free. Works directly in your browser with no file upload.",
-    "delete-pages":        "Delete specific pages from a PDF for free. Select pages to remove and download the result instantly.",
-    "extract-pages":       "Extract specific pages from a PDF and save as a new file. Free, browser-based, no upload required.",
-    "reorder-pages":       "Reorder PDF pages by drag and drop for free. Rearrange page order and download the updated PDF instantly.",
-    "watermark-pdf":       "Add a text watermark to every page of a PDF for free. Customize font, opacity, and position in your browser.",
-    "pdf-to-word":         "Convert PDF to Word (DOC) online for free. Extract text from PDF into an editable Word document instantly.",
-    "pdf-to-jpg":          "Convert PDF pages to JPG images for free. Render PDF pages as high-quality JPEG images in your browser.",
-    "pdf-to-png":          "Convert PDF to PNG image online free. Render PDF pages as transparent PNG images without any upload.",
-    "jpg-to-pdf":          "Convert JPG images to PDF for free. Combine multiple JPGs into one PDF file instantly in your browser.",
-    "png-to-pdf":          "Convert PNG images to PDF online for free. Turn PNG files into a PDF document without uploading to a server.",
-    "ocr-pdf":             "Extract text from scanned PDF using OCR for free. Convert image-based PDFs to searchable, copyable text.",
-    "protect-pdf":         "Add password protection to PDF files for free. Secure your PDF documents directly in your browser.",
-    "unlock-pdf":          "Remove PDF password and restrictions for free. Unlock encrypted PDF files online without any server upload.",
-    "sign-pdf":            "Add a digital signature to PDF online for free. Sign PDF documents with a typed signature in seconds.",
-    "ask-pdf":             "Ask questions about your PDF using AI for free. Chat with your document and get instant answers.",
-    "summarize-pdf":       "Summarize a PDF document using AI for free. Get a concise summary of long PDF files instantly.",
-    "translate-pdf":       "Translate PDF to Hindi, Spanish, French, or German for free using AI. Browser-based PDF translator.",
-    "quiz-from-pdf":       "Generate quiz questions from a PDF using AI for free. Create study questions automatically from any document.",
-    "invoice-extractor":   "Extract invoice data from PDF automatically using AI. Free browser-based invoice PDF data extractor.",
-    "pdf-to-excel":        "Convert PDF to Excel (CSV) online for free. Extract table data from PDF into spreadsheet format.",
-    "pdf-to-text":         "Extract text from PDF online for free. Convert PDF content to plain text format instantly in your browser.",
-    "header-footer":       "Add header and footer text to PDF pages for free. Customize position and text of PDF headers and footers.",
-    "page-numbers":        "Add page numbers to PDF for free. Automatically number all pages in your PDF document.",
-    "bookmark-editor":     "Edit PDF bookmarks and table of contents for free. Add, remove, or rename PDF chapters and outlines.",
-    "image-to-pdf":        "Convert images to PDF online for free. Turn JPG, PNG, and other image formats into a single PDF.",
-  };
+
 
   const desc = toolDescriptions[toolId]
     || `${toolName} online for free — no file upload, no signup. Runs 100% in your browser with WeLovePDF.`;
@@ -224,126 +189,6 @@ function updateSEOMeta(toolId, toolName, toolDesc) {
   if (twDesc)  twDesc.setAttribute("content", desc);
 }
 
-const toolGuides = {
-  "merge-pdf": `
-    <h2>How to Merge PDF Files Online for Free?</h2>
-    <p>Merging multiple PDF files into a single document is incredibly easy with <strong>We Love PDF</strong>. Whether you need to combine reports, invoices, receipts, or study materials, our browser-first tool does it securely without uploading your files to a server.</p>
-    
-    <h3>Step-by-Step Guide to Combine PDFs:</h3>
-    <ol>
-      <li><strong>Select Files:</strong> Click the "Select files" button above or drag and drop your PDFs directly into the workspace drop zone.</li>
-      <li><strong>Reorder Pages:</strong> Drag and drop the page thumbnails to rearrange them in the exact order you want them to appear in the final merged PDF.</li>
-      <li><strong>Combine:</strong> Click the "Run tool" button. The combined file will compile locally in your browser instantly.</li>
-      <li><strong>Download:</strong> Click the "Download" link to save your new merged PDF file.</li>
-    </ol>
-
-    <div class="tool-guide-faq">
-      <h2>Frequently Asked Questions about Merging PDFs</h2>
-      <h3>Is it safe to merge my sensitive PDF documents on your site?</h3>
-      <p>Absolutely. Unlike other online converters that upload your confidential contracts and documents to external servers, We Love PDF uses browser-side processing. Your files never leave your device, ensuring 100% data privacy and security.</p>
-      <h3>Can I combine files of different sizes?</h3>
-      <p>Yes. Our tool is optimized to merge PDF documents of various sizes, page layouts, and orientations. Vercel's fast architecture and our client-side compiler make the operation smooth and rapid.</p>
-    </div>
-  `,
-  "split-pdf": `
-    <h2>How to Split PDF Pages Online?</h2>
-    <p>Extract specific pages or split a large PDF document into separate files instantly. Our tool is designed for precision and absolute data safety, operating directly within your browser sandbox.</p>
-    
-    <h3>Step-by-Step Guide to Split a PDF:</h3>
-    <ol>
-      <li><strong>Choose File:</strong> Upload the PDF document you wish to split.</li>
-      <li><strong>Specify Range:</strong> In the Settings panel, enter the page numbers you want to extract (e.g., <code>1-3, 5</code> to split pages 1 to 3 and page 5).</li>
-      <li><strong>Process:</strong> Click the "Run tool" button to execute page extraction.</li>
-      <li><strong>Download:</strong> Save your newly split PDF files instantly.</li>
-    </ol>
-
-    <div class="tool-guide-faq">
-      <h2>Split PDF FAQs</h2>
-      <h3>Can I split password-protected PDFs?</h3>
-      <p>Yes. You can unlock and load password-protected files in your browser locally, specify the pages to extract, and export the new PDF with zero server upload needed.</p>
-      <h3>Does splitting a PDF reduce its original quality?</h3>
-      <p>No. Our tool extracts the exact byte-level vector data of the selected pages, maintaining the original resolutions of images, texts, and links without compression loss.</p>
-    </div>
-  `,
-  "compress-pdf": `
-    <h2>How to Compress PDF and Reduce File Size Online?</h2>
-    <p>Reduce the storage footprint of your PDF documents to make sharing via email or messaging apps easy. We Love PDF applies optimized deflation algorithms to clean metadata and compress redundant structures.</p>
-    
-    <h3>Step-by-Step Guide to Shrink PDF Size:</h3>
-    <ol>
-      <li><strong>Add PDF:</strong> Drag and drop your large PDF file into the upload zone above.</li>
-      <li><strong>Select Quality:</strong> Choose from the compression profiles: High (maximum size reduction), Balanced (optimized for email), or Small (light compression to keep print quality).</li>
-      <li><strong>Compress:</strong> Click the "Run tool" button.</li>
-      <li><strong>Save:</strong> Download the compressed PDF file.</li>
-    </ol>
-
-    <div class="tool-guide-faq">
-      <h2>Compress PDF FAQs</h2>
-      <h3>Will compressing my PDF make the text blurry?</h3>
-      <p>No. Our balanced compression algorithm preserves font vector graphics and vector drawings. Only high-resolution images are downsampled to a screen-friendly 150 DPI to save space while keeping text crisp.</p>
-      <h3>Is there a file size limit for compression?</h3>
-      <p>For standard browser-side cleanups, you can compress files up to 20MB completely free. For larger files, our secure server-side compression engine takes over to process files up to 200MB.</p>
-    </div>
-  `,
-  "jpg-to-pdf": `
-    <h2>How to Convert JPG Images to PDF online?</h2>
-    <p>Convert your photos, scans, and graphic documents (JPG/JPEG format) into a professional, shareable PDF document in one click.</p>
-    
-    <h3>Step-by-Step Guide to Convert JPG to PDF:</h3>
-    <ol>
-      <li><strong>Select Images:</strong> Upload one or more JPG images to the workspace.</li>
-      <li><strong>Set Quality:</strong> Choose your output quality (High, Balanced, Small).</li>
-      <li><strong>Convert:</strong> Hit "Run tool" to merge the images into a single PDF document.</li>
-      <li><strong>Download:</strong> Save the resulting PDF file to your device.</li>
-    </ol>
-
-    <div class="tool-guide-faq">
-      <h2>JPG to PDF FAQs</h2>
-      <h3>Can I convert multiple images at once?</h3>
-      <p>Yes. You can upload up to 30 images at once and arrange them in order to compile them into a single, multi-page PDF document.</p>
-      <h3>Is it safe to upload personal photos?</h3>
-      <p>Yes, all conversions are performed locally in your browser memory. Your private photos are never uploaded to any remote server.</p>
-    </div>
-  `,
-  "pdf-to-jpg": `
-    <h2>How to Convert PDF to JPG Images?</h2>
-    <p>Extract pages from a PDF document and save them as high-quality JPG images for presentations, web design, or social media sharing.</p>
-    
-    <h3>Step-by-Step Guide to Convert PDF to Images:</h3>
-    <ol>
-      <li><strong>Select PDF:</strong> Upload the PDF document you want to extract images from.</li>
-      <li><strong>Process:</strong> Click the "Run tool" button. The tool renders your pages into standard image formats.</li>
-      <li><strong>Download:</strong> Save the JPG images to your computer.</li>
-    </ol>
-
-    <div class="tool-guide-faq">
-      <h2>PDF to JPG FAQs</h2>
-      <h3>Does it convert all pages to images?</h3>
-      <p>Yes, each page of the PDF will be rendered into a separate JPG image at high resolution (1.8x scale for crisp rendering).</p>
-      <h3>Is this tool free?</h3>
-      <p>Yes, our PDF-to-image converter runs completely client-side in Javascript, meaning it is 100% free with no limits or watermarks.</p>
-    </div>
-  `,
-  "ocr-pdf": `
-    <h2>How to OCR PDF and Extract Text from Scans?</h2>
-    <p>Convert scanned PDF documents or image files into searchable, selectable PDF files using state-of-the-art Optical Character Recognition (OCR) technology.</p>
-    
-    <h3>Step-by-Step Guide to Run OCR:</h3>
-    <ol>
-      <li><strong>Upload Document:</strong> Select a scanned PDF or a picture (JPG/PNG) containing text.</li>
-      <li><strong>Run OCR:</strong> Click "Run tool". Our engine will analyze pixel layouts to recognize alphabetic characters.</li>
-      <li><strong>Download:</strong> Save the PDF. The output will contain a searchable invisible text layer overlay on top of the original image.</li>
-    </ol>
-
-    <div class="tool-guide-faq">
-      <h2>OCR PDF FAQs</h2>
-      <h3>How accurate is the OCR text recognition?</h3>
-      <p>We Love PDF uses Tesseract OCR, one of the most accurate open-source text recognition engines in the world, capable of recognizing English text with over 98% accuracy on clean scans.</p>
-      <h3>Can I copy-paste text from the OCR result?</h3>
-      <p>Yes, the resulting PDF file allows you to select, highlight, and copy-paste text directly, just like a digitally created PDF document.</p>
-    </div>
-  `
-};
 
 function renderToolGuide(id) {
   const guideSection = $("toolGuideSection");
@@ -492,6 +337,8 @@ async function renderPreview() {
     return;
   }
 
+  await loadDependencies();
+
   // Define dynamic delete handler on window
   window.deleteFile = (index) => {
     state.files.splice(index, 1);
@@ -578,24 +425,11 @@ async function renderPreview() {
         wrap.append(img, details);
         $("pagePreview").append(wrap);
       } else if (file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf")) {
-        // PDF: render page 1
+        // PDF: render page 1 lazy
         const canvas = document.createElement("canvas");
         wrap.append(canvas, details);
         $("pagePreview").append(wrap);
-        
-        try {
-          const bytes = await file.arrayBuffer();
-          const doc = await pdfjsLib.getDocument({ data: bytes }).promise;
-          if (doc.numPages > 0) {
-            const page = await doc.getPage(1);
-            const viewport = page.getViewport({ scale: 0.22 });
-            canvas.width = viewport.width;
-            canvas.height = viewport.height;
-            await page.render({ canvasContext: canvas.getContext("2d"), viewport }).promise;
-          }
-        } catch (err) {
-          console.error("PDF thumbnail render failed for file:", file.name, err);
-        }
+        lazyRenderPdfPage(file, 1, canvas);
       } else {
         // Text/Markdown/Spreadsheet fallback
         const fallback = document.createElement("div");
@@ -651,12 +485,7 @@ async function renderPreview() {
         const doc = await pdfjsLib.getDocument({ data: bytes }).promise;
         const max = Math.min(doc.numPages, 16); // Render up to 16 pages
         for (let i = 1; i <= max; i++) {
-          const page = await doc.getPage(i);
-          const viewport = page.getViewport({ scale: 0.22 });
           const canvas = document.createElement("canvas");
-          canvas.width = viewport.width;
-          canvas.height = viewport.height;
-          await page.render({ canvasContext: canvas.getContext("2d"), viewport }).promise;
           
           const wrap = document.createElement("div");
           wrap.className = "page-thumb";
@@ -676,6 +505,9 @@ async function renderPreview() {
 
           wrap.append(canvas, details);
           $("pagePreview").append(wrap);
+
+          // Lazy render the page thumbnail canvas only when it scrolls near the viewport
+          lazyRenderPdfPage(doc, i, canvas);
         }
       } catch (err) {
         $("pagePreview").innerHTML = `<p class="empty">Preview failed: ${err.message}</p>`;
@@ -700,10 +532,12 @@ function parsePages(input, total) {
 }
 
 async function loadPdf(file = state.files[0]) {
+  await loadDependencies();
   return PDFDocument.load(await file.arrayBuffer(), { ignoreEncryption: true });
 }
 
 async function makePdfFromText(title, body) {
+  await loadDependencies();
   const doc = await PDFDocument.create();
   const font = await doc.embedFont(StandardFonts.Helvetica);
   let page = doc.addPage([595, 842]);
@@ -748,6 +582,9 @@ async function runTool() {
   const result = $("result");
   result.textContent = "Processing...";
   try {
+    if (!shouldUseBackend(id)) {
+      await loadDependencies();
+    }
     if (!activeTool()[5]) throw new Error("This tool needs a production backend service. UI workflow is ready.");
     if (shouldUseBackend(id)) return runBackendTool(id);
     if (["text-to-pdf", "markdown-to-pdf", "html-to-pdf", "resume-to-pdf", "word-to-pdf", "excel-to-pdf", "powerpoint-to-pdf"].includes(id)) {
@@ -959,425 +796,8 @@ function extractInvoice(text) {
   return `Invoice fields\nDate: ${date}\nTotal: ${total}\n\nPreview text:\n${text.slice(0, 1200)}`;
 }
 
-// ==========================================================================
-// SPA ROUTING, SEO META UPDATES, & SUBPAGE SCRIPTS
-// ==========================================================================
+// Routing and subpages have been decoupled into router.js
 
-const subpages = [
-  "features",
-  "pricing",
-  "faq",
-  "security",
-  "privacy-policy",
-  "terms-and-conditions",
-  "cookies",
-  "about-us",
-  "contact",
-  "blog",
-  "press",
-  "sitemap",
-  "ai-pdf-summarizer",
-  "ai-pdf-translator",
-  "ask-pdf",
-  "pdf-quiz-generator",
-  "welovepdf-vs-ilovepdf",
-  "welovepdf-vs-smallpdf",
-  "welovepdf-vs-adobe",
-  "author/nilesh"
-];
-
-const seoMeta = {
-  "": {
-    title: "WeLovePDF - Free Browser-First PDF Tools",
-    desc: "WeLovePDF is a browser-based PDF toolkit that lets users merge, split, compress, convert, and secure PDF files without uploading documents to external servers."
-  },
-  "features": {
-    title: "Features - WeLovePDF",
-    desc: "Discover all 60 PDF tools. Learn about browser-first local processing, server-side OCR, and AI document assistant capabilities."
-  },
-  "pricing": {
-    title: "Pricing Plans - WeLovePDF",
-    desc: "Simple, transparent pricing. Use browser-side PDF tools for free, or upgrade to Pro for advanced server OCR, batch uploads, and AI assistance."
-  },
-  "faq": {
-    title: "FAQ - WeLovePDF",
-    desc: "Got questions? Find answers about WeLovePDF's file safety, browser local sandbox, Pro plan limits, and AI document helpers."
-  },
-  "security": {
-    title: "Security and Privacy Standards - WeLovePDF",
-    desc: "Your data is safe with us. Learn about our local processing sandboxes, encrypted transit pipelines, and strict 1-hour automatic deletion rules."
-  },
-  "privacy-policy": {
-    title: "Privacy Policy - WeLovePDF",
-    desc: "Read our Privacy Policy to understand how we protect your personal details, utilize local storage, and process files with zero logging."
-  },
-  "terms-and-conditions": {
-    title: "Terms and Conditions - WeLovePDF",
-    desc: "Read the WeLovePDF Terms of Service. Learn about user guidelines, fair use limits, license grants, and governing liabilities."
-  },
-  "cookies": {
-    title: "Cookies and Storage Statement - WeLovePDF",
-    desc: "Understand what cookies and local storage tokens we use to keep you signed in and preserve your workspace preferences."
-  },
-  "about-us": {
-    title: "About Our Mission - WeLovePDF",
-    desc: "Meet the team dedicated to making document processing simple, private, and accessible. Our history, core values, and philosophy."
-  },
-  "contact": {
-    title: "Contact Us - WeLovePDF Support",
-    desc: "Need help or have questions? Get in touch with our team for technical support, billing inquiries, or API integrations. We reply in 24 hours."
-  },
-  "blog": {
-    title: "Blog & Document Guides - WeLovePDF",
-    desc: "Read practical guides and tech updates on PDF compression, OCR scanning, Bates numbering, and auto-compiling templates."
-  },
-  "press": {
-    title: "Press & Media Kit - WeLovePDF",
-    desc: "Access brand assets, official vector logos, founding dates, fast statistics, and press contact details for WeLovePDF."
-  },
-  "sitemap": {
-    title: "Sitemap - WeLovePDF Directory",
-    desc: "Full HTML directory of WeLovePDF. Easily find and navigate all 12 informational sections and all 60 individual PDF tools."
-  },
-  "ai-pdf-summarizer": {
-    title: "AI PDF Summarizer - WeLovePDF",
-    desc: "Summarize PDF documents using advanced local and cloud-based AI. Get instant key takeaways, outlines, and summaries safely."
-  },
-  "ai-pdf-translator": {
-    title: "AI PDF Translator - WeLovePDF",
-    desc: "Translate PDF files and documents to Hindi, Spanish, French, and German while keeping formatting intact."
-  },
-  "ask-pdf": {
-    title: "Ask PDF - AI Document Q&A Assistant - WeLovePDF",
-    desc: "Chat with your PDF files. Ask questions, extract tables, and find insights instantly using our secure AI assistant."
-  },
-  "pdf-quiz-generator": {
-    title: "AI PDF Quiz Generator - WeLovePDF",
-    desc: "Generate custom quizzes, multiple-choice questions, and test sheets from any PDF textbook or document using AI."
-  },
-  "welovepdf-vs-ilovepdf": {
-    title: "WeLovePDF vs iLovePDF: Why Offline Privacy Matters - WeLovePDF",
-    desc: "Compare WeLovePDF and iLovePDF. Read an honest comparison of security, speed, offline capabilities, and pricing."
-  },
-  "welovepdf-vs-smallpdf": {
-    title: "WeLovePDF vs Smallpdf: A Fair Comparison - WeLovePDF",
-    desc: "Compare WeLovePDF and Smallpdf. Learn about the privacy advantages of local browser processing over cloud uploads."
-  },
-  "welovepdf-vs-adobe": {
-    title: "WeLovePDF vs Adobe Acrobat Online - WeLovePDF",
-    desc: "Compare WeLovePDF and Adobe Acrobat online services. See why a lightweight, browser-based, no-registration tool is faster."
-  },
-  "author/nilesh": {
-    title: "Nilesh - Software Developer & Founder - WeLovePDF",
-    desc: "Meet Nilesh, the software developer and founder of WeLovePDF. Read about the mission, projects, and bio of the creator."
-  }
-};
-
-const blogArticles = {
-  1: {
-    tag: "Security",
-    date: "May 24, 2026",
-    title: "Why Browser-First PDF Tools are Better for Data Security",
-    content: `
-      <p>In the digital age, PDF documents often contain our most sensitive details: employment agreements, financial balance sheets, healthcare records, and identity files. Yet, millions of people daily upload these documents to random online converters. What happens behind the scenes is a significant data security risk.</p>
-      
-      <h3>The Hidden Risks of Server-Side PDF Tools</h3>
-      <p>Most traditional PDF websites process your documents on remote servers. When you click "upload", your file is sent over the internet to a third-party server, where it is written to storage, processed, and held until you download it. Even if the service promises to delete files in an hour, several risks persist:</p>
-      <ul>
-        <li><strong>Data Breaches:</strong> Staging servers are high-value targets for hackers. If a database or bucket is misconfigured, your personal details could be leaked.</li>
-        <li><strong>Retention Policies:</strong> You must trust that the website owner actually deletes your file and does not log it for analytics, debugging, or AI training.</li>
-        <li><strong>Government Subpoenas:</strong> Server owners may be forced to turn over stored user documents under local regulations without your explicit consent.</li>
-      </ul>
-
-      <h3>The Browser-First Solution</h3>
-      <p>WeLovePDF utilizes a modern <strong>Browser-First</strong> approach. By leveraging WebAssembly and Javascript engines, we compile tools directly in the client-side browser runtime. When you merge or split documents, the calculations take place strictly inside your browser's sandboxed memory. Your files never leave your computer, ensuring absolute privacy.</p>
-
-      <h3>Conclusion</h3>
-      <p>If you are working with non-public documents, always prefer browser-local tools. WeLovePDF gives you the best of both worlds: premium, fast editing without compromising on security.</p>
-    `
-  },
-  2: {
-    tag: "Optimization",
-    date: "May 18, 2026",
-    title: "PDF Compression Without Quality Loss",
-    content: `
-      <p>A common headache when sharing PDFs is file size limits. Email servers often restrict attachments to 20MB, but detailed documents or image scans can easily exceed 50MB. Compression is the answer, but how do you do it without making the text unreadable or images blurry?</p>
-      
-      <h3>The Anatomy of a Large PDF</h3>
-      <p>PDF files grow large due to three main factors: high-resolution uncompressed images, embedded font files, and redundant object structures. To shrink the file, a smart compressor must address each layer:</p>
-      <ol>
-        <li><strong>Image Downsampling:</strong> Reducing image resolution from print-quality (300 DPI) to screen-quality (150 DPI) can reduce file sizes by up to 80% with zero visible difference on computer displays.</li>
-        <li><strong>Unused Fonts:</strong> Stripping subset fonts and redundant characters that aren't used in the text.</li>
-        <li><strong>Object Deflation:</strong> Cleaning up metadata fields, redundant bookmarks, and applying compression algorithms to the underlying structural code.</li>
-      </ol>
-
-      <h3>Our Balanced Compression Approach</h3>
-      <p>WeLovePDF offers three tailored compression levels: <strong>High</strong> (maximum reduction, lowest resolution), <strong>Balanced</strong> (optimized for screen reading and email), and <strong>Small</strong> (light compression, print quality). By analyzing the document tree in real time, our tool optimizes file containers while preserving font clarity.</p>
-    `
-  },
-  3: {
-    tag: "Workflows",
-    date: "April 29, 2026",
-    title: "A Guide to Digitizing Scans with OCR and Bates Numbering",
-    content: `
-      <p>Legal teams, corporate archives, and researchers often deal with boxes of historical papers. To make these documents usable in the digital world, scanning is only the first step. You need searchability and systematic indexing.</p>
-      
-      <h3>What is OCR (Optical Character Recognition)?</h3>
-      <p>OCR is a technology that analyzes the pixel shapes in a document scan or image and matches them to alphabetic characters, generating a selectable text overlay. Without OCR, a scanned PDF is just a giant image; you cannot search for keywords, copy text, or feed it into AI tools. WeLovePDF integrates state-of-the-art OCR engines to restore full searchability to your archives.</p>
-
-      <h3>The Importance of Bates Numbering</h3>
-      <p>In legal and medical fields, documents must be indexed sequentially for identification. Bates Numbering applies a unique, serial number prefix (e.g., CASE-000001) to every page. This ensures pages aren't lost and can be referenced easily during trials or audits. Our bates tool allows you to customize the prefix, suffix, digit padding, and position dynamically.</p>
-    `
-  },
-  4: {
-    tag: "Templates",
-    date: "March 12, 2026",
-    title: "Generating Resumes & Invoices Auto-Filled from Markdown",
-    content: `
-      <p>Creating standardized documents like invoices, receipts, and resumes in traditional word processors is time-consuming and hard to automate. Utilizing text templates combined with PDF rendering libraries offers a faster, cleaner alternative.</p>
-      
-      <h3>Why Markdown and HTML?</h3>
-      <p>Markdown and HTML are plain-text formats, making them easy to write, edit, and version-control. By defining document content in Markdown and rendering it to PDF, you separate design from content. You can write your resume text once and apply different CSS layouts instantly.</p>
-
-      <h3>Automated Workflows on WeLovePDF</h3>
-      <p>With tools like <strong>Resume to PDF</strong> and <strong>Invoice Extractor</strong>, WeLovePDF enables template-based compilation. You type or paste structured text directly into the workspace, and our pdf-lib layout engine automatically handles pagination, font styles, and margins to output a beautiful, print-ready document.</p>
-    `
-  },
-  5: {
-    tag: "Review",
-    date: "June 12, 2026",
-    title: "Best Free PDF Tools in 2026",
-    content: `
-      <p>Finding high-quality, free PDF tools in 2026 can be challenging. Most tools online claim to be free but hit you with daily page limits, hidden subscription requirements, or ugly watermarks on your finished documents. Here is an honest review of the best options available today.</p>
-      
-      <h3>1. WeLovePDF (Best for Privacy & Speed)</h3>
-      <p>WeLovePDF stands out as a browser-first, privacy-focused toolkit. Unlike traditional web converters, WeLovePDF processes all core file adjustments (merging, splitting, rotating) directly inside your browser. This means your files never leave your device. It is completely free, does not require an account, has zero page limits, and places no watermarks.</p>
-      
-      <h3>2. iLovePDF (Best for Cloud Workflows)</h3>
-      <p>iLovePDF is a well-established cloud editor. It has a rich selection of features, but because it relies on cloud uploads, it raises data privacy concerns for sensitive documents. Free users are limited to smaller file sizes and encounter registration prompts.</p>
-      
-      <h3>3. Smallpdf (Good UI, but Heavy Restraints)</h3>
-      <p>Smallpdf offers a clean visual layout, but restricts free accounts to just 2 documents per day. To process more, users are forced to pay for a premium subscription.</p>
-      
-      <h3>Conclusion</h3>
-      <p>If you want speed, zero limits, and complete file privacy, WeLovePDF is the top free PDF workspace of 2026.</p>
-    `
-  },
-  6: {
-    tag: "Tutorials",
-    date: "June 08, 2026",
-    title: "How to Merge PDF Files Offline",
-    content: `
-      <p>Whether you need to combine reports, assemble invoices, or compile tax papers, merging multiple PDF files is one of the most common document tasks. But did you know you can do it completely offline without downloading heavy desktop software?</p>
-      
-      <h3>The Browser-Offline Revolution</h3>
-      <p>Historically, offline merging required Adobe Acrobat Pro or native command-line utilities. However, modern browsers support WebAssembly and local Javascript engines. Websites like <strong>WeLovePDF</strong> download the compiler code to your browser once, and then run it locally on your device.</p>
-      
-      <h3>Step-by-Step Offline Merging on WeLovePDF:</h3>
-      <ol>
-        <li>Open <a href="/merge-pdf">WeLovePDF Merge PDF</a> in your browser.</li>
-        <li>Disconnect your internet connection (turn on Airplane mode) to verify offline functionality.</li>
-        <li>Drag and drop your PDF files into the upload zone.</li>
-        <li>Reorder thumbnails as desired.</li>
-        <li>Click "Run tool" and download your combined document instantly.</li>
-      </ol>
-      <p>By compiling the documents in the browser sandbox, WeLovePDF merges files instantly without any web server transmissions.</p>
-    `
-  },
-  7: {
-    tag: "Technology",
-    date: "June 01, 2026",
-    title: "Browser-Based PDF Processing vs Cloud Processing",
-    content: `
-      <p>When using an online PDF tool, you are typically using one of two architectures: Browser-Based (Client-Side) or Cloud-Based (Server-Side). Understanding the differences is critical for document safety and processing speed.</p>
-      
-      <h3>Cloud-Based (Server-Side) Processing</h3>
-      <p>This is the model used by traditional sites like iLovePDF, Smallpdf, and Adobe Online. Your files are uploaded to their cloud servers, processed on their remote machines, and then downloaded back to your system. 
-      <strong>Drawbacks:</strong> Bandwidth consumption (slow uploads for large files), queues during high traffic, and significant privacy exposure if the server is compromised.</p>
-      
-      <h3>Browser-Based (Client-Side) Processing</h3>
-      <p>Used by modern platforms like <strong>WeLovePDF</strong>, this architecture downloads the processing engine (using HTML5 and WebAssembly) directly to your browser tab. All manipulation happens inside your browser's local memory.
-      <strong>Advantages:</strong> Instant execution (no upload/download wait times), complete privacy (zero server logs), and the ability to work fully offline.</p>
-    `
-  },
-  8: {
-    tag: "Security",
-    date: "May 29, 2026",
-    title: "Is iLovePDF Safe for Sensitive Documents?",
-    content: `
-      <p>iLovePDF is one of the most visited utility websites in the world, and many businesses rely on it for daily document conversions. But is it safe for sensitive corporate documents, contracts, and personal data?</p>
-      
-      <h3>The Reality of Cloud Uploads</h3>
-      <p>While iLovePDF employs secure HTTPS transfer protocols and automatically deletes processed files from their servers within 2 hours, the fact remains: your documents leave your device. For highly confidential files (e.g. NDAs, financial audits, medical records), uploading them to external servers can violate corporate compliance policies or GDPR regulations.</p>
-      
-      <h3>A Safer Alternative</h3>
-      <p>For sensitive documents, a browser-first toolkit like <strong>WeLovePDF</strong> is the safest alternative. Because WeLovePDF operates inside your local web browser sandbox, your documents are never uploaded to any remote server. Your files stay 100% on your device, giving you total peace of mind and strict data compliance.</p>
-    `
-  }
-};
-
-function updateMetaDescription(text) {
-  let meta = document.querySelector('meta[name="description"]');
-  if (!meta) {
-    meta = document.createElement("meta");
-    meta.setAttribute("name", "description");
-    document.head.appendChild(meta);
-  }
-  meta.setAttribute("content", text);
-}
-
-const toolFaqs = {
-  "merge-pdf": [
-    { q: "Is WeLovePDF's Merge PDF tool free?", a: "Yes, WeLovePDF's Merge PDF tool is 100% free with no hidden charges, page limits, or watermarks." },
-    { q: "Are files uploaded to a remote server?", a: "No. All merging operations are processed entirely inside your local browser sandbox via Javascript/WebAssembly. Your documents never leave your computer." },
-    { q: "Is there a file size limit for merging PDFs?", a: "Free local processing supports files up to 20MB. Pro tier supports server-assisted processing for documents up to 200MB." },
-    { q: "Can I merge password-protected PDFs?", a: "Yes, you can upload and unlock password-protected files in your browser locally before combining them." },
-    { q: "Can I rearrange the order of pages?", a: "Yes. Our visual workspace renders page thumbnails so you can drag and drop pages to arrange them in the exact order you want." },
-    { q: "Does merging PDFs reduce original document quality?", a: "No. The pages are combined at the structural layer without re-compressing elements, keeping images and text crisp." },
-    { q: "Can I merge PDFs offline without an internet connection?", a: "Yes. Once WeLovePDF loads, core tools like Merge PDF operate fully offline in your browser sandbox without any server dependency." },
-    { q: "Is WeLovePDF GDPR-compliant?", a: "Yes. Because no files are uploaded, stored, or processed on our servers, WeLovePDF complies fully with strict GDPR privacy standards." }
-  ],
-  "split-pdf": [
-    { q: "How does the Split PDF tool work?", a: "Upload your PDF and specify page ranges (e.g., 1-3, 5) in the Settings panel to extract them into a new document." },
-    { q: "Are my documents secure during splitting?", a: "Yes. Since the splitting is done client-side, your files never leave your device, ensuring complete security." },
-    { q: "Can I split password-protected PDFs?", a: "Yes. You can unlock the file locally with its password and proceed to split it." },
-    { q: "Does page extraction reduce PDF resolution?", a: "No. The vector data is extracted at the byte level, maintaining identical text and image quality." },
-    { q: "Is there a daily limit on how many PDFs I can split?", a: "No. WeLovePDF has no daily caps or document limits on its browser-based tools." }
-  ],
-  "compress-pdf": [
-    { q: "How does PDF compression reduce file size?", a: "Our tool removes redundant metadata, strips unused font subsets, and applies high-efficiency compression filters." },
-    { q: "Will the text in my PDF become blurry after compression?", a: "No. Font vectors are preserved so text remains sharp, while only high-resolution images are optimized to save space." },
-    { q: "What compression profiles are available?", a: "We offer High (max size reduction), Balanced (optimized for email/screen), and Small (light compression to keep print quality)." },
-    { q: "Is my document secure when using compression?", a: "Yes. Files under 20MB are compressed entirely in your browser sandbox with zero upload risk." }
-  ],
-  "jpg-to-pdf": [
-    { q: "Is the JPG to PDF converter free?", a: "Yes, it is completely free with no registration or watermarks." },
-    { q: "How many images can I convert at once?", a: "You can upload and compile up to 30 JPG, PNG, WEBP, or GIF images into a single PDF." },
-    { q: "Are my photos private?", a: "Yes. The images are converted locally in the browser memory, so no photos are uploaded to any server." }
-  ],
-  "pdf-to-jpg": [
-    { q: "How do I convert PDF pages to images?", a: "Simply select your PDF, choose output quality, and our engine converts the pages to JPG." },
-    { q: "Are my documents secure during image conversion?", a: "Yes. The rendering is done locally on your machine with zero server transmission." },
-    { q: "Can I select specific pages to convert?", a: "Yes. You can specify page ranges or convert all pages into individual JPG images." }
-  ],
-  "ocr-pdf": [
-    { q: "What is OCR?", a: "OCR stands for Optical Character Recognition. It scans pixel layouts to recognize characters." },
-    { q: "Is the OCR processing done locally?", a: "Yes, our browser engine runs OCR locally for quick scans. For large scans, it runs on our server." },
-    { q: "What languages are supported?", a: "Standard OCR supports English, with more languages available on the server." },
-    { q: "Is it safe to OCR financial scans?", a: "Yes, we process scans in memory." }
-  ]
-};
-
-function updateFaqSchema(slug) {
-  // Remove existing FAQ schema tag
-  const existing = document.getElementById("faq-schema-jsonld");
-  if (existing) existing.remove();
-
-  // Find relevant FAQs
-  let faqs = toolFaqs[slug];
-  
-  // Fallback FAQs for non-tool pages
-  if (!faqs) {
-    if (slug === "ai-pdf-summarizer") {
-      faqs = [
-        { q: "Is my data shared when using the AI Summarizer?", a: "No. WeLovePDF processes your files temporarily in memory to generate the summary and permanently deletes them in 1 hour." },
-        { q: "What is the maximum file size for summarizing?", a: "Free users can summarize documents up to 20MB, while Pro users can process up to 200MB." }
-      ];
-    } else if (slug === "welovepdf-vs-ilovepdf") {
-      faqs = [
-        { q: "Is WeLovePDF faster than iLovePDF?", a: "Yes, for local tasks like merging, splitting, and rotating, WeLovePDF is faster because it processes files instantly in your browser without uploading." }
-      ];
-    }
-  }
-
-  if (!faqs || faqs.length === 0) return;
-
-  // Build JSON-LD object
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": faqs.map(f => ({
-      "@type": "Question",
-      "name": f.q,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": f.a
-      }
-    }))
-  };
-
-  // Inject tag
-  const script = document.createElement("script");
-  script.type = "application/ld+json";
-  script.id = "faq-schema-jsonld";
-  script.textContent = JSON.stringify(schema);
-  document.head.appendChild(script);
-}
-
-function updateSEO(slug) {
-  // Always update FAQ schema first
-  updateFaqSchema(slug);
-
-  // If slug is a tool, handle tool SEO
-  if (tools.some((t) => t[0] === slug)) {
-    const t = tools.find((tool) => tool[0] === slug);
-    document.title = `${t[1]} - WeLovePDF`;
-    updateMetaDescription(`Use our free, sandboxed ${t[1]} tool to ${t[3].toLowerCase()} Process files instantly in your browser.`);
-    return;
-  }
-  
-  // Otherwise match subpage or home
-  const meta = seoMeta[slug] || seoMeta[""];
-  document.title = meta.title;
-  updateMetaDescription(meta.desc);
-}
-
-function setRouteMode() {
-  const slug = location.pathname.replace(/^\/+/, "").replace(/\/+$/, "");
-  const isTool = tools.some((t) => t[0] === slug);
-  const isSubpage = subpages.includes(slug);
-  
-  // Reset all route classes from body
-  document.body.classList.remove("tool-view", "subpage-view", "home-view");
-  for (const page of subpages) {
-    document.body.classList.remove("route-" + page.replace(/\//g, "-"));
-  }
-  
-  // Update visibility state
-  if (isTool) {
-    document.body.classList.add("tool-view");
-  } else if (isSubpage) {
-    document.body.classList.add("subpage-view", "route-" + slug.replace(/\//g, "-"));
-    // Special setup for subpages
-    if (slug === "blog") {
-      // Show blog index, hide detail view
-      $("blogGrid").style.display = "grid";
-      $("blogPostDetail").style.display = "none";
-    }
-  } else {
-    // Default Home View
-    document.body.classList.add("home-view");
-  }
-
-  // Set SEO tags
-  updateSEO(slug);
-
-  // Route scrolling triggers
-  if (location.hash) {
-    const target = document.getElementById(location.hash.substring(1));
-    if (target) {
-      setTimeout(() => target.scrollIntoView({ behavior: "smooth" }), 100);
-      return;
-    }
-  }
-  window.scrollTo({ top: 0 });
-}
-
-function toolFromPath() {
-  const slug = location.pathname.replace(/^\/+/, "").replace(/\/+$/, "");
-  if (tools.some((t) => t[0] === slug)) return slug;
-  return "";
-}
 
 // Smart top bar close button
 const smartTopBarCloseBtn = document.getElementById("smartTopBarClose");
@@ -1630,4 +1050,133 @@ if (isInitialTool) {
   selectTool("merge-pdf", { push: false, scroll: false });
   setRouteMode();
 }
+
+// ==========================================================================
+// WELOVEPDF v2.0 HOMEPAGE INTERACTIVE MECHANICS
+// ==========================================================================
+
+// 1. Universal Search Logic
+const uSearch = $("universalSearch");
+const uResults = $("universalSearchResults");
+
+if (uSearch) {
+  uSearch.addEventListener("input", () => {
+    const val = uSearch.value.toLowerCase().trim();
+    if (!val) {
+      uResults.style.display = "none";
+      uResults.innerHTML = "";
+      return;
+    }
+    const matches = tools.filter(t => 
+      t[1].toLowerCase().includes(val) || 
+      t[3].toLowerCase().includes(val)
+    ).slice(0, 5); // Display top 5 matching tools
+    
+    if (matches.length === 0) {
+      uResults.innerHTML = `<p style="margin:8px;font-size:13px;color:var(--muted);text-align:center">No tools found matching "${escapeHtml(uSearch.value)}"</p>`;
+    } else {
+      uResults.innerHTML = matches.map(t => `
+        <button class="search-result-row" data-open-tool="${t[0]}" type="button">
+          <span class="res-icon">${t[4]}</span>
+          <div>
+            <h4>${t[1]}</h4>
+            <p>${t[3]}</p>
+          </div>
+        </button>
+      `).join("");
+    }
+    uResults.style.display = "block";
+  });
+  
+  // Close search results dropdown on clicking outside
+  document.addEventListener("click", (e) => {
+    if (!uSearch.contains(e.target) && !uResults.contains(e.target)) {
+      uResults.style.display = "none";
+    }
+  });
+}
+
+// 2. Keyboard shortcut triggers (/ to focus search)
+document.addEventListener("keydown", (e) => {
+  if (e.key === "/" && document.activeElement !== uSearch) {
+    const isInput = ["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement?.tagName);
+    if (!isInput) {
+      e.preventDefault();
+      uSearch?.focus();
+      uSearch?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }
+});
+
+// 3. Popular search tags quick fill
+document.querySelectorAll(".search-tag").forEach(tag => {
+  tag.addEventListener("click", () => {
+    const term = tag.dataset.searchTerm;
+    if (uSearch) {
+      uSearch.value = term;
+      uSearch.dispatchEvent(new Event("input"));
+      uSearch.focus();
+      uSearch.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  });
+});
+
+// 4. Header scroll dynamic class binding
+window.addEventListener("scroll", () => {
+  const header = $("mainHeader");
+  if (header) {
+    header.classList.toggle("scrolled", window.scrollY > 20);
+  }
+});
+
+// 5. Navbar Search shortcut trigger
+const navSearch = $("navSearchTrigger");
+if (navSearch && uSearch) {
+  navSearch.addEventListener("click", () => {
+    uSearch.scrollIntoView({ behavior: "smooth", block: "center" });
+    setTimeout(() => uSearch.focus(), 300);
+  });
+}
+
+// 6. Theme Toggle & Local Storage Sync
+const themeToggle = $("themeToggleBtn");
+if (themeToggle) {
+  themeToggle.addEventListener("click", () => {
+    const current = document.documentElement.getAttribute("data-theme");
+    const next = current === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    localStorage.setItem("theme", next);
+  });
+}
+// Set initial theme
+const savedTheme = localStorage.getItem("theme");
+if (savedTheme) {
+  document.documentElement.setAttribute("data-theme", savedTheme);
+} else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+  document.documentElement.setAttribute("data-theme", "dark");
+}
+
+// 7. FAQ Accordion expansions
+document.querySelectorAll(".faq-trigger").forEach(trigger => {
+  trigger.addEventListener("click", () => {
+    const item = trigger.closest(".faq-item");
+    const panel = item.querySelector(".faq-panel");
+    const isExpanded = trigger.getAttribute("aria-expanded") === "true";
+    
+    // Collapse all active siblings
+    document.querySelectorAll(".faq-item").forEach(sibling => {
+      if (sibling !== item) {
+        sibling.classList.remove("active");
+        sibling.querySelector(".faq-trigger").setAttribute("aria-expanded", "false");
+        sibling.querySelector(".faq-panel").style.maxHeight = null;
+      }
+    });
+    
+    // Toggle active state
+    item.classList.toggle("active", !isExpanded);
+    trigger.setAttribute("aria-expanded", !isExpanded ? "true" : "false");
+    panel.style.maxHeight = !isExpanded ? panel.scrollHeight + "px" : null;
+  });
+});
+
 

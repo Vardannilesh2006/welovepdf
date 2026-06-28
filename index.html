@@ -196,53 +196,503 @@
          target="_blank" rel="noopener sponsored" class="smart-top-bar-link">Claim Now →</a>
       <button class="smart-top-bar-close" id="smartTopBarClose" aria-label="Close">✕</button>
     </div>
-    <header class="topbar">
+    <header class="topbar" id="mainHeader">
       <a class="brand" href="/" aria-label="We Love PDF home">
         <span class="brand-mark">W</span>
-        <span>We Love PDF</span>
+        <span>WeLovePDF</span>
       </a>
       <nav class="nav">
         <a href="/#tools">Tools</a>
-        <button type="button" data-open-tool="merge-pdf">Workspace</button>
-        <a href="/#privacy">Privacy</a>
+        <a href="/#ai-assistant">AI PDF</a>
+        <a href="/pricing">Pricing</a>
+        <a href="/blog">Blog</a>
+        <a href="/#tools">API</a>
+        <a href="/blog">Resources</a>
+        <a href="/contact">Contact</a>
       </nav>
+      <div class="header-actions">
+        <button id="navSearchTrigger" class="nav-search-btn" aria-label="Search tools" type="button">🔍</button>
+        <button id="themeToggleBtn" class="theme-toggle-btn" aria-label="Toggle dark mode" type="button">🌓</button>
+        <button type="button" class="primary-btn nav-cta" data-open-tool="merge-pdf">Open Workspace</button>
+      </div>
     </header>
 
     <main>
+      <!-- Section 2: Hero Section -->
       <section id="home" class="hero">
         <div class="hero-copy">
-          <p class="eyebrow">Fast, clean PDF tools</p>
-          <h1>WeLovePDF</h1>
-          <p>
-            WeLovePDF is a browser-based PDF toolkit that lets users merge, split, compress, convert, and secure PDF files without uploading documents to external servers.
+          <p class="eyebrow">Version 2.0 Launch</p>
+          <h1>Every PDF Tool You Need. <br><span class="gradient-text">Fast. Secure. Free.</span></h1>
+          <p class="hero-subheading">
+            WeLovePDF is a browser-first document platform. Merge, split, compress, convert, OCR, and Chat with PDFs instantly. Your files are processed inside your local browser sandbox—100% private, zero server uploads.
           </p>
           <div class="hero-actions">
-            <a class="primary-btn" href="/#tools">Explore tools</a>
-            <button class="ghost-btn" type="button" data-open-tool="merge-pdf">Open workspace</button>
+            <a class="primary-btn hero-cta" href="/#tools">Explore 60+ Tools</a>
+            <button class="ghost-btn hero-cta-sec" type="button" data-open-tool="merge-pdf">Open Workspace →</button>
           </div>
         </div>
-        <div class="quick-panel" aria-label="Popular tools">
-          <button data-open-tool="merge-pdf">Merge PDF</button>
-          <button data-open-tool="split-pdf">Split PDF</button>
-          <button data-open-tool="compress-pdf">Compress PDF</button>
-          <button data-open-tool="jpg-to-pdf">JPG to PDF</button>
+        <div class="hero-illustration-container">
+          <div class="hero-illustration">
+            <div class="floating-card float-card-1" data-open-tool="merge-pdf">
+              <span class="card-icon">📂</span>
+              <div class="card-meta-wrap">
+                <h4>Merge PDF</h4>
+                <p>Combine instantly</p>
+              </div>
+            </div>
+            <div class="floating-card float-card-2" data-open-tool="compress-pdf">
+              <span class="card-icon">⚡</span>
+              <div class="card-meta-wrap">
+                <h4>Compress PDF</h4>
+                <p>Shrink file size</p>
+              </div>
+            </div>
+            <div class="floating-card float-card-3" data-open-tool="split-pdf">
+              <span class="card-icon">✂️</span>
+              <div class="card-meta-wrap">
+                <h4>Split PDF</h4>
+                <p>Extract pages</p>
+              </div>
+            </div>
+            <div class="floating-card float-card-4" data-open-tool="ocr-pdf">
+              <span class="card-icon">🔍</span>
+              <div class="card-meta-wrap">
+                <h4>OCR PDF</h4>
+                <p>Scan to text</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
+      <!-- Section 3: Universal Search Section -->
+      <section class="universal-search-section">
+        <div class="search-container">
+          <div class="search-bar-wrap">
+            <span class="search-icon">🔍</span>
+            <input id="universalSearch" type="text" placeholder="Search any PDF tool... (Press '/' to focus)" />
+            <span class="keyboard-shortcut">/</span>
+          </div>
+          <div id="universalSearchResults" class="universal-search-results" style="display:none"></div>
+          <div class="popular-searches">
+            <span class="label">Popular:</span>
+            <button class="search-tag" data-search-term="merge">Merge</button>
+            <button class="search-tag" data-search-term="compress">Compress</button>
+            <button class="search-tag" data-search-term="ocr">OCR</button>
+            <button class="search-tag" data-search-term="split">Split</button>
+            <button class="search-tag" data-search-term="unlock">Unlock</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: Most Popular PDF Tools -->
+      <section class="popular-tools-section">
+        <div class="section-title-wrap">
+          <p class="eyebrow">Quick Access</p>
+          <h2>Most Popular PDF Tools</h2>
+          <p class="section-desc">Get started instantly with our most frequently used document utilities.</p>
+        </div>
+        <div class="popular-grid">
+          <button class="premium-tool-card" data-open-tool="merge-pdf">
+            <span class="card-badge">Free</span>
+            <div class="tool-card-icon red-glow">📂</div>
+            <h3>Merge PDF</h3>
+            <p>Combine multiple PDF files into one document in seconds.</p>
+          </button>
+          <button class="premium-tool-card" data-open-tool="split-pdf">
+            <span class="card-badge">Free</span>
+            <div class="tool-card-icon blue-glow">✂️</div>
+            <h3>Split PDF</h3>
+            <p>Extract specific page ranges or save pages as separate files.</p>
+          </button>
+          <button class="premium-tool-card" data-open-tool="compress-pdf">
+            <span class="card-badge">Free</span>
+            <div class="tool-card-icon orange-glow">⚡</div>
+            <h3>Compress PDF</h3>
+            <p>Reduce document size while keeping print quality sharp.</p>
+          </button>
+          <button class="premium-tool-card" data-open-tool="pdf-to-word">
+            <span class="card-badge">Free</span>
+            <div class="tool-card-icon blue-glow">📝</div>
+            <h3>PDF to Word</h3>
+            <p>Convert your PDF pages into fully editable Docx files.</p>
+          </button>
+          <button class="premium-tool-card" data-open-tool="word-to-pdf">
+            <span class="card-badge">Free</span>
+            <div class="tool-card-icon teal-glow">📘</div>
+            <h3>Word to PDF</h3>
+            <p>Make clean PDF files from Microsoft Word documents.</p>
+          </button>
+          <button class="premium-tool-card" data-open-tool="ocr-pdf">
+            <span class="card-badge-vip">AI</span>
+            <div class="tool-card-icon purple-glow">🔍</div>
+            <h3>OCR PDF</h3>
+            <p>Convert scanned PDFs and images into selectable text files.</p>
+          </button>
+          <button class="premium-tool-card" data-open-tool="unlock-pdf">
+            <span class="card-badge">Free</span>
+            <div class="tool-card-icon green-glow">🔓</div>
+            <h3>Unlock PDF</h3>
+            <p>Remove passwords, restrictions, and copying locks instantly.</p>
+          </button>
+          <button class="premium-tool-card" data-open-tool="protect-pdf">
+            <span class="card-badge">Free</span>
+            <div class="tool-card-icon dark-glow">🔒</div>
+            <h3>Protect PDF</h3>
+            <p>Encrypt PDF files with robust passwords and print restrictions.</p>
+          </button>
+          <button class="premium-tool-card" data-open-tool="rotate-pdf">
+            <span class="card-badge">Free</span>
+            <div class="tool-card-icon yellow-glow">🔄</div>
+            <h3>Rotate PDF</h3>
+            <p>Turn landscape pages portrait and align scanned sheets easily.</p>
+          </button>
+          <button class="premium-tool-card" data-open-tool="crop-pdf">
+            <span class="card-badge-vip">Backend</span>
+            <div class="tool-card-icon red-glow">📐</div>
+            <h3>Crop PDF</h3>
+            <p>Trim page boundaries and customize printable margins.</p>
+          </button>
+        </div>
+        <div class="view-all-wrap">
+          <a href="/#tools" class="ghost-btn view-all-btn">View All 60+ Tools →</a>
+        </div>
+      </section>
+
+      <!-- Section 5: AI PDF Assistant -->
+      <section id="ai-assistant" class="ai-assistant-section">
+        <div class="ai-container">
+          <div class="ai-copy">
+            <span class="ai-badge">AI Powered</span>
+            <h2>Work Smarter with <br>AI Document Assistance</h2>
+            <p>Our secure AI engine integrates advanced language models directly into your workspace. Chat, summarize, and translate PDFs instantly in complete confidentiality.</p>
+            <div class="ai-feature-checklist">
+              <div class="ai-checklist-item">
+                <span class="check-icon">✓</span>
+                <div>
+                  <h4>Chat with PDF</h4>
+                  <p>Ask questions, extract lists, and trace insights instantly from long textbooks.</p>
+                </div>
+              </div>
+              <div class="ai-checklist-item">
+                <span class="check-icon">✓</span>
+                <div>
+                  <h4>Summarize PDF</h4>
+                  <p>Generate key takeaways, executive outlines, and detailed abstracts in one click.</p>
+                </div>
+              </div>
+              <div class="ai-checklist-item">
+                <span class="check-icon">✓</span>
+                <div>
+                  <h4>Translate PDF</h4>
+                  <p>Translate formats while preserving headers, layout structures, and text grids.</p>
+                </div>
+              </div>
+              <div class="ai-checklist-item">
+                <span class="check-icon-soon">Soon</span>
+                <div>
+                  <h4>Extract Tables & OCR Data</h4>
+                  <p>Auto-parse invoice figures, headers, and rows directly into XLS containers.</p>
+                </div>
+              </div>
+            </div>
+            <div class="ai-actions">
+              <button class="primary-btn ai-cta-btn" type="button" data-open-tool="ask-pdf">Try AI Workspace</button>
+            </div>
+          </div>
+          <div class="ai-preview-panel">
+            <div class="ai-chat-mock">
+              <div class="chat-header">
+                <span class="bot-avatar">🤖</span>
+                <div>
+                  <h4>WeLovePDF AI Assistant</h4>
+                  <p>Document: contract_final.pdf</p>
+                </div>
+              </div>
+              <div class="chat-messages">
+                <div class="msg user">Summarize the termination terms in section 4.</div>
+                <div class="msg assistant font-math">Section 4 states that either party may terminate this agreement with <strong>30 days written notice</strong>. Any breach of terms gives the non-breaching party immediate termination rights.</div>
+              </div>
+              <div class="chat-input-bar">
+                <span>Ask anything about your document...</span>
+                <button type="button" class="chat-send">➔</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 6: Tool Categories & Full Tool Grid -->
       <section id="tools" class="tools-section">
         <div class="section-head">
           <div>
-            <p class="eyebrow">60 tools</p>
-            <h2>All PDF tools</h2>
+            <p class="eyebrow">Categories</p>
+            <h2>All 60+ PDF Tools</h2>
           </div>
           <label class="search">
-            <span>Search</span>
+            <span>Search tools</span>
             <input id="toolSearch" type="search" placeholder="compress, OCR, watermark..." />
           </label>
         </div>
         <div id="categoryTabs" class="tabs" aria-label="Tool categories"></div>
         <div id="toolGrid" class="tool-grid"></div>
       </section>
+
+      <!-- Section 7: Why WeLovePDF -->
+      <section class="trust-grid-section">
+        <div class="section-title-wrap">
+          <p class="eyebrow">Key Advantages</p>
+          <h2>Engineered for Better Work</h2>
+          <p class="section-desc">Why millions of professionals choose WeLovePDF over server-based alternatives.</p>
+        </div>
+        <div class="trust-grid">
+          <div class="trust-card">
+            <span class="trust-icon">⚡</span>
+            <h3>Ultra Fast</h3>
+            <p>Runs in browser sandboxes. No network upload lag or waiting in lines.</p>
+          </div>
+          <div class="trust-card">
+            <span class="trust-icon">🔒</span>
+            <h3>100% Private</h3>
+            <p>Your documents stay strictly inside your local machine. Zero server visibility.</p>
+          </div>
+          <div class="trust-card">
+            <span class="trust-icon">🛡️</span>
+            <h3>Secure Core</h3>
+            <p>Strict type signatures and magic byte validations block malicious payloads.</p>
+          </div>
+          <div class="trust-card">
+            <span class="trust-icon">👥</span>
+            <h3>No Registration</h3>
+            <p>Start processing immediately. No signups, email verification, or passwords.</p>
+          </div>
+          <div class="trust-card">
+            <span class="trust-icon">🌍</span>
+            <h3>Works Everywhere</h3>
+            <p>Access WeLovePDF offline from Windows, macOS, Linux, iOS, or Android devices.</p>
+          </div>
+          <div class="trust-card">
+            <span class="trust-icon">🎁</span>
+            <h3>Free Forever</h3>
+            <p>All core functions are 100% free with no watermarks, caps, or hidden costs.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 8: Privacy Promise -->
+      <section class="privacy-promise-section">
+        <div class="privacy-promise-card">
+          <div class="promise-copy">
+            <span class="promise-badge">Privacy First</span>
+            <h2>Our Solid Privacy Guarantee</h2>
+            <p>We respect the confidentiality of your documents. Our architecture makes it structurally impossible for files to be stored or processed outside your computer for browser tools.</p>
+            <ul class="promise-list">
+              <li><strong>Zero retention:</strong> Browser tools store zero bytes on remote drives.</li>
+              <li><strong>Secure pipelines:</strong> Specialized server-side AI tools delete cache logs within 1 hour.</li>
+              <li><strong>GDPR compliant:</strong> Fully aligned with modern EU and global protection acts.</li>
+            </ul>
+          </div>
+          <div class="promise-visual">
+            <div class="lock-shield-badge">
+              <span class="shield-icon">🛡️</span>
+              <span class="lock-status">Safe Sandbox Active</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 9: How It Works -->
+      <section class="how-it-works-section">
+        <div class="section-title-wrap">
+          <p class="eyebrow">Simple Workflow</p>
+          <h2>How WeLovePDF Operates</h2>
+        </div>
+        <div class="timeline-wrap">
+          <div class="timeline-line"></div>
+          <div class="timeline-grid">
+            <div class="timeline-step">
+              <div class="step-badge">1</div>
+              <h3>Select Documents</h3>
+              <p>Drag and drop your files into our sandboxed workspace browser container.</p>
+            </div>
+            <div class="timeline-step">
+              <div class="step-badge">2</div>
+              <h3>Configure & Run</h3>
+              <p>Rearrange thumbnails, adjust margins, and run transformations in-memory.</p>
+            </div>
+            <div class="timeline-step">
+              <div class="step-badge">3</div>
+              <h3>Download Result</h3>
+              <p>Retrieve your output immediately. No server lag, no queues, completely instant.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 10: Supported Formats -->
+      <section class="formats-section">
+        <div class="section-title-wrap">
+          <p class="eyebrow">High Compatibility</p>
+          <h2>All Formats Supported</h2>
+        </div>
+        <div class="formats-marquee-grid">
+          <span class="format-pill">PDF</span>
+          <span class="format-pill">DOCX</span>
+          <span class="format-pill">DOC</span>
+          <span class="format-pill">PPT</span>
+          <span class="format-pill">PPTX</span>
+          <span class="format-pill">XLS</span>
+          <span class="format-pill">XLSX</span>
+          <span class="format-pill">JPG</span>
+          <span class="format-pill">PNG</span>
+          <span class="format-pill">WEBP</span>
+          <span class="format-pill">SVG</span>
+          <span class="format-pill">TXT</span>
+          <span class="format-pill">EPUB</span>
+        </div>
+      </section>
+
+      <!-- Section 11: Why Professionals Choose WeLovePDF -->
+      <section class="professionals-section">
+        <div class="section-title-wrap">
+          <p class="eyebrow">Target Solutions</p>
+          <h2>Built for Every Workflow</h2>
+        </div>
+        <div class="professionals-grid">
+          <div class="prof-card">
+            <h4>Students & Teachers</h4>
+            <p>Combine research materials, compress class presentations, and generate quizzes instantly.</p>
+          </div>
+          <div class="prof-card">
+            <h4>Legal Teams</h4>
+            <p>Apply bates numbering sequentially, redact details, and encrypt files locally.</p>
+          </div>
+          <div class="prof-card">
+            <h4>HR & Operations</h4>
+            <p>Convert resumes from Word, combine candidate profiles, and extract fields.</p>
+          </div>
+          <div class="prof-card">
+            <h4>Developers</h4>
+            <p>Access our sandbox structures, verify magic bytes, and convert pages programmatically.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 12: Companies Trust -->
+      <section class="marquee-section">
+        <p class="marquee-title">Processed securely by individuals at the world's most trusted companies</p>
+        <div class="marquee-wrapper">
+          <div class="marquee-content">
+            <span>Google</span>
+            <span>Apple</span>
+            <span>Microsoft</span>
+            <span>Amazon</span>
+            <span>Meta</span>
+            <span>Netflix</span>
+            <span>Stripe</span>
+            <span>Vercel</span>
+            <!-- duplicate for infinite loop -->
+            <span>Google</span>
+            <span>Apple</span>
+            <span>Microsoft</span>
+            <span>Amazon</span>
+            <span>Meta</span>
+            <span>Netflix</span>
+            <span>Stripe</span>
+            <span>Vercel</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 13: Latest Tutorials -->
+      <section class="tutorials-preview-section">
+        <div class="section-title-wrap">
+          <p class="eyebrow">Resources</p>
+          <h2>Latest Tutorials & Guides</h2>
+        </div>
+        <div class="tutorials-grid">
+          <div class="tutorial-card-h">
+            <span class="tut-tag">Security</span>
+            <h3>Why Browser-First PDF Tools are Better for Data Security</h3>
+            <span class="tut-meta">5 min read • Security</span>
+            <a href="/blog" class="tut-link">Read Guide →</a>
+          </div>
+          <div class="tutorial-card-h">
+            <span class="tut-tag">Optimization</span>
+            <h3>PDF Compression Without Quality Loss</h3>
+            <span class="tut-meta">4 min read • Design</span>
+            <a href="/blog" class="tut-link">Read Guide →</a>
+          </div>
+          <div class="tutorial-card-h">
+            <span class="tut-tag">Tutorials</span>
+            <h3>How to Merge PDF Files Offline</h3>
+            <span class="tut-meta">3 min read • Workflow</span>
+            <a href="/blog" class="tut-link">Read Guide →</a>
+          </div>
+        </div>
+        <div class="view-all-wrap">
+          <a href="/blog" class="ghost-btn">View All Articles →</a>
+        </div>
+      </section>
+
+      <!-- Section 14: Frequently Asked Questions -->
+      <section class="faq-accordion-section">
+        <div class="section-title-wrap">
+          <p class="eyebrow">Got Questions?</p>
+          <h2>Frequently Asked Questions</h2>
+        </div>
+        <div class="faq-accordion-container">
+          <div class="faq-item">
+            <button class="faq-trigger" aria-expanded="false">
+              <span>Is WeLovePDF free to use?</span>
+              <span class="faq-icon-indicator">+</span>
+            </button>
+            <div class="faq-panel">
+              <p>Yes, all core browser tools like Merge PDF, Split PDF, Compress PDF, and converters are 100% free with no page limits, signup triggers, or watermarks.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-trigger" aria-expanded="false">
+              <span>Are my documents secure?</span>
+              <span class="faq-icon-indicator">+</span>
+            </button>
+            <div class="faq-panel">
+              <p>Absolutely. Because WeLovePDF runs client-side inside your browser memory (WebAssembly/JS), your documents never upload to a third-party server. They stay 100% on your device.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-trigger" aria-expanded="false">
+              <span>How does the AI Assistant work?</span>
+              <span class="faq-icon-indicator">+</span>
+            </button>
+            <div class="faq-panel">
+              <p>Our Ask PDF and Summarizer tools leverage secure AI models. The text content is processed in memory to generate responses and permanently deleted within 1 hour.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-trigger" aria-expanded="false">
+              <span>Does WeLovePDF work offline?</span>
+              <span class="faq-icon-indicator">+</span>
+            </button>
+            <div class="faq-panel">
+              <p>Yes. Once WeLovePDF is loaded in your browser window, all client-side tools work 100% offline without any active internet connection.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 15: Call To Action -->
+      <section class="footer-cta-section">
+        <div class="cta-banner">
+          <h2>Ready to simplify your PDF workflow?</h2>
+          <p>Experience fast, secure, sandboxed document management today.</p>
+          <div class="cta-actions">
+            <a href="/#tools" class="primary-btn cta-btn">Get Started Now</a>
+            <button class="ghost-btn cta-btn-sec" type="button" data-open-tool="merge-pdf">Open Workspace</button>
+          </div>
+        </div>
+      </section>
+
 
       <section id="workspace" class="workspace tool-page">
         <div class="breadcrumbs">
@@ -1324,20 +1774,31 @@
 
     <footer class="site-footer">
       <div class="footer-grid">
-        <div>
-          <h3>Product</h3>
-          <a href="/">Home</a>
-          <a href="/features">Features</a>
-          <a href="/pricing">Pricing</a>
-          <a href="/#tools">Tools</a>
-          <a href="/faq">FAQ</a>
+        <div class="footer-brand-col">
+          <a class="brand" href="/" aria-label="We Love PDF home">
+            <span class="brand-mark">W</span>
+            <span>WeLovePDF</span>
+          </a>
+          <p class="footer-brand-desc">Browser-first, private document processing utilities. All operations happen in-memory locally on your machine.</p>
+          <div class="footer-socials">
+            <a href="https://github.com/Vardannilesh2006" target="_blank" rel="noopener" aria-label="GitHub">🐱 GitHub</a>
+          </div>
         </div>
         <div>
-          <h3>Legal</h3>
-          <a href="/security">Security</a>
-          <a href="/privacy-policy">Privacy policy</a>
-          <a href="/terms-and-conditions">Terms & conditions</a>
-          <a href="/cookies">Cookies</a>
+          <h3>PDF Tools</h3>
+          <a href="/#tools">Merge PDF</a>
+          <a href="/#tools">Split PDF</a>
+          <a href="/#tools">Compress PDF</a>
+          <a href="/#tools">PDF to Word</a>
+          <a href="/#tools">Word to PDF</a>
+          <a href="/#tools">OCR PDF</a>
+        </div>
+        <div>
+          <h3>AI Tools</h3>
+          <a href="/#tools">Ask PDF</a>
+          <a href="/#tools">AI Summarizer</a>
+          <a href="/#tools">AI Translator</a>
+          <a href="/#tools">Quiz Generator</a>
         </div>
         <div>
           <h3>Company</h3>
@@ -1347,19 +1808,24 @@
           <a href="/press">Press</a>
           <a href="/sitemap">Sitemap</a>
         </div>
+        <div>
+          <h3>Legal & Support</h3>
+          <a href="/security">Security Standards</a>
+          <a href="/privacy-policy">Privacy Policy</a>
+          <a href="/terms-and-conditions">Terms & Conditions</a>
+          <a href="/cookies">Cookies & Storage</a>
+          <a href="mailto:nileshverma99731@gmail.com">Email Support</a>
+        </div>
       </div>
-      <div class="footer-sponsor">
-        <span class="sponsor-label">Sponsored</span>
-        <a href="https://www.effectivecpmnetwork.com/a9yp7fimig?key=5a9ea97e9977be804446dc588f1f7816"
-           target="_blank"
-           rel="noopener sponsored"
-           class="sponsor-link">🎁 Free Tools &amp; Exclusive Deals — Click Here</a>
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2026 WeLovePDF. Designed locally by Nilesh. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="https://www.effectivecpmnetwork.com/a9yp7fimig?key=5a9ea97e9977be804446dc588f1f7816"
+             target="_blank" rel="noopener sponsored" class="footer-sponsor-pill">🎁 Sponsor Offers</a>
+        </div>
       </div>
-      <p class="footer-copy">© 2026 We Love PDF</p>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.min.mjs" type="module"></script>
     <script src="./app.js" type="module"></script>
   </body>
 </html>

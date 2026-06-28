@@ -6,9 +6,11 @@ import { rateLimit } from "express-rate-limit";
 import multer from "multer";
 import { PDFDocument, PDFName, PDFString, StandardFonts, rgb, degrees } from "pdf-lib";
 import path from "node:path";
+import fs from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { Jimp } from "jimp";
 import Tesseract from "tesseract.js";
+import { tools, toolDescriptions, seoMeta } from "./tools-config.js";
 
 // Initialize Sentry
 Sentry.init({
@@ -85,9 +87,81 @@ app.get("/api/tools", (_req, res) => {
   });
 });
 
-app.get(/.*/, (_req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
+app.get(/.*/, async (req, res) => {
+  const urlPath = req.path.replace(/^\/+/, "").replace(/\/+$/, "");
+  
+  // Read index.html
+  let html;
+  try {
+    html = await fs.readFile(path.join(__dirname, "index.html"), "utf8");
+  } catch (err) {
+    return res.status(500).send("Internal Server Error: Missing index.html");
+  }
+  
+  // Determine SEO parameters
+  let title = "WeLovePDF — Free Online PDF Tools, No Upload Required";
+  let desc = "WeLovePDF offers 60+ free browser-based PDF tools — merge, split, compress, convert, OCR, and AI-powered PDF tools. No file upload, no signup, 100% private.";
+  let canonicalUrl = `https://welovepdf.com/${urlPath}`;
+  
+  // Check if it matches a tool
+  const t = tools.find(tool => tool[0] === urlPath);
+  const matchedMeta = seoMeta[urlPath];
+  
+  if (t) {
+    title = `${t[1]} Online Free — WeLovePDF`;
+    desc = toolDescriptions[urlPath] || `${t[1]} online for free — no file upload, no signup. Runs 100% in your browser with WeLovePDF.`;
+  } else if (matchedMeta) {
+    title = matchedMeta.title;
+    desc = matchedMeta.desc;
+  } else if (urlPath === "") {
+    canonicalUrl = "https://welovepdf.com/";
+  } else {
+    // If not a recognized subpage/tool, just serve default index.html
+    return res.send(html);
+  }
+  
+  // Replace head values in template dynamically for crawlers/readers
+  const replacedHtml = html
+    .replace(/<title>.*?<\/title>/, `<title>${title}</title>`)
+    .replace(/<meta name="description" content=".*?" \/>/, `<meta name="description" content="${desc}" />`)
+    .replace(/<link id="canonicalTag" rel="canonical" href=".*?" \/>/, `<link id="canonicalTag" rel="canonical" href="${canonicalUrl}" />`)
+    // Open Graph
+    .replace(/<meta id="ogTitle" property="og:title" content=".*?" \/>/, `<meta id="ogTitle" property="og:title" content="${title}" />`)
+    .replace(/<meta id="ogDesc" property="og:description" content=".*?" \/>/, `<meta id="ogDesc" property="og:description" content="${desc}" />`)
+    .replace(/<meta id="ogUrl" property="og:url" content=".*?" \/>/, `<meta id="ogUrl" property="og:url" content="${canonicalUrl}" />`)
+    // Twitter Card
+    .replace(/<meta id="twTitle" name="twitter:title" content=".*?" \/>/, `<meta id="twTitle" name="twitter:title" content="${title}" />`)
+    .replace(/<meta id="twDesc" name="twitter:description" content=".*?" \/>/, `<meta id="twDesc" name="twitter:description" content="${desc}" />`);
+    
+  res.send(replacedHtml);
 });
+
+// Magic Number Validation Helpers
+function isPdf(buffer) {
+  return buffer && buffer.length >= 4 && buffer.toString("hex", 0, 4) === "25504446";
+}
+
+function isPng(buffer) {
+  return buffer && buffer.length >= 8 && buffer.toString("hex", 0, 8) === "89504e470d0a1a0a";
+}
+
+function isJpeg(buffer) {
+  return buffer && buffer.length >= 3 && buffer.toString("hex", 0, 3) === "ffd8ff";
+}
+
+function validateFileSignatures(files, allowedTypes = ["pdf"]) {
+  for (const file of files) {
+    if (!file || !file.buffer) continue;
+    let isValid = false;
+    if (allowedTypes.includes("pdf") && isPdf(file.buffer)) isValid = true;
+    if (allowedTypes.includes("png") && isPng(file.buffer)) isValid = true;
+    if (allowedTypes.includes("jpeg") && isJpeg(file.buffer)) isValid = true;
+    
+    if (!isValid) {
+      throw new Error(`Invalid file type or corrupted signature for ${file.originalname}. Expected: ${allowedTypes.join(", ").toUpperCase()}`);
+    }
+  }
+}
 
 // Helper Functions for New Tools
 async function cropPdf(file, left, right, top, bottom) {
@@ -410,6 +484,14 @@ app.post("/api/process/:tool", processLimiter, upload.array("files"), async (req
     const tool = req.params.tool;
     const files = req.files || [];
     console.log("FILES RECEIVED:", files.map(f => ({ originalname: f.originalname, mimetype: f.mimetype, size: f.size, bufferHead: f.buffer ? f.buffer.slice(0, 10).toString("hex") : null })));
+
+    // Validate file signatures (Magic numbers) to prevent malicious execution/hijacking
+    if (["deskew-scan", "auto-enhance-scan", "remove-background", "ocr-pdf"].includes(tool)) {
+      validateFileSignatures(files, ["pdf", "jpeg", "png"]);
+    } else if (!["text-to-pdf", "markdown-to-pdf", "html-to-pdf", "resume-to-pdf", "url-to-pdf"].includes(tool)) {
+      validateFileSignatures(files, ["pdf"]);
+    }
+
     const text = req.body.text || "";
     let output;
 
