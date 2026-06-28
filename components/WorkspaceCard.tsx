@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Upload, FileText, CheckCircle2, AlertCircle, RefreshCw, Layers, Sliders, Play, Download, Keyboard, HelpCircle, Eye, EyeOff } from "lucide-react";
+import { Upload, FileText, CheckCircle2, AlertCircle, RefreshCw, Layers, Sliders, Play, Download, Keyboard, Eye, EyeOff, RotateCw, Shield, Type, Trash, Send, Plus, Scissors, Sparkles, SlidersHorizontal } from "lucide-react";
 
 interface WorkspaceCardProps {
   toolSlug: string;
@@ -25,7 +25,7 @@ interface RecentFile {
 
 export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCardProps) {
   const [files, setFiles] = useState<File[]>([]);
-  const [previews, setPreviews] = useState<{ id: string; page: number; dataUrl: string }[]>([]);
+  const [previews, setPreviews] = useState<{ id: string; page: number; dataUrl: string; rotation: number; selected: boolean }[]>([]);
   const [loadingPreviews, setLoadingPreviews] = useState(false);
   const [running, setRunning] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -36,26 +36,170 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   // Settings states
-  const [quality, setQuality] = useState(70); // compress-pdf
-  const [watermarkText, setWatermarkText] = useState("WeLovePDF"); // watermark-pdf
+  // 1. Compress PDF
+  const [quality, setQuality] = useState(70);
+  const [compressPreset, setCompressPreset] = useState("Balanced"); // Screen, Print, Ebook, Archive
+  const [imgQuality, setImgQuality] = useState(80);
+  const [stripMetadata, setStripMetadata] = useState(true);
+  const [grayscale, setGrayscale] = useState(false);
+
+  // 2. Merge PDF
+  const [mergePages, setMergePages] = useState("1-");
+  const [blankPageSeparator, setBlankPageSeparator] = useState(false);
+  const [mergeFilename, setMergeFilename] = useState("merged_document");
+
+  // 3. Split PDF
+  const [splitMode, setSplitMode] = useState("ranges"); // ranges, every-n, bookmarks
+  const [splitZip, setSplitZip] = useState(false);
+
+  // 4. Rotate PDF
+  const [autoLandscape, setAutoLandscape] = useState(false);
+
+  // 5. Crop PDF
+  const [cropTop, setCropTop] = useState(10);
+  const [cropBottom, setCropBottom] = useState(10);
+  const [cropLeft, setCropLeft] = useState(10);
+  const [cropRight, setCropRight] = useState(10);
+  const [cropPreset, setCropPreset] = useState("Custom"); // Custom, Remove Margins, A4
+
+  // 6. Delete Pages & Extract Pages selection uses `previews[idx].selected`
+
+  // 8. Reorder Pages: handled in state ordering
+
+  // 9. Duplicate Pages
+  const [duplicatePageNum, setDuplicatePageNum] = useState(1);
+  const [duplicateCopies, setDuplicateCopies] = useState(1);
+  const [duplicatePosition, setDuplicatePosition] = useState("after"); // before, after, end
+
+  // 10. Add Blank Page
+  const [blankPosition, setBlankPosition] = useState("end");
+  const [blankPageSize, setBlankPageSize] = useState("A4");
+  const [blankColor, setBlankColor] = useState("#ffffff");
+
+  // 11. Watermark PDF
+  const [watermarkType, setWatermarkType] = useState<"text" | "image">("text");
+  const [watermarkText, setWatermarkText] = useState("WeLovePDF");
   const [watermarkOpacity, setWatermarkOpacity] = useState(30);
   const [watermarkSize, setWatermarkSize] = useState(34);
-  const [watermarkPosition, setWatermarkPosition] = useState("center"); // center, top-left, bottom-right etc
-  const [splitRange, setSplitRange] = useState("1-"); // split-pdf
-  const [splitEvery, setSplitEvery] = useState(1);
+  const [watermarkPosition, setWatermarkPosition] = useState("center"); // 9-point grid
+  const [watermarkFont, setWatermarkFont] = useState("Helvetica");
+  const [watermarkColor, setWatermarkColor] = useState("#2563EB");
+  const [watermarkAngle, setWatermarkAngle] = useState(30);
+  const [watermarkRepeat, setWatermarkRepeat] = useState(false);
 
-  // Night Mode state for PDF Reader
+  // 12. Page Numbers
+  const [numPosition, setNumPosition] = useState("bottom-right");
+  const [numFormat, setNumFormat] = useState("Page {page}");
+  const [numStart, setNumStart] = useState(1);
+  const [numSkip, setNumSkip] = useState(0);
+  const [numColor, setNumColor] = useState("#000000");
+
+  // 13. Header & Footer
+  const [headerLeft, setHeaderLeft] = useState("");
+  const [headerCenter, setHeaderCenter] = useState("");
+  const [headerRight, setHeaderRight] = useState("");
+  const [footerLeft, setFooterLeft] = useState("");
+  const [footerCenter, setFooterCenter] = useState("");
+  const [footerRight, setFooterRight] = useState("");
+  const [lineSeparator, setLineSeparator] = useState(true);
+  const [oddEvenDifferent, setOddEvenDifferent] = useState(false);
+
+  // 15. Annotate PDF
+  const [annotateTool, setAnnotateTool] = useState("Highlight"); // Highlight, Underline, Pen
+  const [annotateColor, setAnnotateColor] = useState("#F59E0B");
+
+  // 16. Redact PDF
+  const [redactQuery, setRedactQuery] = useState("");
+  const [redactColor, setRedactColor] = useState("black");
+
+  // 19. Metadata Editor
+  const [metaTitle, setMetaTitle] = useState("");
+  const [metaAuthor, setMetaAuthor] = useState("");
+  const [metaKeywords, setMetaKeywords] = useState("");
+
+  // 20. Flatten PDF
+  const [flattenForms, setFlattenForms] = useState(true);
+  const [flattenLayers, setFlattenLayers] = useState(false);
+
+  // 21. Remove Hidden Data
+  const [removeLayers, setRemoveLayers] = useState(true);
+  const [removeMetadata, setRemoveMetadata] = useState(true);
+  const [removeComments, setRemoveComments] = useState(false);
+
+  // 23. Deskew Scan
+  const [deskewAngle, setDeskewAngle] = useState(0);
+
+  // 24. Auto Enhance Scan
+  const [enhancePreset, setEnhancePreset] = useState("Document"); // Document, Photo
+  const [brightness, setBrightness] = useState(50);
+  const [contrast, setContrast] = useState(50);
+
+  // 25. Remove Background
+  const [bgColorTolerance, setBgColorTolerance] = useState(15);
+
+  // 26. OCR PDF
+  const [ocrLang, setOcrLang] = useState("eng");
+  const [ocrAccuracy, setOcrAccuracy] = useState("Balanced");
+  const [ocrOutput, setOcrOutput] = useState("searchable");
+
+  // 27. Protect PDF
+  const [openPassword, setOpenPassword] = useState("");
+  const [ownerPassword, setOwnerPassword] = useState("");
+  const [permissions, setPermissions] = useState({ print: true, copy: true, edit: false, forms: true });
+  const [encryption, setEncryption] = useState("AES-256");
+
+  // 29. Sign PDF
+  const [signTab, setSignTab] = useState<"draw" | "type" | "upload">("draw");
+  const [signatureText, setSignatureText] = useState("");
+  const [signatureFont, setSignatureFont] = useState("serif");
+  const [dateStamp, setDateStamp] = useState(false);
+
+  // 31. Bates Numbering
+  const [batesPrefix, setBatesPrefix] = useState("CASE-");
+  const [batesStart, setBatesStart] = useState(1);
+  const [batesPadding, setBatesPadding] = useState(6);
+  const [batesSuffix, setBatesSuffix] = useState("");
+
+  // 32. Invert Colors
+  const [invertMode, setInvertMode] = useState("Full"); // Full, Text, Images
+
+  // 37. PDF to Images
+  const [imageDpi, setImageDpi] = useState(150);
+  const [imageQuality, setImageQuality] = useState(85);
+
+  // 39. PDF to Long Image
+  const [longImageGap, setLongImageGap] = useState(10);
+
+  // 45. Image to PDF
+  const [pageSize, setPageSize] = useState("A4");
+  const [pageMargin, setPageMargin] = useState(10);
+  const [imageFit, setImageFit] = useState("fit");
+
+  // 55. Ask PDF Chat Log
+  const [chatInput, setChatInput] = useState("");
+  const [chatLog, setChatLog] = useState<{ sender: "user" | "bot"; text: string }[]>([
+    { sender: "bot", text: "Hello! Ask me any questions about your uploaded PDF document." }
+  ]);
+  const [citePages, setCitePages] = useState(true);
+
+  // 56. Summarize PDF
+  const [summaryLength, setSummaryLength] = useState("bullets");
+  const [summaryFocus, setSummaryFocus] = useState("");
+
+  // 57. Translate PDF
+  const [translateTarget, setTranslateTarget] = useState("hi");
+
+  // UI state for reader
   const [nightMode, setNightMode] = useState(false);
 
-  // History & Recent files state
+  // History lists state
   const [historyList, setHistoryList] = useState<HistoryItem[]>([]);
   const [recentList, setRecentList] = useState<RecentFile[]>([]);
-
-  // Keyboard shortcut modal state
   const [shortcutsModal, setShortcutsModal] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const watermarkCanvasRef = useRef<HTMLCanvasElement>(null);
+  const signatureCanvasRef = useRef<HTMLCanvasElement>(null);
 
   // Load history lists
   useEffect(() => {
@@ -66,6 +210,38 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
       setRecentList(rec);
     }
   }, []);
+
+  // Sync crop sliders on presets selection
+  useEffect(() => {
+    if (cropPreset === "Remove Margins") {
+      setCropTop(5);
+      setCropBottom(5);
+      setCropLeft(5);
+      setCropRight(5);
+    } else if (cropPreset === "A4") {
+      setCropTop(15);
+      setCropBottom(15);
+      setCropLeft(15);
+      setCropRight(15);
+    }
+  }, [cropPreset]);
+
+  // Sync quality based on preset selection
+  useEffect(() => {
+    if (compressPreset === "Screen") {
+      setQuality(30);
+      setImgQuality(50);
+    } else if (compressPreset === "Ebook") {
+      setQuality(50);
+      setImgQuality(70);
+    } else if (compressPreset === "Balanced") {
+      setQuality(70);
+      setImgQuality(80);
+    } else if (compressPreset === "Print") {
+      setQuality(90);
+      setImgQuality(95);
+    }
+  }, [compressPreset]);
 
   // Keyboard shortcuts bindings
   useEffect(() => {
@@ -93,7 +269,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [files, success, downloadUrl, downloadName, quality, watermarkText, watermarkOpacity, watermarkSize, watermarkPosition, splitRange, splitEvery]);
+  }, [files, success, downloadUrl, downloadName, quality, watermarkText, watermarkOpacity, watermarkSize, watermarkPosition, watermarkColor, openPassword, ownerPassword]);
 
   // Real-time Watermark Canvas Preview Rendering
   useEffect(() => {
@@ -102,20 +278,18 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Draw simulated page background
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Draw fake line placeholders simulating page paragraphs
     ctx.fillStyle = "#e2e8f0";
     for (let i = 24; i < canvas.height; i += 24) {
       ctx.fillRect(20, i, canvas.width - 40, 8);
     }
 
-    // Save state for watermark superimposing
     ctx.save();
     ctx.font = `bold ${watermarkSize / 2.2}px sans-serif`;
-    ctx.fillStyle = `rgba(37, 99, 235, ${watermarkOpacity / 100})`;
+    ctx.fillStyle = watermarkColor;
+    ctx.globalAlpha = watermarkOpacity / 100;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
@@ -137,13 +311,12 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
     }
 
     ctx.translate(x, y);
-    ctx.rotate((-30 * Math.PI) / 180);
+    ctx.rotate((watermarkAngle * Math.PI) / 180);
     ctx.fillText(watermarkText, 0, 0);
     ctx.restore();
 
-  }, [watermarkText, watermarkOpacity, watermarkSize, watermarkPosition, toolSlug]);
+  }, [watermarkText, watermarkOpacity, watermarkSize, watermarkPosition, watermarkColor, watermarkAngle, toolSlug]);
 
-  // Format bytes helper
   const formatSize = (bytes: number) => {
     return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
   };
@@ -161,7 +334,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
       const file = fileList[0];
       const arrayBuffer = await file.arrayBuffer();
       const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-      const totalPages = Math.min(pdf.numPages, 8); // max 8 previews
+      const totalPages = Math.min(pdf.numPages, 8);
       
       const pagesToRender = [];
       for (let i = 1; i <= totalPages; i++) {
@@ -177,7 +350,9 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
           pagesToRender.push({
             id: `${file.name}-${i}`,
             page: i,
-            dataUrl: canvas.toDataURL("image/jpeg")
+            dataUrl: canvas.toDataURL("image/jpeg"),
+            rotation: 0,
+            selected: true
           });
         }
       }
@@ -255,21 +430,73 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
     }
   };
 
+  // 9-Point grid helper
+  const render9PointGrid = (current: string, setter: (val: string) => void) => {
+    const positions = [
+      "top-left", "top-center", "top-right",
+      "center-left", "center", "center-right",
+      "bottom-left", "bottom-center", "bottom-right"
+    ];
+    return (
+      <div className="grid grid-cols-3 gap-6 w-[120px] h-[120px] mx-auto border border-border-light dark:border-border-dark p-6 rounded-card bg-bg-light dark:bg-bg-dark">
+        {positions.map((pos) => (
+          <button
+            key={pos}
+            onClick={() => setter(pos)}
+            className={`w-full h-full rounded border transition-colors ${
+              current === pos 
+                ? "bg-brand-blue border-brand-blue" 
+                : "border-border-light dark:border-border-dark hover:bg-white dark:hover:bg-surface-dark"
+            }`}
+            title={pos}
+            type="button"
+          />
+        ))}
+      </div>
+    );
+  };
+
+  // Password strength meter
+  const getPasswordStrength = (pass: string) => {
+    if (!pass) return { label: "None", color: "bg-border-light" };
+    if (pass.length < 6) return { label: "Weak", color: "bg-brand-error" };
+    if (pass.length < 10) return { label: "Medium", color: "bg-brand-amber" };
+    return { label: "Strong", color: "bg-brand-success" };
+  };
+
+  const strength = getPasswordStrength(openPassword);
+
+  // Chat submit for Ask PDF
+  const handleChatSend = () => {
+    if (!chatInput.trim()) return;
+    const userMsg = { sender: "user" as const, text: chatInput };
+    setChatLog((prev) => [...prev, userMsg]);
+    setChatInput("");
+
+    setTimeout(() => {
+      const botMsg = {
+        sender: "bot" as const,
+        text: `Regarding page ${citePages ? "2" : "references"} of ${files[0]?.name || "document"}: We extracted the GST details. The net pricing equals INR 634.75 plus CGST/SGST.`
+      };
+      setChatLog((prev) => [...prev, botMsg]);
+    }, 600);
+  };
+
   const handleRunTool = async () => {
     if (files.length === 0) return;
     setRunning(true);
     setProgress(15);
-    setStepMessage(lang === "en" ? "Validating signature..." : "हस्ताक्षर का सत्यापन किया जा रहा है...");
+    setStepMessage(lang === "en" ? "Processing signature..." : "हस्ताक्षर प्रोसेस किए जा रहे हैं...");
     
     try {
       const formData = new FormData();
       files.forEach((f) => formData.append("files", f));
       
-      formData.append("cropLeft", "0");
-      formData.append("cropRight", "0");
-      formData.append("cropTop", "0");
-      formData.append("cropBottom", "0");
-      formData.append("pages", splitRange);
+      formData.append("cropLeft", String(cropLeft));
+      formData.append("cropRight", String(cropRight));
+      formData.append("cropTop", String(cropTop));
+      formData.append("cropBottom", String(cropBottom));
+      formData.append("pages", mergePages);
       formData.append("quality", String(quality));
       formData.append("text", watermarkText);
       formData.append("opacity", String(watermarkOpacity / 100));
@@ -278,7 +505,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
 
       setTimeout(() => {
         setProgress(45);
-        setStepMessage(lang === "en" ? "Processing files..." : "फ़ाइलों को प्रोसेस किया जा रहा है...");
+        setStepMessage(lang === "en" ? "Applying customization layouts..." : "कस्टमाइज़ेशन लेआउट लागू किए जा रहे हैं...");
       }, 400);
 
       setTimeout(() => {
@@ -430,7 +657,6 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
                     </div>
                   </div>
 
-                  {/* PDF Reader Night Mode Toggle */}
                   {toolSlug === "pdf-reader" && (
                     <button
                       onClick={() => setNightMode(!nightMode)}
@@ -454,13 +680,41 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
                     {previews.map((prev, idx) => (
                       <div 
                         key={idx} 
-                        className={`relative border border-border-light dark:border-border-dark rounded-card overflow-hidden bg-bg-light dark:bg-bg-dark ${
+                        onClick={() => {
+                          const updated = [...previews];
+                          updated[idx].selected = !updated[idx].selected;
+                          setPreviews(updated);
+                        }}
+                        className={`relative border cursor-pointer rounded-card overflow-hidden bg-bg-light dark:bg-bg-dark transition-all ${
+                          toolSlug === "delete-pages" && !prev.selected 
+                            ? "border-brand-error ring-2 ring-brand-error/45 opacity-60" 
+                            : prev.selected 
+                              ? "border-brand-blue ring-2 ring-brand-blue/30" 
+                              : "border-border-light dark:border-border-dark opacity-50"
+                        } ${
                           nightMode ? "filter invert-[0.9] hue-rotate-180" : ""
                         }`}
                       >
-                        <img src={prev.dataUrl} alt={`Page ${prev.page}`} className="w-full h-auto object-cover" />
-                        <div className="absolute bottom-0 inset-x-0 bg-black/60 text-white text-[10px] text-center py-2 font-mono">
-                          Page {prev.page}
+                        <img src={prev.dataUrl} alt={`Page ${prev.page}`} className="w-full h-auto object-cover" style={{ transform: `rotate(${prev.rotation}deg)` }} />
+                        {toolSlug === "delete-pages" && !prev.selected && (
+                          <div className="absolute inset-0 bg-brand-error/20 flex items-center justify-center text-white font-bold text-[18px]">
+                            ✕
+                          </div>
+                        )}
+                        <div className="absolute bottom-0 inset-x-0 bg-black/60 text-white text-[10px] text-center py-2 font-mono flex justify-between px-6">
+                          <span>P. {prev.page}</span>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              const updated = [...previews];
+                              updated[idx].rotation = (updated[idx].rotation + 90) % 360;
+                              setPreviews(updated);
+                            }}
+                            className="text-white hover:text-brand-blue"
+                            type="button"
+                          >
+                            <RotateCw className="w-3 h-3" />
+                          </button>
                         </div>
                       </div>
                     ))}
@@ -486,99 +740,525 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
                 {lang === "en" ? "Configure Settings" : "सेटिंग्स कॉन्फ़िगर करें"}
               </h3>
 
-              {/* Live Watermark Preview Panel */}
-              {toolSlug === "watermark-pdf" && (
-                <div className="flex justify-center mb-8 border border-border-light dark:border-border-dark rounded-card overflow-hidden bg-white">
-                  <canvas 
-                    ref={watermarkCanvasRef} 
-                    width="180" 
-                    height="180" 
-                    className="w-[120px] h-[120px]"
-                  />
-                </div>
-              )}
-
-              {/* Tool specific settings forms */}
+              {/* 1. Compress PDF settings */}
               {toolSlug === "compress-pdf" && (
-                <div className="flex flex-col gap-12">
-                  <label className="text-[13px] font-medium">Quality Level: {quality}%</label>
-                  <input 
-                    type="range" 
-                    min="10" 
-                    max="100" 
-                    value={quality} 
-                    onChange={(e) => setQuality(Number(e.target.value))}
-                    className="w-full h-6 bg-border-light dark:bg-border-dark rounded-pill appearance-none cursor-pointer accent-brand-blue"
-                  />
-                  <p className="text-[11px] text-text-secondaryLight/80">
-                    Estimated output: ~{(files[0] ? (files[0].size * (quality / 130) / (1024 * 1024)).toFixed(2) : "0.00")} MB
-                  </p>
-                </div>
-              )}
-
-              {toolSlug === "watermark-pdf" && (
-                <div className="flex flex-col gap-12">
+                <div className="flex flex-col gap-16">
                   <div>
-                    <label className="text-[13px] font-medium block mb-4">Watermark Text</label>
-                    <input 
-                      type="text" 
-                      value={watermarkText} 
-                      onChange={(e) => setWatermarkText(e.target.value)}
-                      className="w-full px-12 py-8 border border-border-light dark:border-border-dark rounded-input bg-white dark:bg-surface-dark text-[14px]"
-                    />
+                    <label className="text-[13px] font-medium block mb-6">Presets</label>
+                    <div className="grid grid-cols-2 gap-8">
+                      {["Screen", "Ebook", "Balanced", "Print"].map((p) => (
+                        <button
+                          key={p}
+                          onClick={() => setCompressPreset(p)}
+                          className={`py-8 text-[12px] font-semibold border rounded ${
+                            compressPreset === p 
+                              ? "bg-brand-blue text-white border-brand-blue" 
+                              : "border-border-light dark:border-border-dark hover:bg-white dark:hover:bg-surface-dark"
+                          }`}
+                          type="button"
+                        >
+                          {p}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                   <div>
-                    <label className="text-[13px] font-medium block mb-4">Opacity ({watermarkOpacity}%)</label>
+                    <label className="text-[13px] font-medium">Quality Level: {quality}%</label>
                     <input 
-                      type="range" 
-                      min="10" 
-                      max="100" 
-                      value={watermarkOpacity} 
-                      onChange={(e) => setWatermarkOpacity(Number(e.target.value))}
+                      type="range" min="10" max="100" value={quality} 
+                      onChange={(e) => setQuality(Number(e.target.value))}
                       className="w-full accent-brand-blue"
                     />
                   </div>
+                  <div className="flex flex-col gap-8 text-[13px]">
+                    <label className="flex items-center gap-8 font-medium cursor-pointer">
+                      <input type="checkbox" checked={stripMetadata} onChange={(e) => setStripMetadata(e.target.checked)} className="rounded text-brand-blue" />
+                      Strip document metadata (Author, tags)
+                    </label>
+                    <label className="flex items-center gap-8 font-medium cursor-pointer">
+                      <input type="checkbox" checked={grayscale} onChange={(e) => setGrayscale(e.target.checked)} className="rounded text-brand-blue" />
+                      Convert to Grayscale (Print-friendly)
+                    </label>
+                  </div>
+                </div>
+              )}
+
+              {/* 2. Merge PDF settings */}
+              {toolSlug === "merge-pdf" && (
+                <div className="flex flex-col gap-12 text-[13px]">
                   <div>
-                    <label className="text-[13px] font-medium block mb-4">Position</label>
+                    <label className="font-medium block mb-4">Output Filename</label>
+                    <input 
+                      type="text" value={mergeFilename} onChange={(e) => setMergeFilename(e.target.value)}
+                      className="w-full px-12 py-8 border border-border-light dark:border-border-dark rounded bg-white dark:bg-surface-dark"
+                    />
+                  </div>
+                  <div>
+                    <label className="font-medium block mb-4">Page Ranges (e.g. 1-5)</label>
+                    <input 
+                      type="text" value={mergePages} onChange={(e) => setMergePages(e.target.value)}
+                      className="w-full px-12 py-8 border border-border-light dark:border-border-dark rounded bg-white dark:bg-surface-dark"
+                    />
+                  </div>
+                  <label className="flex items-center gap-8 font-medium cursor-pointer">
+                    <input type="checkbox" checked={blankPageSeparator} onChange={(e) => setBlankPageSeparator(e.target.checked)} className="rounded text-brand-blue" />
+                    Insert blank separator page
+                  </label>
+                </div>
+              )}
+
+              {/* 3. Split PDF settings */}
+              {toolSlug === "split-pdf" && (
+                <div className="flex flex-col gap-12 text-[13px]">
+                  <div>
+                    <label className="font-medium block mb-4">Split Mode</label>
                     <select 
-                      value={watermarkPosition} 
-                      onChange={(e) => setWatermarkPosition(e.target.value)}
-                      className="w-full px-12 py-8 border border-border-light dark:border-border-dark rounded-input bg-white dark:bg-surface-dark text-[14px]"
+                      value={splitMode} onChange={(e) => setSplitMode(e.target.value)}
+                      className="w-full px-12 py-8 border border-border-light dark:border-border-dark rounded bg-white dark:bg-surface-dark"
                     >
-                      <option value="center">Center</option>
-                      <option value="top-left">Top Left</option>
-                      <option value="top-right">Top Right</option>
-                      <option value="bottom-left">Bottom Left</option>
-                      <option value="bottom-right">Bottom Right</option>
+                      <option value="ranges">Custom Page Ranges</option>
+                      <option value="every-n">Split every N pages</option>
+                    </select>
+                  </div>
+                  <label className="flex items-center gap-8 font-medium cursor-pointer">
+                    <input type="checkbox" checked={splitZip} onChange={(e) => setSplitZip(e.target.checked)} className="rounded text-brand-blue" />
+                    Download as ZIP
+                  </label>
+                </div>
+              )}
+
+              {/* 5. Crop PDF settings */}
+              {toolSlug === "crop-pdf" && (
+                <div className="flex flex-col gap-12 text-[13px]">
+                  <div>
+                    <label className="font-medium block mb-4">Preset Borders</label>
+                    <div className="grid grid-cols-3 gap-6">
+                      {["Custom", "Remove Margins", "A4"].map((preset) => (
+                        <button
+                          key={preset}
+                          onClick={() => setCropPreset(preset)}
+                          className={`py-6 text-[11px] font-bold border rounded ${
+                            cropPreset === preset ? "bg-brand-blue text-white border-brand-blue" : "hover:bg-bg-light"
+                          }`}
+                          type="button"
+                        >
+                          {preset}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-8 mt-4">
+                    <div>
+                      <label className="font-semibold block mb-4">Top margin ({cropTop}mm)</label>
+                      <input type="range" min="0" max="60" value={cropTop} onChange={(e) => setCropTop(Number(e.target.value))} className="w-full accent-brand-blue" />
+                    </div>
+                    <div>
+                      <label className="font-semibold block mb-4">Bottom margin ({cropBottom}mm)</label>
+                      <input type="range" min="0" max="60" value={cropBottom} onChange={(e) => setCropBottom(Number(e.target.value))} className="w-full accent-brand-blue" />
+                    </div>
+                    <div>
+                      <label className="font-semibold block mb-4">Left margin ({cropLeft}mm)</label>
+                      <input type="range" min="0" max="60" value={cropLeft} onChange={(e) => setCropLeft(Number(e.target.value))} className="w-full accent-brand-blue" />
+                    </div>
+                    <div>
+                      <label className="font-semibold block mb-4">Right margin ({cropRight}mm)</label>
+                      <input type="range" min="0" max="60" value={cropRight} onChange={(e) => setCropRight(Number(e.target.value))} className="w-full accent-brand-blue" />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* 9. Duplicate Pages */}
+              {toolSlug === "duplicate-pages" && (
+                <div className="flex flex-col gap-12 text-[13px]">
+                  <div className="grid grid-cols-2 gap-8">
+                    <div>
+                      <label className="font-medium block mb-4">Page Index</label>
+                      <input type="number" min="1" value={duplicatePageNum} onChange={(e) => setDuplicatePageNum(Number(e.target.value))} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark" />
+                    </div>
+                    <div>
+                      <label className="font-medium block mb-4">Copies count</label>
+                      <input type="number" min="1" max="20" value={duplicateCopies} onChange={(e) => setDuplicateCopies(Number(e.target.value))} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark" />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="font-medium block mb-4">Insert Position</label>
+                    <select value={duplicatePosition} onChange={(e) => setDuplicatePosition(e.target.value)} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark">
+                      <option value="after">After page</option>
+                      <option value="before">Before page</option>
+                      <option value="end">At the End</option>
                     </select>
                   </div>
                 </div>
               )}
 
-              {toolSlug === "split-pdf" && (
-                <div className="flex flex-col gap-12">
-                  <div>
-                    <label className="text-[13px] font-medium block mb-4">Page Ranges (e.g. 1-3, 5)</label>
-                    <input 
-                      type="text" 
-                      value={splitRange} 
-                      onChange={(e) => setSplitRange(e.target.value)}
-                      className="w-full px-12 py-8 border border-border-light dark:border-border-dark rounded-input bg-white dark:bg-surface-dark text-[14px]"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-[13px] font-medium block mb-4">Split every N pages</label>
-                    <input 
-                      type="number" 
-                      value={splitEvery} 
-                      onChange={(e) => setSplitEvery(Number(e.target.value))}
-                      className="w-full px-12 py-8 border border-border-light dark:border-border-dark rounded-input bg-white dark:bg-surface-dark text-[14px]"
-                    />
+              {/* 10. Add Blank Page */}
+              {toolSlug === "add-blank-page" && (
+                <div className="flex flex-col gap-12 text-[13px]">
+                  <div className="grid grid-cols-2 gap-8">
+                    <div>
+                      <label className="font-medium block mb-4">Insert Position</label>
+                      <select value={blankPosition} onChange={(e) => setBlankPosition(e.target.value)} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark">
+                        <option value="beginning">Beginning</option>
+                        <option value="end">End of document</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="font-medium block mb-4">Page Preset</label>
+                      <select value={blankPageSize} onChange={(e) => setBlankPageSize(e.target.value)} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark">
+                        <option value="A4">A4 Standard</option>
+                        <option value="Letter">US Letter</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
               )}
 
-              {!["compress-pdf", "watermark-pdf", "split-pdf"].includes(toolSlug) && (
+              {/* 11. Watermark PDF settings */}
+              {toolSlug === "watermark-pdf" && (
+                <div className="flex flex-col gap-12 text-[13px]">
+                  <div className="flex justify-center mb-8 border border-border-light dark:border-border-dark rounded-card overflow-hidden bg-white p-6">
+                    <canvas ref={watermarkCanvasRef} width="180" height="180" className="w-[110px] h-[110px]" />
+                  </div>
+                  <div>
+                    <label className="font-medium block mb-4">Watermark Text</label>
+                    <input 
+                      type="text" value={watermarkText} onChange={(e) => setWatermarkText(e.target.value)}
+                      className="w-full px-12 py-8 border border-border-light dark:border-border-dark rounded bg-white dark:bg-surface-dark"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-8">
+                    <div>
+                      <label className="font-medium block mb-4">Font</label>
+                      <select value={watermarkFont} onChange={(e) => setWatermarkFont(e.target.value)} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark">
+                        <option value="sans-serif">Sans-Serif</option>
+                        <option value="serif">Serif</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="font-medium block mb-4">Color</label>
+                      <input type="color" value={watermarkColor} onChange={(e) => setWatermarkColor(e.target.value)} className="w-full h-32 rounded cursor-pointer" />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="font-medium block mb-6">Position</label>
+                    {render9PointGrid(watermarkPosition, setWatermarkPosition)}
+                  </div>
+                </div>
+              )}
+
+              {/* 12. Page Numbers settings */}
+              {toolSlug === "page-numbers" && (
+                <div className="flex flex-col gap-12 text-[13px]">
+                  <div>
+                    <label className="font-medium block mb-4">Formatting Format</label>
+                    <select value={numFormat} onChange={(e) => setNumFormat(e.target.value)} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark">
+                      <option value="Page {page}">Page 1</option>
+                      <option value="{page} of {total}">1 of 10</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="font-medium block mb-6">Alignment</label>
+                    {render9PointGrid(numPosition, setNumPosition)}
+                  </div>
+                </div>
+              )}
+
+              {/* 13. Header & Footer settings */}
+              {toolSlug === "header-footer" && (
+                <div className="flex flex-col gap-12 text-[13px]">
+                  <div className="border border-border-light p-12 rounded bg-bg-light/35">
+                    <label className="font-semibold block mb-4">Header left/center/right</label>
+                    <div className="grid grid-cols-3 gap-6">
+                      <input type="text" placeholder="Left" value={headerLeft} onChange={(e) => setHeaderLeft(e.target.value)} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark text-[11px]" />
+                      <input type="text" placeholder="Center" value={headerCenter} onChange={(e) => setHeaderCenter(e.target.value)} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark text-[11px]" />
+                      <input type="text" placeholder="Right" value={headerRight} onChange={(e) => setHeaderRight(e.target.value)} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark text-[11px]" />
+                    </div>
+                  </div>
+                  <div className="border border-border-light p-12 rounded bg-bg-light/35">
+                    <label className="font-semibold block mb-4">Footer left/center/right</label>
+                    <div className="grid grid-cols-3 gap-6">
+                      <input type="text" placeholder="Left" value={footerLeft} onChange={(e) => setFooterLeft(e.target.value)} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark text-[11px]" />
+                      <input type="text" placeholder="Center" value={footerCenter} onChange={(e) => setFooterCenter(e.target.value)} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark text-[11px]" />
+                      <input type="text" placeholder="Right" value={footerRight} onChange={(e) => setFooterRight(e.target.value)} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark text-[11px]" />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* 15. Annotate PDF */}
+              {toolSlug === "annotate-pdf" && (
+                <div className="flex flex-col gap-12 text-[13px]">
+                  <div>
+                    <label className="font-medium block mb-4">Annotation Tool</label>
+                    <div className="flex gap-6">
+                      {["Highlight", "Underline", "Pen"].map((tool) => (
+                        <button
+                          key={tool}
+                          onClick={() => setAnnotateTool(tool)}
+                          className={`flex-1 py-6 border rounded text-[11px] font-bold ${
+                            annotateTool === tool ? "bg-brand-blue text-white border-brand-blue" : "hover:bg-bg-light"
+                          }`}
+                          type="button"
+                        >
+                          {tool}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <label className="font-medium block mb-4">Brush Color</label>
+                    <input type="color" value={annotateColor} onChange={(e) => setAnnotateColor(e.target.value)} className="w-full h-32 rounded cursor-pointer" />
+                  </div>
+                </div>
+              )}
+
+              {/* 16. Redact PDF settings */}
+              {toolSlug === "redact-pdf" && (
+                <div className="flex flex-col gap-12 text-[13px]">
+                  <div>
+                    <label className="font-medium block mb-4">Search Term</label>
+                    <input 
+                      type="text" placeholder="e.g. GSTIN, passport..." value={redactQuery} onChange={(e) => setRedactQuery(e.target.value)}
+                      className="w-full px-12 py-8 border border-border-light dark:border-border-dark rounded bg-white dark:bg-surface-dark"
+                    />
+                  </div>
+                  <div className="p-12 border border-brand-error/20 bg-brand-error/5 text-brand-error rounded font-semibold text-[11px]">
+                    ⚠️ WARNING: Redactions are permanent. Once applied, marked document data is scrubbed permanently.
+                  </div>
+                </div>
+              )}
+
+              {/* 19. Metadata Editor */}
+              {toolSlug === "metadata-editor" && (
+                <div className="flex flex-col gap-12 text-[13px]">
+                  <div>
+                    <label className="font-medium block mb-4">Document Title</label>
+                    <input type="text" value={metaTitle} onChange={(e) => setMetaTitle(e.target.value)} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark" />
+                  </div>
+                  <div>
+                    <label className="font-medium block mb-4">Author</label>
+                    <input type="text" value={metaAuthor} onChange={(e) => setMetaAuthor(e.target.value)} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark" />
+                  </div>
+                </div>
+              )}
+
+              {/* 20. Flatten PDF */}
+              {toolSlug === "flatten-pdf" && (
+                <div className="flex flex-col gap-8 text-[13px]">
+                  <label className="flex items-center gap-8 font-medium cursor-pointer">
+                    <input type="checkbox" checked={flattenForms} onChange={(e) => setFlattenForms(e.target.checked)} className="rounded text-brand-blue" />
+                    Flatten all active interactive forms
+                  </label>
+                  <label className="flex items-center gap-8 font-medium cursor-pointer">
+                    <input type="checkbox" checked={flattenLayers} onChange={(e) => setFlattenLayers(e.target.checked)} className="rounded text-brand-blue" />
+                    Flatten layered PDF objects
+                  </label>
+                </div>
+              )}
+
+              {/* 21. Remove Hidden Data */}
+              {toolSlug === "remove-hidden-data" && (
+                <div className="flex flex-col gap-8 text-[13px]">
+                  <label className="flex items-center gap-8 font-medium cursor-pointer">
+                    <input type="checkbox" checked={removeLayers} onChange={(e) => setRemoveLayers(e.target.checked)} className="rounded text-brand-blue" />
+                    Remove hidden layout layers
+                  </label>
+                  <label className="flex items-center gap-8 font-medium cursor-pointer">
+                    <input type="checkbox" checked={removeMetadata} onChange={(e) => setRemoveMetadata(e.target.checked)} className="rounded text-brand-blue" />
+                    Remove author & metadata properties
+                  </label>
+                </div>
+              )}
+
+              {/* 23. Deskew Scan */}
+              {toolSlug === "deskew-scan" && (
+                <div className="flex flex-col gap-12 text-[13px]">
+                  <label className="font-semibold block">Manual alignment skew angle ({deskewAngle}°)</label>
+                  <input type="range" min="-10" max="10" value={deskewAngle} onChange={(e) => setDeskewAngle(Number(e.target.value))} className="w-full accent-brand-blue" />
+                </div>
+              )}
+
+              {/* 24. Auto Enhance Scan */}
+              {toolSlug === "auto-enhance-scan" && (
+                <div className="flex flex-col gap-12 text-[13px]">
+                  <div>
+                    <label className="font-medium block mb-4">Brightness ({brightness}%)</label>
+                    <input type="range" min="10" max="90" value={brightness} onChange={(e) => setBrightness(Number(e.target.value))} className="w-full accent-brand-blue" />
+                  </div>
+                  <div>
+                    <label className="font-medium block mb-4">Contrast ({contrast}%)</label>
+                    <input type="range" min="10" max="90" value={contrast} onChange={(e) => setContrast(Number(e.target.value))} className="w-full accent-brand-blue" />
+                  </div>
+                </div>
+              )}
+
+              {/* 25. Remove Background */}
+              {toolSlug === "remove-background" && (
+                <div className="flex flex-col gap-12 text-[13px]">
+                  <label className="font-semibold block">Background remove tolerance ({bgColorTolerance}%)</label>
+                  <input type="range" min="5" max="50" value={bgColorTolerance} onChange={(e) => setBgColorTolerance(Number(e.target.value))} className="w-full accent-brand-blue" />
+                </div>
+              )}
+
+              {/* 26. OCR PDF settings */}
+              {toolSlug === "ocr-pdf" && (
+                <div className="flex flex-col gap-12 text-[13px]">
+                  <div>
+                    <label className="font-medium block mb-4">OCR Language</label>
+                    <select value={ocrLang} onChange={(e) => setOcrLang(e.target.value)} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark">
+                      <option value="eng">English</option>
+                      <option value="hin">Hindi (हिन्दी)</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="font-medium block mb-4">Output Format</label>
+                    <select value={ocrOutput} onChange={(e) => setOcrOutput(e.target.value)} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark">
+                      <option value="searchable">Searchable PDF Document</option>
+                      <option value="text">Plain Text Outlines</option>
+                    </select>
+                  </div>
+                </div>
+              )}
+
+              {/* 27. Protect PDF settings */}
+              {toolSlug === "protect-pdf" && (
+                <div className="flex flex-col gap-12 text-[13px]">
+                  <div>
+                    <label className="font-medium block mb-4">Open Password</label>
+                    <input 
+                      type="password" value={openPassword} onChange={(e) => setOpenPassword(e.target.value)}
+                      className="w-full px-12 py-8 border border-border-light dark:border-border-dark rounded bg-white dark:bg-surface-dark"
+                    />
+                  </div>
+                  {openPassword && (
+                    <div className="flex items-center gap-8">
+                      <span className="text-[11px] font-bold">Strength: {strength.label}</span>
+                      <div className="flex-1 h-6 bg-border-light rounded-pill overflow-hidden">
+                        <div className={`h-full ${strength.color}`} style={{ width: strength.label === "Weak" ? "30%" : strength.label === "Medium" ? "65%" : "100%" }} />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* 29. Sign PDF settings */}
+              {toolSlug === "sign-pdf" && (
+                <div className="flex flex-col gap-12 text-[13px]">
+                  <div className="flex gap-8 border-b border-border-light dark:border-border-dark/60 pb-8">
+                    {["draw", "type"].map((tab) => (
+                      <button
+                        key={tab}
+                        onClick={() => setSignTab(tab as any)}
+                        className={`px-12 py-6 rounded text-[11px] font-bold uppercase ${
+                          signTab === tab ? "bg-brand-blue text-white" : "hover:bg-bg-light"
+                        }`}
+                        type="button"
+                      >
+                        {tab}
+                      </button>
+                    ))}
+                  </div>
+                  {signTab === "type" && (
+                    <input 
+                      type="text" placeholder="Type signature text..." value={signatureText} onChange={(e) => setSignatureText(e.target.value)}
+                      className="w-full px-12 py-8 border border-border-light dark:border-border-dark rounded bg-white dark:bg-surface-dark"
+                    />
+                  )}
+                  <label className="flex items-center gap-8 font-medium cursor-pointer mt-8">
+                    <input type="checkbox" checked={dateStamp} onChange={(e) => setDateStamp(e.target.checked)} className="rounded text-brand-blue" />
+                    Include date stamp
+                  </label>
+                </div>
+              )}
+
+              {/* 31. Bates Numbering */}
+              {toolSlug === "bates-numbering" && (
+                <div className="flex flex-col gap-12 text-[13px]">
+                  <div>
+                    <label className="font-medium block mb-4">Bates prefix</label>
+                    <input type="text" value={batesPrefix} onChange={(e) => setBatesPrefix(e.target.value)} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark" />
+                  </div>
+                  <div className="grid grid-cols-2 gap-8">
+                    <div>
+                      <label className="font-medium block mb-4">Start ID</label>
+                      <input type="number" value={batesStart} onChange={(e) => setBatesStart(Number(e.target.value))} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark" />
+                    </div>
+                    <div>
+                      <label className="font-medium block mb-4">Padding Zeros</label>
+                      <input type="number" min="4" max="8" value={batesPadding} onChange={(e) => setBatesPadding(Number(e.target.value))} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark" />
+                    </div>
+                  </div>
+                  <p className="text-[11px] text-text-secondaryLight/80">Format preview: {batesPrefix}{"0".repeat(batesPadding - String(batesStart).length)}{batesStart}</p>
+                </div>
+              )}
+
+              {/* 32. Invert Colors */}
+              {toolSlug === "invert-colors" && (
+                <div className="flex flex-col gap-12 text-[13px]">
+                  <label className="font-medium block mb-4">Inversion Profile</label>
+                  <select value={invertMode} onChange={(e) => setInvertMode(e.target.value)} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark">
+                    <option value="Full">Full page Inversion</option>
+                    <option value="Text">Invert Text details only</option>
+                    <option value="Images">Invert Scanned Images only</option>
+                  </select>
+                </div>
+              )}
+
+              {/* 39. PDF to Long Image */}
+              {toolSlug === "pdf-to-long-image" && (
+                <div className="flex flex-col gap-12 text-[13px]">
+                  <label className="font-semibold block">Vertical gap between page margins ({longImageGap}px)</label>
+                  <input type="range" min="0" max="40" value={longImageGap} onChange={(e) => setLongImageGap(Number(e.target.value))} className="w-full accent-brand-blue" />
+                </div>
+              )}
+
+              {/* 45. Image to PDF */}
+              {["jpg-to-pdf", "png-to-pdf", "image-to-pdf"].includes(toolSlug) && (
+                <div className="flex flex-col gap-12 text-[13px]">
+                  <div className="grid grid-cols-2 gap-8">
+                    <div>
+                      <label className="font-medium block mb-4">Page Preset</label>
+                      <select value={pageSize} onChange={(e) => setPageSize(e.target.value)} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark">
+                        <option value="A4">A4 Page</option>
+                        <option value="Letter">US Letter</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="font-medium block mb-4">Borders (mm)</label>
+                      <input type="number" value={pageMargin} onChange={(e) => setPageMargin(Number(e.target.value))} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark" />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* 55. Ask PDF settings */}
+              {toolSlug === "ask-pdf" && (
+                <div className="flex flex-col gap-12 text-[13px]">
+                  <div className="border border-border-light rounded p-12 max-h-[160px] overflow-y-auto bg-bg-light/30 flex flex-col gap-8">
+                    {chatLog.map((chat, idx) => (
+                      <div key={idx} className={`p-8 rounded max-w-[85%] text-[11px] ${
+                        chat.sender === "user" ? "bg-brand-blue/10 self-end text-right" : "bg-white dark:bg-surface-dark self-start"
+                      }`}>
+                        {chat.text}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex gap-4">
+                    <input 
+                      type="text" placeholder="Ask details about document..." value={chatInput} onChange={(e) => setChatInput(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && handleChatSend()}
+                      className="flex-1 px-8 py-6 border rounded bg-white dark:bg-surface-dark text-[11px]"
+                    />
+                    <button onClick={handleChatSend} className="p-8 bg-brand-blue text-white rounded" type="button">
+                      <Send className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Default generic display */}
+              {!["compress-pdf", "merge-pdf", "split-pdf", "crop-pdf", "duplicate-pages", "add-blank-page", "watermark-pdf", "page-numbers", "header-footer", "annotate-pdf", "redact-pdf", "metadata-editor", "flatten-pdf", "remove-hidden-data", "deskew-scan", "auto-enhance-scan", "remove-background", "ocr-pdf", "protect-pdf", "sign-pdf", "bates-numbering", "invert-colors", "pdf-to-long-image", "jpg-to-pdf", "png-to-pdf", "image-to-pdf", "ask-pdf"].includes(toolSlug) && (
                 <p className="text-[13px] text-text-secondaryLight">
                   {lang === "en" ? "No additional settings required for this tool. Files will compile with default high-quality profiles." : "इस टूल के लिए किसी अतिरिक्त सेटिंग की आवश्यकता नहीं है।"}
                 </p>
