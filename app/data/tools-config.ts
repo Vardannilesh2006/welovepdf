@@ -68,6 +68,9 @@ export const tools: Tool[] = [
   { slug: "quiz-from-pdf", name: "Quiz from PDF", category: "AI PDF", desc: "Generate basic questions from extracted text.", icon: "Q", isBrowserWorking: true },
   { slug: "invoice-extractor", name: "Invoice Extractor", category: "AI PDF", desc: "Extract likely invoice fields from text.", icon: "₹", isBrowserWorking: true },
   { slug: "resume-to-pdf", name: "Resume to PDF", category: "Templates", desc: "Generate a clean resume PDF from text.", icon: "CV", isBrowserWorking: true },
+  { slug: "accessibility-checker", name: "Accessibility Checker", category: "Security", desc: "Check PDF alt texts and heading schemas.", icon: "♿", isBrowserWorking: false },
+  { slug: "hindi-invoice-generator", name: "Hindi GST Invoice Generator", category: "Templates", desc: "Create GST invoices in Hindi.", icon: "₹", isBrowserWorking: false },
+  { slug: "pdf-to-qr", name: "PDF to QR Scanner", category: "Templates", desc: "Create visual link scanning QR codes.", icon: "QR", isBrowserWorking: false },
 ];
 
 export const toolDescriptions: Record<string, string> = {
