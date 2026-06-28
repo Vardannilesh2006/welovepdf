@@ -10,6 +10,67 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredCategory, setFilteredCategory] = useState("All");
   
+  // AI Guide states
+  const [aiQuery, setAiQuery] = useState("");
+  const [aiResponse, setAiResponse] = useState("");
+  const [aiLoading, setAiLoading] = useState(false);
+
+  const handleAiSuggest = async () => {
+    if (!aiQuery.trim() || aiLoading) return;
+    setAiLoading(true);
+    setAiResponse("");
+
+    try {
+      const res = await fetch("/api/ai-suggest", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ query: aiQuery, lang })
+      });
+
+      if (!res.ok) throw new Error("AI Suggester is offline.");
+      const data = await res.json();
+      setAiResponse(data.response);
+    } catch (err: any) {
+      setAiResponse(lang === "en" 
+        ? "Sorry, our AI assistant is updating its database. Please try again in a moment." 
+        : "क्षमा करें, हमारा एआई सहायक डेटाबेस अपडेट कर रहा है। कृपया कुछ देर बाद पुनः प्रयास करें।");
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
+  const renderAiResponseText = (text: string) => {
+    const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+    const parts = [];
+    let lastIndex = 0;
+    let match;
+
+    while ((match = linkRegex.exec(text)) !== null) {
+      const matchIndex = match.index;
+      if (matchIndex > lastIndex) {
+        parts.push(text.substring(lastIndex, matchIndex));
+      }
+      parts.push(
+        <a 
+          key={matchIndex} 
+          href={match[2]} 
+          className="text-brand-blue font-extrabold hover:underline"
+        >
+          {match[1]}
+        </a>
+      );
+      lastIndex = linkRegex.lastIndex;
+    }
+
+    if (lastIndex < text.length) {
+      parts.push(text.substring(lastIndex));
+    }
+
+    return parts.length > 0 ? parts : text;
+  };
+
   // Counter states
   const [toolsCount, setToolsCount] = useState(0);
   const [privacyPercent, setPrivacyPercent] = useState(0);
@@ -235,6 +296,56 @@ export default function Home() {
               {lang === "en" ? "Free Forever" : "हमेशा के लिए मुफ्त"}
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* Premium AI Assistant Panel */}
+      <section className="py-48 px-24 border-b border-border-light dark:border-border-dark bg-gradient-to-r from-brand-blue/5 via-transparent to-brand-amber/5">
+        <div className="max-w-3xl mx-auto p-24 bg-white dark:bg-surface-dark border border-brand-blue/20 rounded-modal shadow-modal relative overflow-hidden">
+          
+          <div className="flex items-center gap-12 mb-16">
+            <div className="w-10 h-10 rounded bg-brand-blue/10 flex items-center justify-center text-brand-blue">
+              <Sparkles className="w-5 h-5 animate-pulse" />
+            </div>
+            <div>
+              <h3 className="font-heading font-bold text-lg text-text-primaryLight dark:text-text-primaryDark">
+                {lang === "en" ? "WeLovePDF Smart AI Guide" : "WeLovePDF स्मार्ट एआई गाइड"}
+              </h3>
+              <p className="text-[12px] text-text-secondaryLight dark:text-text-secondaryDark">
+                {lang === "en" ? "Describe what you want to do, and our AI will suggest the perfect tool instantly." : "बताएं कि आप क्या करना चाहते हैं, और हमारा एआई तुरंत आपको सही टूल सुझाएगा।"}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex gap-8 items-center">
+            <input
+              type="text"
+              placeholder={lang === "en" ? "e.g., 'mujhe invoice compress karni hai' or 'help me add metadata to PDF'" : "जैसे, 'mujhe invoice compress karni hai' या 'मर्ज करने वाला टूल दिखाओ'"}
+              value={aiQuery}
+              onChange={(e) => setAiQuery(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleAiSuggest()}
+              className="flex-1 px-16 py-12 border border-border-light dark:border-border-dark rounded-btn bg-bg-light/40 dark:bg-bg-dark/10 text-[14px] outline-none focus:border-brand-blue"
+            />
+            <button
+              onClick={handleAiSuggest}
+              disabled={aiLoading}
+              className="px-20 py-12 bg-brand-blue hover:bg-brand-blue/90 disabled:bg-brand-blue/60 text-white font-bold rounded-btn text-[14px] shadow-btn transition-all flex items-center gap-8"
+            >
+              {aiLoading ? (
+                <RefreshCw className="w-4 h-4 animate-spin" />
+              ) : (
+                <Sparkles className="w-4 h-4" />
+              )}
+              {lang === "en" ? "Ask AI" : "पूछें"}
+            </button>
+          </div>
+
+          {aiResponse && (
+            <div className="mt-20 p-16 bg-brand-blue/5 border border-brand-blue/10 rounded-card text-[13px] leading-relaxed text-text-primaryLight dark:text-text-primaryDark animate-fade-in font-medium">
+              {renderAiResponseText(aiResponse)}
+            </div>
+          )}
+
         </div>
       </section>
 

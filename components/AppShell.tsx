@@ -23,7 +23,6 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
       <Navbar lang={lang} setLang={setLang} theme={theme} setTheme={setTheme} />
       <main className="flex-1 w-full">{children}</main>
       <Footer lang={lang} />
-      <HelperChatbot lang={lang} />
     </div>
   );
 }
