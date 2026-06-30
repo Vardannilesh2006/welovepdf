@@ -15,11 +15,11 @@ export default {
           error: "#EF4444",
         },
         bg: {
-          light: "#FFFFFF",
+          light: "#FFF8F2",
           dark: "#0A0F1E",
         },
         surface: {
-          light: "#F8FAFC",
+          light: "#FFF5EB",
           dark: "#161B2B",
         },
         border: {

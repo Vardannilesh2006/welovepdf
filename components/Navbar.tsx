@@ -37,7 +37,7 @@ export default function Navbar({ lang, setLang, theme, setTheme }: NavbarProps) 
 
   return (
     <header 
-      className={`sticky top-0 w-full z-50 transition-all duration-300 border-b bg-white dark:bg-[#0A0F1E] ${
+      className={`sticky top-0 w-full z-50 transition-all duration-300 border-b bg-[#FFF8F2] dark:bg-[#0A0F1E] ${
         isScrolled
           ? "shadow-md h-[72px] border-slate-200 dark:border-slate-800"
           : "shadow-sm h-[88px] border-slate-200/50 dark:border-slate-800/50"
@@ -137,7 +137,7 @@ export default function Navbar({ lang, setLang, theme, setTheme }: NavbarProps) 
 
       {/* Mobile Menu Panel */}
       {mobileMenuOpen && (
-        <div className="lg:hidden w-full bg-white dark:bg-bg-dark border-b border-slate-200 dark:border-slate-800 px-24 py-24 flex flex-col gap-20 shadow-lg animate-fade-in">
+        <div className="lg:hidden w-full bg-[#FFF8F2] dark:bg-bg-dark border-b border-slate-200 dark:border-slate-800 px-24 py-24 flex flex-col gap-20 shadow-lg animate-fade-in">
           <nav className="flex flex-col gap-8">
             {navLinks.map((link, idx) => (
               <a 

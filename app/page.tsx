@@ -91,7 +91,7 @@ export default function Home() {
   };
 
   return (
-    <div className="w-full bg-white dark:bg-bg-dark text-slate-800 dark:text-slate-100 overflow-hidden transition-colors duration-200">
+    <div className="w-full bg-[#FFF8F2] dark:bg-bg-dark text-slate-800 dark:text-slate-100 overflow-hidden transition-colors duration-200">
       
       {/* 1. Peach Background Hero Section */}
       <section className="relative min-h-[70vh] flex items-center justify-center pt-48 pb-64 px-24 bg-[#FFF8F2] dark:bg-bg-dark border-b border-slate-100 dark:border-slate-800">
@@ -152,7 +152,7 @@ export default function Home() {
       </section>
 
       {/* 2. Interactive Scrolling Counters */}
-      <section className="py-24 border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-bg-dark">
+      <section className="py-24 border-b border-slate-100 dark:border-slate-800 bg-[#FFF8F2] dark:bg-bg-dark">
         <div className="max-w-7xl mx-auto px-24 grid grid-cols-2 md:grid-cols-4 gap-24 text-center">
           <div>
             <div className="font-heading font-black text-[36px] md:text-[48px] text-[#D97706] leading-none mb-6">
