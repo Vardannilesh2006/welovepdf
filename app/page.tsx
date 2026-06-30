@@ -1,266 +1,332 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLang } from "../components/LangContext";
 import { tools } from "./data/tools-config";
-import { ArrowRight } from "lucide-react";
+import {
+  GitMerge, Scissors, Trash2, ArrowUpDown, RotateCw, Copy, FilePlus, Crop,
+  Hash, Stamp, AlignVerticalJustifyCenter, Info, Layers, MessageSquare,
+  EyeOff, GitCompare, Bookmark, Minimize2, Circle, Wrench, ShieldOff,
+  ScanLine, Sun, ImageOff, ScanText, FileText, FileCode, Image, ImageDown,
+  GalleryVertical, FileType, Table, Presentation, Code2, Sheet, Upload,
+  FileImage, Images, FileInput, TableProperties, Monitor, Globe, FileSymlink,
+  AlignLeft, Link, Lock, Unlock, PenLine, BadgeCheck, Gavel, Accessibility,
+  Contrast, BookMarked, Search, MessageCircle, ListCollapse, Languages,
+  HelpCircle, Receipt, UserSquare, FileSpreadsheet, QrCode, BookOpen,
+  Sparkles, ChevronRight, ShieldCheck
+} from "lucide-react";
+
+// Map lucideIcon string to actual component
+const LucideIconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  GitMerge, Scissors, Trash2, ArrowUpDown, RotateCw, Copy, FilePlus, Crop,
+  Hash, Stamp, AlignVerticalJustifyCenter, Info, Layers, MessageSquare,
+  EyeOff, GitCompare, Bookmark, Minimize2, Circle, Wrench, ShieldOff,
+  ScanLine, Sun, ImageOff, ScanText, FileText, FileCode, Image, ImageDown,
+  GalleryVertical, FileType, Table, Presentation, Code2, Sheet, Upload,
+  FileImage, Images, FileInput, TableProperties, Monitor, Globe, FileSymlink,
+  AlignLeft, Link, Lock, Unlock, PenLine, BadgeCheck, Gavel, Accessibility,
+  Contrast, BookMarked, Search, MessageCircle, ListCollapse, Languages,
+  HelpCircle, Receipt, UserSquare, FileSpreadsheet, QrCode, BookOpen,
+};
+
+function ToolIcon({ name, className }: { name: string; className?: string }) {
+  const Icon = LucideIconMap[name] || FileText;
+  return <Icon className={className ?? "w-5 h-5"} />;
+}
+
+// IntersectionObserver-based counter (real value in DOM from the start)
+function useCountUp(target: number, duration = 800) {
+  const [value, setValue] = useState(target); // start at real value — never 0
+  const ref = useRef<HTMLDivElement>(null);
+  const hasRun = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasRun.current) {
+          hasRun.current = true;
+          const startTime = performance.now();
+          const tick = (now: number) => {
+            const progress = Math.min((now - startTime) / duration, 1);
+            setValue(Math.round(progress * target));
+            if (progress < 1) requestAnimationFrame(tick);
+            else setValue(target);
+          };
+          setValue(0);
+          requestAnimationFrame(tick);
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [target, duration]);
+
+  return { value, ref };
+}
+
+const CATEGORIES = [
+  { key: "All", en: "All Tools", hi: "सभी टूल्स" },
+  { key: "Organize", en: "Organize", hi: "व्यवस्थित करें" },
+  { key: "Edit", en: "Edit", hi: "संपादित करें" },
+  { key: "Optimize", en: "Optimize", hi: "अनुकूलित करें" },
+  { key: "Scan & OCR", en: "Scan & OCR", hi: "स्कैन और OCR" },
+  { key: "Convert from PDF", en: "Convert from PDF", hi: "PDF से कनवर्ट करें" },
+  { key: "Convert to PDF", en: "Convert to PDF", hi: "PDF में कनवर्ट करें" },
+  { key: "Security", en: "Security", hi: "सुरक्षा" },
+  { key: "Reader", en: "Reader", hi: "रीडर" },
+  { key: "AI PDF", en: "AI PDF", hi: "AI PDF" },
+  { key: "Templates", en: "Templates", hi: "टेम्पलेट्स" },
+];
 
 export default function Home() {
   const { lang } = useLang();
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredCategory, setFilteredCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = useState("All");
 
-  // Counter states
-  const [toolsCount, setToolsCount] = useState(0);
-  const [privacyPercent, setPrivacyPercent] = useState(0);
-  const [uploadsCount, setUploadsCount] = useState(0);
-
-  useEffect(() => {
-    // Animate counters on mount
-    const toolsTimer = setInterval(() => {
-      setToolsCount((prev) => (prev >= 60 ? 60 : prev + 2));
-    }, 30);
-    const privacyTimer = setInterval(() => {
-      setPrivacyPercent((prev) => (prev >= 100 ? 100 : prev + 4));
-    }, 30);
-    const uploadsTimer = setInterval(() => {
-      setUploadsCount((prev) => (prev >= 0 ? 0 : prev));
-    }, 30);
-
-    return () => {
-      clearInterval(toolsTimer);
-      clearInterval(privacyTimer);
-      clearInterval(uploadsTimer);
-    };
-  }, []);
-
-  const t = {
-    en: {
-      badge: "Fast, clean PDF tools",
-      title: "WeLovePDF",
-      subtext: "WeLovePDF is a browser-based PDF toolkit that lets users merge, split, compress, convert, and secure PDF files without uploading documents to external servers.",
-      exploreBtn: "Explore tools",
-      workspaceBtn: "Open workspace",
-    },
-    hi: {
-      badge: "तेज और साफ पीडीएफ टूल्स",
-      title: "WeLovePDF",
-      subtext: "WeLovePDF एक ब्राउज़र-आधारित पीडीएफ टूलकिट है जो उपयोगकर्ताओं को बाहरी सर्वर पर दस्तावेज़ अपलोड किए बिना पीडीएफ फाइलों को मर्ज, स्प्लिट, कंप्रेस, कन्वर्ट और सुरक्षित करने की सुविधा देता है।",
-      exploreBtn: "टूल्स देखें",
-      workspaceBtn: "वर्क्सपेस खोलें",
-    }
-  }[lang];
-
-  const categories = [
-    "All", 
-    "Organize", 
-    "Edit", 
-    "Optimize", 
-    "Scan & OCR", 
-    "Convert from PDF", 
-    "Convert to PDF", 
-    "Security", 
-    "Reader", 
-    "AI PDF", 
-    "Template"
-  ];
+  const toolsCounter = useCountUp(tools.length, 700);
+  const privacyCounter = useCountUp(100, 700);
 
   const getTools = () => {
-    let query = searchQuery.toLowerCase().trim();
-
-    // Smart search synonyms mapping
-    if (query === "make pdf smaller" || query === "reduce size" || query === "shrink pdf") {
-      query = "compress";
-    } else if (query === "combine pages" || query === "join pdf" || query === "combine pdf") {
-      query = "merge";
-    } else if (query === "lock pdf" || query === "password" || query === "protect") {
-      query = "protect";
-    } else if (query === "unlock") {
-      query = "unlock";
-    }
-
-    return tools.filter(tool => {
-      const matchQuery = tool.name.toLowerCase().includes(query) || 
-                         tool.desc.toLowerCase().includes(query) || 
-                         tool.category.toLowerCase().includes(query);
-      if (filteredCategory === "All") return matchQuery;
-      
-      const mappedCategory = filteredCategory === "Template" ? "Templates" : filteredCategory;
-      return tool.category === mappedCategory && matchQuery;
+    const q = searchQuery.toLowerCase().trim();
+    return tools.filter((tool) => {
+      const matchSearch =
+        !q ||
+        tool.name.toLowerCase().includes(q) ||
+        tool.desc.toLowerCase().includes(q) ||
+        tool.category.toLowerCase().includes(q);
+      const matchCat =
+        activeCategory === "All" || tool.category === activeCategory;
+      return matchSearch && matchCat;
     });
   };
 
+  const filteredTools = getTools();
+
+  // Category tool counts
+  const catCount = (key: string) =>
+    key === "All" ? tools.length : tools.filter((t) => t.category === key).length;
+
   return (
-    <div className="w-full bg-[#FFF8F2] dark:bg-bg-dark text-slate-800 dark:text-slate-100 overflow-hidden transition-colors duration-200">
-      
-      {/* 1. Peach Background Hero Section */}
-      <section className="relative min-h-[70vh] flex items-center justify-center pt-48 pb-64 px-24 bg-[#FFF8F2] dark:bg-bg-dark border-b border-slate-100 dark:border-slate-800">
-        <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-48 items-center relative z-10">
-          
-          {/* Left Hero Content */}
-          <div className="lg:col-span-7 flex flex-col items-start gap-20">
-            <span className="text-[13px] font-heading font-black text-[#D97706] uppercase tracking-wider">
-              {t.badge}
-            </span>
-            <h1 className="font-heading font-black text-[52px] sm:text-[72px] lg:text-[80px] leading-[1.05] tracking-tight text-slate-900 dark:text-white">
-              {t.title}
-            </h1>
-            <p className="text-[17px] sm:text-[20px] text-slate-600 dark:text-slate-300 max-w-[620px] leading-relaxed font-normal mt-8">
-              {t.subtext}
-            </p>
+    <div className="w-full min-h-screen bg-[#FFF8F2] text-slate-800 animate-fade-in">
 
-            {/* CTAs */}
-            <div className="flex flex-wrap items-center gap-16 mt-16 w-full">
-              <a 
-                href="#tools" 
-                className="px-24 py-12 bg-[#D97706] hover:bg-[#B45309] text-white font-heading font-black rounded-btn transition-colors shadow-sm text-[15px]"
-              >
-                {t.exploreBtn}
-              </a>
-              <a 
-                href="/merge-pdf" 
-                className="px-24 py-12 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 font-heading font-black rounded-btn hover:bg-slate-50 dark:hover:bg-slate-700 transition-all text-[15px]"
-              >
-                {t.workspaceBtn}
-              </a>
-            </div>
+      {/* ─── HERO ─────────────────────────────────────────── */}
+      <section className="max-w-7xl mx-auto px-24 pt-48 pb-40">
+        <div className="max-w-[680px]">
+          <p className="text-[12px] font-heading font-black text-[#D97706] uppercase tracking-[0.12em] mb-16">
+            {lang === "en" ? "Free · Browser-based · Private" : "मुफ्त · ब्राउज़र-आधारित · निजी"}
+          </p>
+          <h1 className="font-heading font-black text-[44px] sm:text-[56px] leading-[1.05] tracking-tight text-slate-900 mb-16">
+            {lang === "en"
+              ? <>63 free PDF tools,<br />100% in your browser.</>
+              : <>63 मुफ्त PDF टूल्स,<br />100% आपके ब्राउज़र में।</>}
+          </h1>
+          <p className="text-[16px] text-slate-500 leading-relaxed mb-28 max-w-[540px]">
+            {lang === "en"
+              ? "Merge, split, compress, convert, OCR, sign, and more — files never leave your device."
+              : "मर्ज, स्प्लिट, कंप्रेस, कनवर्ट, OCR, साइन और बहुत कुछ — फाइलें कभी आपके डिवाइस नहीं छोड़तीं।"}
+          </p>
+          <div className="flex flex-wrap items-center gap-12">
+            <a
+              href="#workspace"
+              className="px-24 py-12 bg-[#D97706] hover:bg-[#B45309] text-white font-heading font-black rounded-btn text-[14px] transition-colors shadow-sm"
+            >
+              {lang === "en" ? "Open Workspace" : "वर्क्सपेस खोलें"}
+            </a>
+            <a
+              href="#workspace"
+              className="text-[14px] font-heading font-bold text-slate-500 hover:text-[#D97706] transition-colors flex items-center gap-6"
+            >
+              {lang === "en" ? "Browse all tools" : "सभी टूल्स देखें"}
+              <ChevronRight className="w-4 h-4" />
+            </a>
           </div>
-
-          {/* Right Hero Content: Quick tool list card */}
-          <div className="lg:col-span-5 flex justify-center items-center">
-            <div className="w-full max-w-[380px] bg-white dark:bg-surface-dark border border-slate-100 dark:border-slate-800 p-24 rounded-modal shadow-sm flex flex-col gap-12">
-              <a href="/merge-pdf" className="w-full p-20 rounded bg-[#FFF7F0] dark:bg-slate-800/40 hover:bg-[#FFEFE2] dark:hover:bg-slate-800 transition-colors flex items-center justify-between group">
-                <span className="font-heading font-black text-slate-900 dark:text-white text-[16px]">Merge PDF</span>
-                <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-4 transition-transform" />
-              </a>
-              <a href="/split-pdf" className="w-full p-20 rounded bg-[#FFF7F0] dark:bg-slate-800/40 hover:bg-[#FFEFE2] dark:hover:bg-slate-800 transition-colors flex items-center justify-between group">
-                <span className="font-heading font-black text-slate-900 dark:text-white text-[16px]">Split PDF</span>
-                <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-4 transition-transform" />
-              </a>
-              <a href="/compress-pdf" className="w-full p-20 rounded bg-[#FFF7F0] dark:bg-slate-800/40 hover:bg-[#FFEFE2] dark:hover:bg-slate-800 transition-colors flex items-center justify-between group">
-                <span className="font-heading font-black text-slate-900 dark:text-white text-[16px]">Compress PDF</span>
-                <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-4 transition-transform" />
-              </a>
-              <a href="/jpg-to-pdf" className="w-full p-20 rounded bg-[#FFF7F0] dark:bg-slate-800/40 hover:bg-[#FFEFE2] dark:hover:bg-slate-800 transition-colors flex items-center justify-between group">
-                <span className="font-heading font-black text-slate-900 dark:text-white text-[16px]">JPG to PDF</span>
-                <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-4 transition-transform" />
-              </a>
-            </div>
-          </div>
-
         </div>
       </section>
 
-      {/* 2. Interactive Scrolling Counters */}
-      <section className="py-24 border-b border-slate-100 dark:border-slate-800 bg-[#FFF8F2] dark:bg-bg-dark">
-        <div className="max-w-7xl mx-auto px-24 grid grid-cols-2 md:grid-cols-4 gap-24 text-center">
-          <div>
-            <div className="font-heading font-black text-[36px] md:text-[48px] text-[#D97706] leading-none mb-6">
-              {toolsCount}+
-            </div>
-            <p className="text-[13px] font-heading font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-              {lang === "en" ? "Browser Utilities" : "ब्राउज़र टूल्स"}
-            </p>
+      {/* ─── TRUST STATS ──────────────────────────────────── */}
+      <section className="border-y border-[#E5E7EB] bg-[#FFF5EB]">
+        <div className="max-w-7xl mx-auto px-24 py-24 grid grid-cols-2 md:grid-cols-4 gap-0 divide-x divide-[#E5E7EB]">
+          {/* Stat 1 */}
+          <div ref={toolsCounter.ref} className="flex flex-col items-center py-8 px-16">
+            <span className="font-heading font-black text-[36px] md:text-[40px] leading-none text-[#D97706]">
+              {toolsCounter.value}+
+            </span>
+            <span className="text-[11px] font-heading font-bold text-slate-400 uppercase tracking-wider mt-6">
+              {lang === "en" ? "PDF Tools" : "PDF टूल्स"}
+            </span>
           </div>
-          <div>
-            <div className="font-heading font-black text-[36px] md:text-[48px] text-emerald-600 dark:text-emerald-400 leading-none mb-6">
-              {privacyPercent}%
-            </div>
-            <p className="text-[13px] font-heading font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-              {lang === "en" ? "In-Memory Safe" : "लोकल मेमोरी सुरक्षित"}
-            </p>
+          {/* Stat 2 */}
+          <div ref={privacyCounter.ref} className="flex flex-col items-center py-8 px-16">
+            <span className="font-heading font-black text-[36px] md:text-[40px] leading-none text-emerald-600">
+              {privacyCounter.value}%
+            </span>
+            <span className="text-[11px] font-heading font-bold text-slate-400 uppercase tracking-wider mt-6">
+              {lang === "en" ? "In-Memory Safe" : "मेमोरी में सुरक्षित"}
+            </span>
           </div>
-          <div>
-            <div className="font-heading font-black text-[36px] md:text-[48px] text-indigo-600 dark:text-indigo-400 leading-none mb-6">
-              {uploadsCount}
-            </div>
-            <p className="text-[13px] font-heading font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-              {lang === "en" ? "Uploads to Server" : "सर्वर अपलोड संख्या"}
-            </p>
+          {/* Stat 3 — static, never animated */}
+          <div className="flex flex-col items-center py-8 px-16">
+            <span className="font-heading font-black text-[36px] md:text-[40px] leading-none text-slate-800">
+              0
+            </span>
+            <span className="text-[11px] font-heading font-bold text-slate-400 uppercase tracking-wider mt-6">
+              {lang === "en" ? "Server Uploads" : "सर्वर अपलोड"}
+            </span>
           </div>
-          <div>
-            <div className="font-heading font-black text-[36px] md:text-[48px] text-slate-800 dark:text-slate-200 leading-none mb-6">
+          {/* Stat 4 — static */}
+          <div className="flex flex-col items-center py-8 px-16">
+            <span className="font-heading font-black text-[36px] md:text-[40px] leading-none text-slate-800">
               ∞
-            </div>
-            <p className="text-[13px] font-heading font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+            </span>
+            <span className="text-[11px] font-heading font-bold text-slate-400 uppercase tracking-wider mt-6">
               {lang === "en" ? "Free Forever" : "हमेशा के लिए मुफ्त"}
-            </p>
+            </span>
           </div>
         </div>
       </section>
 
-      {/* 3. Filterable Tools Grid Section */}
-      <section id="tools" className="py-64 px-24 max-w-7xl mx-auto scroll-mt-20">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-16 mb-40">
+      {/* ─── WORKSPACE: FILE MANAGER ──────────────────────── */}
+      <section id="workspace" className="max-w-7xl mx-auto px-24 py-48 scroll-mt-20">
+
+        {/* Section Header + Search */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-16 mb-32">
           <div>
-            <span className="text-[12px] font-heading font-black text-[#D97706] uppercase tracking-wider block mb-4">
-              {tools.length} {lang === "en" ? "Tools" : "टूल्स"}
-            </span>
-            <h2 className="font-heading font-black text-[32px] md:text-[42px] tracking-tight text-slate-900 dark:text-white">
-              {lang === "en" ? "All PDF tools" : "सभी पीडीएफ टूल्स"}
+            <h2 className="font-heading font-black text-[26px] text-slate-900 tracking-tight">
+              {lang === "en" ? "All PDF Tools" : "सभी PDF टूल्स"}
             </h2>
+            <p className="text-[13px] text-slate-400 mt-4">
+              {filteredTools.length}{lang === "en" ? " tools" : " टूल्स"}
+              {activeCategory !== "All" && ` · ${activeCategory}`}
+            </p>
           </div>
-          
-          {/* Search box */}
-          <div className="w-full max-w-[200px]">
+          {/* Search */}
+          <div className="relative w-full sm:w-[280px]">
+            <Search className="absolute left-12 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <input
-              type="text"
-              placeholder={lang === "en" ? "compress, OCR..." : "खोजें..."}
+              type="search"
+              placeholder={lang === "en" ? "Search tools… e.g. compress, OCR" : "टूल खोजें…"}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-12 py-8 border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-surface-dark text-[13px] outline-none focus:border-[#D97706] transition-all shadow-sm"
+              className="w-full pl-36 pr-12 py-10 border border-[#E5E7EB] rounded bg-white text-[13px] outline-none focus:border-[#D97706] transition-colors shadow-sm"
             />
           </div>
         </div>
 
-        {/* Categories slider pills */}
-        <div className="flex flex-wrap items-center gap-12 mb-32">
-          {categories.map((cat, idx) => {
-            const isActive = filteredCategory === cat;
-            return (
-              <button
-                key={idx}
-                onClick={() => setFilteredCategory(cat)}
-                className={`px-16 py-8 text-[13px] font-heading font-extrabold rounded-pill transition-all ${
-                  isActive
-                    ? "bg-[#D97706] text-white shadow-sm"
-                    : "bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-600"
-                }`}
-                type="button"
-              >
-                {cat}
-              </button>
-            );
-          })}
-        </div>
+        {/* Two-column layout: left rail + right grid */}
+        <div className="flex gap-32 items-start">
 
-        {/* Tools Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-20">
-          {getTools().map((tool, idx) => (
-            <a 
-              key={idx}
-              href={`/${tool.slug}`}
-              className="p-24 border border-slate-200/60 dark:border-slate-800 rounded-card bg-white dark:bg-surface-dark flex gap-16 items-start transition-all hover:-translate-y-2 hover:shadow-card-hover hover:border-[#D97706] duration-200 group"
-            >
-              {/* Category Icon */}
-              <div className="w-[48px] h-[48px] rounded-[8px] bg-[#FFF5EA] dark:bg-slate-800 flex items-center justify-center font-heading font-black text-[18px] text-[#D97706] dark:text-amber-400 flex-shrink-0">
-                {tool.icon}
-              </div>
-              <div className="min-w-0 flex-1">
-                <h3 className="font-heading font-bold text-[16px] text-slate-900 dark:text-white group-hover:text-[#D97706] dark:group-hover:text-amber-400 transition-colors">
-                  {tool.name}
-                </h3>
-                <p className="text-[13px] text-slate-500 dark:text-slate-400 leading-relaxed mt-4">
-                  {tool.desc}
-                </p>
-                {tool.isBrowserWorking && (
-                  <span className="text-[11px] font-heading font-extrabold text-[#D97706] dark:text-amber-400 uppercase tracking-wider block mt-8">
-                    Browser working
+          {/* LEFT RAIL: Category list */}
+          <nav className="hidden md:flex flex-col w-[200px] flex-shrink-0 gap-4 sticky top-[70px]">
+            {CATEGORIES.map((cat) => {
+              const isActive = activeCategory === cat.key;
+              const label = lang === "en" ? cat.en : cat.hi;
+              const count = catCount(cat.key);
+              return (
+                <button
+                  key={cat.key}
+                  onClick={() => setActiveCategory(cat.key)}
+                  type="button"
+                  className={`flex items-center justify-between w-full px-12 py-8 rounded text-left text-[13px] font-heading font-semibold transition-colors ${
+                    isActive
+                      ? "bg-[#D97706] text-white"
+                      : "text-slate-600 hover:bg-[#FFF5EB] hover:text-slate-900"
+                  }`}
+                >
+                  <span>{label}</span>
+                  <span className={`text-[11px] font-bold ${isActive ? "text-white/80" : "text-slate-400"}`}>
+                    {count}
                   </span>
-                )}
+                </button>
+              );
+            })}
+          </nav>
+
+          {/* Mobile: horizontal category pills */}
+          <div className="md:hidden flex gap-10 overflow-x-auto pb-8 mb-16 w-full">
+            {CATEGORIES.map((cat) => {
+              const isActive = activeCategory === cat.key;
+              return (
+                <button
+                  key={cat.key}
+                  onClick={() => setActiveCategory(cat.key)}
+                  type="button"
+                  className={`flex-shrink-0 px-14 py-6 rounded-pill text-[12px] font-heading font-bold transition-colors ${
+                    isActive
+                      ? "bg-[#D97706] text-white"
+                      : "bg-white border border-[#E5E7EB] text-slate-600 hover:border-[#D97706]"
+                  }`}
+                >
+                  {lang === "en" ? cat.en : cat.hi}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* RIGHT: Tool grid */}
+          <div className="flex-1 min-w-0">
+            {filteredTools.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-64 text-slate-400 gap-12">
+                <Search className="w-8 h-8" />
+                <p className="text-[14px] font-heading font-semibold">
+                  {lang === "en" ? "No tools found for that search." : "कोई टूल नहीं मिला।"}
+                </p>
               </div>
-            </a>
-          ))}
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-16">
+                {filteredTools.map((tool) => (
+                  <a
+                    key={tool.slug}
+                    href={`/${tool.slug}`}
+                    className="group flex items-start gap-14 p-20 border border-[#E5E7EB] rounded-card bg-white hover:border-[#D97706] hover:shadow-sm transition-all duration-150"
+                  >
+                    {/* Icon */}
+                    <div className="flex-shrink-0 w-10 h-10 rounded-[8px] bg-[#FFF5EB] flex items-center justify-center text-[#D97706] group-hover:bg-[#D97706] group-hover:text-white transition-colors">
+                      <ToolIcon name={tool.lucideIcon} className="w-5 h-5" />
+                    </div>
+                    {/* Text */}
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-8 flex-wrap">
+                        <h3 className="font-heading font-bold text-[14px] text-slate-900 group-hover:text-[#D97706] transition-colors leading-snug">
+                          {tool.name}
+                        </h3>
+                        {tool.isAI && (
+                          <span className="inline-flex items-center gap-3 px-6 py-1 rounded text-[9px] font-heading font-black uppercase tracking-wider bg-[#D97706]/10 text-[#D97706] border border-[#D97706]/20">
+                            <Sparkles className="w-2.5 h-2.5" />AI
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-[12px] text-slate-400 leading-relaxed mt-4 line-clamp-2">
+                        {tool.desc}
+                      </p>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+
+        </div>
+      </section>
+
+      {/* ─── PRIVACY STRIP ────────────────────────────────── */}
+      <section className="border-t border-[#E5E7EB] bg-[#FFF5EB] py-24">
+        <div className="max-w-7xl mx-auto px-24 flex flex-col sm:flex-row items-center justify-between gap-16">
+          <div className="flex items-center gap-10 text-[13px] text-[#D97706] font-heading font-bold">
+            <ShieldCheck className="w-4 h-4" />
+            {lang === "en"
+              ? "Your files never leave your device — processed entirely in your browser."
+              : "आपकी फाइलें कभी आपके डिवाइस नहीं छोड़तीं — पूरी तरह ब्राउज़र में प्रोसेस होती हैं।"}
+          </div>
+          <a
+            href="/security"
+            className="text-[13px] font-heading font-bold text-slate-500 hover:text-[#D97706] flex items-center gap-6 transition-colors"
+          >
+            {lang === "en" ? "Our security model" : "हमारा सुरक्षा मॉडल"}
+            <ChevronRight className="w-4 h-4" />
+          </a>
         </div>
       </section>
 

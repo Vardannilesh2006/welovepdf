@@ -14,21 +14,12 @@
 }
 
 /* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  @apply bg-border-light rounded-pill;
-}
-.dark ::-webkit-scrollbar-thumb {
-  @apply bg-border-dark;
-}
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { @apply bg-border-light rounded-pill; }
+.dark ::-webkit-scrollbar-thumb { @apply bg-border-dark; }
 
-/* CSS Dot Grid Background Pattern */
+/* Dot grid background */
 .dot-grid {
   background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
   background-size: 16px 16px;
@@ -37,66 +28,23 @@
   background-image: radial-gradient(#1e293b 1px, transparent 1px);
 }
 
-/* Premium Card Shimmer */
-.shimmer-card {
-  position: relative;
-  overflow: hidden;
+/* Page entry fade-in */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-.shimmer-card::after {
-  content: "";
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    45deg,
-    transparent 45%,
-    rgba(255, 255, 255, 0.1) 50%,
-    transparent 55%
-  );
-  transform: rotate(45deg);
-  transition: transform 0.6s ease;
-  pointer-events: none;
-}
-.shimmer-card:hover::after {
-  transform: translate(50%, 50%) rotate(45deg);
-}
+.animate-fade-in { animation: fade-in 0.4s ease both; }
 
-/* Drifting Blur Orb Animation */
-@keyframes orb-drift {
-  0% { transform: translate(0px, 0px) scale(1); }
-  33% { transform: translate(30px, -50px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.95); }
-  100% { transform: translate(0px, 0px) scale(1); }
+/* Soft pulse for upload zone idle state */
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.8; transform: scale(0.98); }
 }
-.animate-orb-drift-1 {
-  animation: orb-drift 18s ease-in-out infinite;
-}
-.animate-orb-drift-2 {
-  animation: orb-drift 24s ease-in-out infinite alternate;
-}
+.animate-pulse-soft { animation: pulse-soft 3s ease-in-out infinite; }
 
-/* 3D Floating Document Animation */
-@keyframes float-3d {
-  0% {
-    transform: perspective(1000px) rotateX(12deg) rotateY(-12deg) rotateZ(0deg) translateY(0px);
-  }
-  50% {
-    transform: perspective(1000px) rotateX(15deg) rotateY(-8deg) rotateZ(1deg) translateY(-12px);
-  }
-  100% {
-    transform: perspective(1000px) rotateX(12deg) rotateY(-12deg) rotateZ(0deg) translateY(0px);
-  }
-}
-.animate-float-3d {
-  animation: float-3d 8s ease-in-out infinite;
-  transform-style: preserve-3d;
-}
-
-/* Custom Scrollbar and helper animations */
+/* Marquee for scrolling strips */
 @keyframes marquee {
-  0% { transform: translateX(0); }
+  0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 .animate-marquee {
@@ -104,101 +52,12 @@
   width: max-content;
   animation: marquee 30s linear infinite;
 }
-@keyframes pulse-soft {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.8; transform: scale(0.98); }
-}
-.animate-pulse-soft {
-  animation: pulse-soft 3s ease-in-out infinite;
-}
 
-/* 3D Intro Overhaul Keyframes */
-@keyframes merge-3d-sheet-1 {
-  0% { transform: perspective(800px) rotateX(60deg) rotateY(0deg) rotateZ(-30deg) translate3d(-100px, -100px, 150px); opacity: 0; }
-  30%, 100% { transform: perspective(800px) rotateX(40deg) rotateY(0deg) rotateZ(-10deg) translate3d(0, 0, 30px); opacity: 1; }
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
-@keyframes merge-3d-sheet-2 {
-  0% { transform: perspective(800px) rotateX(60deg) rotateY(0deg) rotateZ(30deg) translate3d(100px, -80px, 150px); opacity: 0; }
-  45%, 100% { transform: perspective(800px) rotateX(40deg) rotateY(0deg) rotateZ(-10deg) translate3d(0, 0, 15px); opacity: 1; }
-}
-@keyframes merge-3d-sheet-3 {
-  0% { transform: perspective(800px) rotateX(60deg) rotateY(0deg) rotateZ(0deg) translate3d(0px, 120px, 150px); opacity: 0; }
-  60%, 100% { transform: perspective(800px) rotateX(40deg) rotateY(0deg) rotateZ(-10deg) translate3d(0, 0, 0px); opacity: 1; }
-}
-.animate-merge-3d-1 { animation: merge-3d-sheet-1 3.5s cubic-bezier(0.19, 1, 0.22, 1) infinite; }
-.animate-merge-3d-2 { animation: merge-3d-sheet-2 3.5s cubic-bezier(0.19, 1, 0.22, 1) infinite; }
-.animate-merge-3d-3 { animation: merge-3d-sheet-3 3.5s cubic-bezier(0.19, 1, 0.22, 1) infinite; }
-
-@keyframes split-3d-book {
-  0%, 100% { transform: perspective(800px) rotateX(25deg) rotateY(0deg); }
-  50% { transform: perspective(800px) rotateX(35deg) rotateY(-15deg); }
-}
-@keyframes split-3d-page-left {
-  0%, 100% { transform: perspective(800px) rotateY(0deg); }
-  50% { transform: perspective(800px) rotateY(-140deg); }
-}
-@keyframes split-3d-page-right {
-  0%, 100% { transform: perspective(800px) rotateY(0deg); }
-  50% { transform: perspective(800px) rotateY(20deg) translate3d(80px, -20px, 50px); }
-}
-.animate-split-book { animation: split-3d-book 4s ease-in-out infinite; }
-.animate-split-page-left { animation: split-3d-page-left 4s ease-in-out infinite; transform-origin: left center; }
-.animate-split-page-right { animation: split-3d-page-right 4s ease-in-out infinite; transform-origin: right center; }
-
-@keyframes delete-3d-crumple {
-  0% { transform: scale(1) rotate(0deg); border-radius: 4px; opacity: 1; }
-  40% { transform: scale(0.6) rotate(15deg) skew(10deg, 10deg); border-radius: 30%; }
-  70% { transform: scale(0.3) rotate(90deg) translate3d(50px, -150px, 0); border-radius: 50%; filter: blur(2px); opacity: 0.8; }
-  100% { transform: scale(0) rotate(180deg) translate3d(100px, -300px, 0); border-radius: 50%; opacity: 0; }
-}
-.animate-delete-crumple { animation: delete-3d-crumple 3s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite; }
-
-@keyframes rotate-3d-spin {
-  0% { transform: perspective(800px) rotateY(0deg) rotateX(15deg); }
-  80% { transform: perspective(800px) rotateY(360deg) rotateX(15deg); }
-  90% { transform: perspective(800px) rotateY(350deg) rotateX(15deg); }
-  100% { transform: perspective(800px) rotateY(360deg) rotateX(15deg); }
-}
-.animate-rotate-spin { animation: rotate-3d-spin 3s cubic-bezier(0.25, 0.8, 0.25, 1) infinite; }
-
-@keyframes compress-3d-squeeze {
-  0%, 100% { transform: perspective(800px) scale3d(1, 1, 1) rotateX(20deg); }
-  45% { transform: perspective(800px) scale3d(1, 0.25, 1.3) rotateX(30deg); }
-  60% { transform: perspective(800px) scale3d(1, 1.1, 0.9) rotateX(15deg); }
-}
-.animate-compress-squeeze { animation: compress-3d-squeeze 3.5s ease-in-out infinite; }
-
-/* 3D Finished AI Logo animations */
-@keyframes rotate-3d-x {
-  0% { transform: rotateX(0deg) rotateY(15deg); }
-  100% { transform: rotateX(360deg) rotateY(15deg); }
-}
-@keyframes rotate-3d-y {
-  0% { transform: rotateX(15deg) rotateY(0deg); }
-  100% { transform: rotateX(15deg) rotateY(360deg); }
-}
-@keyframes rotate-3d-z {
-  0% { transform: rotateZ(0deg); }
-  100% { transform: rotateZ(360deg); }
-}
-.animate-rotate-3d-x {
-  animation: rotate-3d-x 8s linear infinite;
-  transform-style: preserve-3d;
-}
-.animate-rotate-3d-y {
-  animation: rotate-3d-y 12s linear infinite;
-  transform-style: preserve-3d;
-}
-.animate-rotate-3d-z {
-  animation: rotate-3d-z 15s linear infinite;
-}
-
-@keyframes laser-scan {
-  0%, 100% { top: 0%; opacity: 0.1; }
-  50% { top: 100%; opacity: 0.9; }
-}
-.animate-laser-scan {
-  animation: laser-scan 2s ease-in-out infinite;
-}
-
-
