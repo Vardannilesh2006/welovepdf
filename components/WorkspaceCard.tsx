@@ -196,6 +196,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
   const [historyList, setHistoryList] = useState<HistoryItem[]>([]);
   const [recentList, setRecentList] = useState<RecentFile[]>([]);
   const [shortcutsModal, setShortcutsModal] = useState(false);
+  const [targetSizePercent, setTargetSizePercent] = useState(80);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const watermarkCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -994,6 +995,36 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
               </div>
             )}
 
+            {/* Global Target File Size Slider */}
+            <div className="mt-16 border-t border-border-light dark:border-border-dark pt-16">
+              <div className="flex justify-between items-center mb-6">
+                <label className="font-bold text-[11px] uppercase text-text-secondaryLight">
+                  {lang === "en" ? "📏 Target File Size" : "📏 लक्षित फ़ाइल आकार"}
+                </label>
+                <span className="font-black text-[#D97706] text-[13px]">
+                  {files.length > 0 
+                    ? formatSize(Math.round(files[0].size * (targetSizePercent / 100))) 
+                    : "1.5 MB"}
+                </span>
+              </div>
+              <input 
+                type="range" 
+                min="10" 
+                max="100" 
+                value={targetSizePercent} 
+                onChange={(e) => {
+                  const val = Number(e.target.value);
+                  setTargetSizePercent(val);
+                  setQuality(val);
+                }} 
+                className="w-full accent-[#D97706]"
+              />
+              <div className="flex justify-between text-[9px] text-text-secondaryLight/70 mt-4">
+                <span>{lang === "en" ? "Min (High Compression)" : "न्यूनतम (उच्च संपीड़न)"}</span>
+                <span>{lang === "en" ? "Max (Original)" : "अधिकतम (मूल आकार)"}</span>
+              </div>
+            </div>
+
           </div>
         </div>
 
@@ -1002,7 +1033,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
           <div className="flex justify-between items-center text-[12px] font-bold text-text-secondaryLight mb-12">
             <span>{lang === "en" ? "Estimated Output:" : "अनुमानित फ़ाइल आकार:"}</span>
             <span className="text-brand-success font-black">
-              {files.length > 0 ? `~${formatSize(Math.round(files[0].size * 0.75))}` : "0 KB"}
+              {files.length > 0 ? `~${formatSize(Math.round(files[0].size * (targetSizePercent / 100)))}` : "0 KB"}
             </span>
           </div>
 
