@@ -593,12 +593,10 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
   return (
     <div className="w-full max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-24 items-start text-text-primaryLight dark:text-text-primaryDark font-medium">
       
-      {/* ========================================================================= */}
-      {/* 1. LEFT PANEL (col-span-3): Upload Zone & File List                       */}
-      {/* ========================================================================= */}
-      <div className="lg:col-span-3 p-20 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-modal shadow-sm flex flex-col gap-16 min-h-[500px]">
-        <div className="flex justify-between items-center pb-12 border-b border-border-light dark:border-border-dark">
-          <h3 className="font-heading font-bold text-[14px] uppercase tracking-wider flex items-center gap-6">
+      {/* 1. LEFT COLUMN (col-span-8): Upload Zone, Files, & Previews */}
+      <div className="lg:col-span-8 p-24 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-modal shadow-sm flex flex-col gap-20 min-h-[500px]">
+        <div className="flex justify-between items-center pb-12 border-b border-slate-200/50 dark:border-slate-800/50">
+          <h3 className="font-heading font-black text-[13px] uppercase tracking-wider flex items-center gap-6 text-[#D97706] dark:text-amber-400">
             <Layers className="w-4 h-4 text-[#D97706]" />
             {lang === "en" ? "📂 Document Desk" : "📂 डॉक्यूमेंट डेस्क"}
           </h3>
@@ -617,14 +615,14 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
           <div 
             onDragOver={handleDragOver}
             onDrop={handleDrop}
-            className="flex-1 flex flex-col items-center justify-center p-20 border-2 border-dashed border-[#D97706]/30 hover:border-[#D97706] bg-[#D97706]/5 rounded-card text-center cursor-pointer transition-all"
+            className="flex-1 flex flex-col items-center justify-center p-40 border-2 border-dashed border-[#D97706]/30 hover:border-[#D97706] bg-[#D97706]/5 rounded-card text-center cursor-pointer transition-all min-h-[350px]"
             onClick={() => fileInputRef.current?.click()}
           >
             <Upload className="w-10 h-10 text-[#D97706] mb-12 animate-pulse-soft" />
-            <p className="font-bold text-[13px]">
+            <p className="font-bold text-[14px]">
               {lang === "en" ? "Drag & Drop PDF Here" : "पीडीएफ यहाँ खींचें"}
             </p>
-            <p className="text-[11px] text-text-secondaryLight/80 mt-4">
+            <p className="text-[12px] text-text-secondaryLight/80 mt-4">
               {lang === "en" ? "or click to browse" : "या चुनने के लिए क्लिक करें"}
             </p>
             <input 
@@ -636,196 +634,134 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
               multiple 
               className="hidden" 
             />
-            <p className="text-[10px] text-brand-success font-semibold mt-16 flex items-center gap-4">
-              <ShieldCheck className="w-3.5 h-3.5" />
+            <p className="text-[11px] text-brand-success font-semibold mt-16 flex items-center gap-4">
+              <ShieldCheck className="w-4 h-4" />
               100% Local Sandbox
             </p>
           </div>
         ) : (
-          <div className="flex flex-col gap-12 max-h-[420px] overflow-y-auto pr-4">
-            {files.map((file, idx) => (
-              <div key={idx} className="p-12 border border-border-light dark:border-border-dark rounded-card bg-bg-light/30 dark:bg-bg-dark/20 flex flex-col gap-8">
-                <div className="flex items-center gap-8 min-w-0">
-                  <div className="w-8 h-8 rounded bg-[#D97706]/10 flex items-center justify-center text-[#D97706] text-[11px] font-extrabold flex-shrink-0">
-                    PDF
+          <div className="flex flex-col gap-16">
+            {/* Selected files listing */}
+            <div className="flex flex-col gap-10">
+              {files.map((file, idx) => (
+                <div key={idx} className="p-16 border border-border-light dark:border-border-dark rounded-card bg-bg-light/30 dark:bg-bg-dark/20 flex flex-col gap-12">
+                  <div className="flex items-center gap-12 min-w-0">
+                    <div className="w-9 h-9 rounded bg-[#D97706]/10 flex items-center justify-center text-[#D97706] text-[12px] font-extrabold flex-shrink-0">
+                      PDF
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="text-[13px] font-bold truncate">{file.name}</div>
+                      <div className="text-[11px] text-text-secondaryLight/70">{formatSize(file.size)}</div>
+                    </div>
                   </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="text-[12px] font-bold truncate">{file.name}</div>
-                    <div className="text-[10px] text-text-secondaryLight/70">{formatSize(file.size)}</div>
-                  </div>
-                </div>
 
-                {/* Per-file Rotation & Quick Adjust controls */}
-                <div className="flex items-center gap-8 border-t border-border-light/60 dark:border-border-dark/60 pt-8 mt-4 text-[11px]">
-                  <button 
-                    onClick={() => {
-                      const updated = [...previews];
-                      updated.forEach(p => {
-                        if (p.id.startsWith(file.name)) {
-                          p.rotation = (p.rotation + 90) % 360;
-                        }
-                      });
-                      setPreviews(updated);
-                    }}
-                    className="flex-1 py-4 border border-border-light dark:border-border-dark rounded hover:bg-white dark:hover:bg-surface-dark flex items-center justify-center gap-4"
-                    title="Rotate PDF 90°"
-                  >
-                    <RotateCw className="w-3 h-3" />
-                    <span>Rotate</span>
-                  </button>
-                  <button 
-                    onClick={() => alert("Enhancement applied! Contrast boosted by 10%.")}
-                    className="flex-1 py-4 border border-border-light dark:border-border-dark rounded hover:bg-white dark:hover:bg-surface-dark flex items-center justify-center gap-4"
-                  >
-                    <Sparkles className="w-3 h-3 text-[#D97706]" />
-                    <span>Enhance</span>
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* ========================================================================= */}
-      {/* 2. CENTER PANEL (col-span-5): Live Preview Canvas or 3D Intro             */}
-      {/* ========================================================================= */}
-      <div className="lg:col-span-5 p-20 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-modal shadow-sm flex flex-col gap-16 min-h-[500px] justify-between text-center items-center">
-        <div className="w-full flex justify-between items-center pb-12 border-b border-border-light dark:border-border-dark">
-          <h3 className="font-heading font-bold text-[14px] uppercase tracking-wider flex items-center gap-6">
-            <Eye className="w-4 h-4 text-[#D97706]" />
-            {lang === "en" ? "✨ Live Canvas" : "✨ लाइव कैनवास"}
-          </h3>
-          <button 
-            onClick={() => setShortcutsModal(true)}
-            className="text-[11px] text-text-secondaryLight/80 dark:text-text-secondaryDark/80 hover:text-[#D97706] flex items-center gap-4 animate-pulse"
-          >
-            <Keyboard className="w-3.5 h-3.5" />
-            <span>Shortcuts</span>
-          </button>
-        </div>
-
-        {/* 3D Intro Animation Loops (No file uploaded) */}
-        {files.length === 0 ? (
-          <div className="flex-1 flex flex-col items-center justify-center py-48 relative overflow-hidden w-full">
-            
-            {/* Merge PDF 3D Animation */}
-            {toolSlug === "merge-pdf" && (
-              <div className="relative w-[180px] h-[180px] flex items-center justify-center transform-gpu">
-                <div className="absolute w-[80px] h-[110px] bg-white border border-border-light shadow-modal rounded-card animate-merge-3d-1 flex items-center justify-center text-[#D97706] font-bold text-xs">A</div>
-                <div className="absolute w-[80px] h-[110px] bg-white border border-border-light shadow-modal rounded-card animate-merge-3d-2 flex items-center justify-center text-[#D97706] font-bold text-xs">B</div>
-                <div className="absolute w-[80px] h-[110px] bg-white border border-border-light shadow-modal rounded-card animate-merge-3d-3 flex items-center justify-center text-[#D97706] font-bold text-xs">C</div>
-              </div>
-            )}
-
-            {/* Split PDF 3D Animation */}
-            {toolSlug === "split-pdf" && (
-              <div className="relative w-[180px] h-[180px] flex items-center justify-center animate-split-book transform-gpu">
-                <div className="absolute w-[90px] h-[120px] bg-white border border-border-light shadow-modal rounded-card animate-split-page-left flex items-center justify-center text-[#D97706] font-bold text-xs">Left</div>
-                <div className="absolute w-[90px] h-[120px] bg-white border border-border-light shadow-modal rounded-card animate-split-page-right flex items-center justify-center text-[#D97706] font-bold text-xs">Right</div>
-              </div>
-            )}
-
-            {/* Delete Pages 3D Animation */}
-            {toolSlug === "delete-pages" && (
-              <div className="relative w-[180px] h-[180px] flex items-center justify-center transform-gpu">
-                <div className="w-[100px] h-[130px] bg-brand-error/5 border border-brand-error/20 shadow-modal rounded-card animate-delete-crumple flex items-center justify-center text-brand-error font-bold text-xs">Trash</div>
-              </div>
-            )}
-
-            {/* Rotate PDF 3D Animation */}
-            {toolSlug === "rotate-pdf" && (
-              <div className="relative w-[180px] h-[180px] flex items-center justify-center transform-gpu">
-                <div className="w-[100px] h-[130px] bg-white border border-border-light shadow-modal rounded-card animate-rotate-spin flex items-center justify-center text-[#D97706] font-bold text-xs">Rotate</div>
-              </div>
-            )}
-
-            {/* Compress PDF 3D Animation */}
-            {toolSlug === "compress-pdf" && (
-              <div className="relative w-[180px] h-[180px] flex items-center justify-center transform-gpu">
-                <div className="w-[100px] h-[130px] bg-white border border-border-light shadow-modal rounded-card animate-compress-squeeze flex items-center justify-center text-[#D97706] font-bold text-xs">Squeeze</div>
-              </div>
-            )}
-
-            {/* Default generic sparkles */}
-            {!["merge-pdf", "split-pdf", "delete-pages", "rotate-pdf", "compress-pdf"].includes(toolSlug) && (
-              <div className="relative w-[120px] h-[120px] rounded-pill bg-[#D97706]/5 border border-[#D97706]/10 flex items-center justify-center animate-pulse">
-                <Sparkles className="w-10 h-10 text-[#D97706]" />
-              </div>
-            )}
-
-            <p className="text-[12px] text-text-secondaryLight/80 text-center max-w-[260px] mt-24">
-              {lang === "en" ? `Playing ${toolName} 3D simulator. Drop files on the left to activate preview.` : `प्रतीक्षा करें... प्रीव्यू लोड करने के लिए बाईं ओर फ़ाइलें अपलोड करें।`}
-            </p>
-          </div>
-        ) : (
-          <div className="flex-1 w-full flex flex-col justify-center items-center relative min-h-[300px]">
-            {loadingPreviews ? (
-              <div className="flex flex-col items-center gap-8">
-                <RefreshCw className="w-8 h-8 text-[#D97706] animate-spin" />
-                <span className="text-[12px] text-text-secondaryLight">{lang === "en" ? "Rendering pages..." : "पेज रेंडर हो रहे हैं..."}</span>
-              </div>
-            ) : previews.length === 0 ? (
-              <div className="text-center text-[12px] text-text-secondaryLight">
-                {lang === "en" ? "Ready. Configure settings on the right panel to execute." : "तैयार। संकलन शुरू करने के लिए सेटिंग्स बदलें।"}
-              </div>
-            ) : (
-              <div className="w-full h-full max-h-[380px] overflow-y-auto grid grid-cols-2 gap-12 p-8">
-                {previews.map((prev, idx) => (
-                  <div 
-                    key={idx} 
-                    onClick={() => {
-                      if (toolSlug === "delete-pages" || toolSlug === "extract-pages") {
+                  {/* Quick Adjust controls */}
+                  <div className="flex items-center gap-8 border-t border-border-light/60 dark:border-border-dark/60 pt-8 text-[11px]">
+                    <button 
+                      onClick={() => {
                         const updated = [...previews];
-                        updated[idx].selected = !updated[idx].selected;
+                        updated.forEach(p => {
+                          if (p.id.startsWith(file.name)) {
+                            p.rotation = (p.rotation + 90) % 360;
+                          }
+                        });
                         setPreviews(updated);
-                      }
-                    }}
-                    className={`relative p-8 border rounded bg-bg-light dark:bg-bg-dark flex flex-col items-center justify-center cursor-pointer transition-all ${
-                      prev.selected 
-                        ? (toolSlug === "delete-pages" ? "border-brand-error bg-brand-error/5" : "border-[#D97706] bg-[#D97706]/5") 
-                        : "border-border-light dark:border-border-dark hover:border-[#D97706]"
-                    }`}
+                      }}
+                      className="flex-1 py-6 border border-border-light dark:border-border-dark rounded hover:bg-white dark:hover:bg-slate-800 flex items-center justify-center gap-4 text-slate-700 dark:text-slate-300 font-bold"
+                      title="Rotate PDF 90°"
+                      type="button"
+                    >
+                      <RotateCw className="w-3.5 h-3.5 text-[#D97706]" />
+                      <span>{lang === "en" ? "Rotate" : "घुमाएँ"}</span>
+                    </button>
+                    <button 
+                      onClick={() => alert(lang === "en" ? "Enhancement applied! Contrast boosted." : "सफलतापूर्वक सुधारा गया!")}
+                      className="flex-1 py-6 border border-border-light dark:border-border-dark rounded hover:bg-white dark:hover:bg-slate-800 flex items-center justify-center gap-4 text-slate-700 dark:text-slate-300 font-bold"
+                      type="button"
+                    >
+                      <Sparkles className="w-3.5 h-3.5 text-[#D97706]" />
+                      <span>{lang === "en" ? "Enhance" : "सुधारें"}</span>
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Embedded Page Previews Grid */}
+            {previews.length > 0 && (
+              <div className="mt-16 border-t border-slate-200/50 dark:border-slate-800/50 pt-20">
+                <div className="flex justify-between items-center mb-16">
+                  <h4 className="text-[13px] font-black text-slate-800 dark:text-white uppercase tracking-wider flex items-center gap-6">
+                    <Eye className="w-4 h-4 text-[#D97706]" />
+                    {lang === "en" ? "📄 Page Previews" : "📄 पेज प्रीव्यू"}
+                  </h4>
+                  <button
+                    onClick={() => setShortcutsModal(true)}
+                    className="text-[11px] text-text-secondaryLight/80 hover:text-[#D97706] flex items-center gap-4 font-bold"
+                    type="button"
                   >
-                    <img 
-                      src={prev.dataUrl} 
-                      alt={`Page ${prev.page}`} 
-                      className="max-h-[140px] shadow-sm transition-transform"
-                      style={{ transform: `rotate(${prev.rotation}deg)` }}
-                    />
-                    <span className="text-[10px] font-bold text-text-secondaryLight/80 mt-8">Page {prev.page}</span>
-                    
-                    {/* Visual Overlay Indicators */}
-                    {prev.selected && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded">
-                        {toolSlug === "delete-pages" ? (
-                          <Trash className="w-8 h-8 text-white" />
-                        ) : (
-                          <CheckCircle2 className="w-8 h-8 text-white" />
+                    <Keyboard className="w-3.5 h-3.5" />
+                    <span>{lang === "en" ? "Shortcuts" : "शॉर्टकट्स"}</span>
+                  </button>
+                </div>
+                
+                {loadingPreviews ? (
+                  <div className="flex flex-col items-center gap-8 py-32">
+                    <RefreshCw className="w-6 h-6 text-[#D97706] animate-spin" />
+                    <span className="text-[12px] text-text-secondaryLight">{lang === "en" ? "Rendering pages..." : "पेज रेंडर हो रहे हैं..."}</span>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-12 max-h-[340px] overflow-y-auto p-8 border border-border-light/60 dark:border-border-dark/60 rounded bg-bg-light/10 dark:bg-bg-dark/10">
+                    {previews.map((prev, idx) => (
+                      <div 
+                        key={idx} 
+                        onClick={() => {
+                          if (toolSlug === "delete-pages" || toolSlug === "extract-pages") {
+                            const updated = [...previews];
+                            updated[idx].selected = !updated[idx].selected;
+                            setPreviews(updated);
+                          }
+                        }}
+                        className={`relative p-6 border rounded bg-white dark:bg-slate-800 flex flex-col items-center justify-center cursor-pointer transition-all ${
+                          prev.selected 
+                            ? (toolSlug === "delete-pages" ? "border-brand-error bg-brand-error/5" : "border-[#D97706] bg-[#D97706]/5") 
+                            : "border-border-light dark:border-border-dark hover:border-[#D97706]"
+                        }`}
+                      >
+                        <img 
+                          src={prev.dataUrl} 
+                          alt={`Page ${prev.page}`} 
+                          className="max-h-[110px] shadow-sm transition-transform"
+                          style={{ transform: `rotate(${prev.rotation}deg)` }}
+                        />
+                        <span className="text-[10px] font-bold text-text-secondaryLight/80 mt-6">Page {prev.page}</span>
+                        
+                        {prev.selected && (
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded">
+                            {toolSlug === "delete-pages" ? (
+                              <Trash className="w-6 h-6 text-white" />
+                            ) : (
+                              <CheckCircle2 className="w-6 h-6 text-white" />
+                            )}
+                          </div>
                         )}
                       </div>
-                    )}
+                    ))}
                   </div>
-                ))}
+                )}
               </div>
             )}
           </div>
         )}
-
-        <div className="w-full text-[10px] text-center text-text-secondaryLight/70 border-t border-border-light dark:border-border-dark pt-8">
-          Your data remains safe inside client-side cache.
-        </div>
       </div>
 
-      {/* ========================================================================= */}
-      {/* 3. RIGHT PANEL (col-span-4): Tool Settings & Output Controls              */}
-      {/* ========================================================================= */}
-      <div className="lg:col-span-4 p-20 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-modal shadow-sm flex flex-col justify-between min-h-[500px]">
+      {/* 2. RIGHT COLUMN (col-span-4): Simplified Settings & Action Button */}
+      <div className="lg:col-span-4 p-24 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-modal shadow-sm flex flex-col justify-between min-h-[500px]">
         <div>
           <div className="pb-12 border-b border-border-light dark:border-border-dark mb-16">
-            <h3 className="font-heading font-bold text-[14px] uppercase tracking-wider flex items-center gap-6">
+            <h3 className="font-heading font-black text-[13px] uppercase tracking-wider flex items-center gap-6 text-[#D97706] dark:text-amber-400">
               <SlidersHorizontal className="w-4 h-4 text-[#D97706]" />
-              {lang === "en" ? "🎛️ Adjustment Studio" : "🎛️ एडजस्टमेंट स्टूडियो"}
+              {lang === "en" ? "⚙️ Options" : "⚙️ सेटअप"}
             </h3>
           </div>
 
@@ -836,40 +772,42 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
             {toolSlug === "compress-pdf" && (
               <div className="flex flex-col gap-12">
                 <div>
-                  <label className="font-bold block mb-6">Compression Mode</label>
-                  <div className="grid grid-cols-2 gap-8">
-                    {["Balanced", "High", "Small"].map((preset) => (
+                  <label className="font-bold block mb-6 text-[12px] uppercase text-text-secondaryLight">{lang === "en" ? "Compression Level" : "कंप्रेशन स्तर"}</label>
+                  <div className="flex flex-col gap-8">
+                    {[
+                      { key: "Balanced", label: lang === "en" ? "Recommended (Balanced)" : "अनुशंसित (संतुलित)" },
+                      { key: "High", label: lang === "en" ? "High Quality (Larger file)" : "उच्च गुणवत्ता (बड़ी फ़ाइल)" },
+                      { key: "Small", label: lang === "en" ? "Extreme Compression (Smallest file)" : "अत्यधिक कंप्रेशन (सबसे छोटी फ़ाइल)" }
+                    ].map((item) => (
                       <button
-                        key={preset}
-                        onClick={() => setCompressPreset(preset)}
-                        className={`py-8 rounded font-semibold border transition-all ${
-                          compressPreset === preset 
-                            ? "bg-[#D97706] border-[#D97706] text-white" 
-                            : "border-border-light dark:border-border-dark hover:bg-bg-light"
+                        key={item.key}
+                        onClick={() => setCompressPreset(item.key)}
+                        className={`px-12 py-8 rounded text-left font-semibold border transition-all text-[12px] ${
+                          compressPreset === item.key 
+                            ? "bg-[#D97706] border-[#D97706] text-white shadow-sm" 
+                            : "border-border-light dark:border-border-dark hover:bg-bg-light dark:hover:bg-slate-800"
                         }`}
                         type="button"
                       >
-                        {preset}
+                        {item.label}
                       </button>
                     ))}
                   </div>
                 </div>
 
-                <div>
-                  <div className="flex justify-between items-center mb-4">
-                    <label className="font-bold">Image Quality Presets</label>
-                    <span className="font-bold text-[#D97706]">{imgQuality}%</span>
+                <details className="mt-8 cursor-pointer">
+                  <summary className="text-[11px] font-bold text-text-secondaryLight/80 select-none outline-none">{lang === "en" ? "Advanced Options" : "उन्नत सेटिंग्स"}</summary>
+                  <div className="flex flex-col gap-10 pt-8 pl-8 text-[12px] border-l border-border-light/60 dark:border-border-dark/60 mt-4">
+                    <div className="flex items-center justify-between">
+                      <span>{lang === "en" ? "Convert to Grayscale" : "ग्रेस्केल में बदलें"}</span>
+                      <input type="checkbox" checked={grayscale} onChange={(e) => setGrayscale(e.target.checked)} className="w-4 h-4 accent-[#D97706]" />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span>{lang === "en" ? "Strip Metadata" : "मेटाडेटा हटाएँ"}</span>
+                      <input type="checkbox" checked={stripMetadata} onChange={(e) => setStripMetadata(e.target.checked)} className="w-4 h-4 accent-[#D97706]" />
+                    </div>
                   </div>
-                  <input 
-                    type="range" min="10" max="100" value={imgQuality} onChange={(e) => setImgQuality(Number(e.target.value))}
-                    className="w-full accent-[#D97706]"
-                  />
-                </div>
-
-                <div className="flex items-center justify-between py-6">
-                  <span className="font-bold">Convert to Grayscale</span>
-                  <input type="checkbox" checked={grayscale} onChange={(e) => setGrayscale(e.target.checked)} className="w-4 h-4" />
-                </div>
+                </details>
               </div>
             )}
 
@@ -877,17 +815,20 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
             {toolSlug === "merge-pdf" && (
               <div className="flex flex-col gap-12">
                 <div>
-                  <label className="font-bold block mb-4">Output Filename</label>
+                  <label className="font-bold block mb-4">{lang === "en" ? "Output Filename" : "फ़ाइल का नाम"}</label>
                   <input 
                     type="text" value={mergeFilename} onChange={(e) => setMergeFilename(e.target.value)}
-                    className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark"
+                    className="w-full px-10 py-8 border rounded bg-white dark:bg-surface-dark text-[13px] outline-none focus:border-[#D97706]"
                   />
                 </div>
 
-                <div className="flex items-center justify-between py-6">
-                  <span className="font-bold">Add Blank Page Separator</span>
-                  <input type="checkbox" checked={blankPageSeparator} onChange={(e) => setBlankPageSeparator(e.target.checked)} className="w-4 h-4" />
-                </div>
+                <details className="mt-8 cursor-pointer">
+                  <summary className="text-[11px] font-bold text-text-secondaryLight/80 select-none outline-none">{lang === "en" ? "Advanced Options" : "उन्नत सेटिंग्स"}</summary>
+                  <div className="flex items-center justify-between pt-8 pl-8 text-[12px] border-l border-border-light/60 dark:border-border-dark/60 mt-4">
+                    <span>{lang === "en" ? "Add Blank Page Separator" : "खाली पेज विभाजक जोड़ें"}</span>
+                    <input type="checkbox" checked={blankPageSeparator} onChange={(e) => setBlankPageSeparator(e.target.checked)} className="w-4 h-4 accent-[#D97706]" />
+                  </div>
+                </details>
               </div>
             )}
 
@@ -895,37 +836,43 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
             {toolSlug === "split-pdf" && (
               <div className="flex flex-col gap-12">
                 <div>
-                  <label className="font-bold block mb-6">Split Strategy</label>
-                  <div className="grid grid-cols-2 gap-8">
-                    {["ranges", "every-n"].map((mode) => (
+                  <label className="font-bold block mb-6 text-[12px] uppercase text-text-secondaryLight">{lang === "en" ? "Split Method" : "विभाजन का तरीका"}</label>
+                  <div className="flex flex-col gap-8">
+                    {[
+                      { key: "ranges", label: lang === "en" ? "Split by custom page ranges" : "कस्टम पेज रेंज द्वारा विभाजित करें" },
+                      { key: "every-n", label: lang === "en" ? "Split every N pages" : "हर N पेजों पर विभाजित करें" }
+                    ].map((item) => (
                       <button
-                        key={mode}
-                        onClick={() => setSplitMode(mode)}
-                        className={`py-8 rounded font-semibold border transition-all capitalize ${
-                          splitMode === mode 
-                            ? "bg-[#D97706] border-[#D97706] text-white" 
-                            : "border-border-light dark:border-border-dark hover:bg-bg-light"
+                        key={item.key}
+                        onClick={() => setSplitMode(item.key)}
+                        className={`px-12 py-8 rounded text-left font-semibold border transition-all text-[12px] ${
+                          splitMode === item.key 
+                            ? "bg-[#D97706] border-[#D97706] text-white shadow-sm" 
+                            : "border-border-light dark:border-border-dark hover:bg-bg-light dark:hover:bg-slate-800"
                         }`}
                         type="button"
                       >
-                        {mode === "ranges" ? "Split Ranges" : "Every N Pages"}
+                        {item.label}
                       </button>
                     ))}
                   </div>
                 </div>
 
                 <div>
-                  <label className="font-bold block mb-4">Defined Ranges</label>
+                  <label className="font-bold block mb-4">{lang === "en" ? "Defined Page Ranges" : "निर्धारित पेज रेंज"}</label>
                   <input 
                     type="text" value={mergePages} onChange={(e) => setMergePages(e.target.value)} placeholder="e.g. 1-3, 5-8"
-                    className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark"
+                    className="w-full px-10 py-8 border rounded bg-white dark:bg-surface-dark text-[13px] outline-none focus:border-[#D97706]"
                   />
                 </div>
 
-                <div className="flex items-center justify-between py-6">
-                  <span className="font-bold">Download All Chunks as ZIP</span>
-                  <input type="checkbox" checked={splitZip} onChange={(e) => setSplitZip(e.target.checked)} className="w-4 h-4" />
-                </div>
+                <details className="mt-8 cursor-pointer">
+                  <summary className="text-[11px] font-bold text-text-secondaryLight/80 select-none outline-none">{lang === "en" ? "Advanced Options" : "उन्नत सेटिंग्स"}</summary>
+                  <div className="flex items-center justify-between pt-8 pl-8 text-[12px] border-l border-border-light/60 dark:border-border-dark/60 mt-4">
+                    <span>{lang === "en" ? "Download All as ZIP" : "सभी को ZIP के रूप में डाउनलोड करें"}</span>
+                    <input type="checkbox" checked={splitZip} onChange={(e) => setSplitZip(e.target.checked)} className="w-4 h-4 accent-[#D97706]" />
+                  </div>
+                </details>
               </div>
             )}
 
@@ -935,11 +882,11 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
                 <div className="grid grid-cols-2 gap-8">
                   <div>
                     <label className="font-bold block mb-4">Crop Top (px)</label>
-                    <input type="number" value={cropTop} onChange={(e) => setCropTop(Number(e.target.value))} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark" />
+                    <input type="number" value={cropTop} onChange={(e) => setCropTop(Number(e.target.value))} className="w-full px-10 py-8 border rounded bg-white dark:bg-surface-dark text-[13px] outline-none focus:border-[#D97706]" />
                   </div>
                   <div>
                     <label className="font-bold block mb-4">Crop Bottom (px)</label>
-                    <input type="number" value={cropBottom} onChange={(e) => setCropBottom(Number(e.target.value))} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark" />
+                    <input type="number" value={cropBottom} onChange={(e) => setCropBottom(Number(e.target.value))} className="w-full px-10 py-8 border rounded bg-white dark:bg-surface-dark text-[13px] outline-none focus:border-[#D97706]" />
                   </div>
                 </div>
               </div>
@@ -949,124 +896,75 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
             {toolSlug === "page-numbers" && (
               <div className="flex flex-col gap-12">
                 <div>
-                  <label className="font-bold block mb-4">Placement Grid</label>
-                  {render9PointGrid(numPosition, setNumPosition)}
+                  <label className="font-bold block mb-4">{lang === "en" ? "Position" : "स्थिति"}</label>
+                  <select 
+                    value={numPosition} onChange={(e) => setNumPosition(e.target.value)}
+                    className="w-full px-10 py-8 border rounded bg-white dark:bg-surface-dark text-[13px] outline-none focus:border-[#D97706]"
+                  >
+                    <option value="bottom-right">Bottom Right</option>
+                    <option value="bottom-left">Bottom Left</option>
+                    <option value="top-right">Top Right</option>
+                    <option value="top-left">Top Left</option>
+                  </select>
                 </div>
               </div>
             )}
 
-            {/* 11. Watermark Settings */}
+            {/* 11. Watermark PDF */}
             {toolSlug === "watermark-pdf" && (
               <div className="flex flex-col gap-12">
                 <div>
-                  <label className="font-bold block mb-4">Watermark Text</label>
-                  <input type="text" value={watermarkText} onChange={(e) => setWatermarkText(e.target.value)} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark" />
+                  <label className="font-bold block mb-4">{lang === "en" ? "Watermark Text" : "वॉटरमार्क टेक्स्ट"}</label>
+                  <input 
+                    type="text" value={watermarkText} onChange={(e) => setWatermarkText(e.target.value)}
+                    className="w-full px-10 py-8 border rounded bg-white dark:bg-surface-dark text-[13px] outline-none focus:border-[#D97706]"
+                  />
                 </div>
                 <div>
                   <div className="flex justify-between items-center mb-4">
-                    <label className="font-bold">Opacity</label>
+                    <label className="font-bold">{lang === "en" ? "Opacity" : "पारदर्शिता"}</label>
                     <span className="font-bold text-[#D97706]">{watermarkOpacity}%</span>
                   </div>
                   <input type="range" min="10" max="100" value={watermarkOpacity} onChange={(e) => setWatermarkOpacity(Number(e.target.value))} className="w-full accent-[#D97706]" />
                 </div>
                 <div>
-                  <label className="font-bold block mb-4">Placement Grid</label>
+                  <label className="font-bold block mb-4">{lang === "en" ? "Placement Grid" : "स्थान निर्धारण"}</label>
                   {render9PointGrid(watermarkPosition, setWatermarkPosition)}
                 </div>
               </div>
             )}
 
-            {/* 12. Header Footer Settings */}
-            {toolSlug === "header-footer" && (
-              <div className="flex flex-col gap-12">
-                <div>
-                  <label className="font-bold block mb-4">Header Center Text</label>
-                  <input type="text" value={headerCenter} onChange={(e) => setHeaderCenter(e.target.value)} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark" />
-                </div>
-                <div>
-                  <label className="font-bold block mb-4">Footer Center Text</label>
-                  <input type="text" value={footerCenter} onChange={(e) => setFooterCenter(e.target.value)} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark" />
-                </div>
-              </div>
-            )}
-
-            {/* 13. Metadata Settings */}
-            {toolSlug === "metadata-editor" && (
-              <div className="flex flex-col gap-12">
-                <div>
-                  <label className="font-bold block mb-4">Document Title</label>
-                  <input type="text" value={metaTitle} onChange={(e) => setMetaTitle(e.target.value)} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark" />
-                </div>
-                <div>
-                  <label className="font-bold block mb-4">Author</label>
-                  <input type="text" value={metaAuthor} onChange={(e) => setMetaAuthor(e.target.value)} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark" />
-                </div>
-              </div>
-            )}
-
-            {/* 47. Protect settings */}
+            {/* 27. Protect PDF */}
             {toolSlug === "protect-pdf" && (
               <div className="flex flex-col gap-12">
                 <div>
-                  <label className="font-bold block mb-4">Set Encryption Password</label>
+                  <label className="font-bold block mb-4">{lang === "en" ? "Open Password" : "खोलने का पासवर्ड"}</label>
                   <input 
                     type="password" value={openPassword} onChange={(e) => setOpenPassword(e.target.value)}
-                    className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark"
-                  />
-                  <div className="flex items-center gap-6 mt-8">
-                    <span className="text-[11px] font-semibold text-text-secondaryLight">Strength:</span>
-                    <span className={`text-[10px] font-bold px-6 py-2 rounded text-white ${strength.color}`}>
-                      {strength.label}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* 48. Unlock settings */}
-            {toolSlug === "unlock-pdf" && (
-              <div className="flex flex-col gap-12">
-                <div>
-                  <label className="font-bold block mb-4">Decrypt Password</label>
-                  <input 
-                    type="password" value={openPassword} onChange={(e) => setOpenPassword(e.target.value)}
-                    className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark"
+                    className="w-full px-10 py-8 border rounded bg-white dark:bg-surface-dark text-[13px] outline-none focus:border-[#D97706]"
                   />
                 </div>
               </div>
             )}
 
-            {/* 49. Sign PDF settings */}
+            {/* 29. Sign PDF */}
             {toolSlug === "sign-pdf" && (
               <div className="flex flex-col gap-12">
                 <div>
-                  <label className="font-bold block mb-4">Type Signature</label>
+                  <label className="font-bold block mb-4">{lang === "en" ? "Type Signature" : "हस्ताक्षर टाइप करें"}</label>
                   <input 
                     type="text" value={signatureText} onChange={(e) => setSignatureText(e.target.value)}
-                    className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark font-serif text-lg italic text-[#D97706]"
+                    className="w-full px-10 py-8 border rounded bg-white dark:bg-surface-dark font-serif text-[15px] italic text-[#D97706] outline-none focus:border-[#D97706]"
                   />
                 </div>
               </div>
             )}
 
-            {/* 51. Bates numbering settings */}
-            {toolSlug === "bates-numbering" && (
-              <div className="flex flex-col gap-12">
-                <div>
-                  <label className="font-bold block mb-4">Bates Prefix</label>
-                  <input type="text" value={batesPrefix} onChange={(e) => setBatesPrefix(e.target.value)} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark" />
-                </div>
-                <div>
-                  <label className="font-bold block mb-4">Bates Start Number</label>
-                  <input type="number" value={batesStart} onChange={(e) => setBatesStart(Number(e.target.value))} className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark" />
-                </div>
-              </div>
-            )}
-
-            {/* 55. Ask PDF settings */}
+            {/* 55. Ask PDF Chat */}
             {toolSlug === "ask-pdf" && (
               <div className="flex flex-col gap-12">
-                <div className="border border-border-light dark:border-border-dark rounded p-12 max-h-[160px] overflow-y-auto bg-bg-light/30 flex flex-col gap-8">
+                <label className="font-bold block mb-4">{lang === "en" ? "Chat with PDF" : "पीडीएफ से बात करें"}</label>
+                <div className="border border-border-light dark:border-border-dark rounded p-12 max-h-[180px] overflow-y-auto bg-bg-light/30 flex flex-col gap-8">
                   {chatLog.map((chat, idx) => (
                     <div key={idx} className={`p-8 rounded max-w-[85%] text-[11px] leading-relaxed ${
                       chat.sender === "user" ? "bg-[#D97706]/10 self-end text-right" : "bg-white dark:bg-surface-dark self-start border"
@@ -1075,33 +973,35 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
                     </div>
                   ))}
                 </div>
-                <div className="flex gap-4">
+                <div className="flex gap-6 mt-8">
                   <input 
-                    type="text" placeholder="Ask details about document..." value={chatInput} onChange={(e) => setChatInput(e.target.value)}
+                    type="text" value={chatInput} onChange={(e) => setChatInput(e.target.value)}
+                    placeholder={lang === "en" ? "Ask a question..." : "प्रश्न पूछें..."}
                     onKeyDown={(e) => e.key === "Enter" && handleChatSend()}
-                    className="flex-1 px-8 py-6 border rounded bg-white dark:bg-surface-dark text-[11px]"
+                    className="flex-1 px-10 py-8 border rounded bg-white dark:bg-surface-dark text-[12px] outline-none focus:border-[#D97706]"
                   />
-                  <button onClick={handleChatSend} className="p-8 bg-[#D97706] text-white rounded" type="button">
+                  <button onClick={handleChatSend} className="px-12 bg-[#D97706] text-white rounded hover:bg-[#B45309] transition-colors" type="button">
                     <Send className="w-3.5 h-3.5" />
                   </button>
                 </div>
               </div>
             )}
 
-            {/* Default generic display */}
-            {!["compress-pdf", "merge-pdf", "split-pdf", "crop-pdf", "duplicate-pages", "add-blank-page", "watermark-pdf", "page-numbers", "header-footer", "annotate-pdf", "redact-pdf", "metadata-editor", "flatten-pdf", "remove-hidden-data", "deskew-scan", "auto-enhance-scan", "remove-background", "ocr-pdf", "protect-pdf", "sign-pdf", "bates-numbering", "invert-colors", "pdf-to-long-image", "jpg-to-pdf", "png-to-pdf", "image-to-pdf", "ask-pdf"].includes(toolSlug) && (
-              <p className="text-[13px] text-text-secondaryLight/80">
-                {lang === "en" ? "No additional settings required for this tool. Files will compile with default high-quality profiles." : "इस टूल के लिए किसी अतिरिक्त सेटिंग की आवश्यकता नहीं है।"}
-              </p>
+            {/* Fallback description for other tools */}
+            {!["compress-pdf", "merge-pdf", "split-pdf", "crop-pdf", "page-numbers", "watermark-pdf", "protect-pdf", "sign-pdf", "ask-pdf"].includes(toolSlug) && (
+              <div className="text-[12px] text-text-secondaryLight/80 leading-relaxed py-10">
+                {lang === "en" ? "No extra configurations needed. Click the Compile button below to process." : "कोई अतिरिक्त सेटिंग्स आवश्यक नहीं हैं। संकलन करने के लिए नीचे बटन दबाएं।"}
+              </div>
             )}
+
           </div>
         </div>
 
         {/* Action Button & Estimation Details */}
         <div className="mt-24 border-t border-border-light dark:border-border-dark pt-16">
           <div className="flex justify-between items-center text-[12px] font-bold text-text-secondaryLight mb-12">
-            <span>Estimated Output:</span>
-            <span className="text-brand-success">
+            <span>{lang === "en" ? "Estimated Output:" : "अनुमानित फ़ाइल आकार:"}</span>
+            <span className="text-brand-success font-black">
               {files.length > 0 ? `~${formatSize(Math.round(files[0].size * 0.75))}` : "0 KB"}
             </span>
           </div>
@@ -1112,7 +1012,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
             className={`w-full py-12 flex items-center justify-center gap-8 rounded-btn font-bold text-white shadow-btn transition-all duration-150 ${
               files.length === 0 || running
                 ? "bg-[#D97706]/50 cursor-not-allowed"
-                : "bg-[#D97706] hover:bg-[#D97706]/90"
+                : "bg-[#D97706] hover:bg-[#B45309]"
             }`}
             type="button"
           >
@@ -1144,7 +1044,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
               <span className="text-[12px] font-bold text-brand-success">✓ Ready for download!</span>
               <a 
                 href={downloadUrl} download={downloadName}
-                className="w-full py-8 bg-brand-success hover:bg-brand-success/90 text-white font-bold text-[12px] rounded text-center shadow-sm flex items-center justify-center gap-6"
+                className="w-full py-8 bg-brand-success hover:bg-brand-success/95 text-white font-bold text-[12px] rounded text-center shadow-sm flex items-center justify-center gap-6"
               >
                 <Download className="w-4 h-4" />
                 Download PDF
@@ -1182,7 +1082,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
             </ul>
             <button 
               onClick={() => setShortcutsModal(false)}
-              className="mt-24 w-full py-8 bg-[#D97706] text-white rounded-btn font-semibold hover:bg-[#D97706]/90 text-[14px]"
+              className="mt-24 w-full py-8 bg-[#D97706] text-white rounded-btn font-semibold hover:bg-[#B45309] text-[14px]"
               type="button"
             >
               Close
