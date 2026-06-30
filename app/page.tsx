@@ -202,13 +202,13 @@ export default function Home() {
           </div>
           
           {/* Search box */}
-          <div className="w-full max-w-[320px]">
+          <div className="w-full max-w-[200px]">
             <input
               type="text"
-              placeholder={lang === "en" ? "compress, OCR, watermark..." : "खोजें..."}
+              placeholder={lang === "en" ? "compress, OCR..." : "खोजें..."}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-16 py-10 border border-slate-200 dark:border-slate-700 rounded-btn bg-white dark:bg-surface-dark text-[14px] outline-none focus:border-[#D97706] transition-all"
+              className="w-full px-12 py-8 border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-surface-dark text-[13px] outline-none focus:border-[#D97706] transition-all shadow-sm"
             />
           </div>
         </div>
