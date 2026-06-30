@@ -94,7 +94,7 @@ async function accessibilityChecker(buffer: Buffer): Promise<Uint8Array> {
   for (const page of pages) {
     const resources = page.node.Resources();
     if (resources) {
-      const xObjects = resources.get(PDFName.of("XObject"));
+      const xObjects = resources.get(PDFName.of("XObject")) as any;
       if (xObjects) {
         const keys = xObjects.keys();
         for (const k of keys) {
@@ -315,7 +315,7 @@ async function jimpImageFilter(buffer: Buffer, isPdfFile: boolean, tool: string,
     for (const page of pages) {
       const resources = page.node.Resources();
       if (!resources) continue;
-      const xObjects = resources.get(PDFName.of('XObject'));
+      const xObjects = resources.get(PDFName.of('XObject')) as any;
       if (!xObjects) continue;
       
       const xObjectKeys = xObjects.keys();
@@ -328,7 +328,7 @@ async function jimpImageFilter(buffer: Buffer, isPdfFile: boolean, tool: string,
             if (tool === "auto-enhance-scan") {
               img.contrast(0.25).brightness(0.08).normalize();
             } else if (tool === "remove-background") {
-              img.scan(0, 0, img.bitmap.width, img.bitmap.height, function(x, y, idx) {
+              img.scan(0, 0, img.bitmap.width, img.bitmap.height, function(this: any, x: any, y: any, idx: any) {
                 const r = this.bitmap.data[idx + 0];
                 const g = this.bitmap.data[idx + 1];
                 const b = this.bitmap.data[idx + 2];
@@ -339,7 +339,7 @@ async function jimpImageFilter(buffer: Buffer, isPdfFile: boolean, tool: string,
                 }
               });
             } else if (tool === "deskew-scan") {
-              img.rotate(angle || 1.5, false);
+              img.rotate(angle || 1.5);
             }
             const processedBuffer = await img.getBuffer("image/jpeg");
             xObject.setContent(new Uint8Array(processedBuffer));
@@ -355,7 +355,7 @@ async function jimpImageFilter(buffer: Buffer, isPdfFile: boolean, tool: string,
     if (tool === "auto-enhance-scan") {
       img.contrast(0.25).brightness(0.08).normalize();
     } else if (tool === "remove-background") {
-      img.scan(0, 0, img.bitmap.width, img.bitmap.height, function(x, y, idx) {
+      img.scan(0, 0, img.bitmap.width, img.bitmap.height, function(this: any, x: any, y: any, idx: any) {
         const r = this.bitmap.data[idx + 0];
         const g = this.bitmap.data[idx + 1];
         const b = this.bitmap.data[idx + 2];
@@ -366,7 +366,7 @@ async function jimpImageFilter(buffer: Buffer, isPdfFile: boolean, tool: string,
         }
       });
     } else if (tool === "deskew-scan") {
-      img.rotate(angle || 1.5, false);
+      img.rotate(angle || 1.5);
     }
     const processedBuffer = await img.getBuffer("image/jpeg");
     const doc = await PDFDocument.create();
@@ -386,7 +386,7 @@ async function ocrPdf(buffer: Buffer, isPdfFile: boolean): Promise<Uint8Array> {
     for (const page of pages) {
       const resources = page.node.Resources();
       if (!resources) continue;
-      const xObjects = resources.get(PDFName.of('XObject'));
+      const xObjects = resources.get(PDFName.of('XObject')) as any;
       if (!xObjects) continue;
       
       const xObjectKeys = xObjects.keys();
@@ -502,7 +502,7 @@ async function makePdfFromText(title: string, body: string): Promise<Uint8Array>
 }
 
 function parsePages(input: string, total: number): number[] {
-  if (!input || input.trim() === "1-") return [...Array(total).keys()];
+  if (!input || input.trim() === "1-") return Array.from({ length: total }, (_, i) => i);
   const out: number[] = [];
   for (const part of input.split(",")) {
     const [a, b] = part.trim().split("-").map((n) => Number.parseInt(n, 10));
@@ -634,7 +634,7 @@ export async function POST(req: NextRequest, { params }: { params: { tool: strin
       output = await makePdfFromText(tool.toUpperCase(), `Processed with WeLovePDF core engine. Mode: ${tool}`);
     }
 
-    return new NextResponse(output, {
+    return new NextResponse(output as any, {
       status: 200,
       headers: {
         "Content-Type": "application/pdf",

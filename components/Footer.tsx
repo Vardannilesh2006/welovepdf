@@ -5,8 +5,14 @@ interface FooterProps {
   lang: "en" | "hi";
 }
 
+interface FooterLink {
+  label: string;
+  href: string;
+  external?: boolean;
+}
+
 export default function Footer({ lang }: FooterProps) {
-  const columns = [
+  const columns: { title: string; links: FooterLink[] }[] = [
     {
       title: lang === "en" ? "Product" : "उत्पाद",
       links: [
