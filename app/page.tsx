@@ -114,35 +114,112 @@ export default function Home() {
 
       {/* ─── HERO ─────────────────────────────────────────── */}
       <section className="max-w-7xl mx-auto px-24 pt-48 pb-40">
-        <div className="max-w-[680px]">
-          <p className="text-[12px] font-heading font-black text-[#D97706] uppercase tracking-[0.12em] mb-16">
-            {lang === "en" ? "Free · Browser-based · Private" : "मुफ्त · ब्राउज़र-आधारित · निजी"}
-          </p>
-          <h1 className="font-heading font-black text-[44px] sm:text-[56px] leading-[1.05] tracking-tight text-slate-900 mb-16">
-            {lang === "en"
-              ? <>63 free PDF tools,<br />100% in your browser.</>
-              : <>63 मुफ्त PDF टूल्स,<br />100% आपके ब्राउज़र में।</>}
-          </h1>
-          <p className="text-[16px] text-slate-500 leading-relaxed mb-28 max-w-[540px]">
-            {lang === "en"
-              ? "Merge, split, compress, convert, OCR, sign, and more — files never leave your device."
-              : "मर्ज, स्प्लिट, कंप्रेस, कनवर्ट, OCR, साइन और बहुत कुछ — फाइलें कभी आपके डिवाइस नहीं छोड़तीं।"}
-          </p>
-          <div className="flex flex-wrap items-center gap-12">
-            <a
-              href="#workspace"
-              className="px-24 py-12 bg-[#D97706] hover:bg-[#B45309] text-white font-heading font-black rounded-btn text-[14px] transition-colors shadow-sm"
-            >
-              {lang === "en" ? "Open Workspace" : "वर्क्सपेस खोलें"}
-            </a>
-            <a
-              href="#workspace"
-              className="text-[14px] font-heading font-bold text-slate-500 hover:text-[#D97706] transition-colors flex items-center gap-6"
-            >
-              {lang === "en" ? "Browse all tools" : "सभी टूल्स देखें"}
-              <ChevronRight className="w-4 h-4" />
-            </a>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-48 items-center">
+
+          {/* Left: Headline + CTAs */}
+          <div className="max-w-[560px]">
+            <p className="text-[12px] font-heading font-black text-[#D97706] uppercase tracking-[0.12em] mb-16">
+              {lang === "en" ? "Free · Browser-based · Private" : "मुफ्त · ब्राउज़र-आधारित · निजी"}
+            </p>
+            <h1 className="font-heading font-black text-[44px] sm:text-[52px] leading-[1.05] tracking-tight text-slate-900 mb-16">
+              {lang === "en"
+                ? <>63 free PDF tools,<br />100% in your browser.</>
+                : <>63 मुफ्त PDF टूल्स,<br />100% आपके ब्राउज़र में।</>}
+            </h1>
+            <p className="text-[15px] text-slate-500 leading-relaxed mb-28 max-w-[480px]">
+              {lang === "en"
+                ? "Merge, split, compress, convert, OCR, sign — files never leave your device."
+                : "मर्ज, स्प्लिट, कंप्रेस, कनवर्ट, OCR, साइन — फाइलें कभी आपके डिवाइस नहीं छोड़तीं।"}
+            </p>
+            <div className="flex flex-wrap items-center gap-12">
+              <a
+                href="#workspace"
+                className="px-24 py-12 bg-[#D97706] hover:bg-[#B45309] text-white font-heading font-black rounded-btn text-[14px] transition-colors shadow-sm"
+              >
+                {lang === "en" ? "Open Workspace" : "वर्क्सपेस खोलें"}
+              </a>
+              <a
+                href="#workspace"
+                className="text-[14px] font-heading font-bold text-slate-500 hover:text-[#D97706] transition-colors flex items-center gap-6"
+              >
+                {lang === "en" ? "Browse all tools" : "सभी टूल्स देखें"}
+                <ChevronRight className="w-4 h-4" />
+              </a>
+            </div>
           </div>
+
+          {/* Right: Floating 3D Tool Cards */}
+          <div className="hidden lg:flex relative h-[360px] items-center justify-center" aria-hidden="true">
+            {/* Background glow */}
+            <div className="absolute inset-0 rounded-[32px] bg-gradient-to-br from-[#FFF5EB] to-[#FFF8F2]" />
+
+            {/* Row 1 — top row, 2 cards */}
+            <div className="absolute top-[20px] left-[10px] float-1">
+              <a href="/merge-pdf" className="flex items-center gap-10 px-16 py-12 bg-white border border-[#E5E7EB] rounded-[12px] shadow-md hover:border-[#D97706] hover:shadow-lg transition-all" style={{boxShadow:'0 6px 24px rgba(0,0,0,0.08)'}}>
+                <div className="w-9 h-9 rounded-[8px] bg-[#FFF5EB] flex items-center justify-center text-[#D97706]">
+                  <GitMerge className="w-4 h-4" />
+                </div>
+                <span className="font-heading font-bold text-[13px] text-slate-800">Merge PDF</span>
+              </a>
+            </div>
+
+            <div className="absolute top-[20px] right-[10px] float-2">
+              <a href="/compress-pdf" className="flex items-center gap-10 px-16 py-12 bg-white border border-[#E5E7EB] rounded-[12px] shadow-md hover:border-[#D97706] hover:shadow-lg transition-all" style={{boxShadow:'0 6px 24px rgba(0,0,0,0.08)'}}>
+                <div className="w-9 h-9 rounded-[8px] bg-[#FFF5EB] flex items-center justify-center text-[#D97706]">
+                  <Minimize2 className="w-4 h-4" />
+                </div>
+                <span className="font-heading font-bold text-[13px] text-slate-800">Compress PDF</span>
+              </a>
+            </div>
+
+            {/* Row 2 — middle, 3 cards */}
+            <div className="absolute top-[115px] left-[-10px] float-3">
+              <a href="/pdf-to-jpg" className="flex items-center gap-10 px-16 py-12 bg-white border border-[#E5E7EB] rounded-[12px] shadow-md hover:border-[#D97706] hover:shadow-lg transition-all" style={{boxShadow:'0 6px 24px rgba(0,0,0,0.08)'}}>
+                <div className="w-9 h-9 rounded-[8px] bg-[#FFF5EB] flex items-center justify-center text-[#D97706]">
+                  <ImageDown className="w-4 h-4" />
+                </div>
+                <span className="font-heading font-bold text-[13px] text-slate-800">PDF to JPG</span>
+              </a>
+            </div>
+
+            <div className="absolute top-[108px] left-1/2 -translate-x-1/2 float-1">
+              <a href="/split-pdf" className="flex items-center gap-10 px-16 py-14 bg-[#D97706] rounded-[12px] shadow-lg hover:bg-[#B45309] transition-all" style={{boxShadow:'0 8px 28px rgba(217,119,6,0.3)'}}>
+                <div className="w-9 h-9 rounded-[8px] bg-white/20 flex items-center justify-center text-white">
+                  <Scissors className="w-4 h-4" />
+                </div>
+                <span className="font-heading font-bold text-[13px] text-white">Split PDF</span>
+              </a>
+            </div>
+
+            <div className="absolute top-[115px] right-[-10px] float-4">
+              <a href="/jpg-to-pdf" className="flex items-center gap-10 px-16 py-12 bg-white border border-[#E5E7EB] rounded-[12px] shadow-md hover:border-[#D97706] hover:shadow-lg transition-all" style={{boxShadow:'0 6px 24px rgba(0,0,0,0.08)'}}>
+                <div className="w-9 h-9 rounded-[8px] bg-[#FFF5EB] flex items-center justify-center text-[#D97706]">
+                  <Upload className="w-4 h-4" />
+                </div>
+                <span className="font-heading font-bold text-[13px] text-slate-800">JPG to PDF</span>
+              </a>
+            </div>
+
+            {/* Row 3 — bottom, 2 cards */}
+            <div className="absolute bottom-[20px] left-[10px] float-5">
+              <a href="/ocr-pdf" className="flex items-center gap-10 px-16 py-12 bg-white border border-[#E5E7EB] rounded-[12px] shadow-md hover:border-[#D97706] hover:shadow-lg transition-all" style={{boxShadow:'0 6px 24px rgba(0,0,0,0.08)'}}>
+                <div className="w-9 h-9 rounded-[8px] bg-[#FFF5EB] flex items-center justify-center text-[#D97706]">
+                  <ScanText className="w-4 h-4" />
+                </div>
+                <span className="font-heading font-bold text-[13px] text-slate-800">OCR PDF</span>
+              </a>
+            </div>
+
+            <div className="absolute bottom-[20px] right-[10px] float-6">
+              <a href="/protect-pdf" className="flex items-center gap-10 px-16 py-12 bg-white border border-[#E5E7EB] rounded-[12px] shadow-md hover:border-[#D97706] hover:shadow-lg transition-all" style={{boxShadow:'0 6px 24px rgba(0,0,0,0.08)'}}>
+                <div className="w-9 h-9 rounded-[8px] bg-[#FFF5EB] flex items-center justify-center text-[#D97706]">
+                  <Lock className="w-4 h-4" />
+                </div>
+                <span className="font-heading font-bold text-[13px] text-slate-800">Protect PDF</span>
+              </a>
+            </div>
+          </div>
+
         </div>
       </section>
 
@@ -203,14 +280,14 @@ export default function Home() {
             </p>
           </div>
           {/* Search */}
-          <div className="relative w-full sm:w-[280px]">
-            <Search className="absolute left-12 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <div className="relative w-full sm:w-[220px]">
+            <Search className="absolute left-10 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
             <input
               type="search"
-              placeholder={lang === "en" ? "Search tools… e.g. compress, OCR" : "टूल खोजें…"}
+              placeholder={lang === "en" ? "Search… compress, OCR" : "खोजें…"}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-36 pr-12 py-10 border border-[#E5E7EB] rounded bg-white text-[13px] outline-none focus:border-[#D97706] transition-colors shadow-sm"
+              className="w-full pl-32 pr-10 py-8 border border-[#E5E7EB] rounded bg-white text-[13px] outline-none focus:border-[#D97706] transition-colors"
             />
           </div>
         </div>
