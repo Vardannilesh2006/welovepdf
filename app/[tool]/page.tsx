@@ -162,7 +162,7 @@ export default function ToolPage({ params, lang = "en" }: { params: { tool: stri
     },
     {
       q: `Is there a file size limit for using the ${tool.name} tool?`,
-      a: `We support files up to 20MB for free local processing. Pro tier accounts support server-powered operations for files up to 200MB.`
+      a: `We support files up to 200MB for local browser-side processing, completely free of charge.`
     }
   ];
 

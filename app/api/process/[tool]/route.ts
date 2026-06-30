@@ -174,7 +174,7 @@ async function hindiInvoiceGenerator(): Promise<Uint8Array> {
   page.drawLine({ start: { x: 50, y }, end: { x: 545, y }, thickness: 1, color: rgb(0.88, 0.92, 0.96) });
   
   y -= 25;
-  page.drawText("WeLovePDF Pro Subscription", { x: 55, y, size: 11, font: regularFont });
+  page.drawText("WeLovePDF Enterprise Sponsorship", { x: 55, y, size: 11, font: regularFont });
   page.drawText("INR 634.75", { x: 260, y, size: 11, font: regularFont });
   page.drawText("18% GST", { x: 380, y, size: 11, font: regularFont });
   page.drawText("INR 749.00", { x: 470, y, size: 11, font: regularFont });

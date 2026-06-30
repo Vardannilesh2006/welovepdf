@@ -369,13 +369,13 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
     const selected = e.target.files ? Array.from(e.target.files) : [];
     if (selected.length === 0) return;
     
-    const limit = 20 * 1024 * 1024;
+    const limit = 200 * 1024 * 1024;
     for (const f of selected) {
       if (f.size > limit) {
         setErrorMsg(
           lang === "en" 
-            ? `This file is ${(f.size / (1024 * 1024)).toFixed(1)}MB. Free plan limit is 20MB. Upgrade to Pro for up to 200MB.`
-            : `यह फ़ाइल ${(f.size / (1024 * 1024)).toFixed(1)}MB की है। मुफ्त सीमा 20MB है। 200MB तक की फाइलों के लिए प्रो में अपग्रेड करें।`
+            ? `This file is ${(f.size / (1024 * 1024)).toFixed(1)}MB. Maximum allowed file size is 200MB.`
+            : `यह फ़ाइल ${(f.size / (1024 * 1024)).toFixed(1)}MB की है। अधिकतम अनुमत फ़ाइल आकार 200MB है।`
         );
         return;
       }
@@ -395,13 +395,13 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
     const selected = e.dataTransfer.files ? Array.from(e.dataTransfer.files) : [];
     if (selected.length === 0) return;
     
-    const limit = 20 * 1024 * 1024;
+    const limit = 200 * 1024 * 1024;
     for (const f of selected) {
       if (f.size > limit) {
         setErrorMsg(
           lang === "en" 
-            ? `This file is ${(f.size / (1024 * 1024)).toFixed(1)}MB. Free plan limit is 20MB. Upgrade to Pro for up to 200MB.`
-            : `यह फ़ाइल ${(f.size / (1024 * 1024)).toFixed(1)}MB की है। मुफ्त सीमा 20MB है। 200MB तक की फाइलों के लिए प्रो में अपग्रेड करें।`
+            ? `This file is ${(f.size / (1024 * 1024)).toFixed(1)}MB. Maximum allowed file size is 200MB.`
+            : `यह फ़ाइल ${(f.size / (1024 * 1024)).toFixed(1)}MB की है। अधिकतम अनुमत फ़ाइल आकार 200MB है।`
         );
         return;
       }

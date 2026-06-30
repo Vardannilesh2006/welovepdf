@@ -1,113 +1,109 @@
 "use client";
 
-import React, { useState } from "react";
-import { Check } from "lucide-react";
+import React from "react";
+import { Check, Shield, Zap, Sparkles, FileText, Lock } from "lucide-react";
 import { useLang } from "../../components/LangContext";
 
 export default function Pricing() {
   const { lang } = useLang();
-  const [cycle, setCycle] = useState<"monthly" | "yearly">("yearly");
 
-  const title = lang === "en" ? "Simple, Transparent Pricing" : "सरल और पारदर्शी मूल्य निर्धारण";
-  const desc = lang === "en" 
-    ? "Core browser-side tools are free forever. Upgrade to Pro for large files, Tesseract OCR, and Gemini AI assistance."
-    : "सभी मुख्य ब्राउज़र टूल्स हमेशा मुफ़्त हैं। बड़े दस्तावेज़ों, ओसीआर और एआई असिस्टेंट के लिए प्रो में अपग्रेड करें।";
+  const title = lang === "en" ? "100% Free. No Limits." : "100% मुफ्त। कोई सीमा नहीं।";
+  const subtitle = lang === "en"
+    ? "Every single tool, feature, and AI assistant on WeLovePDF is completely free for everyone. No credit cards, no subscriptions, no sign-ups."
+    : "WeLovePDF पर हर एक टूल, फीचर और AI असिस्टेंट सभी के लिए पूरी तरह से मुफ्त है। कोई क्रेडिट कार्ड नहीं, कोई सब्सक्रिप्शन नहीं, कोई साइन-अप नहीं।";
+
+  const featuresList = [
+    {
+      icon: <Zap className="w-[24px] h-[24px] text-brand-blue" />,
+      title: lang === "en" ? "62+ PDF Tools" : "62+ पीडीएफ टूल्स",
+      desc: lang === "en"
+        ? "Merge, split, compress, edit, convert, page delete, and watermark. Fully unlocked with no cap on pages or downloads."
+        : "मर्ज, स्प्लिट, कंप्रेस, एडिट, कनवर्ट, पेज डिलीट और वॉटरमार्क। बिना किसी सीमा के पूरी तरह से अनलॉक।"
+    },
+    {
+      icon: <Sparkles className="w-[24px] h-[24px] text-brand-amber" />,
+      title: lang === "en" ? "AI Document Workspace" : "एआई दस्तावेज़ कार्यक्षेत्र",
+      desc: lang === "en"
+        ? "Summarize massive textbooks, translate formats, and chat directly with your files instantly, powered by advanced local processing."
+        : "विशाल पाठ्यपुस्तकों का सारांश बनाएं, अनुवाद करें और सीधे अपने दस्तावेज़ों के साथ चैट करें, बिल्कुल मुफ्त।"
+    },
+    {
+      icon: <Shield className="w-[24px] h-[24px] text-brand-success" />,
+      title: lang === "en" ? "100% Private Sandbox" : "100% सुरक्षित सैंडबॉक्स",
+      desc: lang === "en"
+        ? "Your files never touch remote servers. All processing happens locally in your browser, maintaining full security."
+        : "आपकी फाइलें कभी बाहरी सर्वर पर नहीं जातीं। सभी प्रोसेसिंग आपके ब्राउज़र में सुरक्षित रूप से होती है।"
+    },
+    {
+      icon: <FileText className="w-[24px] h-[24px] text-indigo-500" />,
+      title: lang === "en" ? "Up to 200MB Files" : "200MB तक की फाइलें",
+      desc: lang === "en"
+        ? "Massive file sizes supported. Merge or compress high-resolution scanned documents without paying a single rupee."
+        : "बड़ी फाइलों का समर्थन। बिना एक भी रुपया भुगतान किए उच्च-रिज़ॉल्यूशन स्कैन की गई फाइलों को मर्ज या कंप्रेस करें।"
+    }
+  ];
 
   return (
-    <div className="max-w-7xl mx-auto px-16 py-64">
-      <div className="text-center max-w-[680px] mx-auto mb-48">
-        <h1 className="text-4xl font-extrabold tracking-tight mb-16">{title}</h1>
-        <p className="text-text-secondaryLight dark:text-text-secondaryDark text-[16px] leading-relaxed mb-32">
-          {desc}
+    <div className="max-w-6xl mx-auto px-24 py-80 min-h-[80vh] flex flex-col justify-center">
+      
+      {/* Premium Header */}
+      <div className="text-center max-w-[800px] mx-auto mb-64 relative">
+        <div className="absolute inset-0 -top-40 bg-gradient-to-r from-brand-blue/10 to-indigo-500/10 blur-[64px] rounded-full -z-10 pointer-events-none" />
+        
+        <div className="inline-flex items-center gap-8 px-16 py-6 bg-brand-success/10 border border-brand-success/20 rounded-pill text-brand-success font-bold text-[12px] uppercase tracking-wider mb-24">
+          <Check className="w-[14px] h-[14px]" /> {lang === "en" ? "Zero Cost Forever" : "हमेशा के लिए मुफ़्त"}
+        </div>
+        
+        <h1 className="text-4xl sm:text-5xl font-heading font-extrabold tracking-tight text-text-primaryLight dark:text-text-primaryDark mb-24">
+          {title}
+        </h1>
+        
+        <p className="text-text-secondaryLight dark:text-text-secondaryDark text-[16px] sm:text-[18px] leading-relaxed max-w-[680px] mx-auto font-medium">
+          {subtitle}
         </p>
-
-        {/* Cycle selector */}
-        <div className="inline-flex items-center gap-8 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-pill p-4 shadow-sm">
-          <button
-            onClick={() => setCycle("monthly")}
-            className={`px-16 py-6 rounded-pill text-[13px] font-semibold transition-all ${cycle === "monthly" ? "bg-brand-blue text-white" : ""}`}
-            type="button"
-          >
-            Monthly
-          </button>
-          <button
-            onClick={() => setCycle("yearly")}
-            className={`px-16 py-6 rounded-pill text-[13px] font-semibold transition-all flex items-center gap-6 ${cycle === "yearly" ? "bg-brand-blue text-white" : ""}`}
-            type="button"
-          >
-            Yearly
-            <span className="text-[10px] bg-brand-amber text-text-primaryLight font-bold px-6 py-1 rounded-pill uppercase tracking-wider">Save 30%</span>
-          </button>
-        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-24 items-stretch max-w-5xl mx-auto">
-        {/* Free Plan */}
-        <div className="p-32 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-modal shadow-sm flex flex-col justify-between">
-          <div>
-            <h3 className="font-bold text-xl mb-8">Free Plan</h3>
-            <p className="text-[13px] text-text-secondaryLight mb-24">Core browser-side operations</p>
-            <div className="text-3xl font-bold mb-24">₹0</div>
-            <ul className="flex flex-col gap-12 text-[14px]">
-              <li className="flex items-center gap-8"><Check className="w-4 h-4 text-brand-success" /> All 60+ Browser tools</li>
-              <li className="flex items-center gap-8"><Check className="w-4 h-4 text-brand-success" /> 100% Private local sandbox</li>
-              <li className="flex items-center gap-8 text-text-secondaryLight/50"><span className="text-brand-error">✗</span> Up to 200MB files</li>
-              <li className="flex items-center gap-8 text-text-secondaryLight/50"><span className="text-brand-error">✗</span> Server OCR & AI assistance</li>
-            </ul>
-          </div>
-          <a href="/#tools" className="mt-32 w-full py-10 border border-brand-blue text-brand-blue rounded-btn text-center font-bold text-[14px] hover:bg-brand-blue/5">
-            Use Free Tools
-          </a>
-        </div>
-
-        {/* Pro Plan */}
-        <div className="p-32 bg-white dark:bg-surface-dark border-2 border-brand-blue rounded-modal shadow-lg flex flex-col justify-between relative transform scale-[1.02]">
-          <span className="absolute top-0 right-32 transform -translate-y-1/2 bg-brand-blue text-white text-[10px] font-bold px-12 py-4 rounded-pill uppercase tracking-wider shadow-sm">
-            Most Popular
-          </span>
-          <div>
-            <h3 className="font-bold text-xl mb-8">Pro Plan</h3>
-            <p className="text-[13px] text-text-secondaryLight mb-24">Advanced file operations & AI</p>
-            <div className="text-3xl font-bold mb-24">
-              {cycle === "yearly" ? "₹524" : "₹749"}
-              <span className="text-sm font-normal text-text-secondaryLight"> / month</span>
+      {/* Feature Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-32 mb-64">
+        {featuresList.map((f, idx) => (
+          <div 
+            key={idx} 
+            className="p-32 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-modal shadow-sm flex gap-20 transition-all hover:shadow-card-hover group hover:-translate-y-2 duration-300"
+          >
+            <div className="p-12 bg-surface-light dark:bg-bg-dark rounded-btn group-hover:scale-110 transition-transform h-fit">
+              {f.icon}
             </div>
-            <ul className="flex flex-col gap-12 text-[14px]">
-              <li className="flex items-center gap-8"><Check className="w-4 h-4 text-brand-success" /> 200MB File size limit</li>
-              <li className="flex items-center gap-8"><Check className="w-4 h-4 text-brand-success" /> Advanced Tesseract OCR</li>
-              <li className="flex items-center gap-8"><Check className="w-4 h-4 text-brand-success" /> Gemini AI summarizations</li>
-              <li className="flex items-center gap-8"><Check className="w-4 h-4 text-brand-success" /> GST Hindi Invoice creator</li>
-              <li className="flex items-center gap-8"><Check className="w-4 h-4 text-brand-success" /> Stripe checkout & receipts</li>
-            </ul>
+            <div>
+              <h3 className="font-heading font-bold text-[18px] text-text-primaryLight dark:text-text-primaryDark mb-8">
+                {f.title}
+              </h3>
+              <p className="text-text-secondaryLight dark:text-text-secondaryDark text-[14px] leading-relaxed font-medium">
+                {f.desc}
+              </p>
+            </div>
           </div>
-          <div className="mt-32">
-            <button className="w-full py-12 bg-brand-blue hover:bg-brand-blue/90 text-white rounded-btn font-bold text-[14px] shadow-btn" type="button">
-              Start 7-Day Free Trial
-            </button>
-            <p className="text-[11px] text-text-secondaryLight/80 text-center mt-12">
-              No credit card required • 30-day refund guarantee
-            </p>
-          </div>
-        </div>
-
-        {/* Enterprise Plan */}
-        <div className="p-32 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-modal shadow-sm flex flex-col justify-between">
-          <div>
-            <h3 className="font-bold text-xl mb-8">Enterprise</h3>
-            <p className="text-[13px] text-text-secondaryLight mb-24">For departments & large volumes</p>
-            <div className="text-3xl font-bold mb-24">Custom</div>
-            <ul className="flex flex-col gap-12 text-[14px]">
-              <li className="flex items-center gap-8"><Check className="w-4 h-4 text-brand-success" /> Dedicated REST API keys</li>
-              <li className="flex items-center gap-8"><Check className="w-4 h-4 text-brand-success" /> Unlimited processing limits</li>
-              <li className="flex items-center gap-8"><Check className="w-4 h-4 text-brand-success" /> SSO integration & dashboards</li>
-              <li className="flex items-center gap-8"><Check className="w-4 h-4 text-brand-success" /> 24/7 SLA response times</li>
-            </ul>
-          </div>
-          <a href="/contact" className="mt-32 w-full py-10 border border-border-light dark:border-border-dark text-center font-bold text-[14px] hover:bg-bg-light dark:hover:bg-surface-dark rounded-btn">
-            Contact Sales
-          </a>
-        </div>
+        ))}
       </div>
+
+      {/* Bottom Guarantee Box */}
+      <div className="p-40 bg-gradient-to-br from-brand-blue/5 to-indigo-500/5 border border-brand-blue/10 dark:border-indigo-500/10 rounded-modal text-center max-w-3xl mx-auto w-full shadow-sm">
+        <div className="flex items-center justify-center gap-12 text-brand-blue dark:text-indigo-400 font-bold mb-12 text-[16px]">
+          <Lock className="w-[20px] h-[20px]" />
+          <span>{lang === "en" ? "Private, Secure, & Serverless" : "निजी, सुरक्षित, और सर्वरलेस"}</span>
+        </div>
+        <p className="text-text-secondaryLight dark:text-text-secondaryDark text-[14px] leading-relaxed max-w-2xl mx-auto font-medium mb-24">
+          {lang === "en" 
+            ? "WeLovePDF runs core processing in your browser sandbox. We do not store, view, or scan your documents on remote servers. It is the ultimate combination of premium speed and complete privacy."
+            : "WeLovePDF आपके ब्राउज़र सैंडबॉक्स में मुख्य प्रोसेसिंग चलाता है। हम आपके दस्तावेज़ों को बाहरी सर्वर पर संग्रहीत, देख या स्कैन नहीं करते हैं।"}
+        </p>
+        <a 
+          href="/#tools" 
+          className="inline-flex items-center gap-8 px-28 py-14 bg-brand-blue hover:bg-brand-blue/90 text-white font-bold rounded-btn shadow-btn transition-transform active:scale-95 text-[14px]"
+        >
+          {lang === "en" ? "Start Using All Tools" : "सभी टूल्स का उपयोग शुरू करें"}
+        </a>
+      </div>
+
     </div>
   );
 }

@@ -261,7 +261,7 @@ export const toolFaqs: Record<string, { q: string; a: string }[]> = {
   "merge-pdf": [
     { q: "Is WeLovePDF's Merge PDF tool free?", a: "Yes, WeLovePDF's Merge PDF tool is 100% free with no hidden charges, page limits, or watermarks." },
     { q: "Are files uploaded to a remote server?", a: "No. All merging operations are processed entirely inside your local browser sandbox via Javascript/WebAssembly. Your documents never leave your computer." },
-    { q: "Is there a file size limit for merging PDFs?", a: "Free local processing supports files up to 20MB. Pro tier supports server-assisted processing for documents up to 200MB." },
+    { q: "Is there a file size limit for merging PDFs?", a: "We support files up to 200MB for local browser-side processing, completely free of charge." },
     { q: "Can I merge password-protected PDFs?", a: "Yes, you can upload and unlock password-protected files in your browser locally before combining them." },
     { q: "Can I rearrange the order of pages?", a: "Yes. Our visual workspace renders page thumbnails so you can drag and drop pages to arrange them in the exact order you want." },
     { q: "Does merging PDFs reduce original document quality?", a: "No. The pages are combined at the structural layer without re-compressing elements, keeping images and text crisp." },
@@ -309,12 +309,12 @@ export const seoMeta: Record<string, { title: string; desc: string }> = {
     desc: "Discover all 60 PDF tools. Learn about browser-first local processing, server-side OCR, and AI document assistant capabilities."
   },
   "pricing": {
-    title: "Pricing Plans - WeLovePDF",
-    desc: "Simple, transparent pricing. Use browser-side PDF tools for free, or upgrade to Pro for advanced server OCR, batch uploads, and AI assistance."
+    title: "Free Forever - WeLovePDF",
+    desc: "WeLovePDF is 100% free forever. No registrations, no limits, all tools are completely unlocked."
   },
   "faq": {
     title: "FAQ - WeLovePDF",
-    desc: "Got questions? Find answers about WeLovePDF's file safety, browser local sandbox, Pro plan limits, and AI document helpers."
+    desc: "Got questions? Find answers about WeLovePDF's file safety, browser local sandbox, file limits, and AI document helpers."
   },
   "security": {
     title: "Security and Privacy Standards - WeLovePDF",
