@@ -445,7 +445,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
             onClick={() => setter(pos)}
             className={`w-full h-full rounded border transition-colors ${
               current === pos 
-                ? "bg-brand-blue border-brand-blue" 
+                ? "bg-[#D97706] border-[#D97706]" 
                 : "border-border-light dark:border-border-dark hover:bg-white dark:hover:bg-surface-dark"
             }`}
             title={pos}
@@ -599,8 +599,8 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
       <div className="lg:col-span-3 p-20 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-modal shadow-sm flex flex-col gap-16 min-h-[500px]">
         <div className="flex justify-between items-center pb-12 border-b border-border-light dark:border-border-dark">
           <h3 className="font-heading font-bold text-[14px] uppercase tracking-wider flex items-center gap-6">
-            <Layers className="w-4 h-4 text-brand-blue" />
-            {lang === "en" ? "Source Files" : "स्रोत फ़ाइलें"}
+            <Layers className="w-4 h-4 text-[#D97706]" />
+            {lang === "en" ? "📂 Document Desk" : "📂 डॉक्यूमेंट डेस्क"}
           </h3>
           {files.length > 0 && (
             <button 
@@ -617,10 +617,10 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
           <div 
             onDragOver={handleDragOver}
             onDrop={handleDrop}
-            className="flex-1 flex flex-col items-center justify-center p-20 border-2 border-dashed border-brand-blue/30 hover:border-brand-blue bg-brand-blue/5 rounded-card text-center cursor-pointer transition-all"
+            className="flex-1 flex flex-col items-center justify-center p-20 border-2 border-dashed border-[#D97706]/30 hover:border-[#D97706] bg-[#D97706]/5 rounded-card text-center cursor-pointer transition-all"
             onClick={() => fileInputRef.current?.click()}
           >
-            <Upload className="w-10 h-10 text-brand-blue mb-12 animate-pulse-soft" />
+            <Upload className="w-10 h-10 text-[#D97706] mb-12 animate-pulse-soft" />
             <p className="font-bold text-[13px]">
               {lang === "en" ? "Drag & Drop PDF Here" : "पीडीएफ यहाँ खींचें"}
             </p>
@@ -646,7 +646,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
             {files.map((file, idx) => (
               <div key={idx} className="p-12 border border-border-light dark:border-border-dark rounded-card bg-bg-light/30 dark:bg-bg-dark/20 flex flex-col gap-8">
                 <div className="flex items-center gap-8 min-w-0">
-                  <div className="w-8 h-8 rounded bg-brand-blue/10 flex items-center justify-center text-brand-blue text-[11px] font-extrabold flex-shrink-0">
+                  <div className="w-8 h-8 rounded bg-[#D97706]/10 flex items-center justify-center text-[#D97706] text-[11px] font-extrabold flex-shrink-0">
                     PDF
                   </div>
                   <div className="min-w-0 flex-1">
@@ -677,7 +677,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
                     onClick={() => alert("Enhancement applied! Contrast boosted by 10%.")}
                     className="flex-1 py-4 border border-border-light dark:border-border-dark rounded hover:bg-white dark:hover:bg-surface-dark flex items-center justify-center gap-4"
                   >
-                    <Sparkles className="w-3 h-3 text-brand-blue" />
+                    <Sparkles className="w-3 h-3 text-[#D97706]" />
                     <span>Enhance</span>
                   </button>
                 </div>
@@ -693,12 +693,12 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
       <div className="lg:col-span-5 p-20 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-modal shadow-sm flex flex-col gap-16 min-h-[500px] justify-between text-center items-center">
         <div className="w-full flex justify-between items-center pb-12 border-b border-border-light dark:border-border-dark">
           <h3 className="font-heading font-bold text-[14px] uppercase tracking-wider flex items-center gap-6">
-            <Eye className="w-4 h-4 text-brand-blue" />
-            {lang === "en" ? "Interactive Workspace" : "इंटरैक्टिव वर्कस्पेस"}
+            <Eye className="w-4 h-4 text-[#D97706]" />
+            {lang === "en" ? "✨ Live Canvas" : "✨ लाइव कैनवास"}
           </h3>
           <button 
             onClick={() => setShortcutsModal(true)}
-            className="text-[11px] text-text-secondaryLight/80 dark:text-text-secondaryDark/80 hover:text-brand-blue flex items-center gap-4 animate-pulse"
+            className="text-[11px] text-text-secondaryLight/80 dark:text-text-secondaryDark/80 hover:text-[#D97706] flex items-center gap-4 animate-pulse"
           >
             <Keyboard className="w-3.5 h-3.5" />
             <span>Shortcuts</span>
@@ -712,17 +712,17 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
             {/* Merge PDF 3D Animation */}
             {toolSlug === "merge-pdf" && (
               <div className="relative w-[180px] h-[180px] flex items-center justify-center transform-gpu">
-                <div className="absolute w-[80px] h-[110px] bg-white border border-border-light shadow-modal rounded-card animate-merge-3d-1 flex items-center justify-center text-brand-blue font-bold text-xs">A</div>
-                <div className="absolute w-[80px] h-[110px] bg-white border border-border-light shadow-modal rounded-card animate-merge-3d-2 flex items-center justify-center text-brand-blue font-bold text-xs">B</div>
-                <div className="absolute w-[80px] h-[110px] bg-white border border-border-light shadow-modal rounded-card animate-merge-3d-3 flex items-center justify-center text-brand-blue font-bold text-xs">C</div>
+                <div className="absolute w-[80px] h-[110px] bg-white border border-border-light shadow-modal rounded-card animate-merge-3d-1 flex items-center justify-center text-[#D97706] font-bold text-xs">A</div>
+                <div className="absolute w-[80px] h-[110px] bg-white border border-border-light shadow-modal rounded-card animate-merge-3d-2 flex items-center justify-center text-[#D97706] font-bold text-xs">B</div>
+                <div className="absolute w-[80px] h-[110px] bg-white border border-border-light shadow-modal rounded-card animate-merge-3d-3 flex items-center justify-center text-[#D97706] font-bold text-xs">C</div>
               </div>
             )}
 
             {/* Split PDF 3D Animation */}
             {toolSlug === "split-pdf" && (
               <div className="relative w-[180px] h-[180px] flex items-center justify-center animate-split-book transform-gpu">
-                <div className="absolute w-[90px] h-[120px] bg-white border border-border-light shadow-modal rounded-card animate-split-page-left flex items-center justify-center text-brand-blue font-bold text-xs">Left</div>
-                <div className="absolute w-[90px] h-[120px] bg-white border border-border-light shadow-modal rounded-card animate-split-page-right flex items-center justify-center text-brand-blue font-bold text-xs">Right</div>
+                <div className="absolute w-[90px] h-[120px] bg-white border border-border-light shadow-modal rounded-card animate-split-page-left flex items-center justify-center text-[#D97706] font-bold text-xs">Left</div>
+                <div className="absolute w-[90px] h-[120px] bg-white border border-border-light shadow-modal rounded-card animate-split-page-right flex items-center justify-center text-[#D97706] font-bold text-xs">Right</div>
               </div>
             )}
 
@@ -736,21 +736,21 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
             {/* Rotate PDF 3D Animation */}
             {toolSlug === "rotate-pdf" && (
               <div className="relative w-[180px] h-[180px] flex items-center justify-center transform-gpu">
-                <div className="w-[100px] h-[130px] bg-white border border-border-light shadow-modal rounded-card animate-rotate-spin flex items-center justify-center text-brand-blue font-bold text-xs">Rotate</div>
+                <div className="w-[100px] h-[130px] bg-white border border-border-light shadow-modal rounded-card animate-rotate-spin flex items-center justify-center text-[#D97706] font-bold text-xs">Rotate</div>
               </div>
             )}
 
             {/* Compress PDF 3D Animation */}
             {toolSlug === "compress-pdf" && (
               <div className="relative w-[180px] h-[180px] flex items-center justify-center transform-gpu">
-                <div className="w-[100px] h-[130px] bg-white border border-border-light shadow-modal rounded-card animate-compress-squeeze flex items-center justify-center text-brand-blue font-bold text-xs">Squeeze</div>
+                <div className="w-[100px] h-[130px] bg-white border border-border-light shadow-modal rounded-card animate-compress-squeeze flex items-center justify-center text-[#D97706] font-bold text-xs">Squeeze</div>
               </div>
             )}
 
             {/* Default generic sparkles */}
             {!["merge-pdf", "split-pdf", "delete-pages", "rotate-pdf", "compress-pdf"].includes(toolSlug) && (
-              <div className="relative w-[120px] h-[120px] rounded-pill bg-brand-blue/5 border border-brand-blue/10 flex items-center justify-center animate-pulse">
-                <Sparkles className="w-10 h-10 text-brand-blue" />
+              <div className="relative w-[120px] h-[120px] rounded-pill bg-[#D97706]/5 border border-[#D97706]/10 flex items-center justify-center animate-pulse">
+                <Sparkles className="w-10 h-10 text-[#D97706]" />
               </div>
             )}
 
@@ -762,7 +762,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
           <div className="flex-1 w-full flex flex-col justify-center items-center relative min-h-[300px]">
             {loadingPreviews ? (
               <div className="flex flex-col items-center gap-8">
-                <RefreshCw className="w-8 h-8 text-brand-blue animate-spin" />
+                <RefreshCw className="w-8 h-8 text-[#D97706] animate-spin" />
                 <span className="text-[12px] text-text-secondaryLight">{lang === "en" ? "Rendering pages..." : "पेज रेंडर हो रहे हैं..."}</span>
               </div>
             ) : previews.length === 0 ? (
@@ -783,8 +783,8 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
                     }}
                     className={`relative p-8 border rounded bg-bg-light dark:bg-bg-dark flex flex-col items-center justify-center cursor-pointer transition-all ${
                       prev.selected 
-                        ? (toolSlug === "delete-pages" ? "border-brand-error bg-brand-error/5" : "border-brand-blue bg-brand-blue/5") 
-                        : "border-border-light dark:border-border-dark hover:border-brand-blue"
+                        ? (toolSlug === "delete-pages" ? "border-brand-error bg-brand-error/5" : "border-[#D97706] bg-[#D97706]/5") 
+                        : "border-border-light dark:border-border-dark hover:border-[#D97706]"
                     }`}
                   >
                     <img 
@@ -824,8 +824,8 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
         <div>
           <div className="pb-12 border-b border-border-light dark:border-border-dark mb-16">
             <h3 className="font-heading font-bold text-[14px] uppercase tracking-wider flex items-center gap-6">
-              <SlidersHorizontal className="w-4 h-4 text-brand-blue" />
-              {lang === "en" ? "Tool Configuration" : "कॉन्फ़िगरेशन सेटिंग्स"}
+              <SlidersHorizontal className="w-4 h-4 text-[#D97706]" />
+              {lang === "en" ? "🎛️ Adjustment Studio" : "🎛️ एडजस्टमेंट स्टूडियो"}
             </h3>
           </div>
 
@@ -844,7 +844,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
                         onClick={() => setCompressPreset(preset)}
                         className={`py-8 rounded font-semibold border transition-all ${
                           compressPreset === preset 
-                            ? "bg-brand-blue border-brand-blue text-white" 
+                            ? "bg-[#D97706] border-[#D97706] text-white" 
                             : "border-border-light dark:border-border-dark hover:bg-bg-light"
                         }`}
                         type="button"
@@ -858,11 +858,11 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
                 <div>
                   <div className="flex justify-between items-center mb-4">
                     <label className="font-bold">Image Quality Presets</label>
-                    <span className="font-bold text-brand-blue">{imgQuality}%</span>
+                    <span className="font-bold text-[#D97706]">{imgQuality}%</span>
                   </div>
                   <input 
                     type="range" min="10" max="100" value={imgQuality} onChange={(e) => setImgQuality(Number(e.target.value))}
-                    className="w-full accent-brand-blue"
+                    className="w-full accent-[#D97706]"
                   />
                 </div>
 
@@ -903,7 +903,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
                         onClick={() => setSplitMode(mode)}
                         className={`py-8 rounded font-semibold border transition-all capitalize ${
                           splitMode === mode 
-                            ? "bg-brand-blue border-brand-blue text-white" 
+                            ? "bg-[#D97706] border-[#D97706] text-white" 
                             : "border-border-light dark:border-border-dark hover:bg-bg-light"
                         }`}
                         type="button"
@@ -965,9 +965,9 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
                 <div>
                   <div className="flex justify-between items-center mb-4">
                     <label className="font-bold">Opacity</label>
-                    <span className="font-bold text-brand-blue">{watermarkOpacity}%</span>
+                    <span className="font-bold text-[#D97706]">{watermarkOpacity}%</span>
                   </div>
-                  <input type="range" min="10" max="100" value={watermarkOpacity} onChange={(e) => setWatermarkOpacity(Number(e.target.value))} className="w-full accent-brand-blue" />
+                  <input type="range" min="10" max="100" value={watermarkOpacity} onChange={(e) => setWatermarkOpacity(Number(e.target.value))} className="w-full accent-[#D97706]" />
                 </div>
                 <div>
                   <label className="font-bold block mb-4">Placement Grid</label>
@@ -1043,7 +1043,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
                   <label className="font-bold block mb-4">Type Signature</label>
                   <input 
                     type="text" value={signatureText} onChange={(e) => setSignatureText(e.target.value)}
-                    className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark font-serif text-lg italic text-brand-blue"
+                    className="w-full px-8 py-6 border rounded bg-white dark:bg-surface-dark font-serif text-lg italic text-[#D97706]"
                   />
                 </div>
               </div>
@@ -1069,7 +1069,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
                 <div className="border border-border-light dark:border-border-dark rounded p-12 max-h-[160px] overflow-y-auto bg-bg-light/30 flex flex-col gap-8">
                   {chatLog.map((chat, idx) => (
                     <div key={idx} className={`p-8 rounded max-w-[85%] text-[11px] leading-relaxed ${
-                      chat.sender === "user" ? "bg-brand-blue/10 self-end text-right" : "bg-white dark:bg-surface-dark self-start border"
+                      chat.sender === "user" ? "bg-[#D97706]/10 self-end text-right" : "bg-white dark:bg-surface-dark self-start border"
                     }`}>
                       {chat.text}
                     </div>
@@ -1081,7 +1081,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
                     onKeyDown={(e) => e.key === "Enter" && handleChatSend()}
                     className="flex-1 px-8 py-6 border rounded bg-white dark:bg-surface-dark text-[11px]"
                   />
-                  <button onClick={handleChatSend} className="p-8 bg-brand-blue text-white rounded" type="button">
+                  <button onClick={handleChatSend} className="p-8 bg-[#D97706] text-white rounded" type="button">
                     <Send className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -1111,8 +1111,8 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
             disabled={files.length === 0 || running}
             className={`w-full py-12 flex items-center justify-center gap-8 rounded-btn font-bold text-white shadow-btn transition-all duration-150 ${
               files.length === 0 || running
-                ? "bg-brand-blue/50 cursor-not-allowed"
-                : "bg-brand-blue hover:bg-brand-blue/90"
+                ? "bg-[#D97706]/50 cursor-not-allowed"
+                : "bg-[#D97706] hover:bg-[#D97706]/90"
             }`}
             type="button"
           >
@@ -1123,12 +1123,12 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
           {/* Dynamic Progress indicator */}
           {(running || progress > 0) && (
             <div className="mt-16">
-              <div className="flex justify-between items-center mb-6 text-[12px] font-bold text-brand-blue">
+              <div className="flex justify-between items-center mb-6 text-[12px] font-bold text-[#D97706]">
                 <span>{stepMessage}</span>
                 <span>{progress}%</span>
               </div>
               <div className="w-full h-6 bg-bg-light dark:bg-bg-dark rounded-pill overflow-hidden">
-                <div className="h-full bg-brand-blue rounded-pill transition-all duration-200" style={{ width: `${progress}%` }}></div>
+                <div className="h-full bg-[#D97706] rounded-pill transition-all duration-200" style={{ width: `${progress}%` }}></div>
               </div>
             </div>
           )}
@@ -1159,7 +1159,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-16 bg-black/50 backdrop-blur-sm">
           <div className="w-full max-w-[400px] p-24 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-modal shadow-modal">
             <h3 className="font-bold text-lg flex items-center gap-8 mb-16">
-              <Keyboard className="w-5 h-5 text-brand-blue" />
+              <Keyboard className="w-5 h-5 text-[#D97706]" />
               {lang === "en" ? "Keyboard Shortcuts" : "कीबोर्ड शॉर्टकट्स"}
             </h3>
             <ul className="flex flex-col gap-12 text-[14px]">
@@ -1182,7 +1182,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
             </ul>
             <button 
               onClick={() => setShortcutsModal(false)}
-              className="mt-24 w-full py-8 bg-brand-blue text-white rounded-btn font-semibold hover:bg-brand-blue/90 text-[14px]"
+              className="mt-24 w-full py-8 bg-[#D97706] text-white rounded-btn font-semibold hover:bg-[#D97706]/90 text-[14px]"
               type="button"
             >
               Close
