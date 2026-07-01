@@ -8,6 +8,8 @@ export default function TermsAndConditions() {
 
   return (
     <div className="max-w-4xl mx-auto px-16 py-64 prose dark:prose-invert">
+      <title>{lang === "en" ? "Terms & Conditions | WeLovePDF" : "नियम और शर्तें | WeLovePDF"}</title>
+      <meta name="description" content={lang === "en" ? "Read the WeLovePDF terms of service. Free client-side processing for both personal and commercial use cases." : "WeLovePDF के नियम और शर्तें पढ़ें। व्यक्तिगत और व्यावसायिक उपयोग के लिए मुफ़्त उपकरण।"} />
       <h1 className="text-3xl font-extrabold mb-16">
         {lang === "en" ? "Terms & Conditions" : "नियम और शर्तें"}
       </h1>

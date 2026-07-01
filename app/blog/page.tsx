@@ -23,6 +23,8 @@ export default function BlogList() {
 
   return (
     <div className="max-w-7xl mx-auto px-16 py-64">
+      <title>{title} | WeLovePDF</title>
+      <meta name="description" content={desc} />
       <div className="max-w-3xl mb-48">
         <h1 className="text-4xl font-extrabold tracking-tight mb-16 flex items-center gap-12 font-heading">
           <BookOpen className="w-8 h-8 text-brand-blue" />

@@ -11,6 +11,8 @@ export default function Security() {
   
   return (
     <div className="max-w-4xl mx-auto px-16 py-64">
+      <title>{lang === "en" ? "Security and Privacy Standards | WeLovePDF" : "सुरक्षा और गोपनीयता मानक | WeLovePDF"}</title>
+      <meta name="description" content={lang === "en" ? "Learn how WeLovePDF maintains document privacy via local client-side memory processing and sandboxing." : "जानें कि WeLovePDF स्थानीय क्लाइंट-साइड मेमोरी प्रोसेसिंग के माध्यम से दस्तावेज़ गोपनीयता कैसे बनाए रखता है।"} />
       <div className="flex flex-col items-center text-center gap-12 mb-48">
         <Shield className="w-12 h-12 text-brand-blue" />
         <h1 className="text-4xl font-extrabold tracking-tight">{title}</h1>

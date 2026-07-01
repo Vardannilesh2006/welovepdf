@@ -45,6 +45,9 @@ export default function Pricing() {
 
   return (
     <div className="max-w-6xl mx-auto px-24 py-80 min-h-[80vh] flex flex-col justify-center">
+      <title>{lang === "en" ? "Pricing — 100% Free, No Limits | WeLovePDF" : "कीमतें — 100% मुफ्त, कोई सीमा नहीं | WeLovePDF"}</title>
+      <meta name="description" content={subtitle} />
+
       
       {/* Premium Header */}
       <div className="text-center max-w-[800px] mx-auto mb-64 relative">

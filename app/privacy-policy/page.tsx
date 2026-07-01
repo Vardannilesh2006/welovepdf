@@ -8,6 +8,8 @@ export default function PrivacyPolicy() {
 
   return (
     <div className="max-w-4xl mx-auto px-16 py-64 prose dark:prose-invert">
+      <title>{lang === "en" ? "Privacy Policy | WeLovePDF" : "गोपनीयता नीति | WeLovePDF"}</title>
+      <meta name="description" content={lang === "en" ? "Review the WeLovePDF privacy standards. No document logging, no remote uploads, 100% locally sandboxed processing." : "WeLovePDF की गोपनीयता नीति पढ़ें। हम आपके दस्तावेज़ों को कभी भी बाहरी सर्वर पर अपलोड नहीं करते हैं।"} />
       <h1 className="text-3xl font-extrabold mb-16">
         {lang === "en" ? "Privacy Policy" : "गोपनीयता नीति"}
       </h1>
