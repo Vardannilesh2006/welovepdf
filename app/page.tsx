@@ -67,6 +67,44 @@ function useCountUp(target: number, duration = 800) {
   return { value, ref };
 }
 
+function MagneticWrapper({ children, className }: { children: React.ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!ref.current) return;
+    const { clientX, clientY } = e;
+    const { left, top, width, height } = ref.current.getBoundingClientRect();
+    const centerX = left + width / 2;
+    const centerY = top + height / 2;
+    const distanceX = clientX - centerX;
+    const distanceY = clientY - centerY;
+
+    // Dampened pull factor (magnetic strength)
+    const pull = 0.15;
+    setPosition({ x: distanceX * pull, y: distanceY * pull });
+  };
+
+  const handleMouseLeave = () => {
+    setPosition({ x: 0, y: 0 });
+  };
+
+  return (
+    <div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
+        transition: "transform 0.2s cubic-bezier(0.25, 1, 0.5, 1)",
+      }}
+      className={className}
+    >
+      {children}
+    </div>
+  );
+}
+
 const CATEGORIES = [
   { key: "All", en: "All Tools", hi: "सभी टूल्स" },
   { key: "Organize", en: "Organize", hi: "व्यवस्थित करें" },
@@ -280,16 +318,18 @@ export default function Home() {
             </p>
           </div>
           {/* Search */}
-          <div className="relative w-full sm:w-[220px]">
-            <Search className="absolute left-10 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
-            <input
-              type="search"
-              placeholder={lang === "en" ? "Search… compress, OCR" : "खोजें…"}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-32 pr-10 py-8 border border-[#E5E7EB] rounded bg-white text-[13px] outline-none focus:border-[#D97706] transition-colors"
-            />
-          </div>
+          <MagneticWrapper className="w-full sm:w-auto">
+            <div className="relative w-full sm:w-[220px] focus-within:sm:w-[260px] transition-all duration-300 ease-out group">
+              <Search className="absolute left-10 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 group-focus-within:text-[#D97706] transition-colors pointer-events-none" />
+              <input
+                type="search"
+                placeholder={lang === "en" ? "Search… compress, OCR" : "खोजें…"}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-32 pr-10 py-8 border border-[#E5E7EB] rounded bg-white text-[13px] outline-none focus:border-[#D97706] focus:shadow-[0_0_12px_rgba(217,119,6,0.12)] transition-all duration-300 ease-out"
+              />
+            </div>
+          </MagneticWrapper>
         </div>
 
         {/* Two-column layout: left rail + right grid */}
