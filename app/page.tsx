@@ -320,13 +320,13 @@ export default function Home() {
           {/* Search */}
           <MagneticWrapper className="w-full sm:w-auto">
             <div className="relative w-full sm:w-[220px] focus-within:sm:w-[260px] transition-all duration-300 ease-out group">
-              <Search className="absolute left-10 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 group-focus-within:text-[#D97706] transition-colors pointer-events-none" />
+              <Search className="absolute left-12 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 group-focus-within:text-[#D97706] transition-colors pointer-events-none" />
               <input
                 type="search"
                 placeholder={lang === "en" ? "Search… compress, OCR" : "खोजें…"}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-32 pr-10 py-8 border border-[#E5E7EB] rounded bg-white text-[13px] outline-none focus:border-[#D97706] focus:shadow-[0_0_12px_rgba(217,119,6,0.12)] transition-all duration-300 ease-out"
+                className="w-full pl-40 pr-10 py-8 border border-[#E5E7EB] rounded bg-white text-[13px] outline-none focus:border-[#D97706] focus:shadow-[0_0_12px_rgba(217,119,6,0.12)] transition-all duration-300 ease-out"
               />
             </div>
           </MagneticWrapper>
