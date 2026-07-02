@@ -17,10 +17,28 @@ export default function FAQ() {
     }
   ];
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(faq => ({
+      "@type": "Question",
+      "name": faq.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.a
+      }
+    }))
+  };
+
   return (
     <div className="max-w-4xl mx-auto px-16 py-64">
       <title>{lang === "en" ? "Frequently Asked Questions | WeLovePDF" : "अक्सर पूछे जाने वाले प्रश्न | WeLovePDF"}</title>
       <meta name="description" content={lang === "en" ? "Find answers to popular questions about WeLovePDF offline capability, browser processing, and document safety." : "सुरक्षा, ऑफ़लाइन उपयोग और स्थानीय पीडीएफ प्रोसेसिंग के बारे में अक्सर पूछे जाने वाले प्रश्नों के उत्तर खोजें।"} />
+      <link rel="canonical" href="https://welovepdf.best/faq" />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <h1 className="text-3xl font-extrabold mb-32">
         {lang === "en" ? "Frequently Asked Questions" : "अक्सर पूछे जाने वाले प्रश्न"}
       </h1>

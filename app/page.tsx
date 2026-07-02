@@ -147,8 +147,54 @@ export default function Home() {
   const catCount = (key: string) =>
     key === "All" ? tools.length : tools.filter((t) => t.category === key).length;
 
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "WeLovePDF",
+    "url": "https://welovepdf.best",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://welovepdf.best/?search={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  };
+
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "WeLovePDF",
+    "url": "https://welovepdf.best",
+    "logo": "https://welovepdf.best/og-image.png",
+    "founder": {
+      "@type": "Person",
+      "name": "Nilesh Verma",
+      "jobTitle": "Founder & Lead Developer",
+      "email": "nileshverma99731@gmail.com"
+    },
+    "sameAs": [
+      "https://github.com/Vardannilesh2006"
+    ]
+  };
+
   return (
     <div className="w-full min-h-screen bg-[#FFF8F2] text-slate-800 animate-fade-in">
+      {/* Dynamic SEO tags */}
+      <title>{lang === "en" ? "WeLovePDF — Free Online PDF Tools, No Upload Required" : "WeLovePDF — मुफ्त ऑनलाइन पीडीएफ टूल्स, बिना सर्वर अपलोड के"}</title>
+      <meta name="description" content={lang === "en" ? "WeLovePDF offers 60+ free browser-based PDF tools — merge, split, compress, convert, OCR, and AI-powered PDF tools. No file upload, 100% private." : "WeLovePDF सभी 60+ पीडीएफ टूल्स मुफ्त में प्रदान करता है - पीडीएफ मर्ज करें, विभाजित करें, कंप्रेस करें, कनवर्ट करें, ओसीआर करें।"} />
+      <link rel="canonical" href={lang === "en" ? "https://welovepdf.best" : "https://welovepdf.best/hi"} />
+      <link rel="alternate" hrefLang="en" href="https://welovepdf.best" />
+      <link rel="alternate" hrefLang="hi" href="https://welovepdf.best/hi" />
+      <link rel="alternate" hrefLang="x-default" href="https://welovepdf.best" />
+
+      {/* JSON-LD Schemas */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
 
       {/* ─── HERO ─────────────────────────────────────────── */}
       <section className="max-w-7xl mx-auto px-24 pt-48 pb-40">
@@ -166,8 +212,8 @@ export default function Home() {
             </h1>
             <p className="text-[15px] text-slate-500 leading-relaxed mb-28 max-w-[480px]">
               {lang === "en"
-                ? "Merge, split, compress, convert, OCR, sign — files never leave your device."
-                : "मर्ज, स्प्लिट, कंप्रेस, कनवर्ट, OCR, साइन — फाइलें कभी आपके डिवाइस नहीं छोड़तीं।"}
+                ? "WeLovePDF is a browser-first PDF toolkit that helps users edit, compress, and sign documents locally. All operations run 100% privately in your browser memory sandbox with zero remote server uploads."
+                : "WeLovePDF एक ब्राउज़र-प्रथम पीडीएफ टूलकिट है जो उपयोगकर्ताओं को स्थानीय रूप से दस्तावेजों को संपादित, कंप्रेस, और साइन करने में मदद करता है। सभी कार्य आपके ब्राउज़र मेमोरी सैंडबॉक्स में 100% निजी तौर पर बिना किसी रिमोट सर्वर अपलोड के चलते हैं।"}
             </p>
             <div className="flex flex-wrap items-center gap-12">
               <a

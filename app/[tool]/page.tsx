@@ -42,6 +42,8 @@ export async function generateMetadata({ params }: { params: { tool: string } })
       canonical: `https://welovepdf.best/${params.tool}`,
       languages: {
         en: `https://welovepdf.best/${params.tool}`,
+        hi: `https://welovepdf.best/hi/${params.tool}`,
+        "x-default": `https://welovepdf.best/${params.tool}`,
       }
     },
     openGraph: {
