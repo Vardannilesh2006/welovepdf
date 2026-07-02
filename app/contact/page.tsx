@@ -11,6 +11,9 @@ export default function Contact() {
       <title>{lang === "en" ? "Contact Support | WeLovePDF" : "सहायता और संपर्क | WeLovePDF"}</title>
       <meta name="description" content={lang === "en" ? "Get in touch with the WeLovePDF support developer for any technical inquiries." : "तकनीकी पूछताछ के लिए WeLovePDF सहायता टीम से संपर्क करें।"} />
       <link rel="canonical" href="https://welovepdf.best/contact" />
+      <link rel="alternate" hrefLang="en" href="https://welovepdf.best/contact" />
+      <link rel="alternate" hrefLang="hi" href="https://welovepdf.best/hi/contact" />
+      <link rel="alternate" hrefLang="x-default" href="https://welovepdf.best/contact" />
       <h1 className="text-3xl font-extrabold mb-16">
         {lang === "en" ? "Contact Support" : "सहायता डेस्क"}
       </h1>

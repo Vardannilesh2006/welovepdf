@@ -48,6 +48,9 @@ export default function Pricing() {
       <title>{lang === "en" ? "Pricing — 100% Free, No Limits | WeLovePDF" : "कीमतें — 100% मुफ्त, कोई सीमा नहीं | WeLovePDF"}</title>
       <meta name="description" content={subtitle} />
       <link rel="canonical" href="https://welovepdf.best/pricing" />
+      <link rel="alternate" hrefLang="en" href="https://welovepdf.best/pricing" />
+      <link rel="alternate" hrefLang="hi" href="https://welovepdf.best/hi/pricing" />
+      <link rel="alternate" hrefLang="x-default" href="https://welovepdf.best/pricing" />
 
       
       {/* Premium Header */}

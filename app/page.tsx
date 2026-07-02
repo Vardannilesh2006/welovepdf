@@ -176,6 +176,43 @@ export default function Home() {
     ]
   };
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": lang === "en" ? "Is WeLovePDF safe for sensitive documents?" : "क्या WeLovePDF संवेदनशील दस्तावेज़ों के लिए सुरक्षित है?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": lang === "en"
+            ? "Yes, WeLovePDF is 100% safe. Because WeLovePDF runs entirely client-side inside your local browser memory sandbox (using JavaScript and WebAssembly), your confidential documents are never uploaded to any remote servers. This ensures complete privacy and zero data leakage risks."
+            : "हाँ, WeLovePDF 100% सुरक्षित है। क्योंकि WeLovePDF पूरी तरह से आपके ब्राउज़र मेमोरी सैंडबॉक्स में चलता है, आपके दस्तावेज़ कभी भी किसी रिमोट सर्वर पर अपलोड नहीं होते हैं।"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": lang === "en" ? "Do I need to pay or create an account to use WeLovePDF?" : "क्या WeLovePDF का उपयोग करने के लिए भुगतान या खाता बनाने की आवश्यकता है?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": lang === "en"
+            ? "No, you do not need to pay or register. All core browser-first tools on WeLovePDF are free with no page caps, file limits, or watermarks. We aim to keep document utilities accessible, private, and zero-cost for everyone worldwide."
+            : "नहीं, आपको भुगतान या पंजीकरण करने की आवश्यकता नहीं है। WeLovePDF पर सभी मुख्य उपकरण बिल्कुल मुफ्त हैं।"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": lang === "en" ? "Does WeLovePDF work offline?" : "क्या WeLovePDF ऑफ़लाइन काम करता है?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": lang === "en"
+            ? "Yes, WeLovePDF works offline. Once the website is loaded in your browser tab, all browser-based tasks (like merge, split, rotate, delete pages) can execute fully without an active internet connection."
+            : "हाँ, WeLovePDF ऑफ़लाइन काम करता है। एक बार लोड होने के बाद आप बिना इंटरनेट के भी काम कर सकते हैं।"
+        }
+      }
+    ]
+  };
+
   return (
     <div className="w-full min-h-screen bg-[#FFF8F2] text-slate-800 animate-fade-in">
       {/* Dynamic SEO tags */}
@@ -194,6 +231,10 @@ export default function Home() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       {/* ─── HERO ─────────────────────────────────────────── */}
@@ -471,6 +512,50 @@ export default function Home() {
             )}
           </div>
 
+        </div>
+      </section>
+
+      {/* ─── FAQ / AEO SECTION ────────────────────────────── */}
+      <section className="border-t border-[#E5E7EB] bg-white py-48">
+        <div className="max-w-4xl mx-auto px-24">
+          <h2 className="font-heading font-black text-[24px] text-slate-900 tracking-tight mb-32 text-center">
+            {lang === "en" ? "Frequently Asked Questions (FAQ)" : "अक्सर पूछे जाने वाले प्रश्न"}
+          </h2>
+          
+          <div className="flex flex-col gap-24">
+            <div className="p-20 border border-[#E5E7EB] rounded-card bg-[#FFF8F2]/50">
+              <h3 className="font-heading font-bold text-[15px] text-slate-800 mb-8">
+                {lang === "en" ? "Is WeLovePDF safe for sensitive documents?" : "क्या WeLovePDF संवेदनशील दस्तावेज़ों के लिए सुरक्षित है?"}
+              </h3>
+              <p className="text-[13px] text-slate-500 leading-relaxed">
+                {lang === "en"
+                  ? "Yes, WeLovePDF is 100% safe. Because WeLovePDF runs entirely client-side inside your local browser memory sandbox (using JavaScript and WebAssembly), your confidential documents are never uploaded to any remote servers. This ensures complete privacy and zero data leakage risks."
+                  : "हाँ, WeLovePDF 100% सुरक्षित है। क्योंकि WeLovePDF पूरी तरह से आपके ब्राउज़र मेमोरी सैंडबॉक्स में चलता है, आपके दस्तावेज़ कभी भी किसी रिमोट सर्वर पर अपलोड नहीं होते हैं।"}
+              </p>
+            </div>
+
+            <div className="p-20 border border-[#E5E7EB] rounded-card bg-[#FFF8F2]/50">
+              <h3 className="font-heading font-bold text-[15px] text-slate-800 mb-8">
+                {lang === "en" ? "Do I need to pay or create an account to use WeLovePDF?" : "क्या WeLovePDF का उपयोग करने के लिए भुगतान या खाता बनाने की आवश्यकता है?"}
+              </h3>
+              <p className="text-[13px] text-slate-500 leading-relaxed">
+                {lang === "en"
+                  ? "No, you do not need to pay or register. All core browser-first tools on WeLovePDF are free with no page caps, file limits, or watermarks. We aim to keep document utilities accessible, private, and zero-cost for everyone worldwide."
+                  : "नहीं, आपको भुगतान या पंजीकरण करने की आवश्यकता नहीं है। WeLovePDF पर सभी मुख्य उपकरण बिल्कुल मुफ्त हैं।"}
+              </p>
+            </div>
+
+            <div className="p-20 border border-[#E5E7EB] rounded-card bg-[#FFF8F2]/50">
+              <h3 className="font-heading font-bold text-[15px] text-slate-800 mb-8">
+                {lang === "en" ? "Does WeLovePDF work offline?" : "क्या WeLovePDF ऑफ़लाइन काम करता है?"}
+              </h3>
+              <p className="text-[13px] text-slate-500 leading-relaxed">
+                {lang === "en"
+                  ? "Yes, WeLovePDF works offline. Once the website is loaded in your browser tab, all browser-based tasks (like merge, split, rotate, delete pages) can execute fully without an active internet connection."
+                  : "हाँ, WeLovePDF ऑफ़लाइन काम करता है। एक बार लोड होने के बाद आप बिना इंटरनेट के भी काम कर सकते हैं।"}
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 

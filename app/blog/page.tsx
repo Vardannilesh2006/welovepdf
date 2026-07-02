@@ -26,6 +26,9 @@ export default function BlogList() {
       <title>{title} | WeLovePDF</title>
       <meta name="description" content={desc} />
       <link rel="canonical" href="https://welovepdf.best/blog" />
+      <link rel="alternate" hrefLang="en" href="https://welovepdf.best/blog" />
+      <link rel="alternate" hrefLang="hi" href="https://welovepdf.best/hi/blog" />
+      <link rel="alternate" hrefLang="x-default" href="https://welovepdf.best/blog" />
       <div className="max-w-3xl mb-48">
         <h1 className="text-4xl font-extrabold tracking-tight mb-16 flex items-center gap-12 font-heading">
           <BookOpen className="w-8 h-8 text-brand-blue" />

@@ -37,8 +37,13 @@ export async function GET() {
     "blog"
   ];
 
+  const staticPagesHindi = staticPages
+    .filter((p) => p !== "" && p !== "hi")
+    .map((p) => `hi/${p}`);
+
   const allPaths = [
     ...staticPages,
+    ...staticPagesHindi,
     ...comparisonUrls,
     ...blogUrls,
     ...toolUrls,

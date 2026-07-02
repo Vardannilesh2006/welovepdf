@@ -11,11 +11,18 @@ export default function TermsAndConditions() {
       <title>{lang === "en" ? "Terms & Conditions | WeLovePDF" : "नियम और शर्तें | WeLovePDF"}</title>
       <meta name="description" content={lang === "en" ? "Read the WeLovePDF terms of service. Free client-side processing for both personal and commercial use cases." : "WeLovePDF के नियम और शर्तें पढ़ें। व्यक्तिगत और व्यावसायिक उपयोग के लिए मुफ़्त उपकरण।"} />
       <link rel="canonical" href="https://welovepdf.best/terms-and-conditions" />
+      <link rel="alternate" hrefLang="en" href="https://welovepdf.best/terms-and-conditions" />
+      <link rel="alternate" hrefLang="hi" href="https://welovepdf.best/hi/terms-and-conditions" />
+      <link rel="alternate" hrefLang="x-default" href="https://welovepdf.best/terms-and-conditions" />
       <h1 className="text-3xl font-extrabold mb-16">
         {lang === "en" ? "Terms & Conditions" : "नियम और शर्तें"}
       </h1>
-      <p className="text-[14px] text-text-secondaryLight leading-relaxed">
+      <p className="text-[14px] text-text-secondaryLight leading-relaxed mb-16">
         Last updated: June 28, 2026. By using WeLovePDF, you agree to local sandboxed processing limits. Core tools are free for personal and commercial usage with fair use limits on server-side requests.
+      </p>
+      <h3 className="text-lg font-bold mb-8">Refund Policy</h3>
+      <p className="text-[14px] text-text-secondaryLight leading-relaxed">
+        Because WeLovePDF is 100% free with no registration requirements, premium subscriptions, or processing charges, no payment is ever collected. Consequently, no refund policy is applicable.
       </p>
     </div>
   );

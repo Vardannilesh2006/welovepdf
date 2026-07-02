@@ -35,6 +35,9 @@ export default function FAQ() {
       <title>{lang === "en" ? "Frequently Asked Questions | WeLovePDF" : "अक्सर पूछे जाने वाले प्रश्न | WeLovePDF"}</title>
       <meta name="description" content={lang === "en" ? "Find answers to popular questions about WeLovePDF offline capability, browser processing, and document safety." : "सुरक्षा, ऑफ़लाइन उपयोग और स्थानीय पीडीएफ प्रोसेसिंग के बारे में अक्सर पूछे जाने वाले प्रश्नों के उत्तर खोजें।"} />
       <link rel="canonical" href="https://welovepdf.best/faq" />
+      <link rel="alternate" hrefLang="en" href="https://welovepdf.best/faq" />
+      <link rel="alternate" hrefLang="hi" href="https://welovepdf.best/hi/faq" />
+      <link rel="alternate" hrefLang="x-default" href="https://welovepdf.best/faq" />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
