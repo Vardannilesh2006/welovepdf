@@ -436,6 +436,30 @@ export const toolFaqs: Record<string, { q: string; a: string }[]> = {
       { q: "Does the invoice support GST taxes?", a: "Yes, tax columns and SGST/CGST settings are fully customizable." },
       { q: "Can I save my business info for next time?", a: "Yes, WeLovePDF stores your inputs locally in your browser storage for fast autofill during your next session." },
       { q: "Is there any charge for creating invoices?", a: "No, this billing tool is completely free with no usage limits." }
+  ],
+  "header-footer": [
+      { q: "Can I add different headers on odd and even pages?", a: "Yes, you can toggle the 'Odd & Even Different' checkbox to set distinct margin labels for left and right pages." },
+      { q: "Does adding headers and footers alter my original PDF layout?", a: "No. The text is overlayed onto the margins of your existing pages without scaling down your text content." },
+      { q: "Can I choose custom fonts and colors?", a: "Yes, you can configure text color codes, font sizes, and styles directly in the options drawer." },
+      { q: "Are my documents saved on WeLovePDF?", a: "No. All edits are processed in your browser memory via JavaScript, ensuring absolute privacy." }
+  ],
+  "pdf-to-csv": [
+      { q: "Does it support tables spread across multiple pages?", a: "Yes. The converter scans all page indexes and compiles the rows into a single merged CSV file." },
+      { q: "Will it work if the PDF table has merged cells?", a: "Yes, the parser automatically aligns grids and places empty cells where merge parameters exist." },
+      { q: "Can I open the downloaded CSV file in Excel?", a: "Yes. CSV files are fully compatible with Excel, Google Sheets, LibreOffice, and all database software." },
+      { q: "Are my files uploaded?", a: "No. The extraction runs completely local, ensuring your financial statements are 100% private." }
+  ],
+  "html-to-pdf": [
+      { q: "Does the converter support external CSS stylesheets?", a: "Yes, it parses inline styles and common CSS stylesheets linked within the document code." },
+      { q: "Can I convert complete webpages from URLs?", a: "Yes, you can paste the URL in the input field, and our rendering engine compiles the DOM tree to a PDF page." },
+      { q: "Is JavaScript execution supported?", a: "Yes. Basic styling script runs to compile dynamic components before PDF rendering." },
+      { q: "Is this tool free and private?", a: "Yes. Processing occurs fully in your local browser sandbox, keeping your code 100% private." }
+  ],
+  "text-to-pdf": [
+      { q: "Can I type directly in the tool?", a: "Yes, a secure text editor is provided so you can write and format text before compiling." },
+      { q: "Does it support multi-page text documents?", a: "Yes. The compiler automatically computes height limits and splits long text blocks into multiple pages." },
+      { q: "Can I use custom fonts?", a: "Yes. We support standard Helvetica, Times, and monospace fonts inside the editor settings." },
+      { q: "Is my text private?", a: "Yes. The text compile occurs in your local tab sandbox, meaning your words never leave your screen." }
   ],};
 
 export const subpages: string[] = [
