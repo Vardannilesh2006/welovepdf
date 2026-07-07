@@ -18,6 +18,12 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
     document.documentElement.classList.toggle("dark", initialTheme === "dark");
   }, []);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      document.documentElement.lang = lang;
+    }
+  }, [lang]);
+
   return (
     <div className="flex flex-col min-h-screen bg-bg-light dark:bg-bg-dark transition-colors duration-200">
       <Navbar lang={lang} setLang={setLang} theme={theme} setTheme={setTheme} />
