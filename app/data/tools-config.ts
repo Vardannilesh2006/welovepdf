@@ -377,7 +377,74 @@ export const toolGuides: Record<string, string> = {
     </ol>
 
     <h3>Features of WeLovePDF GST Invoice:</h3>
-    <p>Our generator handles automatic calculations of tax rows, item totals, and grand totals. The inputs are cached securely in your local browser sandbox, allowing you to instantly load templates for your next client billing session.</p>`,};
+    <p>Our generator handles automatic calculations of tax rows, item totals, and grand totals. The inputs are cached securely in your local browser sandbox, allowing you to instantly load templates for your next client billing session.</p>`,
+  "header-footer": `
+    <h2>How to Add Headers and Footers to a PDF?</h2>
+    <p>Placing page numbers, copyright notices, or corporate branding across multiple document pages can be tedious if you lack the source files. The WeLovePDF Header & Footer utility overlays custom text structures directly onto your PDF pages inside your local browser memory sandbox. There is no need to upload your sensitive contracts or business templates to remote servers because all stamping operations are completed client-side. This guarantees 100% data confidentiality for sensitive files.</p>
+    
+    <h3>Step-by-Step Guide to Add Headers/Footers:</h3>
+    <ol>
+      <li><strong>Upload Document:</strong> Click the "Select files" button above or drag and drop your PDF file directly into the workspace drop zone.</li>
+      <li><strong>Add Text Labels:</strong> Input your custom text into the left, center, or right header and footer text input blocks.</li>
+      <li><strong>Customize Layout:</strong> Adjust the sliders and dropdowns to select your font style (Helvetica, Times New Roman, Courier), font size, text color, and layout opacity.</li>
+      <li><strong>Configure Margins:</strong> Set your top and bottom margin padding offsets (in points) to prevent the stamped text from overlapping with your original body content. We recommend setting a top/bottom margin padding of at least 36 points in the settings panel to prevent overlap.</li>
+      <li><strong>Toggle Page Rules:</strong> Use dynamic tokens like <code>{page}</code> and <code>{total}</code> to enable auto-incrementing page numbers, and toggle "Different Odd & Even Pages" to place author names on left-hand pages and document titles on right-hand pages.</li>
+      <li><strong>Compile PDF:</strong> Click "Run tool" to merge the header and footer overlays and save your finished PDF.</li>
+    </ol>
+
+    <h3>Real Tool Details & Stamping Capabilities:</h3>
+    <p>Our stamping engine performs overlays directly onto the existing PDF canvas layers. This means that we do not delete, crop, or modify the underlying text and graphics. It adds text on top of what is already there. If you want to replace existing headers, we recommend setting a white background rectangle or cropping the margins first. Our engine handles pagination variables dynamically as it compiles the new PDF nodes. It supports dynamic text positioning using a nine-point layout grid layout helper. Stamped elements support customizable transparency, color palettes, and angle rotation settings to seamlessly match your brand guidelines.</p>
+    <p>While batch processing of multiple files is currently not supported for headers and footers to ensure exact visual alignment per file, you can customize single files of any page length. We use browser-native canvas drawing APIs to stamp text layers, which yields zero document layout shifts and keeps the output files compact. Need to crop or expand margins before adding header branding? Use our <a href="/crop-pdf">Crop PDF</a> tool.</p>
+  `,
+  "pdf-to-csv": `
+    <h2>How to Convert PDF Tables to CSV Online?</h2>
+    <p>Financial worksheets, balance sheets, and invoice lists are frequently locked in flat PDF page layouts. The WeLovePDF PDF to CSV converter analyzes coordinate spaces locally in your browser to detect columns and output clean, structured spreadsheet data. Copying and pasting cells manually is highly prone to row-shifting errors and alignment breaks, which our layout parser prevents. The conversion takes place entirely inside your web browser sandbox, meaning your sensitive financial balance sheets never leave your device.</p>
+    
+    <h3>Step-by-Step Guide to Convert PDF to CSV:</h3>
+    <ol>
+      <li><strong>Upload PDF:</strong> Drag your table-containing PDF or browse for it from your local storage.</li>
+      <li><strong>Select Pages:</strong> Define which page indices or ranges containing the tables you want to extract.</li>
+      <li><strong>Run Converter:</strong> Click the "Run tool" action button to trigger the layout coordinate parser.</li>
+      <li><strong>Save CSV:</strong> Download your compiled UTF-8 encoded <code>.csv</code> file directly to your device.</li>
+    </ol>
+
+    <h3>Technical Table Parsing & Layout Vector Coordinate Details:</h3>
+    <p>Our parser scans text coordinate vectors to detect horizontal alignment lines and whitespace distances. This allows the tool to map columns and rows without relying on external OCR libraries for text-based files. For multi-page PDF documents, the extraction engine appends tables sequentially, mapping all pages to the header structure detected on the first page. Merged cells are handled by inserting empty adjacent values. This preserves column alignments and prevents data shifting in Microsoft Excel. If your PDF contains multiple separate tables on a single page, the converter will merge them into a single continuous CSV grid using blank row separators to delineate table boundaries.</p>
+    <p>We use standard UTF-8 encoding for the exported CSV file to ensure complete compatibility with special currency symbols (like $, €, or ₹), mathematical notations, and non-Latin characters. The converter is limited to text-based PDF files; scanned images require optical character recognition. There is no column limit on the exported CSV file; our browser engine maps as many columns as detected by the page coordinate space, though tables wider than 30 columns might experience minor formatting wraps. Need to convert scanned invoices or images to editable text first? Try our browser-based <a href="/ocr-pdf">OCR PDF</a> tool.</p>
+  `,
+  "html-to-pdf": `
+    <h2>How to Convert HTML to PDF Online?</h2>
+    <p>Printing HTML page structures or invoices using browser defaults often results in chopped texts, broken background images, and layout distortions. The WeLovePDF HTML to PDF compiler parses raw HTML strings and CSS3 rules client-side to generate clean vector PDF documents. Developers and web designers can now generate high-fidelity PDF documents directly inside their browser tab. The engine operates entirely client-side, making it highly secure for compiling sensitive dashboard views or billing invoices. This protects code templates and proprietary mockups from server-side sniffing.</p>
+    
+    <h3>Step-by-Step Guide to Convert HTML to PDF:</h3>
+    <ol>
+      <li><strong>Paste Code:</strong> Copy and paste your raw HTML markup directly into our code editor.</li>
+      <li><strong>Configure Layout:</strong> Set the output page dimensions (A4, Letter), margins (none, thin, normal), and orientation.</li>
+      <li><strong>Apply CSS:</strong> Ensure your CSS styles, media elements, or inline blocks are included in the markup.</li>
+      <li><strong>Compile Output:</strong> Click "Run tool" to render your CSS styles into vector PDF structures.</li>
+    </ol>
+
+    <h3>Asset Embedding & CSS Compliance Rules:</h3>
+    <p>Our client-side renderer supports standard CSS3 style sheets, including flexbox layouts, grid alignments, page-break margins, and absolute positioning selectors. Font files are automatically fetched and embedded as base64 descriptors inside the final PDF document. This makes your text fully searchable and prevents layout fallback issues. Custom web-safe fonts are embedded natively, while external fonts are downloaded and compiled into base64 font descriptors inside the final PDF document. You can configure custom scaling options to fit content perfectly onto one page or keep standard viewport widths.</p>
+    <p>External images are fetched asynchronously inside the browser tab, provided their hosting servers allow Cross-Origin Resource Sharing (CORS). Because our converter processes the static DOM state directly inside your browser memory, active client-side JavaScript charts and interactive widgets must be fully rendered before you copy the HTML structure into the compiler, as our engine parses static DOM states rather than executing active JS runtimes during compilation. You can use standard CSS page break properties in your HTML code, such as <code>page-break-after: always;</code> or <code>break-after: page;</code> on container elements to force page breaks. You can also specify custom render scales (from 50% to 150%) to adjust how large elements display on standard document paper sheets. Looking to compile clean Markdown text documents instead? Use our <a href="/markdown-to-pdf">Markdown to PDF</a> utility.</p>
+  `,
+  "text-to-pdf": `
+    <h2>How to Convert Text to PDF Online?</h2>
+    <p>Plain text files are perfect for raw writing and code logs, but they look unprofessional when shared or printed. Our Text to PDF tool formats raw notes into clean, paginated PDF documents with custom font spacing and layouts. All pagination and formatting logic is executed client-side, ensuring your personal journals and system logs are kept completely secure. The compiler handles word wrap boundaries in real-time, converting any size note file instantly. This offline execution allows developers to process multi-megabyte log dumps without data leaving their computer.</p>
+    
+    <h3>Step-by-Step Guide to Convert Text to PDF:</h3>
+    <ol>
+      <li><strong>Enter Text:</strong> Paste your plain text into the editor workspace or upload a <code>.txt</code> file.</li>
+      <li><strong>Select Font Style:</strong> Customize the document appearance using Sans-Serif, Serif, or Monospace font styles. Customize the typography to suit formal letters or readable code files.</li>
+      <li><strong>Adjust Layout:</strong> Set custom line spacing, font sizes, page margins, and paper sizes (A4, Letter). You can toggle between Portrait and Landscape orientation modes depending on document width.</li>
+      <li><strong>Generate PDF:</strong> Click "Run tool" to divide your text blocks into paginated pages.</li>
+      <li><strong>Download:</strong> Save the resulting PDF file.</li>
+    </ol>
+
+    <h3>Unicode Support & Pagination Performance Details:</h3>
+    <p>Our text engine is fully compatible with the UTF-8 character encoding standard. This allows you to convert documents containing Hindi characters, Cyrillic text, and special math equations without experiencing character rendering issues. The tool splits long text files into pages automatically by calculating line-height bounds and page height limits. Since this pagination runs locally using optimized client-side arrays, converting a large 1,000-page plain text log file takes less than three seconds. The pagination logic operates inside the browser sandbox, ensuring zero server lag.</p>
+    <p>The utility accepts plain <code>.txt</code> files; rich text formats (.docx or .rtf) must be saved as plain text before you paste them into the converter. You can configure custom page orientation, font sizes from 8pt to 24pt, and margins from 0.25 to 1.5 inches. Our parser handles consecutive empty lines and blank spaces properly to preserve text paragraphs and code indentations exactly. Need to combine multiple text-converted PDFs into a single document? Try our <a href="/merge-pdf">Merge PDF</a> tool.</p>
+  `,};
 
 export const toolFaqs: Record<string, { q: string; a: string }[]> = {
   "merge-pdf": [
