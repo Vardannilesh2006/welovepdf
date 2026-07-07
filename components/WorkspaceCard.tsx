@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Upload, FileText, CheckCircle2, AlertCircle, RefreshCw, Layers, Sliders, Play, Download, Keyboard, Eye, EyeOff, RotateCw, Shield, ShieldCheck, Type, Trash, Send, Plus, Scissors, Sparkles, SlidersHorizontal } from "lucide-react";
+import { Upload, FileText, CheckCircle2, AlertCircle, RefreshCw, Layers, Sliders, Play, Download, Keyboard, Eye, EyeOff, RotateCw, Shield, ShieldCheck, Type, Trash, Send, Plus, Scissors, Sparkles, SlidersHorizontal, Lock } from "lucide-react";
 
 interface WorkspaceCardProps {
   toolSlug: string;
@@ -22,6 +22,64 @@ interface RecentFile {
   tool: string;
   date: string;
 }
+
+
+const getWatermarkStyle = (pos: string, color: string, opacity: number, angle: number, size: number): React.CSSProperties => {
+  const style: React.CSSProperties = {
+    position: 'absolute',
+    color: color,
+    opacity: opacity / 100,
+    pointerEvents: 'none',
+    fontSize: `${Math.max(size / 3.5, 7)}px`,
+    fontWeight: 'bold',
+    whiteSpace: 'nowrap',
+    zIndex: 10,
+  };
+  
+  if (pos.startsWith("top")) style.top = "10%";
+  else if (pos.startsWith("bottom")) style.bottom = "10%";
+  else style.top = "50%";
+  
+  if (pos.endsWith("left")) {
+    style.left = "10%";
+    style.transform = `translateY(-50%) rotate(${angle}deg)`;
+    if (pos.startsWith("top")) style.transform = `rotate(${angle}deg)`;
+    if (pos.startsWith("bottom")) style.transform = `rotate(${angle}deg)`;
+  } else if (pos.endsWith("right")) {
+    style.right = "10%";
+    style.transform = `translateY(-50%) rotate(${angle}deg)`;
+    if (pos.startsWith("top")) style.transform = `rotate(${angle}deg)`;
+    if (pos.startsWith("bottom")) style.transform = `rotate(${angle}deg)`;
+  } else {
+    style.left = "50%";
+    style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+    if (pos.startsWith("top")) style.transform = `translateX(-50%) rotate(${angle}deg)`;
+    if (pos.startsWith("bottom")) style.transform = `translateX(-50%) rotate(${angle}deg)`;
+  }
+  return style;
+};
+
+const getPageNumStyle = (pos: string, color: string): React.CSSProperties => {
+  const style: React.CSSProperties = {
+    position: 'absolute',
+    color: color,
+    pointerEvents: 'none',
+    fontSize: '9px',
+    fontWeight: 'bold',
+    background: 'rgba(255,255,255,0.85)',
+    padding: '2px 6px',
+    borderRadius: '3px',
+    border: '1px solid rgba(0,0,0,0.1)',
+    zIndex: 10,
+  };
+  if (pos.startsWith("top")) style.top = "6px";
+  else style.bottom = "6px";
+  
+  if (pos.endsWith("left")) style.left = "6px";
+  else style.right = "6px";
+  
+  return style;
+};
 
 export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCardProps) {
   const [files, setFiles] = useState<File[]>([]);
@@ -324,43 +382,63 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
 
   // Load PDF page previews
   const loadPdfPreviews = async (fileList: File[]) => {
-    if (fileList.length === 0 || !fileList[0].type.includes("pdf")) return;
+    if (fileList.length === 0) return;
     setLoadingPreviews(true);
     setPreviews([]);
     
-    try {
-      const pdfjsLib = await import("pdfjs-dist");
-      pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
-      
-      const file = fileList[0];
-      const arrayBuffer = await file.arrayBuffer();
-      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-      const totalPages = Math.min(pdf.numPages, 8);
-      
-      const pagesToRender = [];
-      for (let i = 1; i <= totalPages; i++) {
-        const page = await pdf.getPage(i);
-        const viewport = page.getViewport({ scale: 0.2 });
-        const canvas = document.createElement("canvas");
-        const context = canvas.getContext("2d");
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
+    const file = fileList[0];
+    if (file.type.includes("pdf")) {
+      try {
+        const pdfjsLib = await import("pdfjs-dist");
+        const version = pdfjsLib.version || "4.10.38";
+        pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${version}/build/pdf.worker.min.mjs`;
         
-        if (context) {
-          await page.render({ canvasContext: context, viewport }).promise;
-          pagesToRender.push({
-            id: `${file.name}-${i}`,
-            page: i,
-            dataUrl: canvas.toDataURL("image/jpeg"),
-            rotation: 0,
-            selected: true
-          });
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        const totalPages = Math.min(pdf.numPages, 8);
+        
+        const pagesToRender = [];
+        for (let i = 1; i <= totalPages; i++) {
+          const page = await pdf.getPage(i);
+          const viewport = page.getViewport({ scale: 0.2 });
+          const canvas = document.createElement("canvas");
+          const context = canvas.getContext("2d");
+          canvas.height = viewport.height;
+          canvas.width = viewport.width;
+          
+          if (context) {
+            await page.render({ canvasContext: context, viewport }).promise;
+            pagesToRender.push({
+              id: `${file.name}-${i}`,
+              page: i,
+              dataUrl: canvas.toDataURL("image/jpeg"),
+              rotation: 0,
+              selected: true
+            });
+          }
         }
+        setPreviews(pagesToRender);
+      } catch (err) {
+        console.error("Preview render failed:", err);
+      } finally {
+        setLoadingPreviews(false);
       }
-      setPreviews(pagesToRender);
-    } catch (err) {
-      console.error("Preview render failed:", err);
-    } finally {
+    } else if (file.type.includes("image")) {
+      try {
+        const pagesToRender = fileList.map((f, idx) => ({
+          id: `${f.name}-${idx}`,
+          page: idx + 1,
+          dataUrl: URL.createObjectURL(f),
+          rotation: 0,
+          selected: true
+        }));
+        setPreviews(pagesToRender);
+      } catch (err) {
+        console.error("Image preview failed:", err);
+      } finally {
+        setLoadingPreviews(false);
+      }
+    } else {
       setLoadingPreviews(false);
     }
   };
@@ -729,12 +807,60 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
                             : "border-border-light dark:border-border-dark hover:border-[#D97706]"
                         }`}
                       >
-                        <img 
-                          src={prev.dataUrl} 
-                          alt={`Page ${prev.page}`} 
-                          className="max-h-[110px] shadow-sm transition-transform"
-                          style={{ transform: `rotate(${prev.rotation}deg)` }}
-                        />
+                        <div className="relative max-h-[110px] flex items-center justify-center overflow-hidden bg-slate-100 dark:bg-slate-900 rounded shadow-sm">
+                          <img 
+                            src={prev.dataUrl} 
+                            alt={`Page ${prev.page}`} 
+                            className="max-h-[110px] object-contain transition-transform"
+                            style={{ 
+                              transform: `rotate(${prev.rotation}deg)`,
+                              filter: `${grayscale || toolSlug === "grayscale-pdf" ? "grayscale(100%)" : ""} ${toolSlug === "invert-pdf" ? "invert(100%)" : ""}`
+                            }}
+                          />
+                          
+                          {/* Live Watermark Overlay */}
+                          {toolSlug === "watermark-pdf" && watermarkText && (
+                            <div style={getWatermarkStyle(watermarkPosition, watermarkColor, watermarkOpacity, watermarkAngle, watermarkSize)}>
+                              {watermarkText}
+                            </div>
+                          )}
+
+                          {/* Live Page Numbers Overlay */}
+                          {toolSlug === "page-numbers" && (
+                            <div style={getPageNumStyle(numPosition, numColor)}>
+                              {numFormat.replace("{page}", String(prev.page))}
+                            </div>
+                          )}
+
+                          {/* Live Sign PDF Overlay */}
+                          {toolSlug === "sign-pdf" && signatureText && (
+                            <div className="absolute bottom-[15%] left-1/2 -translate-x-1/2 pointer-events-none font-serif italic text-[10px] text-[#D97706] bg-white/80 px-6 py-1 border border-dashed border-[#D97706]/40 rounded shadow-sm whitespace-nowrap z-10">
+                              {signatureText}
+                            </div>
+                          )}
+
+                          {/* Live Crop PDF Overlay */}
+                          {toolSlug === "crop-pdf" && (
+                            <div 
+                              className="absolute border-2 border-dashed border-red-500 pointer-events-none z-10"
+                              style={{
+                                top: `${Math.min(cropTop / 2.5, 75)}%`,
+                                bottom: `${Math.min(cropBottom / 2.5, 75)}%`,
+                                left: `${Math.min(cropLeft / 2.5, 75)}%`,
+                                right: `${Math.min(cropRight / 2.5, 75)}%`,
+                              }}
+                            />
+                          )}
+
+                          {/* Live Protect PDF Overlay */}
+                          {toolSlug === "protect-pdf" && openPassword && (
+                            <div className="absolute inset-0 bg-black/35 flex items-center justify-center pointer-events-none z-10">
+                              <div className="bg-white dark:bg-slate-800 p-6 rounded-full shadow-md text-[#D97706]">
+                                <Lock className="w-4 h-4" />
+                              </div>
+                            </div>
+                          )}
+                        </div>
                         <span className="text-[10px] font-bold text-text-secondaryLight/80 mt-6">Page {prev.page}</span>
                         
                         {prev.selected && (
