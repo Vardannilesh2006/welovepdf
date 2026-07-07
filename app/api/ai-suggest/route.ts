@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { tools } from "../../data/tools-config";
 import { isRateLimited } from "../../../lib/rate-limit";
+import { fetchGemini } from "../../../lib/gemini";
 
 export async function POST(req: NextRequest) {
   try {
@@ -17,11 +18,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Missing query parameter." }, { status: 400 });
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) {
-      throw new Error("GEMINI_API_KEY is not defined in environment variables.");
-    }
-
     // List of tools for system prompt mapping
     const toolsContext = tools.map((t) => `- ${t.name}: slug is "/${t.slug}", category: "${t.category}", description: "${t.desc}"`).join("\n");
 
@@ -36,36 +32,9 @@ Identify the best matched tool from the list.
 3. ALWAYS include a markdown link to the tool in your response using the EXACT format: [Tool Name](/slug) (with the slash prefix) so they can click it directly.
 Example response: "You can combine your files using our [Merge PDF](/merge-pdf) tool. Just drag and drop your PDFs to begin!"`;
 
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-    
-    const payload = {
-      contents: [
-        {
-          role: "user",
-          parts: [{ text: `${systemPrompt}\n\nUser Query: "${query}"` }]
-        }
-      ],
-      generationConfig: {
-        maxOutputTokens: 150,
-        temperature: 0.3
-      }
-    };
-
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(payload)
-    });
-
-    if (!res.ok) {
-      const errorMsg = await res.text();
-      throw new Error(`Gemini status code: ${res.status} - ${errorMsg}`);
-    }
-
-    const json = await res.json();
-    const textResponse = json.candidates?.[0]?.content?.parts?.[0]?.text || "I am here to help you find WeLovePDF tools!";
+    const parts = [{ text: `${systemPrompt}\n\nUser Query: "${query}"` }];
+    const textResponse = await fetchGemini(parts, { maxOutputTokens: 150, temperature: 0.3 })
+      || "I am here to help you find WeLovePDF tools!";
 
     return NextResponse.json({ response: textResponse });
 

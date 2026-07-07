@@ -3,48 +3,23 @@ import { PDFDocument, PDFName, PDFString, StandardFonts, rgb } from "pdf-lib";
 import { Jimp } from "jimp";
 import Tesseract from "tesseract.js";
 import { isRateLimited } from "../../../../lib/rate-limit";
+import { fetchGemini } from "../../../../lib/gemini";
 
 // Gemini API Integration Helper
 async function callGemini(pdfBuffer: Buffer, prompt: string, mimeType: string = "application/pdf"): Promise<string> {
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) {
-    throw new Error("GEMINI_API_KEY is not defined in environment variables.");
-  }
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-
-  const payload = {
-    contents: [
-      {
-        parts: [
-          {
-            inlineData: {
-              mimeType: mimeType,
-              data: pdfBuffer.toString("base64")
-            }
-          },
-          {
-            text: prompt
-          }
-        ]
+  const parts = [
+    {
+      inlineData: {
+        mimeType: mimeType,
+        data: pdfBuffer.toString("base64")
       }
-    ]
-  };
-
-  const res = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
     },
-    body: JSON.stringify(payload)
-  });
+    {
+      text: prompt
+    }
+  ];
 
-  if (!res.ok) {
-    const errorText = await res.text();
-    throw new Error(`Gemini API error: ${res.statusText} - ${errorText}`);
-  }
-
-  const json = await res.json();
-  const textResponse = json.candidates?.[0]?.content?.parts?.[0]?.text;
+  const textResponse = await fetchGemini(parts, { maxOutputTokens: 2048, temperature: 0.4 });
   if (!textResponse) {
     throw new Error("No text response received from Gemini API.");
   }
