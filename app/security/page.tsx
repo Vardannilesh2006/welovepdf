@@ -13,7 +13,7 @@ export default function Security() {
     <div className="max-w-4xl mx-auto px-16 py-64">
       <title>{lang === "en" ? "Security and Privacy Standards | WeLovePDF" : "सुरक्षा और गोपनीयता मानक | WeLovePDF"}</title>
       <meta name="description" content={lang === "en" ? "Learn how WeLovePDF maintains document privacy via local client-side memory processing and sandboxing." : "जानें कि WeLovePDF स्थानीय क्लाइंट-साइड मेमोरी प्रोसेसिंग के माध्यम से दस्तावेज़ गोपनीयता कैसे बनाए रखता है।"} />
-      <link rel="canonical" href="https://www.welovepdf.best/security" />
+      <link rel="canonical" href={lang === "en" ? "https://www.welovepdf.best/security" : "https://www.welovepdf.best/hi/security"} />
       <link rel="alternate" hrefLang="en" href="https://www.welovepdf.best/security" />
       <link rel="alternate" hrefLang="hi" href="https://www.welovepdf.best/hi/security" />
       <link rel="alternate" hrefLang="x-default" href="https://www.welovepdf.best/security" />

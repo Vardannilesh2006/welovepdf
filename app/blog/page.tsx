@@ -25,7 +25,7 @@ export default function BlogList() {
     <div className="max-w-7xl mx-auto px-16 py-64">
       <title>{title} | WeLovePDF</title>
       <meta name="description" content={desc} />
-      <link rel="canonical" href="https://www.welovepdf.best/blog" />
+      <link rel="canonical" href={lang === "en" ? "https://www.welovepdf.best/blog" : "https://www.welovepdf.best/hi/blog"} />
       <link rel="alternate" hrefLang="en" href="https://www.welovepdf.best/blog" />
       <link rel="alternate" hrefLang="hi" href="https://www.welovepdf.best/hi/blog" />
       <link rel="alternate" hrefLang="x-default" href="https://www.welovepdf.best/blog" />

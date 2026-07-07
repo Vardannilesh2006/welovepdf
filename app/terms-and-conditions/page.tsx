@@ -10,7 +10,7 @@ export default function TermsAndConditions() {
     <div className="max-w-4xl mx-auto px-16 py-64 prose dark:prose-invert">
       <title>{lang === "en" ? "Terms & Conditions | WeLovePDF" : "नियम और शर्तें | WeLovePDF"}</title>
       <meta name="description" content={lang === "en" ? "Read the WeLovePDF terms of service. Free client-side processing for both personal and commercial use cases." : "WeLovePDF के नियम और शर्तें पढ़ें। व्यक्तिगत और व्यावसायिक उपयोग के लिए मुफ़्त उपकरण।"} />
-      <link rel="canonical" href="https://www.welovepdf.best/terms-and-conditions" />
+      <link rel="canonical" href={lang === "en" ? "https://www.welovepdf.best/terms-and-conditions" : "https://www.welovepdf.best/hi/terms-and-conditions"} />
       <link rel="alternate" hrefLang="en" href="https://www.welovepdf.best/terms-and-conditions" />
       <link rel="alternate" hrefLang="hi" href="https://www.welovepdf.best/hi/terms-and-conditions" />
       <link rel="alternate" hrefLang="x-default" href="https://www.welovepdf.best/terms-and-conditions" />
