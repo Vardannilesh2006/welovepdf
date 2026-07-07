@@ -1,7 +1,7 @@
 import React from "react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { blogArticles, blogArticlesHindi, blogGuidesHindi } from "../../data/blog-posts";
+import { blogArticles, blogArticlesHindi, blogGuidesHindi } from "../../../data/blog-posts";
 import { ChevronLeft } from "lucide-react";
 
 // Generate parameters for static site generation (SSG) for all slugs

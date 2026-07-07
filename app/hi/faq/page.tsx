@@ -1,5 +1,5 @@
 import React from "react";
-import FAQ from "../../faq/page";
+import FAQ from "../../(english)/faq/page";
 
 export default function HindiFAQ() {
   return <FAQ />;

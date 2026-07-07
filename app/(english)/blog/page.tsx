@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import { useLang } from "../../components/LangContext";
-import { blogArticles, blogArticlesHindi, blogGuidesHindi } from "../data/blog-posts";
+import { useLang } from "../../../components/LangContext";
+import { blogArticles, blogArticlesHindi, blogGuidesHindi } from "../../data/blog-posts";
 import { BookOpen } from "lucide-react";
 
 export default function BlogList() {

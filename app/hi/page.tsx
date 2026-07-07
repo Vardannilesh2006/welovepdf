@@ -1,5 +1,5 @@
 import React from "react";
-import Home from "../page";
+import Home from "../(english)/page";
 
 export const metadata = {
   title: "WeLovePDF — मुफ्त ऑनलाइन पीडीएफ टूल्स",

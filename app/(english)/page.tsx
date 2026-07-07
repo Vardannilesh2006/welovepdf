@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { useLang } from "../components/LangContext";
-import { tools } from "./data/tools-config";
+import { useLang } from "../../components/LangContext";
+import { tools } from "../data/tools-config";
 import {
   GitMerge, Scissors, Trash2, ArrowUpDown, RotateCw, Copy, FilePlus, Crop,
   Hash, Stamp, AlignVerticalJustifyCenter, Info, Layers, MessageSquare,

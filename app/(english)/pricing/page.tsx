@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Check, Shield, Zap, Sparkles, FileText, Lock } from "lucide-react";
-import { useLang } from "../../components/LangContext";
+import { useLang } from "../../../components/LangContext";
 
 export default function Pricing() {
   const { lang } = useLang();

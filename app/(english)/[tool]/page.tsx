@@ -1,8 +1,8 @@
 import React from "react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { tools, toolDescriptions, toolGuides, toolFaqs } from "../data/tools-config";
-import WorkspaceCard from "../../components/WorkspaceCard";
+import { tools, toolDescriptions, toolGuides, toolFaqs } from "../../data/tools-config";
+import WorkspaceCard from "../../../components/WorkspaceCard";
 import { ChevronRight } from "lucide-react";
 
 // Generate parameters for static site generation (SSG) for all 62 tools

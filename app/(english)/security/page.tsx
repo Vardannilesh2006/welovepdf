@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useLang } from "../../components/LangContext";
+import { useLang } from "../../../components/LangContext";
 import { Shield, Lock, EyeOff, FileCheck } from "lucide-react";
 
 export default function Security() {

@@ -1,5 +1,5 @@
 import React from "react";
-import Pricing from "../../pricing/page";
+import Pricing from "../../(english)/pricing/page";
 
 export default function HindiPricing() {
   return <Pricing />;

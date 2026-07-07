@@ -1,6 +1,6 @@
 import React from "react";
-import "./globals.css";
-import AppShell from "../components/AppShell";
+import "../globals.css";
+import AppShell from "../../components/AppShell";
 import Script from "next/script";
 
 export const metadata = {

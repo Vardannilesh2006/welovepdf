@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useLang } from "../../components/LangContext";
+import { useLang } from "../../../components/LangContext";
 
 export default function AboutUs() {
   const { lang } = useLang();

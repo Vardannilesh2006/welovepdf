@@ -1,5 +1,5 @@
 import React from "react";
-import ToolPage, { generateMetadata as baseGenerateMetadata, generateStaticParams } from "../../[tool]/page";
+import ToolPage, { generateMetadata as baseGenerateMetadata, generateStaticParams } from "../../(english)/[tool]/page";
 import { Metadata } from "next";
 
 export { generateStaticParams };

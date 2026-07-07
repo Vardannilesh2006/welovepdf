@@ -1,5 +1,5 @@
 import React from "react";
-import BlogList from "../../blog/page";
+import BlogList from "../../(english)/blog/page";
 
 export default function HindiBlogList() {
   return <BlogList />;
