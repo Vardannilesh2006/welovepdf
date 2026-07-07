@@ -1,14 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
 import { tools } from "../../data/tools-config";
+import { isRateLimited } from "../../../lib/rate-limit";
 
 export async function POST(req: NextRequest) {
   try {
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || req.headers.get("x-real-ip") || "127.0.0.1";
+    if (isRateLimited(ip)) {
+      return NextResponse.json(
+        { error: "Too many requests. Please try again in a minute." },
+        { status: 429 }
+      );
+    }
+
     const { query, lang } = await req.json();
     if (!query) {
       return NextResponse.json({ error: "Missing query parameter." }, { status: 400 });
     }
 
-    const apiKey = process.env.GEMINI_API_KEY || Buffer.from("QVEuQWI4Uk42TDQ2T3FVU0JfMjNGbWV5VC0taTI2WWh7cGZJT04xNDRIU1IxZEFoT3VoMVE=", "base64").toString("utf-8");
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error("GEMINI_API_KEY is not defined in environment variables.");
+    }
 
     // List of tools for system prompt mapping
     const toolsContext = tools.map((t) => `- ${t.name}: slug is "/${t.slug}", category: "${t.category}", description: "${t.desc}"`).join("\n");

@@ -2,10 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { PDFDocument, PDFName, PDFString, StandardFonts, rgb } from "pdf-lib";
 import { Jimp } from "jimp";
 import Tesseract from "tesseract.js";
+import { isRateLimited } from "../../../../lib/rate-limit";
 
 // Gemini API Integration Helper
 async function callGemini(pdfBuffer: Buffer, prompt: string, mimeType: string = "application/pdf"): Promise<string> {
-  const apiKey = process.env.GEMINI_API_KEY || Buffer.from("QVEuQWI4Uk42TDQ2T3FVU0JfMjNGbWV5VC0taTI2WWh7cGZJT04xNDRIU1IxZEFoT3VoMVE=", "base64").toString("utf-8");
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    throw new Error("GEMINI_API_KEY is not defined in environment variables.");
+  }
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
   const payload = {
@@ -515,6 +519,14 @@ function parsePages(input: string, total: number): number[] {
 
 export async function POST(req: NextRequest, { params }: { params: { tool: string } }) {
   try {
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || req.headers.get("x-real-ip") || "127.0.0.1";
+    if (isRateLimited(ip)) {
+      return NextResponse.json(
+        { ok: false, error: "Too many requests. Please try again in a minute." },
+        { status: 429 }
+      );
+    }
+
     const tool = params.tool;
     const formData = await req.formData();
     const files = formData.getAll("files") as File[];
@@ -530,6 +542,17 @@ export async function POST(req: NextRequest, { params }: { params: { tool: strin
 
     if (files.length === 0 && !isGenerator) {
       return NextResponse.json({ ok: false, error: "No files uploaded." }, { status: 400 });
+    }
+
+    // Validate file sizes before loading them into memory (Limit: 50MB)
+    const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+    for (const f of files) {
+      if (f.size > MAX_FILE_SIZE) {
+        return NextResponse.json(
+          { ok: false, error: `File "${f.name}" exceeds the maximum limit of 50MB.` },
+          { status: 413 }
+        );
+      }
     }
 
     // Convert Web Files to Node Buffers
