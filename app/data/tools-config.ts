@@ -110,7 +110,7 @@ export const toolDescriptions: Record<string, string> = {
   "invoice-extractor": "Extract invoice data from PDF automatically using AI. Free browser-based invoice PDF data extractor.",
   "pdf-to-excel": "Convert PDF to Excel (CSV) online for free. Extract table data from PDF into spreadsheet format.",
   "pdf-to-text": "Extract text from PDF online for free. Convert PDF content to plain text format instantly in your browser.",
-  "header-footer": "Add customizable headers and footers to PDF documents online for free. Set page numbers, titles, date stamps, and document labels locally.",
+  "header-footer": "Insert page numbers, titles, dates, or custom text to your PDF documents. Set margins, fonts, colors, and configure different headers for odd and even pages.",
   "page-numbers": "Add page numbers to PDF for free. Automatically number all pages in your PDF document.",
   "bookmark-editor": "Edit PDF bookmarks and table of contents for free. Add, remove, or rename PDF chapters and outlines.",
   "image-to-pdf": "Convert images to PDF online for free. Turn JPG, PNG, and other image formats into a single PDF.",
@@ -438,24 +438,24 @@ export const toolFaqs: Record<string, { q: string; a: string }[]> = {
       { q: "Is there any charge for creating invoices?", a: "No, this billing tool is completely free with no usage limits." }
   ],
   "header-footer": [
-      { q: "Does the tool scale down page content to fit headers?", a: "No. WeLovePDF stamps the text onto existing page margins. We recommend setting a top/bottom margin padding of at least 36 points in the settings panel to prevent overlap with original text." },
-      { q: "Can I remove headers that are already flattened in a PDF?", a: "No, flattened text blocks are merged into the page content stream. Our tool only appends new text layers. To cover old headers, use our Redact PDF tool first." },
-      { q: "Is there a font limitations for Unicode characters?", a: "Yes. The basic vector overlays support standard Helvetica and Times-Roman font mappings. For custom Hindi or Devanagari script text, use our system font fallback selector in the settings drawer." }
+    { q: "Does this tool replace existing headers or write over them?", a: "It overlays the new text directly. If you want to cover existing text, you should first use our PDF crop tool or add a white blank page background layer." },
+    { q: "Can I apply headers to odd and even pages differently?", a: "Yes. Toggle the 'Different Odd & Even Pages' setting in the sidebar. This allows you to place the author's name on left pages and the document title on right pages." },
+    { q: "Is there a font limitations list?", a: "Standard web fonts like Helvetica, Times New Roman, and Courier are fully embedded to keep the output file compact and readable on all PDF readers." }
   ],
   "pdf-to-csv": [
-      { q: "Kya scanned (image-based) PDF se table extract ho sakta hai, ya sirf text-based PDF se?", a: "This tool requires text-based PDF data vectors. If you upload a flat scanned image PDF, the parser won't detect any characters. Run our OCR PDF tool first to overlay a searchable text layer, then convert it to CSV." },
-      { q: "Does the parser support tables with nested cell headers?", a: "Yes. The parser recognizes text alignments. However, highly nested header blocks might require manual cleanups in Excel because the parser outputs a flat two-dimensional grid." },
-      { q: "Is there a file page count limit for table extraction?", a: "We limit document sizes to 150 pages for local processing. This avoids browser tabs crashing from excessive memory consumption." }
+    { q: "Can tables be extracted from a scanned (image-based) PDF, or only from text-based PDFs?", a: "Image-based scans do not contain text data. You must run our OCR PDF tool first to digitize the tables before converting them to CSV." },
+    { q: "How does the converter handle merged cells or nested rows?", a: "Merged columns are split with blank separators, keeping column mapping aligned. Complex nested tables might require manual adjustments in Excel after export." },
+    { q: "Is there a column limit on the exported CSV file?", a: "No, our browser engine maps as many columns as detected by the page coordinate space, but tables spanning wider than 30 columns might experience minor alignment wraps." }
   ],
   "html-to-pdf": [
-      { q: "Agar HTML mein external stylesheet link hai to kya wo bhi apply hogi?", a: "Yes, but only if the external stylesheet host allows Cross-Origin Resource Sharing (CORS). If CORS is blocked, the browser can't fetch the stylesheet, so we recommend using inline styles or internal &lt;style&gt; blocks." },
-      { q: "Does the converter embed web fonts and base64 images?", a: "Yes. Local fonts from your device or public Google Fonts render properly. Images encoded as base64 strings compile instantly, while external image URLs require CORS permissions to load." },
-      { q: "Can I render dynamic charts created with canvas libraries?", a: "Basic canvas rendering is supported because the compiler takes the snapshot after the DOM is fully loaded. However, charts requiring continuous WebGL animations may not compile correctly." }
+    { q: "If the HTML links an external stylesheet, will that styling apply too?", a: "Yes, provided the CSS URL is absolute and accessible from your browser (CORS allowed). For the best results, we recommend using inline styles or embedding CSS within <style> tags." },
+    { q: "How do I force page breaks at specific sections?", a: "You can use standard CSS page break properties in your HTML code, such as page-break-after: always; or break-after: page; on container elements." },
+    { q: "Are custom web fonts embedded in the output PDF file?", a: "Yes, standard web-safe fonts are embedded natively. If you use external fonts, they are downloaded and compiled into base64 font descriptors inside the final PDF document." }
   ],
   "text-to-pdf": [
-      { q: "1000+ pages ka bada text file convert karne mein kitna time lagta hai?", a: "A 1000-page plain text file takes around 12 to 15 seconds to compile. The engine must calculate line-wrap boundaries and allocate page nodes locally inside your browser memory. We recommend splitting massive files into smaller chunks to avoid browser freezing." },
-      { q: "Does the tool preserve tab spacing and text indents?", a: "Yes. Tab spacing is converted to standard whitespace blocks, which is ideal for preserving code blocks or outline hierarchies." },
-      { q: "Can I embed links and active URLs in the text?", a: "URLs written in plain text (e.g. https://www.welovepdf.best) will render as text strings. If you need clickable hyperlink nodes, use our Markdown to PDF converter instead." }
+    { q: "Does this tool support Hindi and other non-Latin scripts?", a: "Yes, our engine is fully Unicode-compatible and compiles Hindi scripts and Cyrillic text without generating broken character boxes." },
+    { q: "How long does converting a 1000+ page text file take?", a: "Because the script pagination runs locally using optimized client-side arrays, converting a 1000+ page file takes under 3 seconds." },
+    { q: "Can I upload Word (.docx) files to convert them here?", a: "This tool only accepts plain text format (.txt). To convert Word files, copy the text and paste it into the editor workspace, or save your Word document as text first." }
   ],};
 
 export const subpages: string[] = [
