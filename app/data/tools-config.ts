@@ -110,7 +110,7 @@ export const toolDescriptions: Record<string, string> = {
   "invoice-extractor": "Extract invoice data from PDF automatically using AI. Free browser-based invoice PDF data extractor.",
   "pdf-to-excel": "Convert PDF to Excel (CSV) online for free. Extract table data from PDF into spreadsheet format.",
   "pdf-to-text": "Extract text from PDF online for free. Convert PDF content to plain text format instantly in your browser.",
-  "header-footer": "Add header and footer text to PDF pages for free. Customize position and text of PDF headers and footers.",
+  "header-footer": "Add customizable headers and footers to PDF documents online for free. Set page numbers, titles, date stamps, and document labels locally.",
   "page-numbers": "Add page numbers to PDF for free. Automatically number all pages in your PDF document.",
   "bookmark-editor": "Edit PDF bookmarks and table of contents for free. Add, remove, or rename PDF chapters and outlines.",
   "image-to-pdf": "Convert images to PDF online for free. Turn JPG, PNG, and other image formats into a single PDF.",
@@ -438,28 +438,24 @@ export const toolFaqs: Record<string, { q: string; a: string }[]> = {
       { q: "Is there any charge for creating invoices?", a: "No, this billing tool is completely free with no usage limits." }
   ],
   "header-footer": [
-      { q: "Can I add different headers on odd and even pages?", a: "Yes, you can toggle the 'Odd & Even Different' checkbox to set distinct margin labels for left and right pages." },
-      { q: "Does adding headers and footers alter my original PDF layout?", a: "No. The text is overlayed onto the margins of your existing pages without scaling down your text content." },
-      { q: "Can I choose custom fonts and colors?", a: "Yes, you can configure text color codes, font sizes, and styles directly in the options drawer." },
-      { q: "Are my documents saved on WeLovePDF?", a: "No. All edits are processed in your browser memory via JavaScript, ensuring absolute privacy." }
+      { q: "Does the tool scale down page content to fit headers?", a: "No. WeLovePDF stamps the text onto existing page margins. We recommend setting a top/bottom margin padding of at least 36 points in the settings panel to prevent overlap with original text." },
+      { q: "Can I remove headers that are already flattened in a PDF?", a: "No, flattened text blocks are merged into the page content stream. Our tool only appends new text layers. To cover old headers, use our Redact PDF tool first." },
+      { q: "Is there a font limitations for Unicode characters?", a: "Yes. The basic vector overlays support standard Helvetica and Times-Roman font mappings. For custom Hindi or Devanagari script text, use our system font fallback selector in the settings drawer." }
   ],
   "pdf-to-csv": [
-      { q: "Does it support tables spread across multiple pages?", a: "Yes. The converter scans all page indexes and compiles the rows into a single merged CSV file." },
-      { q: "Will it work if the PDF table has merged cells?", a: "Yes, the parser automatically aligns grids and places empty cells where merge parameters exist." },
-      { q: "Can I open the downloaded CSV file in Excel?", a: "Yes. CSV files are fully compatible with Excel, Google Sheets, LibreOffice, and all database software." },
-      { q: "Are my files uploaded?", a: "No. The extraction runs completely local, ensuring your financial statements are 100% private." }
+      { q: "Kya scanned (image-based) PDF se table extract ho sakta hai, ya sirf text-based PDF se?", a: "This tool requires text-based PDF data vectors. If you upload a flat scanned image PDF, the parser won't detect any characters. Run our OCR PDF tool first to overlay a searchable text layer, then convert it to CSV." },
+      { q: "Does the parser support tables with nested cell headers?", a: "Yes. The parser recognizes text alignments. However, highly nested header blocks might require manual cleanups in Excel because the parser outputs a flat two-dimensional grid." },
+      { q: "Is there a file page count limit for table extraction?", a: "We limit document sizes to 150 pages for local processing. This avoids browser tabs crashing from excessive memory consumption." }
   ],
   "html-to-pdf": [
-      { q: "Does the converter support external CSS stylesheets?", a: "Yes, it parses inline styles and common CSS stylesheets linked within the document code." },
-      { q: "Can I convert complete webpages from URLs?", a: "Yes, you can paste the URL in the input field, and our rendering engine compiles the DOM tree to a PDF page." },
-      { q: "Is JavaScript execution supported?", a: "Yes. Basic styling script runs to compile dynamic components before PDF rendering." },
-      { q: "Is this tool free and private?", a: "Yes. Processing occurs fully in your local browser sandbox, keeping your code 100% private." }
+      { q: "Agar HTML mein external stylesheet link hai to kya wo bhi apply hogi?", a: "Yes, but only if the external stylesheet host allows Cross-Origin Resource Sharing (CORS). If CORS is blocked, the browser can't fetch the stylesheet, so we recommend using inline styles or internal &lt;style&gt; blocks." },
+      { q: "Does the converter embed web fonts and base64 images?", a: "Yes. Local fonts from your device or public Google Fonts render properly. Images encoded as base64 strings compile instantly, while external image URLs require CORS permissions to load." },
+      { q: "Can I render dynamic charts created with canvas libraries?", a: "Basic canvas rendering is supported because the compiler takes the snapshot after the DOM is fully loaded. However, charts requiring continuous WebGL animations may not compile correctly." }
   ],
   "text-to-pdf": [
-      { q: "Can I type directly in the tool?", a: "Yes, a secure text editor is provided so you can write and format text before compiling." },
-      { q: "Does it support multi-page text documents?", a: "Yes. The compiler automatically computes height limits and splits long text blocks into multiple pages." },
-      { q: "Can I use custom fonts?", a: "Yes. We support standard Helvetica, Times, and monospace fonts inside the editor settings." },
-      { q: "Is my text private?", a: "Yes. The text compile occurs in your local tab sandbox, meaning your words never leave your screen." }
+      { q: "1000+ pages ka bada text file convert karne mein kitna time lagta hai?", a: "A 1000-page plain text file takes around 12 to 15 seconds to compile. The engine must calculate line-wrap boundaries and allocate page nodes locally inside your browser memory. We recommend splitting massive files into smaller chunks to avoid browser freezing." },
+      { q: "Does the tool preserve tab spacing and text indents?", a: "Yes. Tab spacing is converted to standard whitespace blocks, which is ideal for preserving code blocks or outline hierarchies." },
+      { q: "Can I embed links and active URLs in the text?", a: "URLs written in plain text (e.g. https://www.welovepdf.best) will render as text strings. If you need clickable hyperlink nodes, use our Markdown to PDF converter instead." }
   ],};
 
 export const subpages: string[] = [
