@@ -56,7 +56,7 @@ export async function GET() {
     .map(
       (url) => `
   <url>
-    <loc>https://welovepdf.best/${url}</loc>
+    <loc>https://www.welovepdf.best/${url}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>${url === "" || url === "hi" ? "1.0" : "0.8"}</priority>

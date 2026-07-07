@@ -39,17 +39,17 @@ export async function generateMetadata({ params }: { params: { tool: string } })
     title,
     description: desc.slice(0, 160),
     alternates: {
-      canonical: `https://welovepdf.best/${params.tool}`,
+      canonical: `https://www.welovepdf.best/${params.tool}`,
       languages: {
-        en: `https://welovepdf.best/${params.tool}`,
-        hi: `https://welovepdf.best/hi/${params.tool}`,
-        "x-default": `https://welovepdf.best/${params.tool}`,
+        en: `https://www.welovepdf.best/${params.tool}`,
+        hi: `https://www.welovepdf.best/hi/${params.tool}`,
+        "x-default": `https://www.welovepdf.best/${params.tool}`,
       }
     },
     openGraph: {
       title,
       description: desc.slice(0, 160),
-      url: `https://welovepdf.best/${params.tool}`,
+      url: `https://www.welovepdf.best/${params.tool}`,
       type: "website",
       images: [
         {
@@ -80,7 +80,7 @@ export default function ToolPage({ params, lang = "en" }: { params: { tool: stri
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": `${tool.name} - WeLovePDF`,
-    "url": `https://welovepdf.best/${tool.slug}`,
+    "url": `https://www.welovepdf.best/${tool.slug}`,
     "applicationCategory": "BusinessApplication",
     "operatingSystem": "All",
     "browserRequirements": "Requires HTML5, WebAssembly",
@@ -95,19 +95,19 @@ export default function ToolPage({ params, lang = "en" }: { params: { tool: stri
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://welovepdf.best/"
+        "item": "https://www.welovepdf.best/"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Tools",
-        "item": "https://welovepdf.best/#tools"
+        "item": "https://www.welovepdf.best/#tools"
       },
       {
         "@type": "ListItem",
         "position": 3,
         "name": tool.name,
-        "item": `https://welovepdf.best/${tool.slug}`
+        "item": `https://www.welovepdf.best/${tool.slug}`
       }
     ]
   };
@@ -180,6 +180,10 @@ export default function ToolPage({ params, lang = "en" }: { params: { tool: stri
       }
     }))
   };
+
+  const relatedTools = tools
+    .filter((t) => t.slug !== tool.slug && (t.category === tool.category || t.category === "Organize"))
+    .slice(0, 3);
 
   return (
     <div className="w-full bg-bg-light dark:bg-bg-dark dot-grid transition-colors duration-200">
@@ -293,6 +297,25 @@ export default function ToolPage({ params, lang = "en" }: { params: { tool: stri
                     <h4 className="font-bold text-[14px] mb-6 text-text-primaryLight dark:text-text-primaryDark">{faq.q}</h4>
                     <p className="text-[13px] text-text-secondaryLight dark:text-text-secondaryDark leading-relaxed">{faq.a}</p>
                   </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Related Tools Section */}
+            <div className="border-t border-border-light dark:border-border-dark pt-32 mt-16">
+              <h2 className="text-2xl font-bold mb-16 text-text-primaryLight dark:text-text-primaryDark">
+                {lang === "en" ? "Related PDF Tools" : "संबंधित पीडीएफ टूल्स"}
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-16">
+                {relatedTools.map((rel) => (
+                  <a
+                    key={rel.slug}
+                    href={lang === "hi" ? `/hi/${rel.slug}` : `/${rel.slug}`}
+                    className="p-16 border border-border-light dark:border-border-dark rounded-card bg-white dark:bg-surface-dark hover:border-[#D97706] hover:shadow-sm transition-all flex flex-col gap-6"
+                  >
+                    <h4 className="font-bold text-[13px] text-slate-800 dark:text-white hover:text-[#D97706] transition-colors">{rel.name}</h4>
+                    <p className="text-[11px] text-text-secondaryLight dark:text-text-secondaryDark line-clamp-2 leading-relaxed">{rel.desc}</p>
+                  </a>
                 ))}
               </div>
             </div>

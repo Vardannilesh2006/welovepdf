@@ -6,7 +6,7 @@ import Script from "next/script";
 export const metadata = {
   title: "WeLovePDF — Free Online PDF Tools, No Upload Required",
   description: "WeLovePDF offers 60+ free browser-based PDF tools — merge, split, compress, convert, OCR, and AI-powered PDF tools. No file upload, no signup, 100% private.",
-  metadataBase: new URL("https://welovepdf.best"),
+  metadataBase: new URL("https://www.welovepdf.best"),
 };
 
 export default function RootLayout({

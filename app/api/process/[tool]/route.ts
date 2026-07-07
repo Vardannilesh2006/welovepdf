@@ -232,7 +232,7 @@ async function pdfToQr(): Promise<Uint8Array> {
   }
 
   // Footer text
-  page.drawText("Link: https://welovepdf.best/download/dld-7392-pdf", { x: 120, y: qrY - 40, size: 12, font: regularFont });
+  page.drawText("Link: https://www.welovepdf.best/download/dld-7392-pdf", { x: 120, y: qrY - 40, size: 12, font: regularFont });
 
   return doc.save();
 }

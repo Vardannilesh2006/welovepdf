@@ -151,10 +151,10 @@ export default function Home() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "WeLovePDF",
-    "url": "https://welovepdf.best",
+    "url": "https://www.welovepdf.best",
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://welovepdf.best/?search={search_term_string}",
+      "target": "https://www.welovepdf.best/?search={search_term_string}",
       "query-input": "required name=search_term_string"
     }
   };
@@ -163,8 +163,8 @@ export default function Home() {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "WeLovePDF",
-    "url": "https://welovepdf.best",
-    "logo": "https://welovepdf.best/og-image.png",
+    "url": "https://www.welovepdf.best",
+    "logo": "https://www.welovepdf.best/og-image.png",
     "founder": {
       "@type": "Person",
       "name": "Nilesh Verma",
@@ -218,10 +218,10 @@ export default function Home() {
       {/* Dynamic SEO tags */}
       <title>{lang === "en" ? "WeLovePDF — Free Online PDF Tools, No Upload Required" : "WeLovePDF — मुफ्त ऑनलाइन पीडीएफ टूल्स, बिना सर्वर अपलोड के"}</title>
       <meta name="description" content={lang === "en" ? "WeLovePDF offers 60+ free browser-based PDF tools — merge, split, compress, convert, OCR, and AI-powered PDF tools. No file upload, 100% private." : "WeLovePDF सभी 60+ पीडीएफ टूल्स मुफ्त में प्रदान करता है - पीडीएफ मर्ज करें, विभाजित करें, कंप्रेस करें, कनवर्ट करें, ओसीआर करें।"} />
-      <link rel="canonical" href={lang === "en" ? "https://welovepdf.best" : "https://welovepdf.best/hi"} />
-      <link rel="alternate" hrefLang="en" href="https://welovepdf.best" />
-      <link rel="alternate" hrefLang="hi" href="https://welovepdf.best/hi" />
-      <link rel="alternate" hrefLang="x-default" href="https://welovepdf.best" />
+      <link rel="canonical" href={lang === "en" ? "https://www.welovepdf.best/" : "https://www.welovepdf.best/hi"} />
+      <link rel="alternate" hrefLang="en" href="https://www.welovepdf.best/" />
+      <link rel="alternate" hrefLang="hi" href="https://www.welovepdf.best/hi" />
+      <link rel="alternate" hrefLang="x-default" href="https://www.welovepdf.best/" />
 
       {/* JSON-LD Schemas */}
       <script

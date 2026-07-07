@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "WeLovePDF vs iLovePDF — The Best Free Alternative | WeLovePDF",
   description: "An honest comparison between WeLovePDF and iLovePDF. Discover why browser-first local sandbox processing is safer and faster than server uploads.",
   alternates: {
-    canonical: "https://welovepdf.best/vs/ilovepdf",
+    canonical: "https://www.welovepdf.best/vs/ilovepdf",
   }
 };
 

@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "WeLovePDF vs Adobe Acrobat — The Best Free Alternative | WeLovePDF",
   description: "An honest comparison of WeLovePDF and Adobe Acrobat. Learn how to edit, sign, and compress your PDFs without downloading heavy desktop software.",
   alternates: {
-    canonical: "https://welovepdf.best/vs/adobe-acrobat",
+    canonical: "https://www.welovepdf.best/vs/adobe-acrobat",
   }
 };
 

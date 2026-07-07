@@ -114,7 +114,14 @@ export const toolDescriptions: Record<string, string> = {
   "page-numbers": "Add page numbers to PDF for free. Automatically number all pages in your PDF document.",
   "bookmark-editor": "Edit PDF bookmarks and table of contents for free. Add, remove, or rename PDF chapters and outlines.",
   "image-to-pdf": "Convert images to PDF online for free. Turn JPG, PNG, and other image formats into a single PDF.",
-};
+
+  "pdf-reader": "Read and view PDF documents online for free. Clean, fast browser-based PDF viewer with page thumbnails and night reading mode.",
+  "pdf-to-qr": "Generate QR codes for your PDF files online. Create a visual scan code for users to access your PDF documents easily.",
+  "grayscale-pdf": "Convert colored PDF files to black and white (grayscale) online for free. Clean vector output for ink-saving printing.",
+  "add-blank-page": "Insert blank pages into PDF documents online for free. Add pages at the start, end, or custom index positions.",
+  "duplicate-pages": "Duplicate specific pages inside a PDF online for free. Clone document sheets and compile them in custom positions.",
+  "accessibility-checker": "Check PDF accessibility standards online for free. Scan document alt text, tag schemas, and logical structures.",
+  "hindi-invoice-generator": "Create professional GST invoices in Hindi online for free. Fast browser-based invoice template generator.",};
 
 export const toolGuides: Record<string, string> = {
   "merge-pdf": `
@@ -266,8 +273,111 @@ export const toolGuides: Record<string, string> = {
 
     <h3>Watermark Styling Tips:</h3>
     <p>Use a diagonal rotation angle (like 45°) to prevent users from cropping or hiding the watermark. Adjust the opacity slider to 20-30% to keep the background text readable while maintaining clear copyright markings. You can choose to apply the watermark pattern to all pages, only selected page indexes, or odd/even pages.</p>
-  `
-};
+  `,
+  "image-to-pdf": `<h2>How to Convert Images to PDF Online for Free?</h2>
+    <p>Converting your pictures into a clean PDF document is simple and private with <strong>WeLovePDF</strong>. Whether you need to compile receipt photos, scanned documents, or graphics, our tool works locally in your browser memory without uploading any files to external servers.</p>
+    
+    <h3>Step-by-Step Guide to Convert Images:</h3>
+    <ol>
+      <li><strong>Select Images:</strong> Drag and drop your JPG, PNG, or WebP files into the workspace area.</li>
+      <li><strong>Layout Configuration:</strong> Adjust the page layout, margin thickness, and page fit options.</li>
+      <li><strong>Compile:</strong> Click the "Compile Output" button. The images are merged into a single PDF instantly.</li>
+      <li><strong>Save:</strong> Click the "Download" link to save your new PDF document.</li>
+    </ol>
+
+    <h3>Tips for Best Image-to-PDF Conversion:</h3>
+    <p>For official documents, select "A4" size and "Small margins" to maintain a professional layout. Drag and drop the image thumbnails to rearrange them in the correct page order. Since the conversion runs client-side, it is extremely fast and completely secure.</p>`,
+  "pdf-reader": `<h2>How to Read and View PDF Documents Online?</h2>
+    <p>Read your PDF documents securely in any browser without installing heavy software. WeLovePDF PDF Reader loads files locally into your client tab, featuring sidebar navigation, Zoom controls, and a custom night theme for low-light reading comfort.</p>
+    
+    <h3>Steps to View PDF Documents:</h3>
+    <ol>
+      <li><strong>Load File:</strong> Drag and drop your PDF file into the reader desktop.</li>
+      <li><strong>Navigate:</strong> Use the page thumbnail sidebar or click arrow keys to flip through pages.</li>
+      <li><strong>Reading Themes:</strong> Toggle "Night Mode" in the settings panel for high-contrast viewing.</li>
+      <li><strong>Inspect details:</strong> Check file metadata, page sizes, and text layouts.</li>
+    </ol>
+
+    <h3>Why Use a Browser-Local PDF Reader?</h3>
+    <p>Standard PDF viewers often upload files to servers or run sluggish scripts. WeLovePDF runs fully offline, meaning your confidential files stay strictly inside your local computer memory sandbox, guaranteeing zero data leakage.</p>`,
+  "pdf-to-qr": `<h2>How to Convert PDF URLs or Documents to QR Codes?</h2>
+    <p>Create visual QR scan codes so users can easily access your PDF files on mobile devices. Converting PDF URLs to QR codes is perfect for flyers, menu sheets, business cards, and product packaging.</p>
+    
+    <h3>Steps to Generate PDF QR Code:</h3>
+    <ol>
+      <li><strong>Select Link:</strong> Upload your PDF document to a public link or paste your PDF URL path.</li>
+      <li><strong>Customize Layout:</strong> Select QR color themes, error correction rates, and image sizing.</li>
+      <li><strong>Generate Code:</strong> Click "Compile Output" to compile the QR matrix.</li>
+      <li><strong>Download:</strong> Save the QR code graphic as PNG or print-friendly PDF.</li>
+    </ol>
+
+    <h3>Best Practices for QR Scanning:</h3>
+    <p>Choose high contrast colors (e.g. black QR code on white background) to ensure scanner apps recognize the matrix quickly. Test the QR code with your mobile camera before printing. Static QR codes do not require internet access and will work permanently.</p>`,
+  "grayscale-pdf": `<h2>How to Convert Color PDF to Black and White?</h2>
+    <p>Convert your colored PDF files into high-contrast grayscale monochrome copies. Greyscale PDFs are ink-friendly for printing and often significantly smaller in file size due to channel space reductions.</p>
+    
+    <h3>Steps to Convert PDF to Grayscale:</h3>
+    <ol>
+      <li><strong>Choose Document:</strong> Select the colored PDF file from your device.</li>
+      <li><strong>Select Preset:</strong> Choose to compress image assets or remove extra metadata parameters.</li>
+      <li><strong>Process:</strong> Click the "Compile Output" button to strip color streams.</li>
+      <li><strong>Save File:</strong> Download your print-ready black and white PDF.</li>
+    </ol>
+
+    <h3>Benefits of Grayscale Conversion:</h3>
+    <p>Printing colored documents is expensive and wastes ink. Grayscale conversion ensures clean black-and-white grids. Our client-side script converts color models directly without rasterizing vector text, keeping document elements crisp.</p>`,
+  "add-blank-page": `<h2>How to Insert Empty Blank Pages into a PDF?</h2>
+    <p>Add blank pages to your PDF documents easily. Inserting spacing sheets is useful for double-sided print separations, creating layout margins, or leaving notebook outline pages inside report portfolios.</p>
+    
+    <h3>Steps to Insert Blank Pages:</h3>
+    <ol>
+      <li><strong>Upload PDF:</strong> Choose the document you want to extend.</li>
+      <li><strong>Set Position:</strong> Choose where to insert the blank page (start, end, or after page index N).</li>
+      <li><strong>Format page:</strong> Select background canvas color and page size (A4, Letter).</li>
+      <li><strong>Download:</strong> Click "Compile Output" to insert the blank page and download.</li>
+    </ol>
+
+    <h3>Why insert blank pages locally?</h3>
+    <p>Injecting pages requires updating PDF cross-reference structures. WeLovePDF uses local PDF-Lib execution to restructure tables inside your browser memory, ensuring your sensitive file contents are never sent to external servers.</p>`,
+  "duplicate-pages": `<h2>How to Duplicate Pages inside a PDF?</h2>
+    <p>Clone specific pages or sheets inside your PDF files online. Duplicating pages is perfect for multiplying registration sheets, creating blank form copies, or duplicating slides within single documents.</p>
+    
+    <h3>Steps to Clone PDF Pages:</h3>
+    <ol>
+      <li><strong>Upload:</strong> Select the PDF file you wish to modify.</li>
+      <li><strong>Define Page:</strong> Specify the page index you want to copy and set duplicate copies counts.</li>
+      <li><strong>Choose Location:</strong> Choose to insert duplicates before, after, or at the end of the file.</li>
+      <li><strong>Download:</strong> Click "Compile Output" to compile the duplicates and save.</li>
+    </ol>
+
+    <h3>Optimal PDF Page Duplication:</h3>
+    <p>Unlike copying pages manually which bloats documents, WeLovePDF references the page resources internally, creating cloned views with minimal increase in output file size. Everything runs locally in browser memory.</p>`,
+  "accessibility-checker": `<h2>How to Audit and Check PDF Accessibility Standards?</h2>
+    <p>Scan your PDF files online to verify compliance with ADA and WCAG accessibility standards. Auditing documents is critical to ensure screen readers can parse texts and images for visually impaired users.</p>
+    
+    <h3>Steps to Verify PDF Accessibility:</h3>
+    <ol>
+      <li><strong>Select File:</strong> Drag your PDF document into the checker desk.</li>
+      <li><strong>Start Scan:</strong> Click the "Compile Output" button to inspect metadata structures.</li>
+      <li><strong>Review Audit:</strong> Review the results log showing tag levels, header structures, and alt texts.</li>
+      <li><strong>Save Report:</strong> Save the compliance status log for audit submissions.</li>
+    </ol>
+
+    <h3>Common Accessibility Parameters Checked:</h3>
+    <p>Our tool verifies the presence of document title fields, default language declarations, image alternate descriptions (Alt tags), and logical tag reading structures, helping you make documents accessible to everyone.</p>`,
+  "hindi-invoice-generator": `<h2>GST Invoice Creator - Generate Invoices in Hindi</h2>
+    <p>Create professional GST invoices with full Hindi localization online for free. WeLovePDF Hindi GST Invoice builder helps small businesses, traders, and freelancers issue invoices with Hindi labels and correct tax computations.</p>
+    
+    <h3>Steps to Build Hindi Invoice:</h3>
+    <ol>
+      <li><strong>Input Details:</strong> Fill in seller details, buyer GSTIN, invoice dates, and item rows.</li>
+      <li><strong>Tax & Rates:</strong> Input CGST, SGST, IGST tax percentages and item amounts.</li>
+      <li><strong>Generate PDF:</strong> Click the "Compile Output" button to render the invoice grid.</li>
+      <li><strong>Print/Download:</strong> Save the clean, professional invoice PDF instantly.</li>
+    </ol>
+
+    <h3>Features of WeLovePDF GST Invoice:</h3>
+    <p>Our generator handles automatic calculations of tax rows, item totals, and grand totals. The inputs are cached securely in your local browser sandbox, allowing you to instantly load templates for your next client billing session.</p>`,};
 
 export const toolFaqs: Record<string, { q: string; a: string }[]> = {
   "merge-pdf": [
@@ -286,8 +396,47 @@ export const toolFaqs: Record<string, { q: string; a: string }[]> = {
     { q: "Can I split password-protected PDFs?", a: "Yes. You can unlock the file locally with its password and proceed to split it." },
     { q: "Does page extraction reduce PDF resolution?", a: "No. The vector data is extracted at the level of the byte, maintaining identical text and image quality." },
     { q: "Is there a daily limit on how many PDFs I can split?", a: "No. WeLovePDF has no daily caps or document limits on its browser-based tools." }
-  ]
-};
+  ],
+  "image-to-pdf": [
+      { q: "Can I convert multiple image formats at once?", a: "Yes, you can upload a mix of JPG, PNG, and WebP files and combine them all into a single PDF." },
+      { q: "Does this tool upload my photos to a server?", a: "No. The images are converted locally inside your browser memory using JavaScript, keeping your personal photos 100% private." },
+      { q: "Is there a limit on how many images I can convert?", a: "No, WeLovePDF allows you to convert unlimited images in a single session completely free." }
+  ],
+  "pdf-reader": [
+      { q: "Do I need to upload files to read them?", a: "No, files are loaded locally from your disk directly into the browser DOM sandbox, ensuring secure offline reading." },
+      { q: "Does the PDF reader support password-protected files?", a: "Yes. If the PDF is encrypted, the reader will prompt you to enter the password locally to decrypt and open it." },
+      { q: "Can I read PDFs in dark mode?", a: "Yes, our reader features a toggle for Night Mode to invert canvas colors for comfortable low-light reading." }
+  ],
+  "pdf-to-qr": [
+      { q: "How do users access the PDF from the QR code?", a: "The QR code embeds a URL link to where your PDF is hosted. When scanned, it opens that link automatically." },
+      { q: "Can I customize the color of the QR code?", a: "Yes, you can select custom foreground and background colors in the settings panel." },
+      { q: "Is the generated QR code permanent?", a: "Yes, the QR code is static and will never expire." }
+  ],
+  "grayscale-pdf": [
+      { q: "Does converting to grayscale reduce file size?", a: "Yes, converting color pixel arrays to single-channel monochrome values decreases the document data size significantly." },
+      { q: "Will vector text or images get blurred?", a: "No, the tool converts color spaces at the system layer without rasterizing vector text, keeping documents perfectly sharp." },
+      { q: "Is this tool free to use?", a: "Yes, like all core tools on WeLovePDF, Grayscale PDF is completely free with no usage limits." }
+  ],
+  "add-blank-page": [
+      { q: "Can I choose the color or size of the blank page?", a: "Yes, you can customize page size (A4, Letter) and set background colors in the options panel." },
+      { q: "Is my document uploaded to a server?", a: "No, the blank page injection happens 100% locally inside your web browser." },
+      { q: "Can I add multiple blank pages?", a: "Yes, you can repeat the process or select custom index locations to insert multiple pages." }
+  ],
+  "duplicate-pages": [
+      { q: "Can I duplicate multiple pages at once?", a: "Yes, you can specify individual pages or ranges to copy in the options panel." },
+      { q: "Does cloning pages increase file size significantly?", a: "Only slightly, as PDF-Lib references the original objects, keeping document sizes optimized." },
+      { q: "Is there a limit on duplication copies?", a: "No, you can select any number of copies without page caps." }
+  ],
+  "accessibility-checker": [
+      { q: "Does this tool automatically fix accessibility issues?", a: "It identifies issues like missing image descriptions or hierarchy bugs, which you can resolve using our PDF editor tools." },
+      { q: "Why is PDF accessibility important?", a: "It ensures that visually impaired individuals using screen readers can navigate and read your documents properly." },
+      { q: "Is this checker secure?", a: "Yes, the audit runs locally in your browser to maintain confidentiality of your data." }
+  ],
+  "hindi-invoice-generator": [
+      { q: "Does the invoice support GST taxes?", a: "Yes, tax columns and SGST/CGST settings are fully customizable." },
+      { q: "Can I save my business info for next time?", a: "Yes, WeLovePDF stores your inputs locally in your browser storage for fast autofill during your next session." },
+      { q: "Is there any charge for creating invoices?", a: "No, this billing tool is completely free with no usage limits." }
+  ],};
 
 export const subpages: string[] = [
   "features",
@@ -363,5 +512,36 @@ export const seoMeta: Record<string, { title: string; desc: string }> = {
   "sitemap": {
     title: "Sitemap - WeLovePDF Directory",
     desc: "Full HTML directory of WeLovePDF. Easily find and navigate all 12 informational sections and all 60 individual PDF tools."
-  }
-};
+  },
+  "image-to-pdf": {
+    title: "Image to PDF — Convert JPG, PNG to PDF Online Free | WeLovePDF",
+    desc: "Convert images (JPG, PNG, WebP) to PDF online for free. Combine multiple photos into a single PDF document instantly and securely in your browser."
+  },
+  "pdf-reader": {
+    title: "PDF Reader — View and Read PDF Online Free | WeLovePDF",
+    desc: "Read and view PDF documents online for free. Fast browser-based viewer with page thumbnails, night reading mode, and secure local rendering."
+  },
+  "pdf-to-qr": {
+    title: "PDF to QR — Convert PDF Links to QR Codes Online | WeLovePDF",
+    desc: "Generate QR codes for your PDF documents online for free. Create high-quality visual scan codes for easy mobile PDF access."
+  },
+  "grayscale-pdf": {
+    title: "Grayscale PDF — Convert PDF to Black and White Online | WeLovePDF",
+    desc: "Convert colored PDF files to black and white (grayscale) online for free. Save printer ink and shrink document sizes using browser-local processing."
+  },
+  "add-blank-page": {
+    title: "Add Blank Page — Insert Empty Pages to PDF Online | WeLovePDF",
+    desc: "Insert empty blank pages into your PDF documents online for free. Add sheets at the start, end, or custom positions instantly in your browser."
+  },
+  "duplicate-pages": {
+    title: "Duplicate PDF Pages — Clone PDF Pages Online Free | WeLovePDF",
+    desc: "Duplicate specific pages inside a PDF document online for free. Clone sheets and place them in custom positions locally in your browser sandbox."
+  },
+  "accessibility-checker": {
+    title: "Accessibility Checker — Check PDF Compliance Online | WeLovePDF",
+    desc: "Scan and check PDF documents for WCAG/ADA accessibility compliance for free. Inspect tag schema hierarchies and image alt tags locally."
+  },
+  "hindi-invoice-generator": {
+    title: "Hindi GST Invoice Generator — Create Invoices Online | WeLovePDF",
+    desc: "Create GST invoices in Hindi online for free. Fast browser-based invoice template generator with automatic tax computations."
+  },};

@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://welovepdf.best/sitemap.xml
+Sitemap: https://www.welovepdf.best/sitemap.xml

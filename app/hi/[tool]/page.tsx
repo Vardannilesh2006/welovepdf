@@ -11,11 +11,11 @@ export async function generateMetadata({ params }: { params: { tool: string } })
     title: `हिन्दी - ${meta.title}`,
     description: `हिन्दी गाइड - ${meta.description}`,
     alternates: {
-      canonical: `https://welovepdf.best/hi/${params.tool}`,
+      canonical: `https://www.welovepdf.best/hi/${params.tool}`,
       languages: {
-        en: `https://welovepdf.best/${params.tool}`,
-        hi: `https://welovepdf.best/hi/${params.tool}`,
-        "x-default": `https://welovepdf.best/${params.tool}`,
+        en: `https://www.welovepdf.best/${params.tool}`,
+        hi: `https://www.welovepdf.best/hi/${params.tool}`,
+        "x-default": `https://www.welovepdf.best/${params.tool}`,
       }
     }
   };

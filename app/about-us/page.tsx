@@ -11,7 +11,7 @@ export default function AboutUs() {
     "@type": "Person",
     "name": "Nilesh Verma",
     "jobTitle": "Founder & Lead Developer of WeLovePDF",
-    "url": "https://welovepdf.best/about-us",
+    "url": "https://www.welovepdf.best/about-us",
     "sameAs": [
       "https://github.com/Vardannilesh2006"
     ],
@@ -23,10 +23,10 @@ export default function AboutUs() {
     <div className="max-w-4xl mx-auto px-16 py-64 prose dark:prose-invert">
       <title>{lang === "en" ? "About Us | WeLovePDF" : "हमारे बारे में | WeLovePDF"}</title>
       <meta name="description" content={lang === "en" ? "WeLovePDF is a browser-first document processing platform created in India to build secure client-side tools." : "WeLovePDF भारत में बनाया गया एक सुरक्षित ब्राउज़र-प्रथम दस्तावेज़ प्रसंस्करण प्लेटफ़ॉर्म है।"} />
-      <link rel="canonical" href="https://welovepdf.best/about-us" />
-      <link rel="alternate" hrefLang="en" href="https://welovepdf.best/about-us" />
-      <link rel="alternate" hrefLang="hi" href="https://welovepdf.best/hi/about-us" />
-      <link rel="alternate" hrefLang="x-default" href="https://welovepdf.best/about-us" />
+      <link rel="canonical" href="https://www.welovepdf.best/about-us" />
+      <link rel="alternate" hrefLang="en" href="https://www.welovepdf.best/about-us" />
+      <link rel="alternate" hrefLang="hi" href="https://www.welovepdf.best/hi/about-us" />
+      <link rel="alternate" hrefLang="x-default" href="https://www.welovepdf.best/about-us" />
       
       <script
         type="application/ld+json"

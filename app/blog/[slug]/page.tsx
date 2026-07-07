@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     title: `${article.title} | WeLovePDF Blog`,
     description: article.desc,
     alternates: {
-      canonical: `https://welovepdf.best/blog/${slug}`,
+      canonical: `https://www.welovepdf.best/blog/${slug}`,
     }
   };
 }

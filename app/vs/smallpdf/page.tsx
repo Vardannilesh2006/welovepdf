@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "WeLovePDF vs Smallpdf — The Best Free Alternative | WeLovePDF",
   description: "Compare WeLovePDF and Smallpdf. Discover how you can bypass Smallpdf's daily caps, page restrictions, and paywalls with our free local tools.",
   alternates: {
-    canonical: "https://welovepdf.best/vs/smallpdf",
+    canonical: "https://www.welovepdf.best/vs/smallpdf",
   }
 };
 
