@@ -81,9 +81,184 @@ const getPageNumStyle = (pos: string, color: string): React.CSSProperties => {
   return style;
 };
 
+interface LazyPageThumbnailProps {
+  prev: { id: string; page: number; dataUrl: string; rotation: number; selected: boolean; rendered?: boolean };
+  idx: number;
+  toolSlug: string;
+  lang: string;
+  grayscale: boolean;
+  watermarkText: string;
+  watermarkOpacity: number;
+  watermarkSize: number;
+  watermarkPosition: string;
+  watermarkColor: string;
+  watermarkAngle: number;
+  numPosition: string;
+  numColor: string;
+  numFormat: string;
+  signatureText: string;
+  cropTop: number;
+  cropBottom: number;
+  cropLeft: number;
+  cropRight: number;
+  openPassword?: string;
+  onRenderRequired: (page: number) => void;
+  onClick: () => void;
+}
+
+function LazyPageThumbnail({
+  prev,
+  idx,
+  toolSlug,
+  lang,
+  grayscale,
+  watermarkText,
+  watermarkOpacity,
+  watermarkSize,
+  watermarkPosition,
+  watermarkColor,
+  watermarkAngle,
+  numPosition,
+  numColor,
+  numFormat,
+  signatureText,
+  cropTop,
+  cropBottom,
+  cropLeft,
+  cropRight,
+  openPassword,
+  onRenderRequired,
+  onClick
+}: LazyPageThumbnailProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (prev.rendered || !containerRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            onRenderRequired(prev.page);
+            observer.disconnect();
+          }
+        });
+      },
+      { rootMargin: "100px" }
+    );
+
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, [prev.page, prev.rendered, onRenderRequired]);
+
+  return (
+    <div
+      ref={containerRef}
+      onClick={onClick}
+      className={`relative p-6 border rounded bg-white dark:bg-slate-800 flex flex-col items-center justify-center cursor-pointer transition-all ${
+        prev.selected
+          ? (toolSlug === "delete-pages" ? "border-brand-error bg-brand-error/5" : "border-[#D97706] bg-[#D97706]/5")
+          : "border-border-light dark:border-border-dark hover:border-[#D97706]"
+      }`}
+    >
+      <div className="relative w-full min-h-[110px] max-h-[110px] flex items-center justify-center overflow-hidden bg-slate-100 dark:bg-slate-900 rounded shadow-sm">
+        {prev.rendered && prev.dataUrl ? (
+          <>
+            <img
+              src={prev.dataUrl}
+              alt={`Page ${prev.page}`}
+              className="max-h-[110px] object-contain transition-transform"
+              style={{
+                transform: `rotate(${prev.rotation}deg)`,
+                filter: `${grayscale || toolSlug === "grayscale-pdf" ? "grayscale(100%)" : ""} ${toolSlug === "invert-pdf" ? "invert(100%)" : ""}`
+              }}
+            />
+            {/* Live Watermark Overlay */}
+            {toolSlug === "watermark-pdf" && watermarkText && (
+              <div style={getWatermarkStyle(watermarkPosition, watermarkColor, watermarkOpacity, watermarkAngle, watermarkSize)}>
+                {watermarkText}
+              </div>
+            )}
+            {/* Live Page Numbers Overlay */}
+            {toolSlug === "page-numbers" && (
+              <div style={getPageNumStyle(numPosition, numColor)}>
+                {numFormat.replace("{page}", String(prev.page))}
+              </div>
+            )}
+            {/* Live Sign PDF Overlay */}
+            {toolSlug === "sign-pdf" && signatureText && (
+              <div className="absolute bottom-[15%] left-1/2 -translate-x-1/2 pointer-events-none font-serif italic text-[10px] text-[#D97706] bg-white/80 px-6 py-1 border border-dashed border-[#D97706]/40 rounded shadow-sm whitespace-nowrap z-10">
+                {signatureText}
+              </div>
+            )}
+            {/* Live Crop PDF Overlay */}
+            {toolSlug === "crop-pdf" && (
+              <div
+                className="absolute border-2 border-dashed border-red-500 pointer-events-none z-10"
+                style={{
+                  top: `${Math.min(cropTop / 2.5, 75)}%`,
+                  bottom: `${Math.min(cropBottom / 2.5, 75)}%`,
+                  left: `${Math.min(cropLeft / 2.5, 75)}%`,
+                  right: `${Math.min(cropRight / 2.5, 75)}%`,
+                }}
+              />
+            )}
+            {/* Live Protect PDF Overlay */}
+            {toolSlug === "protect-pdf" && openPassword && (
+              <div className="absolute inset-0 bg-black/35 flex items-center justify-center pointer-events-none z-10">
+                <div className="bg-white dark:bg-slate-800 p-6 rounded-full shadow-md text-[#D97706]">
+                  <Lock className="w-4 h-4" />
+                </div>
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="flex items-center gap-6 text-[10px] text-text-secondaryLight">
+            <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+            <span>Loading...</span>
+          </div>
+        )}
+      </div>
+      <span className="text-[10px] font-bold text-text-secondaryLight/80 mt-6">Page {prev.page}</span>
+      {prev.selected && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded pointer-events-none z-20">
+          {toolSlug === "delete-pages" ? (
+            <Trash className="w-6 h-6 text-white" />
+          ) : (
+            <CheckCircle2 className="w-6 h-6 text-white" />
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCardProps) {
   const [files, setFiles] = useState<File[]>([]);
-  const [previews, setPreviews] = useState<{ id: string; page: number; dataUrl: string; rotation: number; selected: boolean }[]>([]);
+  const [previews, setPreviews] = useState<{ id: string; page: number; dataUrl: string; rotation: number; selected: boolean; rendered?: boolean }[]>([]);
+  const pdfDocumentRef = useRef<any>(null);
+
+  const renderPageThumbnail = async (pageNumber: number, pdfInstance?: any) => {
+    const pdf = pdfInstance || pdfDocumentRef.current;
+    if (!pdf) return;
+    try {
+      const page = await pdf.getPage(pageNumber);
+      const viewport = page.getViewport({ scale: 0.2 });
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+      if (context) {
+        await page.render({ canvasContext: context, viewport }).promise;
+        const dataUrl = canvas.toDataURL("image/jpeg");
+        setPreviews((prev) =>
+          prev.map((p) => (p.page === pageNumber ? { ...p, dataUrl, rendered: true } : p))
+        );
+      }
+    } catch (err) {
+      console.error("Failed to render thumbnail for page", pageNumber, err);
+    }
+  };
   const [loadingPreviews, setLoadingPreviews] = useState(false);
   const [running, setRunning] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -270,6 +445,23 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
     }
   }, []);
 
+  const prevDownloadUrlRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (prevDownloadUrlRef.current && prevDownloadUrlRef.current !== downloadUrl) {
+      URL.revokeObjectURL(prevDownloadUrlRef.current);
+    }
+    prevDownloadUrlRef.current = downloadUrl;
+  }, [downloadUrl]);
+
+  useEffect(() => {
+    return () => {
+      if (prevDownloadUrlRef.current) {
+        URL.revokeObjectURL(prevDownloadUrlRef.current);
+      }
+    };
+  }, []);
+
   // Sync crop sliders on presets selection
   useEffect(() => {
     if (cropPreset === "Remove Margins") {
@@ -395,32 +587,28 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
         
         const arrayBuffer = await file.arrayBuffer();
         const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-        const totalPages = Math.min(pdf.numPages, 8);
+        pdfDocumentRef.current = pdf;
         
         const pagesToRender = [];
-        for (let i = 1; i <= totalPages; i++) {
-          const page = await pdf.getPage(i);
-          const viewport = page.getViewport({ scale: 0.2 });
-          const canvas = document.createElement("canvas");
-          const context = canvas.getContext("2d");
-          canvas.height = viewport.height;
-          canvas.width = viewport.width;
-          
-          if (context) {
-            await page.render({ canvasContext: context, viewport }).promise;
-            pagesToRender.push({
-              id: `${file.name}-${i}`,
-              page: i,
-              dataUrl: canvas.toDataURL("image/jpeg"),
-              rotation: 0,
-              selected: true
-            });
-          }
+        for (let i = 1; i <= pdf.numPages; i++) {
+          pagesToRender.push({
+            id: `${file.name}-${i}`,
+            page: i,
+            dataUrl: "",
+            rotation: 0,
+            selected: true,
+            rendered: false
+          });
         }
         setPreviews(pagesToRender);
+        setLoadingPreviews(false);
+
+        // Render first 8 pages immediately
+        for (let i = 1; i <= Math.min(pdf.numPages, 8); i++) {
+          renderPageThumbnail(i, pdf);
+        }
       } catch (err) {
         console.error("Preview render failed:", err);
-      } finally {
         setLoadingPreviews(false);
       }
     } else if (file.type.includes("image")) {
@@ -491,6 +679,18 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
   };
 
   const handleClearAll = () => {
+    // Revoke any blob preview URLs to prevent memory leaks
+    previews.forEach((p) => {
+      if (p.dataUrl.startsWith("blob:")) {
+        URL.revokeObjectURL(p.dataUrl);
+      }
+    });
+
+    if (downloadUrl) {
+      URL.revokeObjectURL(downloadUrl);
+    }
+
+    pdfDocumentRef.current = null;
     setFiles([]);
     setPreviews([]);
     setSuccess(false);
@@ -792,8 +992,29 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
                 ) : (
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-12 max-h-[340px] overflow-y-auto p-8 border border-border-light/60 dark:border-border-dark/60 rounded bg-bg-light/10 dark:bg-bg-dark/10">
                     {previews.map((prev, idx) => (
-                      <div 
-                        key={idx} 
+                      <LazyPageThumbnail
+                        key={idx}
+                        prev={prev}
+                        idx={idx}
+                        toolSlug={toolSlug}
+                        lang={lang}
+                        grayscale={grayscale}
+                        watermarkText={watermarkText}
+                        watermarkOpacity={watermarkOpacity}
+                        watermarkSize={watermarkSize}
+                        watermarkPosition={watermarkPosition}
+                        watermarkColor={watermarkColor}
+                        watermarkAngle={watermarkAngle}
+                        numPosition={numPosition}
+                        numColor={numColor}
+                        numFormat={numFormat}
+                        signatureText={signatureText}
+                        cropTop={cropTop}
+                        cropBottom={cropBottom}
+                        cropLeft={cropLeft}
+                        cropRight={cropRight}
+                        openPassword={openPassword}
+                        onRenderRequired={(page) => renderPageThumbnail(page)}
                         onClick={() => {
                           if (toolSlug === "delete-pages" || toolSlug === "extract-pages") {
                             const updated = [...previews];
@@ -801,78 +1022,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
                             setPreviews(updated);
                           }
                         }}
-                        className={`relative p-6 border rounded bg-white dark:bg-slate-800 flex flex-col items-center justify-center cursor-pointer transition-all ${
-                          prev.selected 
-                            ? (toolSlug === "delete-pages" ? "border-brand-error bg-brand-error/5" : "border-[#D97706] bg-[#D97706]/5") 
-                            : "border-border-light dark:border-border-dark hover:border-[#D97706]"
-                        }`}
-                      >
-                        <div className="relative max-h-[110px] flex items-center justify-center overflow-hidden bg-slate-100 dark:bg-slate-900 rounded shadow-sm">
-                          <img 
-                            src={prev.dataUrl} 
-                            alt={`Page ${prev.page}`} 
-                            className="max-h-[110px] object-contain transition-transform"
-                            style={{ 
-                              transform: `rotate(${prev.rotation}deg)`,
-                              filter: `${grayscale || toolSlug === "grayscale-pdf" ? "grayscale(100%)" : ""} ${toolSlug === "invert-pdf" ? "invert(100%)" : ""}`
-                            }}
-                          />
-                          
-                          {/* Live Watermark Overlay */}
-                          {toolSlug === "watermark-pdf" && watermarkText && (
-                            <div style={getWatermarkStyle(watermarkPosition, watermarkColor, watermarkOpacity, watermarkAngle, watermarkSize)}>
-                              {watermarkText}
-                            </div>
-                          )}
-
-                          {/* Live Page Numbers Overlay */}
-                          {toolSlug === "page-numbers" && (
-                            <div style={getPageNumStyle(numPosition, numColor)}>
-                              {numFormat.replace("{page}", String(prev.page))}
-                            </div>
-                          )}
-
-                          {/* Live Sign PDF Overlay */}
-                          {toolSlug === "sign-pdf" && signatureText && (
-                            <div className="absolute bottom-[15%] left-1/2 -translate-x-1/2 pointer-events-none font-serif italic text-[10px] text-[#D97706] bg-white/80 px-6 py-1 border border-dashed border-[#D97706]/40 rounded shadow-sm whitespace-nowrap z-10">
-                              {signatureText}
-                            </div>
-                          )}
-
-                          {/* Live Crop PDF Overlay */}
-                          {toolSlug === "crop-pdf" && (
-                            <div 
-                              className="absolute border-2 border-dashed border-red-500 pointer-events-none z-10"
-                              style={{
-                                top: `${Math.min(cropTop / 2.5, 75)}%`,
-                                bottom: `${Math.min(cropBottom / 2.5, 75)}%`,
-                                left: `${Math.min(cropLeft / 2.5, 75)}%`,
-                                right: `${Math.min(cropRight / 2.5, 75)}%`,
-                              }}
-                            />
-                          )}
-
-                          {/* Live Protect PDF Overlay */}
-                          {toolSlug === "protect-pdf" && openPassword && (
-                            <div className="absolute inset-0 bg-black/35 flex items-center justify-center pointer-events-none z-10">
-                              <div className="bg-white dark:bg-slate-800 p-6 rounded-full shadow-md text-[#D97706]">
-                                <Lock className="w-4 h-4" />
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                        <span className="text-[10px] font-bold text-text-secondaryLight/80 mt-6">Page {prev.page}</span>
-                        
-                        {prev.selected && (
-                          <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded">
-                            {toolSlug === "delete-pages" ? (
-                              <Trash className="w-6 h-6 text-white" />
-                            ) : (
-                              <CheckCircle2 className="w-6 h-6 text-white" />
-                            )}
-                          </div>
-                        )}
-                      </div>
+                      />
                     ))}
                   </div>
                 )}
