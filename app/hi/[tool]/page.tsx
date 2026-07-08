@@ -1,15 +1,21 @@
 import React from "react";
-import ToolPage, { generateMetadata as baseGenerateMetadata, generateStaticParams } from "../../(english)/[tool]/page";
+import { generateStaticParams } from "../../(english)/[tool]/page";
 import { Metadata } from "next";
+import { ToolPageContent } from "../../../components/ToolPageContent";
+import { tools } from "../../data/tools-config";
 
 export { generateStaticParams };
 
 export async function generateMetadata({ params }: { params: { tool: string } }): Promise<Metadata> {
-  const meta = await baseGenerateMetadata({ params });
+  const tool = tools.find((t) => t.slug === params.tool);
+  if (!tool) return {};
+
+  const title = `हिन्दी - ${tool.name} — Free Online Tool | WeLovePDF`;
+  const desc = `हिन्दी गाइड - ${tool.name} online for free.`;
+
   return {
-    ...meta,
-    title: `हिन्दी - ${meta.title}`,
-    description: `हिन्दी गाइड - ${meta.description}`,
+    title,
+    description: desc,
     alternates: {
       canonical: `https://www.welovepdf.best/hi/${params.tool}`,
       languages: {
@@ -22,5 +28,5 @@ export async function generateMetadata({ params }: { params: { tool: string } })
 }
 
 export default function HindiToolPage({ params }: { params: { tool: string } }) {
-  return <ToolPage params={params} lang="hi" />;
+  return <ToolPageContent params={params} lang="hi" />;
 }

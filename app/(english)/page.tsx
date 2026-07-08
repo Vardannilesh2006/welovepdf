@@ -420,7 +420,7 @@ export default function Home() {
         </div>
 
         {/* Two-column layout: left rail + right grid */}
-        <div className="flex gap-32 items-start">
+        <div className="flex flex-col md:flex-row gap-32 items-start">
 
           {/* LEFT RAIL: Category list */}
           <nav className="hidden md:flex flex-col w-[200px] flex-shrink-0 gap-4 sticky top-[70px]">
