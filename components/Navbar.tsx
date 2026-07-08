@@ -10,16 +10,17 @@ interface NavbarProps {
 }
 
 export default function Navbar({ lang, setLang }: NavbarProps) {
+  const prefix = lang === "hi" ? "/hi" : "";
   const navLinks = [
-    { label: lang === "en" ? "Tools" : "टूल्स", href: "/#workspace" },
-    { label: lang === "en" ? "Blog" : "ब्लॉग", href: "/blog" },
-    { label: lang === "en" ? "Privacy" : "गोपनीयता", href: "/privacy-policy" },
+    { label: lang === "en" ? "Tools" : "टूल्स", href: `${prefix}/#workspace` },
+    { label: lang === "en" ? "Blog" : "ब्लॉग", href: `${prefix}/blog` },
+    { label: lang === "en" ? "Privacy" : "गोपनीयता", href: `${prefix}/privacy-policy` },
   ];
 
   return (
     <header className="sticky top-0 w-full z-50 bg-[#FFF8F2] border-b border-[#E5E7EB] transition-all duration-200 h-[56px]">
       <div className="max-w-7xl mx-auto px-16 sm:px-32 h-full flex items-center justify-between">
-        <a href="/" className="flex items-center gap-10 group" aria-label="WeLovePDF home">
+        <a href={prefix || "/"} className="flex items-center gap-10 group" aria-label="WeLovePDF home">
           <div className="w-[28px] h-[28px] rounded bg-[#D97706] flex items-center justify-center text-white font-heading font-black text-[15px] shadow-sm">
             W
           </div>

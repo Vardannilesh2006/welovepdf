@@ -5,6 +5,7 @@ import WorkspaceCard from "./WorkspaceCard";
 import { ChevronRight } from "lucide-react";
 
 export function ToolPageContent({ params, lang }: { params: { tool: string }; lang: "en" | "hi" }) {
+  const prefix = lang === "hi" ? "/hi" : "";
   const tool = tools.find((t) => t.slug === params.tool);
   if (!tool) {
     notFound();
@@ -146,9 +147,9 @@ export function ToolPageContent({ params, lang }: { params: { tool: string }; la
       <div className="max-w-7xl mx-auto px-16 py-32">
         {/* Breadcrumb navigation */}
         <div className="flex items-center gap-6 text-[13px] text-text-secondaryLight dark:text-text-secondaryDark mb-24">
-          <a href="/" className="hover:text-brand-blue">Home</a>
+          <a href={prefix || "/"} className="hover:text-brand-blue">Home</a>
           <ChevronRight className="w-3 h-3" />
-          <a href="/#tools" className="hover:text-brand-blue">Tools</a>
+          <a href={`${prefix}/#tools`} className="hover:text-brand-blue">Tools</a>
           <ChevronRight className="w-3 h-3" />
           <span className="text-text-primaryLight dark:text-text-primaryDark font-semibold">
             {tool.name}
@@ -199,7 +200,7 @@ export function ToolPageContent({ params, lang }: { params: { tool: string }; la
                 {relatedTools.map((rel) => (
                   <a
                     key={rel.slug}
-                    href={`/${rel.slug}`}
+                    href={`${prefix}/${rel.slug}`}
                     className="p-16 border border-border-light dark:border-border-dark rounded-card bg-[#FFF8F2]/30 dark:bg-surface-dark hover:border-[#D97706] transition-all flex flex-col gap-6"
                   >
                     <h4 className="font-bold text-[13px] text-slate-800 dark:text-white hover:text-[#D97706] transition-colors">{rel.name}</h4>

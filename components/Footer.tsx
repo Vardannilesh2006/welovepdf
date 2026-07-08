@@ -12,6 +12,7 @@ interface FooterLink {
 }
 
 export default function Footer({ lang }: FooterProps) {
+  const prefix = lang === "hi" ? "/hi" : "";
   const columns: { title: string; links: FooterLink[] }[] = [
     {
       title: lang === "en" ? "Product" : "उत्पाद",
@@ -77,7 +78,7 @@ export default function Footer({ lang }: FooterProps) {
                 {col.links.map((link, lIdx) => (
                   <li key={lIdx}>
                     <a
-                      href={link.href}
+                      href={link.external ? link.href : `${prefix}${link.href}`}
                       target={link.external ? "_blank" : undefined}
                       rel={link.external ? "noopener noreferrer" : undefined}
                       className="text-[12px] text-text-secondaryLight hover:text-[#D97706] transition-colors"
