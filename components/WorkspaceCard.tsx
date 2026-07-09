@@ -466,6 +466,13 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
     prevDownloadUrlRef.current = downloadUrl;
   }, [downloadUrl]);
 
+  // Reload previews for unlock-pdf when password changes
+  useEffect(() => {
+    if (files.length > 0 && toolSlug === "unlock-pdf" && openPassword) {
+      loadPdfPreviews(files);
+    }
+  }, [openPassword]);
+
   useEffect(() => {
     return () => {
       if (prevDownloadUrlRef.current) {
@@ -598,7 +605,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
         pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${version}/build/pdf.worker.min.mjs`;
         
         const arrayBuffer = await file.arrayBuffer();
-        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer, password: openPassword || undefined }).promise;
         pdfDocumentRef.current = pdf;
         
         const pagesToRender = [];
@@ -630,7 +637,8 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
           page: idx + 1,
           dataUrl: URL.createObjectURL(f),
           rotation: 0,
-          selected: true
+          selected: true,
+          rendered: true
         }));
         setPreviews(pagesToRender);
       } catch (err) {
