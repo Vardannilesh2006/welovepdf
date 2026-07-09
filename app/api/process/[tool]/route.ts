@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PDFDocument, PDFName, PDFString, StandardFonts, rgb } from "pdf-lib";
+import { PDFDocument, PDFName, PDFString, StandardFonts, rgb, PDFRawStream } from "pdf-lib";
 import { Jimp } from "jimp";
 import Tesseract from "tesseract.js";
 import { isRateLimited } from "../../../../lib/rate-limit";
@@ -214,6 +214,32 @@ async function pdfToQr(): Promise<Uint8Array> {
   page.drawText("Link: https://www.welovepdf.best/download/dld-7392-pdf", { x: 120, y: qrY - 40, size: 12, font: regularFont });
 
   return doc.save();
+}
+
+async function compressPdf(buffer: Buffer, quality: number): Promise<Uint8Array> {
+  const doc = await PDFDocument.load(buffer, { ignoreEncryption: true });
+  const enumeratedObjects = doc.context.enumerateIndirectObjects();
+  
+  for (const [ref, pdfObject] of enumeratedObjects) {
+    if (!(pdfObject instanceof PDFRawStream)) continue;
+    const subtype = pdfObject.dict.get(PDFName.of('Subtype'));
+    if (subtype === PDFName.of('Image')) {
+      try {
+        const imageBuffer = Buffer.from(pdfObject.contents);
+        const img = await Jimp.read(imageBuffer);
+        
+        if (img.bitmap.width > 1200) {
+          img.resize({ w: 1200 });
+        }
+        
+        const compressedBytes = await img.getBuffer("image/jpeg", { quality });
+        (pdfObject as any).setContent(new Uint8Array(compressedBytes));
+      } catch (err) {
+        // Skip non-JPEG or unparseable images
+      }
+    }
+  }
+  return doc.save({ useObjectStreams: true });
 }
 
 // Helper Core Functions
@@ -637,6 +663,8 @@ export async function POST(req: NextRequest, { params }: { params: { tool: strin
       }
 
       output = await makePdfFromText(`${tool.toUpperCase()} REPORT`, aiResponse);
+    } else if (tool === "compress-pdf") {
+      output = await compressPdf(buffers[0].buffer, quality);
     } else if (tool === "merge-pdf") {
       output = await merge(buffers.map(b => b.buffer));
     } else if (["split-pdf", "extract-pages", "delete-pages", "duplicate-pages"].includes(tool)) {
