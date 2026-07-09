@@ -114,7 +114,7 @@ export default function Footer({ lang }: FooterProps) {
             <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-text-secondaryLight hover:text-[#D97706] transition-colors" aria-label="LinkedIn">
               <Linkedin className="w-4 h-4" />
             </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-text-secondaryLight hover:text-[#D97706] transition-colors" aria-label="Instagram">
+            <a href="https://www.instagram.com/welovepdf.official/" target="_blank" rel="noopener noreferrer" className="text-text-secondaryLight hover:text-[#D97706] transition-colors" aria-label="Instagram">
               <Instagram className="w-4 h-4" />
             </a>
             <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-text-secondaryLight hover:text-[#D97706] transition-colors" aria-label="YouTube">
