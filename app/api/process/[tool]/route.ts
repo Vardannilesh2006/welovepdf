@@ -480,6 +480,34 @@ async function makePdfFromText(title: string, body: string): Promise<Uint8Array>
   return doc.save();
 }
 
+async function unlockPdf(buffer: Buffer, password?: string): Promise<Uint8Array> {
+  try {
+    const doc = await PDFDocument.load(buffer, (password ? { password } : {}) as any);
+    return await doc.save();
+  } catch (err: any) {
+    if (err.message.includes("Password") || err.message.includes("encrypted")) {
+      throw new Error("Incorrect or missing password for this encrypted PDF.");
+    }
+    throw err;
+  }
+}
+
+async function imageToPdf(buffers: { name: string; buffer: Buffer }[]): Promise<Uint8Array> {
+  const doc = await PDFDocument.create();
+  for (const item of buffers) {
+    const isPng = item.name.toLowerCase().endsWith(".png");
+    let img;
+    if (isPng) {
+      img = await doc.embedPng(item.buffer);
+    } else {
+      img = await doc.embedJpg(item.buffer);
+    }
+    const page = doc.addPage([img.width, img.height]);
+    page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
+  }
+  return doc.save();
+}
+
 function parsePages(input: string, total: number): number[] {
   if (!input || input.trim() === "1-") return Array.from({ length: total }, (_, i) => i);
   const out: number[] = [];
@@ -512,6 +540,7 @@ export async function POST(req: NextRequest, { params }: { params: { tool: strin
     const cropTop = parseFloat(formData.get("cropTop") as string || "0");
     const cropBottom = parseFloat(formData.get("cropBottom") as string || "0");
     const pagesRange = formData.get("pages") as string || "1-";
+    const password = formData.get("password") as string || "";
 
     const isGenerator = ["text-to-pdf", "markdown-to-pdf", "html-to-pdf", "url-to-pdf", "hindi-invoice-generator", "pdf-to-qr"].includes(tool);
 
@@ -540,7 +569,7 @@ export async function POST(req: NextRequest, { params }: { params: { tool: strin
     }
 
     // Validation checks
-    if (["deskew-scan", "auto-enhance-scan", "remove-background", "ocr-pdf"].includes(tool)) {
+    if (["deskew-scan", "auto-enhance-scan", "remove-background", "ocr-pdf", "jpg-to-pdf", "png-to-pdf", "image-to-pdf"].includes(tool)) {
       validateFileSignatures(buffers, ["pdf", "jpeg", "png"]);
     } else if (!isGenerator) {
       validateFileSignatures(buffers, ["pdf"]);
@@ -627,6 +656,10 @@ export async function POST(req: NextRequest, { params }: { params: { tool: strin
       output = await hindiInvoiceGenerator();
     } else if (tool === "pdf-to-qr") {
       output = await pdfToQr();
+    } else if (tool === "unlock-pdf") {
+      output = await unlockPdf(buffers[0].buffer, password);
+    } else if (["jpg-to-pdf", "png-to-pdf", "image-to-pdf"].includes(tool)) {
+      output = await imageToPdf(buffers);
     } else {
       // Default placeholder text generator fallback
       output = await makePdfFromText(tool.toUpperCase(), `Processed with WeLovePDF core engine. Mode: ${tool}`);

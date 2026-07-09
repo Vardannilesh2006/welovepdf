@@ -233,6 +233,18 @@ function LazyPageThumbnail({
   );
 }
 
+function getAcceptAttribute(toolSlug: string): string {
+  if (toolSlug === "jpg-to-pdf") return ".jpg,.jpeg";
+  if (toolSlug === "png-to-pdf") return ".png";
+  if (toolSlug === "image-to-pdf") return ".jpg,.jpeg,.png";
+  if (["deskew-scan", "auto-enhance-scan", "remove-background", "ocr-pdf"].includes(toolSlug)) {
+    return ".pdf,.jpg,.jpeg,.png";
+  }
+  if (toolSlug === "text-to-pdf") return ".txt";
+  if (toolSlug === "markdown-to-pdf") return ".md";
+  return ".pdf";
+}
+
 export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCardProps) {
   const [files, setFiles] = useState<File[]>([]);
   const [previews, setPreviews] = useState<{ id: string; page: number; dataUrl: string; rotation: number; selected: boolean; rendered?: boolean }[]>([]);
@@ -611,7 +623,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
         console.error("Preview render failed:", err);
         setLoadingPreviews(false);
       }
-    } else if (file.type.includes("image")) {
+    } else if (file.type.includes("image") || /\.(jpe?g|png|webp|gif|bmp)$/i.test(file.name)) {
       try {
         const pagesToRender = fileList.map((f, idx) => ({
           id: `${f.name}-${idx}`,
@@ -802,6 +814,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
       formData.append("opacity", String(watermarkOpacity / 100));
       formData.append("watermarkSize", String(watermarkSize));
       formData.append("watermarkPosition", watermarkPosition);
+      formData.append("password", openPassword);
 
       setTimeout(() => {
         setProgress(45);
@@ -907,6 +920,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
             <input 
               type="file" 
               ref={fileInputRef} 
+              accept={getAcceptAttribute(toolSlug)}
               onChange={(e) => {
                 if (e.target.files) handleDrop({ preventDefault: () => {}, dataTransfer: { files: e.target.files } } as any);
               }}
@@ -1211,11 +1225,13 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
               </div>
             )}
 
-            {/* 27. Protect PDF */}
-            {toolSlug === "protect-pdf" && (
+            {/* 27. Protect PDF or Unlock PDF */}
+            {(toolSlug === "protect-pdf" || toolSlug === "unlock-pdf") && (
               <div className="flex flex-col gap-12">
                 <div>
-                  <label className="font-bold block mb-4">{lang === "en" ? "Open Password" : "खोलने का पासवर्ड"}</label>
+                  <label className="font-bold block mb-4">
+                    {lang === "en" ? (toolSlug === "protect-pdf" ? "Open Password" : "PDF Password") : (toolSlug === "protect-pdf" ? "खोलने का पासवर्ड" : "पीडीएफ पासवर्ड")}
+                  </label>
                   <input 
                     type="password" value={openPassword} onChange={(e) => setOpenPassword(e.target.value)}
                     className="w-full px-10 py-8 border rounded bg-white dark:bg-surface-dark text-[13px] outline-none focus:border-[#D97706]"
@@ -1265,7 +1281,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
             )}
 
             {/* Fallback description for other tools */}
-            {!["compress-pdf", "merge-pdf", "split-pdf", "crop-pdf", "page-numbers", "watermark-pdf", "protect-pdf", "sign-pdf", "ask-pdf"].includes(toolSlug) && (
+            {!["compress-pdf", "merge-pdf", "split-pdf", "crop-pdf", "page-numbers", "watermark-pdf", "protect-pdf", "unlock-pdf", "sign-pdf", "ask-pdf"].includes(toolSlug) && (
               <div className="text-[12px] text-text-secondaryLight/80 leading-relaxed py-10">
                 {lang === "en" ? "No extra configurations needed. Click the Compile button below to process." : "कोई अतिरिक्त सेटिंग्स आवश्यक नहीं हैं। संकलन करने के लिए नीचे बटन दबाएं।"}
               </div>
