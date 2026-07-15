@@ -10,6 +10,14 @@ export const metadata = {
   robots: {
     index: true,
     follow: true,
+  },
+  alternates: {
+    canonical: "https://www.welovepdf.best/hi",
+    languages: {
+      en: "https://www.welovepdf.best",
+      hi: "https://www.welovepdf.best/hi",
+      "x-default": "https://www.welovepdf.best",
+    }
   }
 };
 

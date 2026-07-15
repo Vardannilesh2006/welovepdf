@@ -1,25 +1,26 @@
-"use client";
-
 import React from "react";
-import { useLang } from "../../../components/LangContext";
-import { Shield, Lock, EyeOff, FileCheck } from "lucide-react";
+import { Metadata } from "next";
+import { Shield, Lock, EyeOff } from "lucide-react";
 
-export default function Security() {
-  const { lang } = useLang();
+export const metadata: Metadata = {
+  title: "Security and Privacy Standards | WeLovePDF",
+  description: "Learn how WeLovePDF maintains document privacy via local client-side memory processing and sandboxing.",
+  alternates: {
+    canonical: "https://www.welovepdf.best/security",
+    languages: {
+      en: "https://www.welovepdf.best/security",
+      hi: "https://www.welovepdf.best/hi/security",
+      "x-default": "https://www.welovepdf.best/security",
+    }
+  }
+};
 
-  const title = lang === "en" ? "Security and Privacy Standards" : "सुरक्षा और गोपनीयता मानक";
-  
+export default function SecurityPage() {
   return (
     <div className="max-w-4xl mx-auto px-16 py-64">
-      <title>{lang === "en" ? "Security and Privacy Standards | WeLovePDF" : "सुरक्षा और गोपनीयता मानक | WeLovePDF"}</title>
-      <meta name="description" content={lang === "en" ? "Learn how WeLovePDF maintains document privacy via local client-side memory processing and sandboxing." : "जानें कि WeLovePDF स्थानीय क्लाइंट-साइड मेमोरी प्रोसेसिंग के माध्यम से दस्तावेज़ गोपनीयता कैसे बनाए रखता है।"} />
-      <link rel="canonical" href={lang === "en" ? "https://www.welovepdf.best/security" : "https://www.welovepdf.best/hi/security"} />
-      <link rel="alternate" hrefLang="en" href="https://www.welovepdf.best/security" />
-      <link rel="alternate" hrefLang="hi" href="https://www.welovepdf.best/hi/security" />
-      <link rel="alternate" hrefLang="x-default" href="https://www.welovepdf.best/security" />
       <div className="flex flex-col items-center text-center gap-12 mb-48">
         <Shield className="w-12 h-12 text-brand-blue" />
-        <h1 className="text-4xl font-extrabold tracking-tight">{title}</h1>
+        <h1 className="text-4xl font-extrabold tracking-tight">Security and Privacy Standards</h1>
         <p className="text-text-secondaryLight dark:text-text-secondaryDark text-[16px] leading-relaxed max-w-[620px]">
           WeLovePDF is built on a browser-first architecture. Your document privacy is not just a promise; it's a structural guarantee.
         </p>

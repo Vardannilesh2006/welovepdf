@@ -1,49 +1,52 @@
-"use client";
-
 import React from "react";
-import { useLang } from "../../../components/LangContext";
+import { Metadata } from "next";
 
-export default function FAQ() {
-  const { lang } = useLang();
-
-  const faqs = [
-    {
-      q: "Are my uploaded files safe?",
-      a: "Yes, because WeLovePDF runs client-side in your browser sandbox, your documents are never uploaded to a server for core tools. They stay 100% on your device."
-    },
-    {
-      q: "Does WeLovePDF work offline?",
-      a: "Yes. Once the page is loaded, core browser-first tools operate fully offline without any active internet connection."
+export const metadata: Metadata = {
+  title: "Frequently Asked Questions | WeLovePDF",
+  description: "Find answers to popular questions about WeLovePDF offline capability, browser processing, and document safety.",
+  alternates: {
+    canonical: "https://www.welovepdf.best/faq",
+    languages: {
+      en: "https://www.welovepdf.best/faq",
+      hi: "https://www.welovepdf.best/hi/faq",
+      "x-default": "https://www.welovepdf.best/faq",
     }
-  ];
+  }
+};
 
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": faqs.map(faq => ({
-      "@type": "Question",
-      "name": faq.q,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": faq.a
-      }
-    }))
-  };
+const faqs = [
+  {
+    q: "Are my uploaded files safe?",
+    a: "Yes, because WeLovePDF runs client-side in your browser sandbox, your documents are never uploaded to a server for core tools. They stay 100% on your device."
+  },
+  {
+    q: "Does WeLovePDF work offline?",
+    a: "Yes. Once the page is loaded, core browser-first tools operate fully offline without any active internet connection."
+  }
+];
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(faq => ({
+    "@type": "Question",
+    "name": faq.q,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.a
+    }
+  }))
+};
+
+export default function FAQPage() {
   return (
     <div className="max-w-4xl mx-auto px-16 py-64">
-      <title>{lang === "en" ? "Frequently Asked Questions | WeLovePDF" : "अक्सर पूछे जाने वाले प्रश्न | WeLovePDF"}</title>
-      <meta name="description" content={lang === "en" ? "Find answers to popular questions about WeLovePDF offline capability, browser processing, and document safety." : "सुरक्षा, ऑफ़लाइन उपयोग और स्थानीय पीडीएफ प्रोसेसिंग के बारे में अक्सर पूछे जाने वाले प्रश्नों के उत्तर खोजें।"} />
-      <link rel="canonical" href={lang === "en" ? "https://www.welovepdf.best/faq" : "https://www.welovepdf.best/hi/faq"} />
-      <link rel="alternate" hrefLang="en" href="https://www.welovepdf.best/faq" />
-      <link rel="alternate" hrefLang="hi" href="https://www.welovepdf.best/hi/faq" />
-      <link rel="alternate" hrefLang="x-default" href="https://www.welovepdf.best/faq" />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <h1 className="text-3xl font-extrabold mb-32">
-        {lang === "en" ? "Frequently Asked Questions" : "अक्सर पूछे जाने वाले प्रश्न"}
+        Frequently Asked Questions
       </h1>
       <div className="flex flex-col gap-16">
         {faqs.map((faq, idx) => (

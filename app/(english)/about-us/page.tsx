@@ -1,46 +1,46 @@
-"use client";
-
 import React from "react";
-import { useLang } from "../../../components/LangContext";
+import { Metadata } from "next";
 
-export default function AboutUs() {
-  const { lang } = useLang();
+export const metadata: Metadata = {
+  title: "About Us | WeLovePDF",
+  description: "WeLovePDF is a browser-first document processing platform created in Bettiah, Bihar, India to build secure client-side tools.",
+  alternates: {
+    canonical: "https://www.welovepdf.best/about-us",
+    languages: {
+      en: "https://www.welovepdf.best/about-us",
+      hi: "https://www.welovepdf.best/hi/about-us",
+      "x-default": "https://www.welovepdf.best/about-us",
+    }
+  }
+};
 
-  const founderSchema = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Nilesh Verma",
-    "jobTitle": "Founder & Lead Developer of WeLovePDF",
-    "url": "https://www.welovepdf.best/about-us",
-    "sameAs": [
-      "https://github.com/Vardannilesh2006"
-    ],
-    "description": "Nilesh Verma is a full-stack software developer specialized in browser-first, privacy-focused client-side application architecture.",
-    "knowsAbout": ["Software Development", "PDF Processing", "WebAssembly", "JavaScript", "Information Security"]
-  };
+const founderSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Nilesh Verma",
+  "jobTitle": "Founder & Lead Developer of WeLovePDF",
+  "url": "https://www.welovepdf.best/about-us",
+  "sameAs": [
+    "https://github.com/Vardannilesh2006"
+  ],
+  "description": "Nilesh Verma is a full-stack software developer specialized in browser-first, privacy-focused client-side application architecture.",
+  "knowsAbout": ["Software Development", "PDF Processing", "WebAssembly", "JavaScript", "Information Security"]
+};
 
+export default function AboutUsPage() {
   return (
     <div className="max-w-4xl mx-auto px-16 py-64 prose dark:prose-invert">
-      <title>{lang === "en" ? "About Us | WeLovePDF" : "हमारे बारे में | WeLovePDF"}</title>
-      <meta name="description" content={lang === "en" ? "WeLovePDF is a browser-first document processing platform created in India to build secure client-side tools." : "WeLovePDF भारत में बनाया गया एक सुरक्षित ब्राउज़र-प्रथम दस्तावेज़ प्रसंस्करण प्लेटफ़ॉर्म है।"} />
-      <link rel="canonical" href={lang === "en" ? "https://www.welovepdf.best/about-us" : "https://www.welovepdf.best/hi/about-us"} />
-      <link rel="alternate" hrefLang="en" href="https://www.welovepdf.best/about-us" />
-      <link rel="alternate" hrefLang="hi" href="https://www.welovepdf.best/hi/about-us" />
-      <link rel="alternate" hrefLang="x-default" href="https://www.welovepdf.best/about-us" />
-      
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(founderSchema) }}
       />
-
       <h1 className="text-3xl font-extrabold mb-16">
-        {lang === "en" ? "About WeLovePDF" : "WeLovePDF के बारे में"}
+        About WeLovePDF
       </h1>
       <p className="text-[14px] text-text-secondaryLight leading-relaxed mb-32">
         WeLovePDF is a browser-first document processing platform. Created in Bettiah, Bihar, India 🇮🇳, our mission is to build the world's most secure and accessible PDF utilities that run entirely locally in the client tab.
       </p>
 
-      {/* Founder Biography E-E-A-T Section */}
       <div className="mt-32 p-24 border border-[#E5E7EB] rounded-card bg-white dark:bg-surface-dark flex flex-col sm:flex-row gap-20 items-start not-prose">
         <div className="flex-shrink-0 w-16 h-16 rounded-full bg-[#D97706] text-white flex items-center justify-center font-heading font-black text-2xl shadow-sm">
           NV

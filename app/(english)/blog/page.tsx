@@ -1,41 +1,33 @@
-"use client";
-
 import React from "react";
-import { useLang } from "../../../components/LangContext";
-import { blogArticles, blogArticlesHindi, blogGuidesHindi } from "../../data/blog-posts";
+import { Metadata } from "next";
 import { BookOpen } from "lucide-react";
+import { blogArticles } from "../../data/blog-posts";
 
-export default function BlogList() {
-  const { lang } = useLang();
+export const metadata: Metadata = {
+  title: "WeLovePDF Document Guides & Blog",
+  description: "Learn how to compress, merge, OCR, and digitize scans securely in-memory inside your browser sandbox.",
+  alternates: {
+    canonical: "https://www.welovepdf.best/blog",
+    languages: {
+      en: "https://www.welovepdf.best/blog",
+      hi: "https://www.welovepdf.best/hi/blog",
+      "x-default": "https://www.welovepdf.best/blog",
+    }
+  }
+};
 
-  // Pick articles based on language setting
-  const articlesList = lang === "en" 
-    ? Object.entries(blogArticles).map(([slug, art]) => ({ slug, ...art }))
-    : [
-        ...Object.entries(blogArticlesHindi).map(([slug, art]) => ({ slug, ...art })),
-        ...Object.entries(blogGuidesHindi).map(([slug, art]) => ({ slug, ...art }))
-      ];
-
-  const title = lang === "en" ? "WeLovePDF Document Guides & Blog" : "WeLovePDF दस्तावेज़ गाइड और ब्लॉग";
-  const desc = lang === "en"
-    ? "Learn how to compress, merge, OCR, and digitize scans securely in-memory inside your browser sandbox."
-    : "अपने ब्राउज़र सैंडबॉक्स में सुरक्षित रूप से दस्तावेज़ों को मर्ज, कंप्रेस और ओसीआर करना सीखें।";
+export default function BlogListPage() {
+  const articlesList = Object.entries(blogArticles).map(([slug, art]) => ({ slug, ...art }));
 
   return (
     <div className="max-w-7xl mx-auto px-16 py-64">
-      <title>{title} | WeLovePDF</title>
-      <meta name="description" content={desc} />
-      <link rel="canonical" href={lang === "en" ? "https://www.welovepdf.best/blog" : "https://www.welovepdf.best/hi/blog"} />
-      <link rel="alternate" hrefLang="en" href="https://www.welovepdf.best/blog" />
-      <link rel="alternate" hrefLang="hi" href="https://www.welovepdf.best/hi/blog" />
-      <link rel="alternate" hrefLang="x-default" href="https://www.welovepdf.best/blog" />
       <div className="max-w-3xl mb-48">
         <h1 className="text-4xl font-extrabold tracking-tight mb-16 flex items-center gap-12 font-heading">
           <BookOpen className="w-8 h-8 text-brand-blue" />
-          {title}
+          WeLovePDF Document Guides & Blog
         </h1>
         <p className="text-text-secondaryLight dark:text-text-secondaryDark text-[16px] leading-relaxed">
-          {desc}
+          Learn how to compress, merge, OCR, and digitize scans securely in-memory inside your browser sandbox.
         </p>
       </div>
 
@@ -55,7 +47,7 @@ export default function BlogList() {
               href={`/blog/${art.slug}`}
               className="text-[13px] font-bold text-brand-blue hover:underline mt-16 self-start"
             >
-              {lang === "en" ? "Read Article →" : "लेख पढ़ें →"}
+              Read Article →
             </a>
           </div>
         ))}
