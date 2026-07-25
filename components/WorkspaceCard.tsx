@@ -588,7 +588,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
   }, [watermarkText, watermarkOpacity, watermarkSize, watermarkPosition, watermarkColor, watermarkAngle, toolSlug]);
 
   const formatSize = (bytes: number) => {
-    return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+    return `${(bytes / 1024).toFixed(2)} KB`;
   };
 
   // Load PDF page previews
@@ -661,8 +661,8 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
       if (f.size > limit) {
         setErrorMsg(
           lang === "en" 
-            ? `This file is ${(f.size / (1024 * 1024)).toFixed(1)}MB. Maximum allowed file size is 200MB.`
-            : `यह फ़ाइल ${(f.size / (1024 * 1024)).toFixed(1)}MB की है। अधिकतम अनुमत फ़ाइल आकार 200MB है।`
+            ? `This file is ${(f.size / 1024).toFixed(2)} KB. Maximum allowed file size is 200MB.`
+            : `यह फ़ाइल ${(f.size / 1024).toFixed(2)} KB की है। अधिकतम अनुमत फ़ाइल आकार 200MB है।`
         );
         return;
       }
@@ -687,8 +687,8 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
       if (f.size > limit) {
         setErrorMsg(
           lang === "en" 
-            ? `This file is ${(f.size / (1024 * 1024)).toFixed(1)}MB. Maximum allowed file size is 200MB.`
-            : `यह फ़ाइल ${(f.size / (1024 * 1024)).toFixed(1)}MB की है। अधिकतम अनुमत फ़ाइल आकार 200MB है।`
+            ? `This file is ${(f.size / 1024).toFixed(2)} KB. Maximum allowed file size is 200MB.`
+            : `यह फ़ाइल ${(f.size / 1024).toFixed(2)} KB की है। अधिकतम अनुमत फ़ाइल आकार 200MB है।`
         );
         return;
       }
@@ -1304,7 +1304,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
                 <span className="font-black text-[#D97706] text-[13px]">
                   {files.length > 0 
                     ? formatSize(Math.round(files[0].size * (targetSizePercent / 100))) 
-                    : "1.5 MB"}
+                    : "1500.00 KB"}
                 </span>
               </div>
               <input 
