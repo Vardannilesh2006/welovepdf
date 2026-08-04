@@ -1,4 +1,17 @@
 {
   "buildCommand": "next build",
-  "outputDirectory": ".next"
+  "outputDirectory": ".next",
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "welovepdf.best"
+        }
+      ],
+      "destination": "https://www.welovepdf.best/:path*",
+      "permanent": true
+    }
+  ]
 }

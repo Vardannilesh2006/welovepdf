@@ -23,12 +23,36 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
   if (!article) return {};
 
+  const canonicalUrl = `https://www.welovepdf.best/blog/${slug}`;
+
+  // Determine if this is a Hindi article by checking which collection it belongs to
+  const isHindiArticle = !!(blogArticlesHindi[slug] || blogGuidesHindi[slug]);
+
   return {
     title: `${article.title} | WeLovePDF Blog`,
     description: article.desc,
+    robots: {
+      index: true,
+      follow: true,
+    },
     alternates: {
-      canonical: `https://www.welovepdf.best/blog/${slug}`,
-    }
+      canonical: canonicalUrl,
+      languages: isHindiArticle
+        ? {
+            hi: canonicalUrl,
+            "x-default": canonicalUrl,
+          }
+        : {
+            en: canonicalUrl,
+            "x-default": canonicalUrl,
+          },
+    },
+    openGraph: {
+      title: `${article.title} | WeLovePDF Blog`,
+      description: article.desc,
+      url: canonicalUrl,
+      type: "article",
+    },
   };
 }
 
