@@ -591,6 +591,13 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
     return `${(bytes / 1024).toFixed(2)} KB`;
   };
 
+  // GA4 Custom Event Helper
+  const trackEvent = (eventName: string, params: Record<string, string | number | boolean>) => {
+    if (typeof window !== "undefined" && (window as any).gtag) {
+      (window as any).gtag("event", eventName, { tool_name: toolSlug, ...params });
+    }
+  };
+
   // Load PDF page previews
   const loadPdfPreviews = async (fileList: File[]) => {
     if (fileList.length === 0) return;
@@ -670,6 +677,13 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
     
     setFiles(selected);
     loadPdfPreviews(selected);
+    // GA4: file_uploaded
+    selected.forEach((f) => {
+      trackEvent("file_uploaded", {
+        file_type: f.type || f.name.split(".").pop() || "unknown",
+        file_size_kb: Math.round(f.size / 1024),
+      });
+    });
   };
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -696,6 +710,13 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
     
     setFiles(selected);
     loadPdfPreviews(selected);
+    // GA4: file_uploaded (drag drop)
+    selected.forEach((f) => {
+      trackEvent("file_uploaded", {
+        file_type: f.type || f.name.split(".").pop() || "unknown",
+        file_size_kb: Math.round(f.size / 1024),
+      });
+    });
   };
 
   const handleClearAll = () => {
@@ -804,9 +825,12 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
 
   const handleRunTool = async () => {
     if (files.length === 0) return;
+    const startTime = Date.now();
     setRunning(true);
     setProgress(15);
     setStepMessage(lang === "en" ? "Processing signature..." : "हस्ताक्षर प्रोसेस किए जा रहे हैं...");
+    // GA4: processing_started
+    trackEvent("processing_started", { file_count: files.length });
     
     try {
       const formData = new FormData();
@@ -852,6 +876,11 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
       setDownloadUrl(url);
       setDownloadName(`${toolSlug}.pdf`);
       setSuccess(true);
+      // GA4: processing_completed
+      trackEvent("processing_completed", {
+        processing_time_ms: Date.now() - startTime,
+        success: true,
+      });
 
       // Save operation history
       const historyItem: HistoryItem = {
@@ -879,6 +908,11 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
 
     } catch (err: any) {
       setErrorMsg(err.message || "An unexpected error occurred.");
+      // GA4: tool_error
+      trackEvent("tool_error", {
+        error_type: err.name || "unknown",
+        error_message: String(err.message || "").slice(0, 100),
+      });
     } finally {
       setRunning(false);
     }
@@ -1375,6 +1409,11 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
               <span className="text-[12px] font-bold text-brand-success">✓ Ready for download!</span>
               <a 
                 href={downloadUrl} download={downloadName}
+                onClick={() => {
+                  trackEvent("file_downloaded", {
+                    output_file_size_kb: downloadUrl ? Math.round((downloadUrl.length * 0.75) / 1024) : 0,
+                  });
+                }}
                 className="w-full py-8 bg-brand-success hover:bg-brand-success/95 text-white font-bold text-[12px] rounded text-center shadow-sm flex items-center justify-center gap-6"
               >
                 <Download className="w-4 h-4" />

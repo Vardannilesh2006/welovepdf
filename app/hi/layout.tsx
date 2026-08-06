@@ -2,6 +2,7 @@ import React from "react";
 import "../globals.css";
 import AppShell from "../../components/AppShell";
 import Script from "next/script";
+import CookieBanner from "../../components/CookieBanner";
 
 export const metadata = {
   title: "WeLovePDF — मुफ्त ऑनलाइन पीडीएफ टूल्स",
@@ -67,6 +68,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <AppShell>
           {children}
         </AppShell>
+        <CookieBanner />
       </body>
     </html>
   );

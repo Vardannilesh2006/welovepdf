@@ -208,8 +208,18 @@ export function ToolPageContent({ params, lang }: { params: { tool: string }; la
   };
 
   const relatedTools = tools
-    .filter((t) => t.slug !== tool.slug && (t.category === tool.category || t.category === "Organize"))
-    .slice(0, 3);
+    .filter((t) => {
+      if (t.slug === tool.slug) return false;
+      // Same category is most relevant
+      if (t.category === tool.category) return true;
+      // Cross-category relevance rules
+      if (tool.category === "Convert from PDF" && t.category === "Convert to PDF") return true;
+      if (tool.category === "Convert to PDF" && t.category === "Convert from PDF") return true;
+      if (tool.category === "Organize" || t.category === "Organize") return true;
+      if (tool.category === "Security" && t.category === "Edit") return true;
+      return false;
+    })
+    .slice(0, 5);
 
   return (
     <div className="w-full min-h-screen bg-[#FFF8F2]">
