@@ -215,14 +215,6 @@ export default function Home() {
 
   return (
     <div className="w-full min-h-screen bg-[#FFF8F2] text-slate-800 animate-fade-in">
-      {/* Dynamic SEO tags */}
-      <title>{lang === "en" ? "WeLovePDF — Free Online PDF Tools, No Upload Required" : "WeLovePDF — मुफ्त ऑनलाइन पीडीएफ टूल्स, बिना सर्वर अपलोड के"}</title>
-      <meta name="description" content={lang === "en" ? "WeLovePDF offers 60+ free browser-based PDF tools — merge, split, compress, convert, OCR, and AI-powered PDF tools. No file upload, 100% private." : "WeLovePDF सभी 60+ पीडीएफ टूल्स मुफ्त में प्रदान करता है - पीडीएफ मर्ज करें, विभाजित करें, कंप्रेस करें, कनवर्ट करें, ओसीआर करें।"} />
-      <link rel="canonical" href={lang === "en" ? "https://www.welovepdf.best/" : "https://www.welovepdf.best/hi"} />
-      <link rel="alternate" hrefLang="en" href="https://www.welovepdf.best/" />
-      <link rel="alternate" hrefLang="hi" href="https://www.welovepdf.best/hi" />
-      <link rel="alternate" hrefLang="x-default" href="https://www.welovepdf.best/" />
-
       {/* JSON-LD Schemas */}
       <script
         type="application/ld+json"

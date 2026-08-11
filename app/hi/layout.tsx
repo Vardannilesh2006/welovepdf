@@ -19,6 +19,19 @@ export const metadata = {
       hi: "https://www.welovepdf.best/hi",
       "x-default": "https://www.welovepdf.best",
     }
+  },
+  openGraph: {
+    title: "WeLovePDF — मुफ्त ऑनलाइन पीडीएफ टूल्स",
+    description: "WeLovePDF सभी 60 पीडीएफ टूल्स मुफ्त में प्रदान करता है - पीडीएफ मर्ज करें, विभाजित करें, कंप्रेस करें, कनवर्ट करें, ओसीआर करें। 100% सुरक्षित और स्थानीय।",
+    url: "https://www.welovepdf.best/hi",
+    siteName: "WeLovePDF",
+    locale: "hi_IN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "WeLovePDF — मुफ्त ऑनलाइन पीडीएफ टूल्स",
+    description: "WeLovePDF सभी 60 पीडीएफ टूल्स मुफ्त में प्रदान करता है - पीडीएफ मर्ज करें, विभाजित करें, कंप्रेस करें, कनवर्ट करें, ओसीआर करें। 100% सुरक्षित और स्थानीय।",
   }
 };
 

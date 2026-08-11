@@ -19,6 +19,19 @@ export const metadata = {
       hi: "https://www.welovepdf.best/hi",
       "x-default": "https://www.welovepdf.best",
     }
+  },
+  openGraph: {
+    title: "WeLovePDF — Free Online PDF Tools, No Upload Required",
+    description: "WeLovePDF offers 60+ free browser-based PDF tools — merge, split, compress, convert, OCR, and AI-powered PDF tools. No file upload, no signup, 100% private.",
+    url: "https://www.welovepdf.best",
+    siteName: "WeLovePDF",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "WeLovePDF — Free Online PDF Tools, No Upload Required",
+    description: "WeLovePDF offers 60+ free browser-based PDF tools — merge, split, compress, convert, OCR, and AI-powered PDF tools. No file upload, no signup, 100% private.",
   }
 };
 

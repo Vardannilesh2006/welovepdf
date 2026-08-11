@@ -95,6 +95,80 @@ function generateDynamicHindiGuide(toolName: string, category: string, desc: str
   `;
 }
 
+const toolH1Titles: Record<string, { en: string; hi: string }> = {
+  "merge-pdf": { en: "Merge PDF Online", hi: "मुफ़्त पीडीएफ मर्ज करें ऑनलाइन" },
+  "split-pdf": { en: "Split PDF Online", hi: "मुफ़्त पीडीएफ स्प्लिट करें ऑनलाइन" },
+  "compress-pdf": { en: "Compress PDF Online", hi: "मुफ़्त पीडीएफ कंप्रेस करें ऑनलाइन" },
+  "rotate-pdf": { en: "Rotate PDF Online", hi: "मुफ़्त पीडीएफ रोटेट करें ऑनलाइन" },
+  "delete-pages": { en: "Delete PDF Pages Online", hi: "पीडीएफ पेज डिलीट करें ऑनलाइन" },
+  "extract-pages": { en: "Extract PDF Pages Online", hi: "पीडीएफ पेज एक्सट्रैक्ट करें ऑनलाइन" },
+  "reorder-pages": { en: "Reorder PDF Pages Online", hi: "पीडीएफ पेज रीऑर्डर करें ऑनलाइन" },
+  "crop-pdf": { en: "Crop PDF Online", hi: "पीडीएफ क्रॉप करें ऑनलाइन" },
+  "duplicate-pages": { en: "Duplicate PDF Pages Online", hi: "पीडीएफ पेज डुप्लीकेट करें ऑनलाइन" },
+  "add-blank-page": { en: "Add Blank Page to PDF", hi: "पीडीएफ में खाली पेज जोड़ें" },
+  "page-numbers": { en: "Add Page Numbers to PDF", hi: "पीडीएफ में पेज नंबर जोड़ें" },
+  "watermark-pdf": { en: "Add Watermark to PDF", hi: "पीडीएफ में वॉटरमार्क जोड़ें" },
+  "header-footer": { en: "Add Header & Footer to PDF", hi: "पीडीएफ में हेडर और फुटर जोड़ें" },
+  "metadata-editor": { en: "Edit PDF Metadata Online", hi: "पीडीएफ मेटाडेटा एडिट करें" },
+  "flatten-pdf": { en: "Flatten PDF Online", hi: "पीडीएफ फ्लैटन करें ऑनलाइन" },
+  "annotate-pdf": { en: "Annotate PDF Online", hi: "पीडीएफ एनोटेट करें ऑनलाइन" },
+  "redact-pdf": { en: "Redact PDF Online", hi: "पीडीएफ रिडैक्ट करें ऑनलाइन" },
+  "compare-pdf": { en: "Compare PDFs Online", hi: "पीडीएफ कम्पेयर करें ऑनलाइन" },
+  "bookmark-editor": { en: "Edit PDF Bookmarks Online", hi: "पीडीएफ बुकमार्क एडिट करें" },
+  "grayscale-pdf": { en: "Convert PDF to Grayscale", hi: "पीडीएफ को ग्रेस्केल में बदलें" },
+  "repair-pdf": { en: "Repair PDF Online", hi: "पीडीएफ रिपेयर करें ऑनलाइन" },
+  "remove-hidden-data": { en: "Remove Hidden Data from PDF", hi: "पीडीएफ से हिडन डेटा हटाएं" },
+  "deskew-scan": { en: "Deskew Scanned PDF Online", hi: "स्कैन किए गए पीडीएफ को ठीक करें" },
+  "auto-enhance-scan": { en: "Enhance Scanned PDF Online", hi: "स्कैन किए गए पीडीएफ को एनहांस करें" },
+  "remove-background": { en: "Remove Background from PDF", hi: "पीडीएफ से बैकग्राउंड हटाएं" },
+  "ocr-pdf": { en: "OCR PDF — Extract Text from Scanned PDF", hi: "OCR से स्कैन पीडीएफ टेक्स्ट निकालें" },
+  "pdf-to-text": { en: "PDF to Text Converter", hi: "पीडीएफ को टेक्स्ट में बदलें" },
+  "pdf-to-markdown": { en: "PDF to Markdown Converter", hi: "पीडीएफ को मार्कडाउन में बदलें" },
+  "pdf-to-jpg": { en: "PDF to JPG Converter", hi: "पीडीएफ को JPG में बदलें" },
+  "pdf-to-png": { en: "PDF to PNG Converter", hi: "पीडीएफ को PNG में बदलें" },
+  "pdf-to-long-image": { en: "PDF to Long Image Converter", hi: "पीडीएफ को लंबी इमेज में बदलें" },
+  "pdf-to-word": { en: "PDF to Word Converter", hi: "पीडीएफ को Word में बदलें" },
+  "pdf-to-excel": { en: "PDF to Excel Converter", hi: "पीडीएफ को Excel में बदलें" },
+  "pdf-to-powerpoint": { en: "PDF to PowerPoint Converter", hi: "पीडीएफ को PowerPoint में बदलें" },
+  "pdf-to-html": { en: "PDF to HTML Converter", hi: "पीडीएफ को HTML में बदलें" },
+  "pdf-to-csv": { en: "PDF to CSV Converter", hi: "पीडीएफ को CSV में बदलें" },
+  "jpg-to-pdf": { en: "JPG to PDF Converter", hi: "JPG से पीडीएफ बनाएं" },
+  "png-to-pdf": { en: "PNG to PDF Converter", hi: "PNG से पीडीएफ बनाएं" },
+  "image-to-pdf": { en: "Image to PDF Converter", hi: "इमेज से पीडीएफ बनाएं" },
+  "word-to-pdf": { en: "Word to PDF Converter", hi: "Word से पीडीएफ बनाएं" },
+  "excel-to-pdf": { en: "Excel to PDF Converter", hi: "Excel से पीडीएफ बनाएं" },
+  "powerpoint-to-pdf": { en: "PowerPoint to PDF Converter", hi: "PowerPoint से पीडीएफ बनाएं" },
+  "html-to-pdf": { en: "HTML to PDF Converter", hi: "HTML से पीडीएफ बनाएं" },
+  "markdown-to-pdf": { en: "Markdown to PDF Converter", hi: "Markdown से पीडीएफ बनाएं" },
+  "text-to-pdf": { en: "Text to PDF Converter", hi: "टेक्स्ट से पीडीएफ बनाएं" },
+  "url-to-pdf": { en: "URL to PDF Converter", hi: "URL से पीडीएफ बनाएं" },
+  "protect-pdf": { en: "Protect PDF Online", hi: "पीडीएफ पासवर्ड सुरक्षित करें" },
+  "unlock-pdf": { en: "Unlock PDF Online", hi: "पीडीएफ पासवर्ड हटाएं (अनलॉक)" },
+  "sign-pdf": { en: "Sign PDF Online", hi: "पीडीएफ डिजिटल साइन करें" },
+  "verify-signature": { en: "Verify PDF Signature Online", hi: "पीडीएफ सिग्नेचर वेरीफाई करें" },
+  "bates-numbering": { en: "Bates Numbering PDF", hi: "बेट्स नंबरिंग पीडीएफ" },
+  "accessibility-checker": { en: "PDF Accessibility Checker", hi: "पीडीएफ एक्सेसिबिलिटी चेक करें" },
+  "invert-colors": { en: "Invert PDF Colors Online", hi: "पीडीएफ रंग इन्वर्ट करें" },
+  "pdf-reader": { en: "Free Online PDF Reader", hi: "मुफ़्त ऑनलाइन पीडीएफ रीडर" },
+  "search-in-pdf": { en: "Search Text in PDF Online", hi: "पीडीएफ में टेक्स्ट सर्च करें" },
+  "ask-pdf": { en: "Ask AI About PDF", hi: "AI से पीडीएफ के बारे में पूछें" },
+  "summarize-pdf": { en: "Summarize PDF with AI", hi: "AI से पीडीएफ का सारांश बनाएं" },
+  "translate-pdf": { en: "Translate PDF with AI", hi: "AI से पीडीएफ अनुवाद करें" },
+  "quiz-from-pdf": { en: "Generate Quiz from PDF", hi: "AI से पीडीएफ प्रश्नोत्तरी बनाएं" },
+  "invoice-extractor": { en: "Extract Data from Invoice PDF", hi: "इनवॉइस पीडीएफ से डेटा निकालें" },
+  "resume-to-pdf": { en: "Resume to PDF Generator", hi: "रिज्यूमे से पीडीएफ बनाएं" },
+  "hindi-invoice-generator": { en: "Hindi GST Invoice Generator", hi: "हिंदी जीएसटी इनवॉइस जनरेटर" },
+  "pdf-to-qr": { en: "PDF to QR Code Generator", hi: "पीडीएफ से क्यूआर कोड जनरेटर" },
+};
+
+function getToolH1(toolName: string, slug: string, lang: "en" | "hi"): string {
+  const item = toolH1Titles[slug];
+  if (item) {
+    return lang === "hi" ? item.hi : item.en;
+  }
+  return lang === "hi" ? `${toolName} ऑनलाइन टूल` : `${toolName} Online`;
+}
+
 export function ToolPageContent({ params, lang }: { params: { tool: string }; lang: "en" | "hi" }) {
   const prefix = lang === "hi" ? "/hi" : "";
   const tool = tools.find((t) => t.slug === params.tool);
@@ -247,7 +321,7 @@ export function ToolPageContent({ params, lang }: { params: { tool: string }; la
 
       <div className="max-w-7xl mx-auto px-16 py-32">
         {/* Breadcrumb navigation */}
-        <div className="flex items-center gap-6 text-[13px] text-text-secondaryLight dark:text-text-secondaryDark mb-24">
+        <div className="flex items-center gap-6 text-[13px] text-text-secondaryLight dark:text-text-secondaryDark mb-16">
           <a href={prefix || "/"} className="hover:text-brand-blue">Home</a>
           <ChevronRight className="w-3 h-3" />
           <a href={`${prefix}/#tools`} className="hover:text-brand-blue">Tools</a>
@@ -255,6 +329,16 @@ export function ToolPageContent({ params, lang }: { params: { tool: string }; la
           <span className="text-text-primaryLight dark:text-text-primaryDark font-semibold">
             {tool.name}
           </span>
+        </div>
+
+        {/* Primary H1 Heading & SEO Subtitle */}
+        <div className="mb-24">
+          <h1 className="font-heading font-black text-[28px] sm:text-[36px] text-slate-900 dark:text-white leading-tight tracking-tight mb-8">
+            {getToolH1(tool.name, tool.slug, lang)}
+          </h1>
+          <p className="text-[15px] text-text-secondaryLight dark:text-text-secondaryDark max-w-3xl leading-relaxed">
+            {toolDescriptions[tool.slug] || `${tool.name} online for free — no file upload required. 100% private in-browser processing.`}
+          </p>
         </div>
 
         {/* Workspace Card (Drag & Drop box + Options sidebar) */}
