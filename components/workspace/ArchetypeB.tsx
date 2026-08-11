@@ -271,7 +271,7 @@ export default function ArchetypeB({
         </div>
 
         {/* Right Slim Options Sidebar */}
-        <div className="w-full md:w-64 bg-[#FBF1E9]/30 border-t md:border-t-0 md:border-l [border-left-width:0.5px] border-[#EFE1D2] p-4 flex flex-col gap-4 shrink-0 overflow-y-auto justify-between">
+        <div className="w-full md:w-[280px] md:min-w-[280px] bg-[#FBF1E9]/30 border-t md:border-t-0 md:border-l [border-left-width:0.5px] border-[#EFE1D2] p-4 flex flex-col gap-4 shrink-0 overflow-y-auto justify-between">
           <div className="space-y-4">
             <span className="text-xs font-medium text-[#262B36] block border-b pb-1.5 border-[#EFE1D2]">
               Global Options

@@ -99,6 +99,27 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
     setFiles((prev) => prev.map((f) => (f.id === id ? { ...f, name: newName } : f)));
   };
 
+  const handleReplaceFile = async (id: string, newFile: File) => {
+    setErrorMsg(null);
+    let pageCount = 1;
+    if (newFile.name.toLowerCase().endsWith(".pdf")) {
+      try {
+        const arrayBuffer = await newFile.arrayBuffer();
+        const pdfDoc = await PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
+        pageCount = pdfDoc.getPageCount();
+      } catch (e) {
+        console.warn("PDF load warning:", e);
+      }
+    }
+    setFiles((prev) =>
+      prev.map((f) =>
+        f.id === id
+          ? { ...f, file: newFile, name: newFile.name, size: newFile.size, pageCount }
+          : f
+      )
+    );
+  };
+
   const handleReset = () => {
     setFiles([]);
     setPages([]);
@@ -175,6 +196,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
           onRemoveFile={handleRemoveFile}
           onReorderFiles={handleReorderFiles}
           onRenameFile={handleRenameFile}
+          onReplaceFile={handleReplaceFile}
           onProcess={handleProcess}
           isProcessing={isProcessing}
           resultUrl={resultUrl}

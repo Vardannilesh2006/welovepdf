@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { Upload, FileText, Trash2, ArrowUp, ArrowDown, Plus, Shield, CheckCircle2, Sliders } from "lucide-react";
+import React, { useState, useRef } from "react";
+import { Upload, FileText, Trash2, ArrowUp, ArrowDown, Plus, Shield, CheckCircle2, RefreshCw } from "lucide-react";
 import PdfPreviewCard from "./PdfPreviewCard";
 
 export interface FileItem {
@@ -21,6 +21,7 @@ interface ArchetypeAProps {
   onRemoveFile: (id: string) => void;
   onReorderFiles: (newFiles: FileItem[]) => void;
   onRenameFile: (id: string, newName: string) => void;
+  onReplaceFile: (id: string, newFile: File) => void;
   onProcess: (options: { outputName: string; compress: boolean; compareMode?: string }) => void;
   isProcessing: boolean;
   resultUrl: string | null;
@@ -36,6 +37,7 @@ export default function ArchetypeA({
   onRemoveFile,
   onReorderFiles,
   onRenameFile,
+  onReplaceFile,
   onProcess,
   isProcessing,
   resultUrl,
@@ -148,66 +150,90 @@ export default function ArchetypeA({
           {/* Top: PDF Cards Grid with Real Page 1 Preview (Internal Scroll) */}
           <div className="flex-1 overflow-y-auto p-4 max-h-[45vh] md:max-h-none">
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-              {files.map((fileItem, idx) => (
-                <div
-                  key={fileItem.id}
-                  className="bg-white border-[0.5px] border-[#EFE1D2] rounded-lg p-2.5 flex flex-col justify-between hover:border-[#E8792A]/50 transition-colors group relative"
-                >
-                  {/* Badge Number */}
-                  <span className="absolute top-2 left-2 z-10 w-5 h-5 rounded-full bg-[#E8792A] text-white text-[10px] font-medium flex items-center justify-center">
-                    {idx + 1}
-                  </span>
+              {files.map((fileItem, idx) => {
+                const fileInputRef = React.createRef<HTMLInputElement>();
+                return (
+                  <div
+                    key={fileItem.id}
+                    className="bg-white border-[0.5px] border-[#EFE1D2] rounded-lg p-2.5 flex flex-col justify-between hover:border-[#E8792A]/50 transition-colors group relative"
+                  >
+                    {/* Badge Number */}
+                    <span className="absolute top-2 left-2 z-10 w-5 h-5 rounded-full bg-[#E8792A] text-white text-[10px] font-medium flex items-center justify-center">
+                      {idx + 1}
+                    </span>
 
-                  {/* Real PDF Page 1 Preview Card */}
-                  <div className="aspect-[3/4] w-full rounded mb-2 overflow-hidden bg-[#FBF1E9]/35">
-                    <PdfPreviewCard file={fileItem.file} />
-                  </div>
+                    {/* Real PDF Page 1 Preview Card */}
+                    <div className="aspect-[3/4] w-full rounded mb-2 overflow-hidden bg-[#FBF1E9]/35">
+                      <PdfPreviewCard file={fileItem.file} />
+                    </div>
 
-                  {/* Editable Filename */}
-                  <input
-                    type="text"
-                    value={fileItem.name}
-                    onChange={(e) => onRenameFile(fileItem.id, e.target.value)}
-                    className="text-xs font-medium text-[#262B36] bg-transparent border-none focus:outline-none focus:ring-1 focus:ring-[#E8792A] rounded px-1 w-full truncate text-center mb-1"
-                  />
+                    {/* Editable Filename */}
+                    <input
+                      type="text"
+                      value={fileItem.name}
+                      onChange={(e) => onRenameFile(fileItem.id, e.target.value)}
+                      className="text-xs font-medium text-[#262B36] bg-transparent border-none focus:outline-none focus:ring-1 focus:ring-[#E8792A] rounded px-1 w-full truncate text-center mb-1"
+                    />
 
-                  {/* Badges for pages and size */}
-                  <div className="flex items-center justify-center gap-1.5 text-[10px] text-[#9C9488] mb-2">
-                    <span>{fileItem.pageCount} pgs</span>
-                    <span>·</span>
-                    <span>{Math.round(fileItem.size / 1024)} KB</span>
-                  </div>
+                    {/* Badges for pages and size - strictly KB */}
+                    <div className="flex items-center justify-center gap-1.5 text-[10px] text-[#9C9488] mb-2">
+                      <span>{fileItem.pageCount} pgs</span>
+                      <span>·</span>
+                      <span>{Math.round(fileItem.size / 1024)} KB</span>
+                    </div>
 
-                  {/* Card Actions Footer */}
-                  <div className="flex items-center justify-between border-t [border-top-width:0.5px] border-[#EFE1D2] pt-2 mt-auto">
-                    <div className="flex items-center gap-1">
+                    {/* Card Actions Footer */}
+                    <div className="flex items-center justify-between border-t [border-top-width:0.5px] border-[#EFE1D2] pt-2 mt-auto">
+                      <div className="flex items-center gap-1">
+                        <button
+                          onClick={() => handleMove(idx, "up")}
+                          disabled={idx === 0}
+                          className="p-1 text-[#9C9488] hover:text-[#262B36] disabled:opacity-30"
+                          title="Move Left/Up"
+                        >
+                          <ArrowUp className="w-3.5 h-3.5 rotate-270" />
+                        </button>
+                        <button
+                          onClick={() => handleMove(idx, "down")}
+                          disabled={idx === files.length - 1}
+                          className="p-1 text-[#9C9488] hover:text-[#262B36] disabled:opacity-30"
+                          title="Move Right/Down"
+                        >
+                          <ArrowDown className="w-3.5 h-3.5 rotate-270" />
+                        </button>
+                      </div>
+
+                      {/* Change File Trigger */}
                       <button
-                        onClick={() => handleMove(idx, "up")}
-                        disabled={idx === 0}
-                        className="p-1 text-[#9C9488] hover:text-[#262B36] disabled:opacity-30"
-                        title="Move Left/Up"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="p-1 text-[#9C9488] hover:text-[#E8792A]"
+                        title="Change File"
                       >
-                        <ArrowUp className="w-3.5 h-3.5 rotate-270" />
+                        <RefreshCw className="w-3.5 h-3.5" />
                       </button>
+                      <input
+                        type="file"
+                        accept=".pdf"
+                        ref={fileInputRef}
+                        className="hidden"
+                        onChange={(e) => {
+                          if (e.target.files && e.target.files[0]) {
+                            onReplaceFile(fileItem.id, e.target.files[0]);
+                          }
+                        }}
+                      />
+
                       <button
-                        onClick={() => handleMove(idx, "down")}
-                        disabled={idx === files.length - 1}
-                        className="p-1 text-[#9C9488] hover:text-[#262B36] disabled:opacity-30"
-                        title="Move Right/Down"
+                        onClick={() => onRemoveFile(fileItem.id)}
+                        className="p-1 text-[#9C9488] hover:text-red-600 transition-colors"
+                        title="Remove"
                       >
-                        <ArrowDown className="w-3.5 h-3.5 rotate-270" />
+                        <Trash2 className="w-3.5 h-3.5" />
                       </button>
                     </div>
-                    <button
-                      onClick={() => onRemoveFile(fileItem.id)}
-                      className="p-1 text-[#9C9488] hover:text-red-600 transition-colors"
-                      title="Remove"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
                   </div>
-                </div>
-              ))}
+                );
+              })}
 
               {/* Add More Files Dashed Card */}
               <label className="cursor-pointer border-2 border-dashed border-[#EFE1D2] hover:border-[#E8792A]/50 bg-[#FBF1E9]/20 hover:bg-[#FBF1E9]/40 rounded-lg p-4 flex flex-col items-center justify-center text-center aspect-[3/4]">
@@ -267,8 +293,8 @@ export default function ArchetypeA({
 
         </div>
 
-        {/* Right Slim Stats & Meta Sidebar */}
-        <div className="w-full md:w-64 bg-[#FBF1E9]/30 border-t md:border-t-0 md:border-l [border-left-width:0.5px] border-[#EFE1D2] p-4 flex flex-col gap-4 shrink-0 overflow-y-auto justify-between">
+        {/* Right Stats & Meta Sidebar - Guaranteed 280px Minimum Width */}
+        <div className="w-full md:w-[280px] md:min-w-[280px] bg-[#FBF1E9]/30 border-t md:border-t-0 md:border-l [border-left-width:0.5px] border-[#EFE1D2] p-4 flex flex-col gap-4 shrink-0 overflow-y-auto justify-between">
           <div className="space-y-4">
             <div>
               <label className="block text-xs font-medium text-[#262B36] mb-1.5">
@@ -282,8 +308,8 @@ export default function ArchetypeA({
               />
             </div>
 
-            <div className="bg-white p-3 rounded-lg border-[0.5px] border-[#EFE1D2] space-y-1.5 text-xs">
-              <span className="font-medium text-[#262B36] block">Overview Stats</span>
+            <div className="bg-white p-3.5 rounded-lg border-[0.5px] border-[#EFE1D2] space-y-2 text-xs">
+              <span className="font-medium text-[#262B36] block border-b pb-1 border-[#EFE1D2]">Overview Stats</span>
               <div className="flex justify-between text-[#9C9488]">
                 <span>Total Files:</span>
                 <span className="font-medium text-[#262B36]">{files.length}</span>
@@ -292,11 +318,15 @@ export default function ArchetypeA({
                 <span>Total Pages:</span>
                 <span className="font-medium text-[#262B36]">{totalPages}</span>
               </div>
+              <div className="flex justify-between text-[#9C9488]">
+                <span>Total Size:</span>
+                <span className="font-medium text-[#262B36]">{totalSizeKB} KB</span>
+              </div>
             </div>
           </div>
 
-          <div className="bg-white p-3 rounded-lg border-[0.5px] border-[#EFE1D2] text-center">
-            <Shield className="w-4 h-4 text-[#E8792A] mx-auto mb-1" />
+          <div className="bg-white p-3.5 rounded-lg border-[0.5px] border-[#EFE1D2] text-center flex items-center justify-center gap-2">
+            <Shield className="w-4 h-4 text-[#E8792A] shrink-0" />
             <p className="text-[11px] text-[#9C9488] leading-tight font-medium">
               100% Client-Side Local Sandbox
             </p>

@@ -228,7 +228,7 @@ export default function ArchetypeC({
         </div>
 
         {/* Right Sidebar for Preassurance Visual & Local Sandbox notice */}
-        <div className="w-full md:w-64 bg-[#FBF1E9]/30 border-t md:border-t-0 md:border-l [border-left-width:0.5px] border-[#EFE1D2] p-4 flex flex-col justify-between shrink-0 overflow-y-auto">
+        <div className="w-full md:w-[280px] md:min-w-[280px] bg-[#FBF1E9]/30 border-t md:border-t-0 md:border-l [border-left-width:0.5px] border-[#EFE1D2] p-4 flex flex-col justify-between shrink-0 overflow-y-auto">
           <div className="flex flex-col items-center justify-center p-3 border border-dashed border-[#EFE1D2] rounded-lg bg-white">
             <span className="text-[11px] font-medium text-[#9C9488] mb-2">1st Page Preview</span>
             <div className="w-24 aspect-[3/4] bg-[#FBF1E9]/40 border-[0.5px] border-[#EFE1D2] rounded p-2 flex items-center justify-center">
