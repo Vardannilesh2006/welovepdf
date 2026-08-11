@@ -6,50 +6,87 @@ import { ChevronRight } from "lucide-react";
 
 function generateDynamicGuide(toolName: string, category: string, desc: string, slug: string): string {
   return `
-    <h2>Complete Guide to ${toolName} online</h2>
+    <h2>Complete Guide to ${toolName} Online</h2>
     <p>
-      Welcome to WeLovePDF's premium <strong>${toolName}</strong> utility. This tool is built to help you ${desc.toLowerCase()} easily, quickly, and securely. 
-      Operating under the <strong>${category}</strong> category, this application executes 100% locally inside your web browser sandbox. 
-      Unlike other online utilities, your sensitive document files are processed directly on your device using Javascript and WebAssembly — they are never uploaded to any remote servers, ensuring absolute data security and privacy.
+      Welcome to WeLovePDF's browser-first <strong>${toolName}</strong> utility. This tool allows you to ${desc.toLowerCase()} quickly, accurately, and securely. 
+      Operating under the <strong>${category}</strong> category, this application executes 100% locally inside your web browser sandbox using modern JavaScript and WebAssembly compiled modules.
     </p>
 
-    <h3>Why choose WeLovePDF's ${toolName} tool?</h3>
+    <h3>Tool Specifications & Compatibility</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Specification</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Supported Formats</strong></td>
+          <td>PDF, JPG, PNG, WEBP, DOCX, XLSX, TXT</td>
+        </tr>
+        <tr>
+          <td><strong>Processing Engine</strong></td>
+          <td>100% Local In-Browser WebAssembly / PDF.js Sandbox</td>
+        </tr>
+        <tr>
+          <td><strong>Maximum File Size</strong></td>
+          <td>Up to 200 MB per processing session</td>
+        </tr>
+        <tr>
+          <td><strong>Privacy & Retention</strong></td>
+          <td>Zero Server Uploads — Files remain in your device memory</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Why Choose WeLovePDF's ${toolName}?</h3>
     <ul>
-      <li><strong>100% Client-Side Sandbox:</strong> Your files never leave your device. Complete privacy is guaranteed.</li>
-      <li><strong>Fully Free & Unlimited:</strong> No hidden costs, subscription fees, hourly caps, or watermark branding.</li>
-      <li><strong>Fast & Responsive:</strong> Instant local processing means no uploading or downloading delays from remote servers.</li>
-      <li><strong>No Signup Required:</strong> Start using the tool immediately without providing email addresses or creating accounts.</li>
+      <li><strong>100% Client-Side Sandbox:</strong> Your files never touch external servers or third-party cloud storage. Complete privacy is guaranteed by architecture.</li>
+      <li><strong>Free & Unlimited:</strong> No hidden subscription fees, daily limits, page caps, or mandatory account registrations.</li>
+      <li><strong>Fast & Offline Capable:</strong> Local processing eliminates server upload delays and functions smoothly even on unstable mobile connections once cached.</li>
+      <li><strong>Cross-Platform Support:</strong> Fully optimized for desktop browsers (Chrome, Edge, Firefox, Safari) and mobile devices (Android, iOS).</li>
     </ul>
 
-    <h3>How to use ${toolName} (Step-by-Step Instructions):</h3>
+    <h3>How to Use ${toolName} (Step-by-Step)</h3>
     <ol>
       <li>
-        <strong>Select or upload files:</strong> 
-        Drag and drop your files directly into the workspace active container above. 
-        Alternatively, click the "Browse Files" button to launch the system file picker and select your documents.
+        <strong>Select Document:</strong> 
+        Drag and drop your file into the workspace active container above, or click "Browse Files" to choose from your storage.
       </li>
       <li>
-        <strong>Configure tool settings:</strong> 
-        Once loaded, adjust the custom options in the options drawer. 
-        You can configure parameters such as page ranges, file compression levels, password entries, or formatting styles.
+        <strong>Configure Parameters:</strong> 
+        Adjust optional settings in the right drawer such as page selection, compression ratio, resolution, or security settings.
       </li>
       <li>
-        <strong>Process the document:</strong> 
-        Click the main compile/process action button. 
-        The sandbox engine will process your files locally in your browser, keeping track of the progress in the status bar.
+        <strong>Process File:</strong> 
+        Click the primary action button. The browser sandbox compiles the document nodes locally with real-time status feedback.
       </li>
       <li>
-        <strong>Download your output:</strong> 
-        Once processing completes, click the "Download" button to save the updated document directly to your device's downloads folder.
+        <strong>Download Result:</strong> 
+        Click "Download PDF" to save your processed document directly to your local device folder.
       </li>
     </ol>
 
-    <h3>Frequently Asked Questions about ${toolName}</h3>
+    <h3>Practical Use Cases</h3>
+    <ul>
+      <li><strong>Email Attachment Optimization:</strong> Shrink large PDFs to fit email attachment size limits (e.g., Gmail's 25MB cap).</li>
+      <li><strong>Official & Government Submissions:</strong> Prepare compliant PDF files for portal uploads, university applications, or visa processing.</li>
+      <li><strong>Privacy-Sensitive Work:</strong> Process medical records, financial statements, contracts, or tax documents without uploading them to third-party servers.</li>
+      <li><strong>Mobile Workflow:</strong> Easily edit and process PDF documents on budget smartphones directly within mobile Chrome or Safari.</li>
+    </ul>
+
+    <h3>Privacy & Security Guarantee</h3>
     <p>
-      If you have questions about how our local ${toolName} operates, we have compiled answers to common questions below. 
-      Because our code runs on WebAssembly and client-side scripts, this page is fully compatible with offline work once initially cached. 
-      For any custom integration, you can use our advanced options to set exact target properties.
+      WeLovePDF adheres to a strict <strong>No-Server-Upload</strong> model. When you open the ${toolName} tool, all required rendering code is loaded into your browser's local sandbox memory. When you execute an action, your browser's CPU and memory perform the operations directly. When you close or refresh the tab, temporary memory buffers are automatically purged by browser garbage collection.
     </p>
+
+    <h3>Troubleshooting & Troubleshooting Common Issues</h3>
+    <ul>
+      <li><strong>File Upload Fails:</strong> Ensure your document is under 200 MB and is not corrupted. For encrypted files, unlock the PDF first using our Unlock PDF tool.</li>
+      <li><strong>Slow Processing on Mobile:</strong> Close background browser tabs to free up RAM memory on lower-end smartphone devices.</li>
+      <li><strong>Download Didn't Start:</strong> Verify that pop-up blockers or download permissions are allowed in your browser settings.</li>
+    </ul>
   `;
 }
 
@@ -57,41 +94,83 @@ function generateDynamicHindiGuide(toolName: string, category: string, desc: str
   return `
     <h2>${toolName} ऑनलाइन उपयोग करने की संपूर्ण गाइड</h2>
     <p>
-      WeLovePDF के प्रीमियम <strong>${toolName}</strong> टूल में आपका स्वागत है। यह टूल आपको आसानी से ${desc.toLowerCase()} करने में मदद करने के लिए बनाया गया है।
-      <strong>${category}</strong> श्रेणी के तहत काम करते हुए, यह एप्लिकेशन आपके वेब ब्राउज़र सैंडबॉक्स के भीतर 100% स्थानीय रूप से निष्पादित होता है।
-      अन्य ऑनलाइन उपयोगिताओं के विपरीत, आपके दस्तावेज़ सीधे आपके डिवाइस पर जावास्क्रिप्ट और वेबअसेंबली का उपयोग करके संसाधित किए जाते हैं — वे कभी भी किसी रिमोट सर्वर पर अपलोड नहीं किए जाते हैं, जिससे पूर्ण डेटा सुरक्षा और गोपनीयता सुनिश्चित होती है।
+      WeLovePDF के ब्राउज़र-फ़र्स्ट <strong>${toolName}</strong> टूल में आपका स्वागत है। यह टूल आपको आसानी से ${desc.toLowerCase()} करने में मदद करता है।
+      <strong>${category}</strong> श्रेणी के तहत काम करते हुए, यह एप्लिकेशन आपके वेब ब्राउज़र सैंडबॉक्स के भीतर 100% स्थानीय रूप से जावास्क्रिप्ट और वेबअसेंबली के माध्यम से निष्पादित होता है।
     </p>
 
-    <h3>WeLovePDF के ${toolName} टूल को क्यों चुनें?</h3>
+    <h3>टूल विनिर्देश और संगतता (Specifications)</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>विवरण</th>
+          <th>मूल्य</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>समर्थित प्रारूप (Formats)</strong></td>
+          <td>PDF, JPG, PNG, WEBP, DOCX, XLSX, TXT</td>
+        </tr>
+        <tr>
+          <td><strong>प्रोसेसिंग इंजन</strong></td>
+          <td>100% लोकल इन-ब्राउज़र सैंडबॉक्स (वेबअसेंबली)</td>
+        </tr>
+        <tr>
+          <td><strong>अधिकतम फाइल आकार</strong></td>
+          <td>200 MB तक प्रति सत्र</td>
+        </tr>
+        <tr>
+          <td><strong>गोपनीयता</strong></td>
+          <td>जीरो सर्वर अपलोड — फाइलें आपके डिवाइस मेमोरी में ही रहती हैं</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>WeLovePDF का ${toolName} क्यों चुनें?</h3>
     <ul>
       <li><strong>100% क्लाइंट-साइड सैंडबॉक्स:</strong> आपकी फाइलें कभी भी आपके डिवाइस से बाहर नहीं जाती हैं। पूर्ण गोपनीयता की गारंटी है।</li>
-      <li><strong>पूरी तरह से मुफ्त और असीमित:</strong> कोई छिपी हुई लागत, सदस्यता शुल्क, या वॉटरमार्क ब्रांडिंग नहीं।</li>
-      <li><strong>तेज़ और प्रतिक्रियाशील:</strong> स्थानीय प्रोसेसिंग का मतलब है कि रिमोट सर्वर से कोई अपलोडिंग या डाउनलोडिंग देरी नहीं होगी।</li>
-      <li><strong>नो साइनअप आवश्यक:</strong> ईमेल पते प्रदान किए बिना या खाता बनाए बिना तुरंत टूल का उपयोग करना शुरू करें।</li>
+      <li><strong>मुफ्त और असीमित:</strong> कोई छिपी हुई लागत, सदस्यता शुल्क, सीमाएं या वॉटरमार्क नहीं।</li>
+      <li><strong>तेज़ और ऑफलाइन सक्षम:</strong> स्थानीय प्रोसेसिंग से अपलोडिंग/डाउनलोडिंग की देरी समाप्त हो जाती है।</li>
+      <li><strong>मोबाईल और डेस्कटॉप संगत:</strong> एंड्रॉइड, आईओएस, क्रोम और सफारी पर पूरी तरह से काम करता है।</li>
     </ul>
 
-    <h3>${toolName} का उपयोग कैसे करें (चरण-दर-चरण निर्देश):</h3>
+    <h3>${toolName} का उपयोग कैसे करें (चरण-दर-चरण निर्देश)</h3>
     <ol>
       <li>
-        <strong>फाइलें चुनें या अपलोड करें:</strong> 
-        अपनी फाइलों को सीधे ऊपर दिए गए सक्रिय कार्यक्षेत्र कंटेनर में खींचें और छोड़ें (Drag and drop)।
-        वैकल्पिक रूप से, सिस्टम फाइल पिकर लॉन्च करने और अपने दस्तावेज़ों का चयन करने के लिए "फ़ाइलें चुनें" बटन पर क्लिक करें।
+        <strong>फाइल चुनें:</strong> 
+        अपनी फाइलों को सीधे कार्यक्षेत्र में खींचें और छोड़ें (Drag and drop) या "फ़ाइलें चुनें" बटन पर क्लिक करें।
       </li>
       <li>
         <strong>सेटिंग्स कॉन्फ़िगर करें:</strong> 
-        लोड होने के बाद, सेटिंग्स ड्रॉअर में कस्टम विकल्पों को समायोजित करें।
-        आप पेज रेंज, फाइल कंप्रेस स्तर, पासवर्ड प्रविष्टियों, या स्वरूपण शैलियों जैसे मापदंडों को कॉन्फ़िगर कर सकते हैं।
+        लोड होने के बाद आवश्यकतानुसार विकल्पों को समायोजित करें (जैसे कंप्रेस स्तर, पेज रेंज या पासवर्ड)।
       </li>
       <li>
-        <strong>दस्तावेज़ को प्रोसेस करें:</strong> 
-        मुख्य प्रक्रिया बटन पर क्लिक करें।
-        सैंडबॉक्स इंजन आपके ब्राउज़र में स्थानीय रूप से आपकी फाइलों को संसाधित करेगा और प्रगति को ट्रैक करेगा।
+        <strong>प्रोसेस करें:</strong> 
+        मुख्य बटन पर क्लिक करें। सैंडबॉक्स इंजन आपके ब्राउज़र में फाइलों को प्रोसेस करेगा।
       </li>
       <li>
-        <strong>आउटपुट डाउनलोड करें:</strong> 
-        एक बार प्रोसेसिंग पूरी हो जाने पर, अपडेटेड दस्तावेज़ को सीधे अपने डिवाइस के डाउनलोड फ़ोल्डर में सहेजने के लिए "डाउनलोड" बटन पर क्लिक करें।
+        <strong>डाउनलोड करें:</strong> 
+        "डाउनलोड पीडीएफ" पर क्लिक करके अपडेटेड फाइल को सीधे अपने डिवाइस में सहेजें।
       </li>
     </ol>
+
+    <h3>व्यावहारिक उपयोग (Practical Use Cases)</h3>
+    <ul>
+      <li><strong>ईमेल अटैचमेंट:</strong> बड़ी पीडीएफ फाइलों का आकार छोटा करें ताकि वे ईमेल लिमिट में फिट हो सकें।</li>
+      <li><strong>सरकारी और आधिकारिक फॉर्म:</strong> सरकारी पोर्टलों के लिए सही साइज और फॉर्मेट में दस्तावेज तैयार करें।</li>
+      <li><strong>गोपनीय कार्य:</strong> वित्तीय और व्यक्तिगत फाइलों को बिना किसी सर्वर पर भेजे सुरक्षित रूप से प्रोसेस करें।</li>
+    </ul>
+
+    <h3>गोपनीयता और सुरक्षा गारंटी</h3>
+    <p>
+      WeLovePDF <strong>जीरो सर्वर अपलोड</strong> सिद्धांत पर काम करता है। सभी कार्य आपके डिवाइस की रैम और सीपीयू पर होते हैं। टैब बंद करते ही अस्थायी डेटा स्वतः नष्ट हो जाता है।
+    </p>
+
+    <h3>समस्या निवारण (Troubleshooting)</h3>
+    <ul>
+      <li><strong>फाइल प्रोसेस नहीं हो रही:</strong> जांचें कि फाइल का आकार 200MB से कम है और फाइल पासवर्ड से सुरक्षित तो नहीं है।</li>
+      <li><strong>डाउनलोड नहीं हो रहा:</strong> अपने ब्राउज़र की पॉप-अप और डाउनलोड अनुमतियों (Permissions) की जांच करें।</li>
+    </ul>
   `;
 }
 
