@@ -67,6 +67,41 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-KCDRXS3J');`,
           }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "Organization",
+                  "@id": "https://www.welovepdf.best/#organization",
+                  "name": "WeLovePDF",
+                  "url": "https://www.welovepdf.best",
+                  "logo": "https://www.welovepdf.best/icon.svg",
+                  "sameAs": [
+                    "https://twitter.com/welovepdf",
+                    "https://github.com/welovepdf"
+                  ]
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": "https://www.welovepdf.best/#website",
+                  "url": "https://www.welovepdf.best",
+                  "name": "WeLovePDF",
+                  "publisher": {
+                    "@id": "https://www.welovepdf.best/#organization"
+                  },
+                  "potentialAction": {
+                    "@type": "SearchAction",
+                    "target": "https://www.welovepdf.best/?q={search_term_string}",
+                    "query-input": "required name=search_term_string"
+                  }
+                }
+              ]
+            })
+          }}
+        />
       </head>
       <body className="antialiased">
         {/* Google Tag Manager (noscript) — immediately after <body> */}

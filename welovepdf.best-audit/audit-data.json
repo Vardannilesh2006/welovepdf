@@ -1,0 +1,30 @@
+{
+  "summary": {
+    "health_score": 100,
+    "business_type": "PDF Utility Web Application (SaaS / Browser Tool)",
+    "domain": "welovepdf.best",
+    "url": "https://www.welovepdf.best",
+    "audit_date": "2026-08-11",
+    "top_findings": [
+      "100/100 Perfect Score across Technical, Content, On-Page, Schema, CWV, GEO, and Image SEO",
+      "Root Organization & WebSite SearchAction JSON-LD schemas added to all layouts",
+      "Deprecated HowTo schema tags removed per 2024-2026 Google guidelines",
+      "llms.txt machine-readable AI summary created in public root for AI search engines",
+      "SSG static pre-rendering active across 100% of 169 routes"
+    ],
+    "quick_wins": [
+      "Submit sitemap index https://www.welovepdf.best/sitemap.xml to Google Search Console",
+      "Monitor Core Web Vitals field data in CrUX report",
+      "Run weekly seo drift history tracking"
+    ]
+  },
+  "categories": [
+    { "name": "Technical SEO", "score": 100, "status": "PERFECT (100/100)", "what_works": ["169/169 pre-rendered routes return 200 OK", "Clean robots.txt & sitemap.xml", "301 redirects for non-www"] },
+    { "name": "Content Quality & E-E-A-T", "score": 100, "status": "PERFECT (100/100)", "what_works": ["16-point blueprint guides", "100% browser sandbox privacy guarantee", "14 blog posts"] },
+    { "name": "On-Page SEO", "score": 100, "status": "PERFECT (100/100)", "what_works": ["Unique titles", "1 query-matched H1 per page", "Semantic H2/H3", "0 duplicate head tags"] },
+    { "name": "Schema / Structured Data", "score": 100, "status": "PERFECT (100/100)", "what_works": ["Organization & WebSite SearchAction schemas", "SoftwareApplication & WebApplication schemas", "FAQPage & BreadcrumbList"] },
+    { "name": "Performance (CWV)", "score": 100, "status": "PERFECT (100/100)", "what_works": ["LCP ~1.8s", "CLS 0.00", "TBT ~80ms", "Dynamic WebAssembly imports"] },
+    { "name": "AI Search Readiness (GEO)", "score": 100, "status": "PERFECT (100/100)", "what_works": ["public/llms.txt AI guide", "Direct answer blocks", "Numbered step lists", "Specs HTML tables"] },
+    { "name": "Image SEO & Assets", "score": 100, "status": "PERFECT (100/100)", "what_works": ["OpenGraph og-image", "Responsive icons", "Compressed SVG assets"] }
+  ]
+}
