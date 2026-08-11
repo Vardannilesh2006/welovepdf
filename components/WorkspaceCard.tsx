@@ -824,7 +824,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
   };
 
   const handleRunTool = async () => {
-    if (files.length === 0) return;
+    if (running || files.length === 0) return;
     const startTime = Date.now();
     setRunning(true);
     setProgress(15);
