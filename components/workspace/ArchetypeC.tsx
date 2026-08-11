@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Upload, FileText, CheckCircle2, Sliders, Shield, Eye, Lock, Stamp, Hash, Info, Sun, ImageOff, ScanText } from "lucide-react";
+import { Upload, FileText, CheckCircle2, Sliders, Shield } from "lucide-react";
 
 interface ArchetypeCProps {
   toolSlug: string;
@@ -38,12 +38,7 @@ export default function ArchetypeC({
   const [watermarkPos, setWatermarkPos] = useState("center");
   const [watermarkOpacity, setWatermarkOpacity] = useState(50);
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [batesPrefix, setBatesPrefix] = useState("DOC-");
-  const [batesDigits, setBatesDigits] = useState(6);
   const [ocrLang, setOcrLang] = useState("eng");
-  const [metaTitle, setMetaTitle] = useState("");
-  const [metaAuthor, setMetaAuthor] = useState("");
 
   const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -54,7 +49,6 @@ export default function ArchetypeC({
   // Estimated output size for compress-pdf
   const estimatedSizeKB = Math.round(((fileSize / 1024) * compressLevel) / 100);
 
-  // 1. Result State
   if (resultUrl) {
     return (
       <div className="w-full bg-[#FFFFFF] border-[0.5px] border-[#EFE1D2] rounded-[12px] p-6 text-center shadow-none my-2">
@@ -87,7 +81,6 @@ export default function ArchetypeC({
     );
   }
 
-  // 2. Empty State Dropzone
   if (!fileName) {
     return (
       <div className="w-full bg-[#FFFFFF] border-[0.5px] border-[#EFE1D2] rounded-[12px] p-8 text-center my-2">
@@ -115,94 +108,87 @@ export default function ArchetypeC({
     );
   }
 
-  // 3. Active Workspace Layout (Compact File Strip + Settings Panel + 1 Page Preview + CTA)
   return (
-    <div className="w-full bg-[#FFFFFF] border-[0.5px] border-[#EFE1D2] rounded-[12px] p-5 my-2 flex flex-col gap-4 max-h-[calc(100vh-140px)] overflow-y-auto">
+    <div className="w-full bg-[#FFFFFF] border-[0.5px] border-[#EFE1D2] rounded-[12px] overflow-hidden my-2 flex flex-col max-h-[calc(100vh-140px)]">
       
-      {/* Compact Horizontal File Strip */}
-      <div className="flex items-center justify-between bg-[#FBF1E9]/60 border-[0.5px] border-[#EFE1D2] rounded-lg p-3 shrink-0">
+      {/* Horizontal File Strip */}
+      <div className="bg-[#FBF1E9] border-b [border-bottom-width:0.5px] border-[#EFE1D2] px-4 py-3 flex items-center justify-between gap-3 shrink-0">
         <div className="flex items-center gap-3 min-w-0">
           <FileText className="w-5 h-5 text-[#E8792A] shrink-0" />
-          <div className="min-w-0">
-            <h4 className="text-sm font-medium text-[#262B36] truncate">{fileName}</h4>
-            <p className="text-xs text-[#9C9488]">
-              {pageCount || 1} pages · {Math.round(fileSize / 1024)} KB
-            </p>
-          </div>
+          <span className="text-sm font-medium text-[#262B36] truncate">{fileName}</span>
+          <span className="text-xs text-[#9C9488] bg-white border-[0.5px] border-[#EFE1D2] px-2 py-0.5 rounded-full shrink-0">
+            {pageCount} pages · {Math.round(fileSize / 1024)} KB
+          </span>
         </div>
-        <button
-          onClick={onReset}
-          className="text-xs text-[#9C9488] hover:text-[#262B36] border-[0.5px] border-[#EFE1D2] bg-white px-2.5 py-1 rounded transition-colors"
-        >
+        <button onClick={onReset} className="text-xs text-[#9C9488] hover:text-[#262B36]">
           Change File
         </button>
       </div>
 
-      {/* Main Body: Settings Panel (2-4 Fields) & First Page Reassurance Preview */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
+      {/* Main Panel Content Area */}
+      <div className="flex flex-col md:flex-row flex-1 overflow-hidden">
         
-        {/* Settings Panel (2 Columns) */}
-        <div className="md:col-span-2 bg-[#FBF1E9]/30 border-[0.5px] border-[#EFE1D2] rounded-lg p-4 space-y-4">
-          <h4 className="text-xs font-medium text-[#262B36] border-b [border-bottom-width:0.5px] border-[#EFE1D2] pb-2">
-            {toolName} Settings
-          </h4>
+        {/* Left/Main Column: Settings Form & Action Pinned Below */}
+        <div className="flex-1 flex flex-col justify-between overflow-y-auto p-4 space-y-4">
+          
+          <div className="space-y-4 flex-1">
+            <span className="text-xs font-medium text-[#262B36] block border-b pb-1.5 border-[#EFE1D2]">
+              {toolName} Configuration
+            </span>
 
-          {/* Compress PDF Options */}
-          {toolSlug === "compress-pdf" && (
-            <div className="space-y-3">
-              <div className="flex justify-between text-xs">
-                <span className="font-medium text-[#262B36]">Compression Quality Level</span>
-                <span className="text-[#E8792A] font-medium">{compressLevel}%</span>
-              </div>
-              <input
-                type="range"
-                min="20"
-                max="90"
-                value={compressLevel}
-                onChange={(e) => setCompressLevel(Number(e.target.value))}
-                className="w-full accent-[#E8792A]"
-              />
-              <div className="flex justify-between text-xs text-[#9C9488] pt-1">
-                <span>Original: {Math.round(fileSize / 1024)} KB</span>
-                <span className="font-medium text-[#262B36]">Estimated: ~{estimatedSizeKB} KB</span>
-              </div>
-            </div>
-          )}
-
-          {/* Watermark PDF Options */}
-          {toolSlug === "watermark-pdf" && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-              <div>
-                <label className="block text-[#262B36] font-medium mb-1">Watermark Text</label>
+            {/* Compress PDF */}
+            {toolSlug === "compress-pdf" && (
+              <div className="space-y-3 max-w-md text-xs">
+                <div className="flex justify-between">
+                  <span className="font-medium text-[#262B36]">Compression Level</span>
+                  <span className="text-[#E8792A] font-medium">{compressLevel}%</span>
+                </div>
                 <input
-                  type="text"
-                  value={watermarkText}
-                  onChange={(e) => setWatermarkText(e.target.value)}
-                  className="w-full bg-white border-[0.5px] border-[#EFE1D2] rounded px-2.5 py-1.5 focus:border-[#E8792A]"
+                  type="range"
+                  min="20"
+                  max="90"
+                  value={compressLevel}
+                  onChange={(e) => setCompressLevel(Number(e.target.value))}
+                  className="w-full accent-[#E8792A]"
                 />
+                <div className="flex justify-between text-[#9C9488]">
+                  <span>Original: {Math.round(fileSize / 1024)} KB</span>
+                  <span className="font-medium text-[#262B36]">Est. Output: ~{estimatedSizeKB} KB</span>
+                </div>
               </div>
-              <div>
-                <label className="block text-[#262B36] font-medium mb-1">Position</label>
-                <select
-                  value={watermarkPos}
-                  onChange={(e) => setWatermarkPos(e.target.value)}
-                  className="w-full bg-white border-[0.5px] border-[#EFE1D2] rounded px-2.5 py-1.5 focus:border-[#E8792A]"
-                >
-                  <option value="center">Center Diagonal</option>
-                  <option value="top-left">Top Left</option>
-                  <option value="bottom-right">Bottom Right</option>
-                </select>
-              </div>
-            </div>
-          )}
+            )}
 
-          {/* Protect / Unlock PDF Options */}
-          {(toolSlug === "protect-pdf" || toolSlug === "unlock-pdf") && (
-            <div className="space-y-3 text-xs">
-              <div>
-                <label className="block text-[#262B36] font-medium mb-1">
-                  {toolSlug === "protect-pdf" ? "Set Password" : "Enter File Password"}
-                </label>
+            {/* Watermark PDF */}
+            {toolSlug === "watermark-pdf" && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs max-w-lg">
+                <div>
+                  <label className="block text-[#262B36] font-medium mb-1">Watermark Text</label>
+                  <input
+                    type="text"
+                    value={watermarkText}
+                    onChange={(e) => setWatermarkText(e.target.value)}
+                    className="w-full bg-white border-[0.5px] border-[#EFE1D2] rounded px-2.5 py-1.5 focus:border-[#E8792A]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[#262B36] font-medium mb-1">Position</label>
+                  <select
+                    value={watermarkPos}
+                    onChange={(e) => setWatermarkPos(e.target.value)}
+                    className="w-full bg-white border-[0.5px] border-[#EFE1D2] rounded px-2.5 py-1.5 focus:border-[#E8792A]"
+                  >
+                    <option value="center">Center Diagonal</option>
+                    <option value="top-left">Top Left</option>
+                    <option value="bottom-right">Bottom Right</option>
+                  </select>
+                </div>
+              </div>
+            )}
+
+            {/* Protect / Unlock PDF */}
+            {(toolSlug === "protect-pdf" || toolSlug === "unlock-pdf") && (
+              <div className="space-y-2 text-xs max-w-sm">
+                <label className="block text-[#262B36] font-medium">Password</label>
                 <input
                   type="password"
                   value={password}
@@ -210,55 +196,59 @@ export default function ArchetypeC({
                   className="w-full bg-white border-[0.5px] border-[#EFE1D2] rounded px-2.5 py-2 focus:border-[#E8792A]"
                 />
               </div>
-            </div>
-          )}
+            )}
 
-          {/* OCR PDF Options */}
-          {toolSlug === "ocr-pdf" && (
-            <div className="text-xs">
-              <label className="block text-[#262B36] font-medium mb-1">OCR Recognition Language</label>
-              <select
-                value={ocrLang}
-                onChange={(e) => setOcrLang(e.target.value)}
-                className="w-full bg-white border-[0.5px] border-[#EFE1D2] rounded px-2.5 py-2 focus:border-[#E8792A]"
-              >
-                <option value="eng">English</option>
-                <option value="hin">Hindi (हिन्दी)</option>
-              </select>
-            </div>
-          )}
+            {/* OCR PDF */}
+            {toolSlug === "ocr-pdf" && (
+              <div className="text-xs max-w-xs">
+                <label className="block text-[#262B36] font-medium mb-1">Language</label>
+                <select
+                  value={ocrLang}
+                  onChange={(e) => setOcrLang(e.target.value)}
+                  className="w-full bg-white border-[0.5px] border-[#EFE1D2] rounded px-2.5 py-2 focus:border-[#E8792A]"
+                >
+                  <option value="eng">English</option>
+                  <option value="hin">Hindi (हिन्दी)</option>
+                </select>
+              </div>
+            )}
+          </div>
 
-          {/* General Fallback Options Info */}
-          {!["compress-pdf", "watermark-pdf", "protect-pdf", "unlock-pdf", "ocr-pdf"].includes(toolSlug) && (
-            <p className="text-xs text-[#9C9488]">
-              Standard 100% in-browser processing parameters configured for {toolName}.
-            </p>
-          )}
+          {/* Bottom Action Button (Pinned to Left below settings) */}
+          <div className="pt-4 border-t [border-top-width:0.5px] border-[#EFE1D2] shrink-0">
+            <button
+              onClick={() => onProcess({ compressLevel, watermarkText, watermarkPos, password, ocrLang })}
+              disabled={isProcessing}
+              className="w-full sm:w-auto px-8 py-3 bg-[#E8792A] hover:bg-[#D66B1E] disabled:opacity-50 text-white text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
+            >
+              {isProcessing ? "Processing..." : `Apply ${toolName}`}
+            </button>
+          </div>
+
         </div>
 
-        {/* First Page Visual Reassurance Preview (1 Page Thumbnail) */}
-        <div className="bg-[#FBF1E9]/20 border-[0.5px] border-[#EFE1D2] rounded-lg p-3 flex flex-col items-center justify-center text-center">
-          <span className="text-[11px] text-[#9C9488] mb-2 font-medium">1st Page Preview</span>
-          <div className="w-28 aspect-[3/4] bg-white border-[0.5px] border-[#EFE1D2] rounded p-2 flex flex-col items-center justify-center shadow-none">
-            {previewUrl ? (
-              <img src={previewUrl} alt="Page 1" className="w-full h-full object-contain" />
-            ) : (
-              <FileText className="w-8 h-8 text-[#E8792A]/60" />
-            )}
+        {/* Right Sidebar for Preassurance Visual & Local Sandbox notice */}
+        <div className="w-full md:w-64 bg-[#FBF1E9]/30 border-t md:border-t-0 md:border-l [border-left-width:0.5px] border-[#EFE1D2] p-4 flex flex-col justify-between shrink-0 overflow-y-auto">
+          <div className="flex flex-col items-center justify-center p-3 border border-dashed border-[#EFE1D2] rounded-lg bg-white">
+            <span className="text-[11px] font-medium text-[#9C9488] mb-2">1st Page Preview</span>
+            <div className="w-24 aspect-[3/4] bg-[#FBF1E9]/40 border-[0.5px] border-[#EFE1D2] rounded p-2 flex items-center justify-center">
+              {previewUrl ? (
+                <img src={previewUrl} alt="Preview" className="w-full h-full object-contain" />
+              ) : (
+                <FileText className="w-8 h-8 text-[#E8792A]/50" />
+              )}
+            </div>
+          </div>
+
+          <div className="bg-white p-3 rounded-lg border-[0.5px] border-[#EFE1D2] text-center mt-4">
+            <Shield className="w-4 h-4 text-[#E8792A] mx-auto mb-1" />
+            <p className="text-[11px] text-[#9C9488] leading-tight font-medium">
+              100% Client-Side Local Sandbox
+            </p>
           </div>
         </div>
 
       </div>
-
-      {/* Primary Action Button */}
-      <button
-        onClick={() => onProcess({ compressLevel, watermarkText, watermarkPos, password, ocrLang })}
-        disabled={isProcessing}
-        className="w-full py-3 bg-[#E8792A] hover:bg-[#D66B1E] disabled:opacity-50 text-white text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2 shrink-0 mt-2"
-      >
-        {isProcessing ? "Processing File..." : `Apply ${toolName}`}
-      </button>
-
     </div>
   );
 }
