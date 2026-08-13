@@ -47,6 +47,14 @@ export default function Footer({ lang }: FooterProps) {
         { label: "Twitter / X", href: "https://x.com", external: true },
         { label: "LinkedIn", href: "https://linkedin.com", external: true },
       ]
+    },
+    {
+      title: lang === "en" ? "Compare" : "तुलना",
+      links: [
+        { label: "vs Adobe Acrobat", href: "/vs/adobe-acrobat" },
+        { label: "vs iLovePDF", href: "/vs/ilovepdf" },
+        { label: "vs Smallpdf", href: "/vs/smallpdf" },
+      ]
     }
   ];
 
@@ -68,7 +76,7 @@ export default function Footer({ lang }: FooterProps) {
 
       {/* Main Links Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 mb-6">
           {columns.map((col, idx) => (
             <div key={idx} className="flex flex-col gap-2.5">
               <h3 className="font-heading font-bold text-[11px] text-[#D97706] uppercase tracking-wider">

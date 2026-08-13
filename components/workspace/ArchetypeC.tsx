@@ -39,6 +39,16 @@ export default function ArchetypeC({
   const [watermarkOpacity, setWatermarkOpacity] = useState(50);
   const [password, setPassword] = useState("");
   const [ocrLang, setOcrLang] = useState("eng");
+  const [isDragging, setIsDragging] = useState(false);
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const droppedFiles = Array.from(e.dataTransfer.files).filter(
+      (f) => f.name.toLowerCase().endsWith(".pdf")
+    );
+    if (droppedFiles.length > 0) onAddFile(droppedFiles);
+  };
 
   const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -83,19 +93,32 @@ export default function ArchetypeC({
 
   if (!fileName) {
     return (
-      <div className="w-full bg-[#FFFFFF] border-[0.5px] border-[#EFE1D2] rounded-[12px] p-8 text-center my-2">
-        <label className="cursor-pointer block border-2 border-dashed border-[#EFE1D2] hover:border-[#E8792A] rounded-xl p-10 transition-colors bg-[#FBF1E9]/30">
+      <div
+        className="w-full bg-[#FFFFFF] border-[0.5px] border-[#EFE1D2] rounded-[12px] p-8 text-center my-2"
+        onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+        onDragLeave={() => setIsDragging(false)}
+        onDrop={handleDrop}
+      >
+        <label className={`cursor-pointer block border-2 border-dashed rounded-xl p-10 transition-all ${
+          isDragging
+            ? "border-[#E8792A] bg-[#FBF1E9]/70 scale-[1.01]"
+            : "border-[#EFE1D2] hover:border-[#E8792A] bg-[#FBF1E9]/30"
+        }`}>
           <input
             type="file"
             accept=".pdf"
             className="hidden"
             onChange={handleFileInput}
           />
-          <div className="w-14 h-14 bg-[#E8792A]/10 text-[#E8792A] rounded-full flex items-center justify-center mx-auto mb-3">
+          <div className={`w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3 transition-colors ${
+            isDragging ? "bg-[#E8792A] text-white" : "bg-[#E8792A]/10 text-[#E8792A]"
+          }`}>
             <Upload className="w-6 h-6" />
           </div>
           <h3 className="text-lg font-medium text-[#262B36] mb-1">
-            {lang === "hi" ? "पीडीएफ फ़ाइल चुनें" : "Select PDF for " + toolName}
+            {isDragging
+              ? (lang === "hi" ? "यहाँ छोड़ें!" : "Drop your PDF here!")
+              : (lang === "hi" ? "पीडीएफ फ़ाइल चुनें" : "Select PDF for " + toolName)}
           </h3>
           <p className="text-xs text-[#9C9488] mb-4">
             {lang === "hi" ? "100% मुफ़्त और सुरक्षित। फ़ाइलें ब्राउज़र में ही प्रोसेस होती हैं।" : "100% free & local browser processing. No upload."}

@@ -123,6 +123,7 @@ export default function Home() {
   const { lang } = useLang();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   const toolsCounter = useCountUp(tools.length, 700);
   const privacyCounter = useCountUp(100, 700);
@@ -340,6 +341,29 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ─── MOBILE HERO TOOL CARDS (hidden on lg+) ─────────── */}
+      <section className="lg:hidden px-4 sm:px-6 pb-6">
+        <div className="grid grid-cols-2 gap-3">
+          {[
+            { href: "/merge-pdf", icon: <GitMerge className="w-4 h-4" />, label: "Merge PDF" },
+            { href: "/compress-pdf", icon: <Minimize2 className="w-4 h-4" />, label: "Compress PDF" },
+            { href: "/pdf-to-jpg", icon: <ImageDown className="w-4 h-4" />, label: "PDF to JPG" },
+            { href: "/split-pdf", icon: <Scissors className="w-4 h-4" />, label: "Split PDF" },
+          ].map((item, i) => (
+            <a
+              key={i}
+              href={item.href}
+              className="flex items-center gap-2.5 px-3.5 py-2.5 bg-white border border-[#E5E7EB] rounded-[10px] hover:border-[#D97706] hover:shadow-sm transition-all"
+            >
+              <div className="w-7 h-7 rounded-[6px] bg-[#FFF5EB] flex items-center justify-center text-[#D97706] shrink-0">
+                {item.icon}
+              </div>
+              <span className="font-heading font-semibold text-[13px] text-slate-800">{item.label}</span>
+            </a>
+          ))}
+        </div>
+      </section>
+
       {/* ─── TRUST STATS ──────────────────────────────────── */}
       <section className="border-y border-[#E5E7EB] bg-[#FFF5EB]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 grid grid-cols-2 md:grid-cols-4 gap-0 divide-x divide-[#E5E7EB]">
@@ -379,6 +403,24 @@ export default function Home() {
               {lang === "en" ? "Free Forever" : "हमेशा के लिए मुफ्त"}
             </span>
           </div>
+        </div>
+      </section>
+
+      {/* ─── SOCIAL PROOF TRUST STRIP ─────────────────────── */}
+      <section className="border-b border-[#E5E7EB]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-center gap-5 sm:gap-10">
+          {[
+            { icon: "⚡", text: lang === "en" ? "WebAssembly Powered" : "WebAssembly संचालित" },
+            { icon: "🔒", text: lang === "en" ? "Zero Server Upload" : "कोई सर्वर अपलोड नहीं" },
+            { icon: "🇮🇳", text: lang === "en" ? "Made in India" : "भारत में निर्मित" },
+            { icon: "♾️", text: lang === "en" ? "Always Free" : "हमेशा मुफ्त" },
+            { icon: "🛡️", text: lang === "en" ? "No Signup Required" : "साइनअप की जरूरत नहीं" },
+          ].map((item, i) => (
+            <div key={i} className="flex items-center gap-1.5 text-[12px] font-heading font-semibold text-slate-500">
+              <span className="text-[14px] leading-none">{item.icon}</span>
+              <span>{item.text}</span>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -476,7 +518,7 @@ export default function Home() {
                   <a
                     key={tool.slug}
                     href={`/${tool.slug}`}
-                    className="group flex items-start gap-3.5 p-4 sm:p-4.5 border border-[#E5E7EB] rounded-card bg-white hover:border-[#D97706] hover:shadow-sm transition-all duration-150"
+                    className="group flex items-start gap-3.5 p-4 sm:p-4.5 border border-[#E5E7EB] rounded-card bg-white hover:border-[#D97706] hover:shadow-md hover:-translate-y-0.5 transition-all duration-150"
                   >
                     {/* Icon */}
                     <div className="flex-shrink-0 w-9 h-9 rounded-[8px] bg-[#FFF5EB] flex items-center justify-center text-[#D97706] group-hover:bg-[#D97706] group-hover:text-white transition-colors">
@@ -513,40 +555,50 @@ export default function Home() {
           <h2 className="font-heading font-black text-[24px] text-slate-900 tracking-tight mb-6 text-center">
             {lang === "en" ? "Frequently Asked Questions (FAQ)" : "अक्सर पूछे जाने वाले प्रश्न"}
           </h2>
-          
-          <div className="flex flex-col gap-4">
-            <div className="p-5 border border-[#E5E7EB] rounded-card bg-[#FFF8F2]/50">
-              <h3 className="font-heading font-bold text-[15px] text-slate-800 mb-2">
-                {lang === "en" ? "Is WeLovePDF safe for sensitive documents?" : "क्या WeLovePDF संवेदनशील दस्तावेज़ों के लिए सुरक्षित है?"}
-              </h3>
-              <p className="text-[13px] text-slate-500 leading-relaxed">
-                {lang === "en"
-                  ? "Yes, WeLovePDF is 100% safe. Because WeLovePDF runs entirely client-side inside your local browser memory sandbox (using JavaScript and WebAssembly), your confidential documents are never uploaded to any remote servers. This ensures complete privacy and zero data leakage risks."
-                  : "हाँ, WeLovePDF 100% सुरक्षित है। क्योंकि WeLovePDF पूरी तरह से आपके ब्राउज़र मेमोरी सैंडबॉक्स में चलता है, आपके दस्तावेज़ कभी भी किसी रिमोट सर्वर पर अपलोड नहीं होते हैं।"}
-              </p>
-            </div>
 
-            <div className="p-5 border border-[#E5E7EB] rounded-card bg-[#FFF8F2]/50">
-              <h3 className="font-heading font-bold text-[15px] text-slate-800 mb-2">
-                {lang === "en" ? "Do I need to pay or create an account to use WeLovePDF?" : "क्या WeLovePDF का उपयोग करने के लिए भुगतान या खाता बनाने की आवश्यकता है?"}
-              </h3>
-              <p className="text-[13px] text-slate-500 leading-relaxed">
-                {lang === "en"
-                  ? "No, you do not need to pay or register. All core browser-first tools on WeLovePDF are free with no page caps, file limits, or watermarks. We aim to keep document utilities accessible, private, and zero-cost for everyone worldwide."
-                  : "नहीं, आपको भुगतान या पंजीकरण करने की आवश्यकता नहीं है। WeLovePDF पर सभी मुख्य उपकरण बिल्कुल मुफ्त हैं।"}
-              </p>
-            </div>
-
-            <div className="p-5 border border-[#E5E7EB] rounded-card bg-[#FFF8F2]/50">
-              <h3 className="font-heading font-bold text-[15px] text-slate-800 mb-2">
-                {lang === "en" ? "Does WeLovePDF work offline?" : "क्या WeLovePDF ऑफ़लाइन काम करता है?"}
-              </h3>
-              <p className="text-[13px] text-slate-500 leading-relaxed">
-                {lang === "en"
-                  ? "Yes, WeLovePDF works offline. Once the website is loaded in your browser tab, all browser-based tasks (like merge, split, rotate, delete pages) can execute fully without an active internet connection."
-                  : "हाँ, WeLovePDF ऑफ़लाइन काम करता है। एक बार लोड होने के बाद आप बिना इंटरनेट के भी काम कर सकते हैं।"}
-              </p>
-            </div>
+          <div className="flex flex-col divide-y divide-[#E5E7EB] border border-[#E5E7EB] rounded-[12px] overflow-hidden">
+            {[
+              {
+                q: lang === "en" ? "Is WeLovePDF safe for sensitive documents?" : "क्या WeLovePDF संवेदनशील दस्तावेज़ों के लिए सुरक्षित है?",
+                a: lang === "en"
+                  ? "Yes, WeLovePDF is 100% safe. Because WeLovePDF runs entirely client-side inside your local browser memory sandbox (using JavaScript and WebAssembly), your confidential documents are never uploaded to any remote servers."
+                  : "हाँ, WeLovePDF 100% सुरक्षित है। आपके दस्तावेज़ कभी भी किसी रिमोट सर्वर पर अपलोड नहीं होते हैं।"
+              },
+              {
+                q: lang === "en" ? "Do I need to pay or create an account?" : "क्या भुगतान या खाता बनाने की जरूरत है?",
+                a: lang === "en"
+                  ? "No, you do not need to pay or register. All core browser-first tools on WeLovePDF are free with no page caps, file limits, or watermarks."
+                  : "नहीं, आपको भुगतान या पंजीकरण करने की आवश्यकता नहीं है। WeLovePDF पर सभी मुख्य उपकरण बिल्कुल मुफ्त हैं।"
+              },
+              {
+                q: lang === "en" ? "Does WeLovePDF work offline?" : "क्या WeLovePDF ऑफ़लाइन काम करता है?",
+                a: lang === "en"
+                  ? "Yes, WeLovePDF works offline. Once the website is loaded in your browser tab, all browser-based tasks (merge, split, rotate, delete pages) can execute fully without an active internet connection."
+                  : "हाँ, WeLovePDF ऑफ़लाइन काम करता है। एक बार लोड होने के बाद आप बिना इंटरनेट के भी काम कर सकते हैं।"
+              },
+            ].map((faq, i) => (
+              <div key={i} className="bg-white">
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full flex items-center justify-between px-5 py-4 text-left group"
+                  aria-expanded={openFaq === i}
+                >
+                  <h3 className="font-heading font-bold text-[15px] text-slate-800 group-hover:text-[#D97706] transition-colors pr-4">
+                    {faq.q}
+                  </h3>
+                  <span className={`shrink-0 w-5 h-5 flex items-center justify-center rounded-full border border-[#E5E7EB] text-slate-400 transition-transform duration-200 ${openFaq === i ? "rotate-45 text-[#D97706] border-[#D97706]" : ""}`}>
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v8M1 5h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+                  </span>
+                </button>
+                <div
+                  className={`overflow-hidden transition-all duration-200 ease-out ${
+                    openFaq === i ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
+                  }`}
+                >
+                  <p className="px-5 pb-4 text-[13px] text-slate-500 leading-relaxed">{faq.a}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
