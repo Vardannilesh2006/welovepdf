@@ -43,16 +43,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Google tag (gtag.js) */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-RXLDJ7S34L"></script>
+        {/* Google tag (gtag.js) — G-J28XZEQQ83 */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-J28XZEQQ83"></script>
         <script dangerouslySetInnerHTML={{
           __html: `
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-
-            gtag('config', 'G-RXLDJ7S34L');
-            gtag('config', 'G-1G49X8GSHB');
+            gtag('config', 'G-J28XZEQQ83');
           `
         }} />
         {/* Google Tag Manager — must be as high in <head> as possible */}
