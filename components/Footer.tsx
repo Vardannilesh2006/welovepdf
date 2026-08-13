@@ -54,9 +54,9 @@ export default function Footer({ lang }: FooterProps) {
     <footer className="w-full bg-[#FFF8F2] text-text-primaryLight border-t border-[#E5E7EB] transition-colors duration-200">
 
       {/* Trust Strip */}
-      <div className="w-full border-b border-[#E5E7EB] py-10 bg-[#FFF5EB]">
-        <div className="max-w-7xl mx-auto px-24 flex flex-col sm:flex-row items-center justify-between gap-8">
-          <div className="flex items-center gap-8 text-[12px] text-[#D97706] font-semibold">
+      <div className="w-full border-b border-[#E5E7EB] py-3 bg-[#FFF5EB]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-4">
+          <div className="flex items-center gap-2 text-[12px] text-[#D97706] font-semibold">
             <ShieldCheck className="w-3.5 h-3.5" />
             <span>{lang === "en" ? "Enterprise Grade Encryption Sandbox" : "एंटरप्राइज ग्रेड एन्क्रिप्शन सैंडबॉक्स"}</span>
           </div>
@@ -67,14 +67,14 @@ export default function Footer({ lang }: FooterProps) {
       </div>
 
       {/* Main Links Grid */}
-      <div className="max-w-7xl mx-auto px-24 py-32">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-24 mb-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6">
           {columns.map((col, idx) => (
-            <div key={idx} className="flex flex-col gap-10">
+            <div key={idx} className="flex flex-col gap-2.5">
               <h3 className="font-heading font-bold text-[11px] text-[#D97706] uppercase tracking-wider">
                 {col.title}
               </h3>
-              <ul className="flex flex-col gap-8">
+              <ul className="flex flex-col gap-2">
                 {col.links.map((link, lIdx) => (
                   <li key={lIdx}>
                     <a
@@ -93,18 +93,18 @@ export default function Footer({ lang }: FooterProps) {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-16 border-t border-[#E5E7EB] flex flex-col md:flex-row items-center justify-between gap-12">
-          <div className="flex flex-col gap-4 text-center md:text-left">
+        <div className="pt-4 border-t border-[#E5E7EB] flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex flex-col gap-1 text-center md:text-left">
             <p className="text-[12px] text-text-secondaryLight">
               © 2026 WeLovePDF. All rights reserved.
             </p>
-            <p className="text-[11px] text-text-secondaryLight/70 flex items-center justify-center md:justify-start gap-4">
+            <p className="text-[11px] text-text-secondaryLight/70 flex items-center justify-center md:justify-start gap-1.5">
               Made with <Heart className="w-3 h-3 text-[#D97706] fill-[#D97706]" /> in Bettiah, Bihar, India 🇮🇳
             </p>
           </div>
 
           {/* Social Icons */}
-          <div className="flex items-center gap-16">
+          <div className="flex items-center gap-4">
             <a href="https://github.com/Vardannilesh2006" target="_blank" rel="noopener noreferrer" className="text-text-secondaryLight hover:text-[#D97706] transition-colors" aria-label="GitHub">
               <Github className="w-4 h-4" />
             </a>

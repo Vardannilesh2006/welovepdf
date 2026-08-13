@@ -394,9 +394,9 @@ export function ToolPageContent({ params, lang }: { params: { tool: string }; la
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      <div className="max-w-7xl mx-auto px-16 py-32">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         {/* Breadcrumb navigation */}
-        <div className="flex items-center gap-6 text-[13px] text-text-secondaryLight dark:text-text-secondaryDark mb-16">
+        <div className="flex items-center gap-1.5 text-[13px] text-text-secondaryLight dark:text-text-secondaryDark mb-3">
           <a href={prefix || "/"} className="hover:text-brand-blue">Home</a>
           <ChevronRight className="w-3 h-3" />
           <a href={`${prefix}/#tools`} className="hover:text-brand-blue">Tools</a>
@@ -407,8 +407,8 @@ export function ToolPageContent({ params, lang }: { params: { tool: string }; la
         </div>
 
         {/* Primary H1 Heading & SEO Subtitle */}
-        <div className="mb-24">
-          <h1 className="font-heading font-black text-[28px] sm:text-[36px] text-slate-900 dark:text-white leading-tight tracking-tight mb-8">
+        <div className="mb-4">
+          <h1 className="font-heading font-black text-[28px] sm:text-[36px] text-slate-900 dark:text-white leading-tight tracking-tight mb-2">
             {getToolH1(tool.name, tool.slug, lang)}
           </h1>
           <p className="text-[15px] text-text-secondaryLight dark:text-text-secondaryDark max-w-3xl leading-relaxed">
@@ -420,23 +420,23 @@ export function ToolPageContent({ params, lang }: { params: { tool: string }; la
         <WorkspaceCard toolSlug={tool.slug} toolName={tool.name} lang={lang} />
 
         {/* Detailed Guide & Text Copy Sections */}
-        <section className="mt-48 grid grid-cols-1 lg:grid-cols-12 gap-32">
+        <section className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
           {/* Main content: Description + Steps */}
-          <div className="lg:col-span-8 p-32 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-modal shadow-sm prose dark:prose-invert">
+          <div className="lg:col-span-8 p-6 sm:p-8 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-modal shadow-sm prose dark:prose-invert">
             <div dangerouslySetInnerHTML={{ __html: toolGuides[tool.slug] || (lang === "hi" ? generateDynamicHindiGuide(tool.name, tool.category, tool.desc, tool.slug) : generateDynamicGuide(tool.name, tool.category, tool.desc, tool.slug)) }} />
           </div>
 
           {/* Sidebar: FAQs & Related tools */}
-          <div className="lg:col-span-4 flex flex-col gap-24">
+          <div className="lg:col-span-4 flex flex-col gap-6">
             {/* FAQ Block */}
-            <div className="p-24 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-modal shadow-sm">
-              <h3 className="font-heading font-black text-[15px] mb-16 text-slate-800 dark:text-white uppercase tracking-wider">
+            <div className="p-5 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-modal shadow-sm">
+              <h3 className="font-heading font-black text-[15px] mb-3 text-slate-800 dark:text-white uppercase tracking-wider">
                 {lang === "en" ? "Frequently Asked Questions" : "अक्सर पूछे जाने वाले प्रश्न"}
               </h3>
-              <div className="flex flex-col gap-12">
+              <div className="flex flex-col gap-3">
                 {faqs.map((faq, idx) => (
-                  <div key={idx} className="p-16 border border-border-light dark:border-border-dark rounded-card bg-white dark:bg-surface-dark">
-                    <h4 className="font-bold text-[14px] mb-6 text-text-primaryLight dark:text-text-primaryDark leading-snug">{faq.q}</h4>
+                  <div key={idx} className="p-3.5 border border-border-light dark:border-border-dark rounded-card bg-white dark:bg-surface-dark">
+                    <h4 className="font-bold text-[14px] mb-1.5 text-text-primaryLight dark:text-text-primaryDark leading-snug">{faq.q}</h4>
                     <p className="text-[12px] text-text-secondaryLight dark:text-text-secondaryDark leading-relaxed">{faq.a}</p>
                   </div>
                 ))}
@@ -444,16 +444,16 @@ export function ToolPageContent({ params, lang }: { params: { tool: string }; la
             </div>
 
             {/* Related Tools Block */}
-            <div className="p-24 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-modal shadow-sm">
-              <h3 className="font-heading font-black text-[15px] mb-16 text-slate-800 dark:text-white uppercase tracking-wider">
+            <div className="p-5 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-modal shadow-sm">
+              <h3 className="font-heading font-black text-[15px] mb-3 text-slate-800 dark:text-white uppercase tracking-wider">
                 {lang === "en" ? "Related PDF Tools" : "संबंधित पीडीएफ टूल्स"}
               </h3>
-              <div className="flex flex-col gap-12">
+              <div className="flex flex-col gap-3">
                 {relatedTools.map((rel) => (
                   <a
                     key={rel.slug}
                     href={`${prefix}/${rel.slug}`}
-                    className="p-16 border border-border-light dark:border-border-dark rounded-card bg-[#FFF8F2]/30 dark:bg-surface-dark hover:border-[#D97706] transition-all flex flex-col gap-6"
+                    className="p-3.5 border border-border-light dark:border-border-dark rounded-card bg-[#FFF8F2]/30 dark:bg-surface-dark hover:border-[#D97706] transition-all flex flex-col gap-1.5"
                   >
                     <h4 className="font-bold text-[13px] text-slate-800 dark:text-white hover:text-[#D97706] transition-colors">{rel.name}</h4>
                     <p className="text-[11px] text-text-secondaryLight dark:text-text-secondaryDark line-clamp-2 leading-relaxed">{rel.desc}</p>
