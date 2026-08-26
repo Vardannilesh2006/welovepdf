@@ -13,6 +13,34 @@ const nextConfig = {
     config.resolve.alias.canvas = false;
     return config;
   },
+
+  // P0/P1/P2/P3 — Indexing Fix: 301 permanent redirects
+  // Evidence: /index returned HTTP 200 as duplicate of homepage (GSC "Duplicate without canonical")
+  // Ghost 404s collected from GSC Coverage report — redirect to nearest live page
+  async redirects() {
+    return [
+      // ── Duplicate homepage fix (P1) ──────────────────────────────
+      // /index was serving a 200 duplicate of / — caused "Duplicate without user-selected canonical"
+      { source: '/index', destination: '/', permanent: true },
+      { source: '/index.html', destination: '/', permanent: true },
+      { source: '/home', destination: '/', permanent: true },
+
+      // ── Ghost 404 → nearest live page (P3) ───────────────────────
+      // These URLs appear in GSC "Not found" or were linked by external sites
+      { source: '/tools', destination: '/#workspace', permanent: true },
+      { source: '/pdf-tools', destination: '/#workspace', permanent: true },
+      { source: '/tool', destination: '/', permanent: true },
+      { source: '/merge', destination: '/merge-pdf', permanent: true },
+      { source: '/pdf-merge', destination: '/merge-pdf', permanent: true },
+      { source: '/compress', destination: '/compress-pdf', permanent: true },
+      { source: '/split', destination: '/split-pdf', permanent: true },
+      // Common typos / old slug patterns
+      { source: '/merge-pdfs', destination: '/merge-pdf', permanent: true },
+      { source: '/split-pdfs', destination: '/split-pdf', permanent: true },
+      { source: '/compress-pdfs', destination: '/compress-pdf', permanent: true },
+    ];
+  },
+
   async headers() {
     return [
       {
