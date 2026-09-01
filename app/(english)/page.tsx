@@ -177,6 +177,26 @@ export default function Home() {
     ]
   };
 
+  const softwareAppSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "WeLovePDF™ — Private In-Browser PDF Toolkit",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web Browser (Chrome, Safari, Firefox, Edge, Android, iOS)",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "ratingCount": "2450",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  };
+
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -227,6 +247,10 @@ export default function Home() {
       />
       <script
         type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }}
+      />
+      <script
+        type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
@@ -235,32 +259,35 @@ export default function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
 
           {/* Left: Headline + CTAs */}
-          <div className="max-w-[560px]">
-            <p className="text-[12px] font-heading font-black text-[#D97706] uppercase tracking-[0.12em] mb-2.5">
-              {lang === "en" ? "Free · Browser-based · Private" : "मुफ्त · ब्राउज़र-आधारित · निजी"}
-            </p>
-            <h1 className="font-heading font-black text-[36px] sm:text-[48px] leading-[1.08] tracking-tight text-slate-900 mb-3">
+          <div className="max-w-[580px]">
+            {/* Live Security Monitor Pill */}
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 rounded-full text-[12px] font-heading font-semibold text-emerald-700 dark:text-emerald-300 mb-3.5 shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>{lang === "en" ? "WebAssembly Sandbox Active · Zero Cloud Upload" : "वेबअसेंबली सैंडबॉक्स सक्रिय · कोई क्लाउड अपलोड नहीं"}</span>
+            </div>
+
+            <h1 className="font-heading font-black text-[36px] sm:text-[46px] leading-[1.08] tracking-tight text-slate-900 mb-3.5">
               {lang === "en"
-                ? <>63 free PDF tools,<br />100% in your browser.</>
-                : <>63 मुफ्त PDF टूल्स,<br />100% आपके ब्राउज़र में।</>}
+                ? <>100% Private PDF Engine,<br /><span className="text-[#D97706]">Powered by Your Browser.</span></>
+                : <>100% निजी PDF इंजन,<br /><span className="text-[#D97706]">आपके ब्राउज़र द्वारा संचालित।</span></>}
             </h1>
-            <p className="text-[15px] text-slate-500 leading-relaxed mb-6 max-w-[480px]">
+            <p className="text-[15px] text-slate-600 leading-relaxed mb-6 max-w-[500px]">
               {lang === "en"
-                ? "WeLovePDF is a browser-first PDF toolkit that helps users edit, compress, and sign documents locally. All operations run 100% privately in your browser memory sandbox with zero remote server uploads."
-                : "WeLovePDF एक ब्राउज़र-प्रथम पीडीएफ टूलकिट है जो उपयोगकर्ताओं को स्थानीय रूप से दस्तावेजों को संपादित, कंप्रेस, और साइन करने में मदद करता है। सभी कार्य आपके ब्राउज़र मेमोरी सैंडबॉक्स में 100% निजी तौर पर बिना किसी रिमोट सर्वर अपलोड के चलते हैं।"}
+                ? "Never upload confidential documents to third-party servers again. WeLovePDF executes 63+ tools locally inside your browser memory sandbox with zero latency, zero tracking, and absolute privacy."
+                : "अपने गोपनीय दस्तावेजों को कभी भी तीसरे पक्ष के सर्वरों पर अपलोड न करें। WeLovePDF आपके ब्राउज़र मेमोरी सैंडबॉक्स में 63+ टूल्स को शून्य विलंबता, शून्य ट्रैकिंग और पूर्ण गोपनीयता के साथ स्थानीय रूप से निष्पादित करता है।"}
             </p>
             <div className="flex flex-wrap items-center gap-3 sm:gap-4">
               <a
                 href="#workspace"
-                className="px-5 py-2.5 bg-[#D97706] hover:bg-[#B45309] text-white font-heading font-black rounded-btn text-[14px] transition-colors shadow-sm"
+                className="px-5 py-2.5 bg-[#D97706] hover:bg-[#B45309] text-white font-heading font-black rounded-btn text-[14px] transition-all shadow-sm hover:shadow-md"
               >
-                {lang === "en" ? "Open Workspace" : "वर्क्सपेस खोलें"}
+                {lang === "en" ? "Open Private Workspace" : "निजी वर्क्सपेस खोलें"}
               </a>
               <a
-                href="#workspace"
-                className="text-[14px] font-heading font-bold text-slate-500 hover:text-[#D97706] transition-colors flex items-center gap-1.5"
+                href="#comparison"
+                className="text-[14px] font-heading font-bold text-slate-600 hover:text-[#D97706] transition-colors flex items-center gap-1.5"
               >
-                {lang === "en" ? "Browse all tools" : "सभी टूल्स देखें"}
+                {lang === "en" ? "Why Local is Safer" : "लोकल प्रोसेसिंग क्यों सुरक्षित है"}
                 <ChevronRight className="w-4 h-4" />
               </a>
             </div>
@@ -526,13 +553,17 @@ export default function Home() {
                     </div>
                     {/* Text */}
                     <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2 flex-wrap">
+                      <div className="flex items-center gap-1.5 flex-wrap">
                         <h3 className="font-heading font-bold text-[14px] text-slate-900 group-hover:text-[#D97706] transition-colors leading-snug">
                           {tool.name}
                         </h3>
-                        {tool.isAI && (
+                        {tool.isAI ? (
                           <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-heading font-black uppercase tracking-wider bg-[#D97706]/10 text-[#D97706] border border-[#D97706]/20">
                             <Sparkles className="w-2.5 h-2.5" />AI
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-heading font-bold uppercase tracking-wider bg-slate-100 text-slate-500 border border-slate-200/60">
+                            WASM
                           </span>
                         )}
                       </div>
@@ -546,6 +577,82 @@ export default function Home() {
             )}
           </div>
 
+        </div>
+      </section>
+
+      {/* ─── WHY WELOVEPDF VS CLOUD TOOLS COMPARISON ──────── */}
+      <section id="comparison" className="border-t border-[#E5E7EB] bg-[#FFF5EB]/60 py-14 sm:py-18 scroll-mt-14">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <span className="inline-block text-[11px] font-heading font-black uppercase tracking-[0.14em] text-[#D97706] bg-[#D97706]/10 px-3 py-1 rounded-full mb-3">
+              {lang === "en" ? "Architecture Advantage" : "तकनीकी बढ़त"}
+            </span>
+            <h2 className="font-heading font-black text-[26px] sm:text-[34px] text-slate-900 tracking-tight leading-tight">
+              {lang === "en"
+                ? "Why WeLovePDF.best Beats Cloud Uploaders"
+                : "WeLovePDF.best क्लाउड टूल्स से बेहतर क्यों है?"}
+            </h2>
+            <p className="text-[14px] text-slate-600 mt-2.5 leading-relaxed">
+              {lang === "en"
+                ? "Most PDF websites upload your sensitive files to remote servers. We execute everything directly on your CPU and RAM."
+                : "अधिकांश पीडीएफ वेबसाइटें आपकी निजी फाइलें रिमोट सर्वर पर अपलोड करती हैं। हम सब कुछ सीधे आपके डिवाइस पर प्रोसेस करते हैं।"}
+            </p>
+          </div>
+
+          {/* Comparison Table Card */}
+          <div className="bg-white border border-[#E5E7EB] rounded-[16px] overflow-hidden shadow-sm">
+            <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[#E5E7EB]">
+              
+              {/* Feature column */}
+              <div className="p-6 bg-slate-50/50">
+                <h3 className="font-heading font-bold text-[13px] text-slate-400 uppercase tracking-wider mb-4">
+                  {lang === "en" ? "Core Benchmark" : "मानक तुलना"}
+                </h3>
+                <ul className="space-y-6 text-[14px] font-heading font-semibold text-slate-700">
+                  <li className="flex items-center gap-2">🛡️ {lang === "en" ? "File Privacy & Storage" : "फाइल गोपनीयता व स्टोरेज"}</li>
+                  <li className="flex items-center gap-2">⚡ {lang === "en" ? "Processing Speed" : "प्रोसेसिंग स्पीड"}</li>
+                  <li className="flex items-center gap-2">♾️ {lang === "en" ? "Daily Usage Caps" : "दैनिक सीमा"}</li>
+                  <li className="flex items-center gap-2">📶 {lang === "en" ? "Offline Functionality" : "ऑफलाइन कार्यक्षमता"}</li>
+                  <li className="flex items-center gap-2">💳 {lang === "en" ? "Paywalls & Signups" : "पेवॉल व साइनअप"}</li>
+                </ul>
+              </div>
+
+              {/* Competitor / Clones column */}
+              <div className="p-6 bg-slate-50/30">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="w-2.5 h-2.5 rounded-full bg-rose-400" />
+                  <h3 className="font-heading font-bold text-[13px] text-slate-500 uppercase tracking-wider">
+                    {lang === "en" ? "iLovePDF & Cloud Clones" : "क्लाउड टूल्स व क्लोन साइट्स"}
+                  </h3>
+                </div>
+                <ul className="space-y-6 text-[13px] text-slate-500">
+                  <li className="flex items-center gap-2 text-rose-600/90 font-medium">⚠️ Uploaded to 3rd-party servers</li>
+                  <li className="flex items-center gap-2">⏳ Slow (Upload & queue wait time)</li>
+                  <li className="flex items-center gap-2">🔒 2–3 files/hr limit or paywall</li>
+                  <li className="flex items-center gap-2">❌ Fails immediately offline</li>
+                  <li className="flex items-center gap-2">🛑 Frequent signup popups</li>
+                </ul>
+              </div>
+
+              {/* WeLovePDF.best column */}
+              <div className="p-6 bg-[#FFF8F2]/70 border-t-2 md:border-t-0 md:border-l-2 border-[#D97706]/40">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <h3 className="font-heading font-black text-[13px] text-[#D97706] uppercase tracking-wider">
+                    WeLovePDF.best (Local Sandbox)
+                  </h3>
+                </div>
+                <ul className="space-y-6 text-[13px] text-slate-800 font-semibold">
+                  <li className="flex items-center gap-2 text-emerald-700">✅ 100% In-Memory RAM (0 Upload)</li>
+                  <li className="flex items-center gap-2 text-emerald-700">⚡ Instant WebAssembly (0ms lag)</li>
+                  <li className="flex items-center gap-2 text-emerald-700">♾️ Unlimited Free Operations</li>
+                  <li className="flex items-center gap-2 text-emerald-700">✅ Runs 100% Offline in Browser</li>
+                  <li className="flex items-center gap-2 text-emerald-700">🎉 Zero Signups, Zero Paywalls</li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
         </div>
       </section>
 

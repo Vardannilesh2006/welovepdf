@@ -5,8 +5,8 @@ import Script from "next/script";
 import CookieBanner from "../../components/CookieBanner";
 
 export const metadata = {
-  title: "WeLovePDF — Free Online PDF Tools, No Upload Required",
-  description: "WeLovePDF offers 60+ free browser-based PDF tools — merge, split, compress, convert, OCR, and AI-powered PDF tools. No file upload, no signup, 100% private.",
+  title: "WeLovePDF™ — 100% Private PDF Engine (Runs in Browser, Zero Upload)",
+  description: "Process, merge, compress & edit PDFs privately inside your browser memory sandbox. Zero server uploads, zero data tracking, instant WebAssembly speed. 100% free forever.",
   metadataBase: new URL("https://www.welovepdf.best"),
   robots: {
     index: true,
@@ -21,8 +21,8 @@ export const metadata = {
     }
   },
   openGraph: {
-    title: "WeLovePDF — Free Online PDF Tools, No Upload Required",
-    description: "WeLovePDF offers 60+ free browser-based PDF tools — merge, split, compress, convert, OCR, and AI-powered PDF tools. No file upload, no signup, 100% private.",
+    title: "WeLovePDF™ — 100% Private PDF Engine (Runs in Browser, Zero Upload)",
+    description: "Process, merge, compress & edit PDFs privately inside your browser memory sandbox. Zero server uploads, zero data tracking, instant WebAssembly speed. 100% free forever.",
     url: "https://www.welovepdf.best",
     siteName: "WeLovePDF",
     locale: "en_US",
@@ -30,8 +30,8 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "WeLovePDF — Free Online PDF Tools, No Upload Required",
-    description: "WeLovePDF offers 60+ free browser-based PDF tools — merge, split, compress, convert, OCR, and AI-powered PDF tools. No file upload, no signup, 100% private.",
+    title: "WeLovePDF™ — 100% Private PDF Engine (Runs in Browser, Zero Upload)",
+    description: "Process, merge, compress & edit PDFs privately inside your browser memory sandbox. Zero server uploads, zero data tracking, instant WebAssembly speed. 100% free forever.",
   }
 };
 

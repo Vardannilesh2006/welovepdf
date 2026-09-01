@@ -74,12 +74,10 @@ export async function generateMetadata({ params }: { params: { tool: string } })
   const canonicalUrl = `https://www.welovepdf.best/hi/${params.tool}`;
   const enUrl = `https://www.welovepdf.best/${params.tool}`;
 
-  // Build Hindi description from English base + Hindi suffix
-  const baseDesc = toolDescriptions[params.tool] || `${tool.name} online for free.`;
-  const hindiDesc = `${tool.name} हिन्दी में: ${baseDesc.slice(0, 120)} — WeLovePDF पर मुफ्त में उपयोग करें।`;
+  const hindiDesc = `${tool.name} ऑनलाइन — 100% सुरक्षित और स्थानीय इन-ब्राउज़र प्रोसेसिंग। कोई सर्वर अपलोड नहीं, जीरो डेटा ट्रैकिंग, और असीमित मुफ्त उपयोग।`;
 
   return {
-    title: `${tool.name} — ${hindiAction} | WeLovePDF हिन्दी`,
+    title: `${tool.name} ऑनलाइन (100% प्राइवेट, जीरो सर्वर अपलोड) — WeLovePDF`,
     description: hindiDesc.slice(0, 160),
     robots: {
       index: true,

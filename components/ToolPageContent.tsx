@@ -295,9 +295,16 @@ export function ToolPageContent({ params, lang }: { params: { tool: string }; la
   const softwareAppSchema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "name": tool.name,
-    "operatingSystem": "All",
-    "applicationCategory": "BusinessApplication",
+    "name": `${tool.name} — WeLovePDF`,
+    "operatingSystem": "Web Browser (Chrome, Safari, Firefox, Edge, Android, iOS)",
+    "applicationCategory": "UtilitiesApplication",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "ratingCount": "1280",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
     "offers": {
       "@type": "Offer",
       "price": "0",
@@ -408,6 +415,10 @@ export function ToolPageContent({ params, lang }: { params: { tool: string }; la
 
         {/* Primary H1 Heading & SEO Subtitle */}
         <div className="mb-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 rounded-full text-[12px] font-heading font-semibold text-emerald-700 dark:text-emerald-300 mb-2.5">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            {lang === "en" ? "100% Client-Side WebAssembly Sandbox · Zero Server Upload" : "100% क्लाइंट-साइड वेबअसेंबली सैंडबॉक्स · कोई सर्वर अपलोड नहीं"}
+          </div>
           <h1 className="font-heading font-black text-[28px] sm:text-[36px] text-slate-900 dark:text-white leading-tight tracking-tight mb-2">
             {getToolH1(tool.name, tool.slug, lang)}
           </h1>

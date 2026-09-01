@@ -78,14 +78,16 @@ export async function generateStaticParams() {
   }));
 }
 
-// Generate unique dynamic metadata per tool
 export async function generateMetadata({ params }: { params: { tool: string } }): Promise<Metadata> {
   const tool = tools.find((t) => t.slug === params.tool);
   if (!tool) return {};
 
   const actionVerb = toolActionVerbs[params.tool] || "PDF Tool";
-  const title = `${tool.name} — Free Online ${actionVerb} | WeLovePDF`;
-  const desc = toolDescriptions[params.tool] || `${tool.name} online for free — no file upload, no signup. Runs 100% in your browser sandbox with WeLovePDF.`;
+  const title = `${tool.name} Online (100% Private, Zero Cloud Upload) — WeLovePDF`;
+  const customDesc = toolDescriptions[params.tool];
+  const desc = customDesc 
+    ? `${customDesc} Processed locally in your browser memory sandbox with zero server uploads.`
+    : `Use ${tool.name} online for free. 100% client-side privacy via WebAssembly sandbox with zero data uploads, no watermarks, and unlimited processing.`;
 
   const top10 = [
     "compress-pdf",
