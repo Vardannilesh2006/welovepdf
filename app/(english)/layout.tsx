@@ -5,7 +5,7 @@ import Script from "next/script";
 import CookieBanner from "../../components/CookieBanner";
 
 export const metadata = {
-  title: "WeLovePDF™ — 100% Private PDF Engine (Runs in Browser, Zero Upload)",
+  title: "WeLovePDF — 100% Private PDF Engine (Runs in Browser, Zero Upload)",
   description: "Process, merge, compress & edit PDFs privately inside your browser memory sandbox. Zero server uploads, zero data tracking, instant WebAssembly speed. 100% free forever.",
   metadataBase: new URL("https://www.welovepdf.best"),
   robots: {
@@ -21,7 +21,7 @@ export const metadata = {
     }
   },
   openGraph: {
-    title: "WeLovePDF™ — 100% Private PDF Engine (Runs in Browser, Zero Upload)",
+    title: "WeLovePDF — 100% Private PDF Engine (Runs in Browser, Zero Upload)",
     description: "Process, merge, compress & edit PDFs privately inside your browser memory sandbox. Zero server uploads, zero data tracking, instant WebAssembly speed. 100% free forever.",
     url: "https://www.welovepdf.best",
     siteName: "WeLovePDF",

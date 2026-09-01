@@ -5,7 +5,7 @@ import Script from "next/script";
 import CookieBanner from "../../components/CookieBanner";
 
 export const metadata = {
-  title: "WeLovePDF™ — 100% सुरक्षित और निजी PDF इंजन (जीरो सर्वर अपलोड)",
+  title: "WeLovePDF — 100% सुरक्षित और निजी PDF इंजन (जीरो सर्वर अपलोड)",
   description: "अपने ब्राउज़र मेमोरी में पीडीएफ मर्ज, कंप्रेस, कन्वर्ट और एडिट करें बिना किसी सर्वर अपलोड के। 100% प्राइवेट, वेबअसेंबली स्पीड, हमेशा के लिए मुफ्त।",
   metadataBase: new URL("https://www.welovepdf.best"),
   robots: {
@@ -21,7 +21,7 @@ export const metadata = {
     }
   },
   openGraph: {
-    title: "WeLovePDF™ — 100% सुरक्षित और निजी PDF इंजन (जीरो सर्वर अपलोड)",
+    title: "WeLovePDF — 100% सुरक्षित और निजी PDF इंजन (जीरो सर्वर अपलोड)",
     description: "अपने ब्राउज़र मेमोरी में पीडीएफ मर्ज, कंप्रेस, कन्वर्ट और एडिट करें बिना किसी सर्वर अपलोड के। 100% प्राइवेट, वेबअसेंबली स्पीड, हमेशा के लिए मुफ्त।",
     url: "https://www.welovepdf.best/hi",
     siteName: "WeLovePDF",
