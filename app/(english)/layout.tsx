@@ -98,6 +98,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     "target": "https://www.welovepdf.best/?q={search_term_string}",
                     "query-input": "required name=search_term_string"
                   }
+                },
+                {
+                  "@type": "WebApplication",
+                  "@id": "https://www.welovepdf.best/#webapp",
+                  "name": "WeLovePDF",
+                  "url": "https://www.welovepdf.best",
+                  "applicationCategory": "UtilitiesApplication",
+                  "operatingSystem": "All",
+                  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+                  "description": "100% Private in-browser PDF processor. Merge, compress, and convert PDFs with zero server uploads."
                 }
               ]
             })
