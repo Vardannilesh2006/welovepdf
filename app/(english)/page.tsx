@@ -13,7 +13,8 @@ import {
   AlignLeft, Link, Lock, Unlock, PenLine, BadgeCheck, Gavel, Accessibility,
   Contrast, BookMarked, Search, MessageCircle, ListCollapse, Languages,
   HelpCircle, Receipt, UserSquare, FileSpreadsheet, QrCode, BookOpen,
-  Sparkles, ChevronRight, ShieldCheck
+  Sparkles, ChevronRight, ShieldCheck, Cpu, Zap, Check, X, ArrowRight,
+  Shield, ExternalLink, HardDrive, Wifi, FileUp
 } from "lucide-react";
 
 // Map lucideIcon string to actual component
@@ -34,9 +35,9 @@ function ToolIcon({ name, className }: { name: string; className?: string }) {
   return <Icon className={className ?? "w-5 h-5"} />;
 }
 
-// IntersectionObserver-based counter (real value in DOM from the start)
+// IntersectionObserver-based counter
 function useCountUp(target: number, duration = 800) {
-  const [value, setValue] = useState(target); // start at real value — never 0
+  const [value, setValue] = useState(target);
   const ref = useRef<HTMLDivElement>(null);
   const hasRun = useRef(false);
 
@@ -67,46 +68,9 @@ function useCountUp(target: number, duration = 800) {
   return { value, ref };
 }
 
-function MagneticWrapper({ children, className }: { children: React.ReactNode; className?: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!ref.current) return;
-    const { clientX, clientY } = e;
-    const { left, top, width, height } = ref.current.getBoundingClientRect();
-    const centerX = left + width / 2;
-    const centerY = top + height / 2;
-    const distanceX = clientX - centerX;
-    const distanceY = clientY - centerY;
-
-    // Dampened pull factor (magnetic strength)
-    const pull = 0.15;
-    setPosition({ x: distanceX * pull, y: distanceY * pull });
-  };
-
-  const handleMouseLeave = () => {
-    setPosition({ x: 0, y: 0 });
-  };
-
-  return (
-    <div
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
-        transition: "transform 0.2s cubic-bezier(0.25, 1, 0.5, 1)",
-      }}
-      className={className}
-    >
-      {children}
-    </div>
-  );
-}
-
 const CATEGORIES = [
   { key: "All", en: "All Tools", hi: "सभी टूल्स" },
+  { key: "Popular", en: "Top Essentials", hi: "मुख्य टूल्स" },
   { key: "Organize", en: "Organize", hi: "व्यवस्थित करें" },
   { key: "Edit", en: "Edit", hi: "संपादित करें" },
   { key: "Optimize", en: "Optimize", hi: "अनुकूलित करें" },
@@ -115,8 +79,86 @@ const CATEGORIES = [
   { key: "Convert to PDF", en: "Convert to PDF", hi: "PDF में कनवर्ट करें" },
   { key: "Security", en: "Security", hi: "सुरक्षा" },
   { key: "Reader", en: "Reader", hi: "रीडर" },
-  { key: "AI PDF", en: "AI PDF", hi: "AI PDF" },
+  { key: "AI PDF", en: "AI PDF", hi: "AI टूल्स" },
   { key: "Templates", en: "Templates", hi: "टेम्पलेट्स" },
+];
+
+const POPULAR_SLUGS = [
+  "merge-pdf",
+  "compress-pdf",
+  "split-pdf",
+  "pdf-to-word",
+  "jpg-to-pdf",
+  "pdf-to-jpg",
+  "ocr-pdf",
+  "sign-pdf",
+  "protect-pdf",
+  "ask-pdf",
+  "rotate-pdf",
+  "page-numbers",
+];
+
+const FAQS = [
+  {
+    qEn: "Is WeLovePDF safe for confidential documents, tax returns, and bank statements?",
+    qHi: "क्या WeLovePDF गोपनीय दस्तावेज़ों, टैक्स रिटर्न और बैंक स्टेटमेंट के लिए सुरक्षित है?",
+    aEn: "Yes, 100% safe. Unlike traditional PDF websites that upload your files to remote cloud servers, WeLovePDF executes client-side WebAssembly directly in your browser's private memory sandbox. Your sensitive files never leave your computer or phone — zero bytes are sent across the network.",
+    aHi: "हाँ, 100% सुरक्षित है। पारंपरिक पीडीएफ वेबसाइटों के विपरीत जो आपकी फाइलों को रिमोट सर्वर पर अपलोड करती हैं, WeLovePDF सीधे आपके ब्राउज़र के स्थानीय मेमोरी सैंडबॉक्स में वेबअसेंबली चलाता है। आपकी गोपनीय फाइलें आपके डिवाइस को कभी नहीं छोड़ती हैं।"
+  },
+  {
+    qEn: "Does WeLovePDF work completely offline without an internet connection?",
+    qHi: "क्या WeLovePDF बिना इंटरनेट कनेक्शन के पूरी तरह ऑफलाइन काम करता है?",
+    aEn: "Yes. Once you open WeLovePDF in your browser tab, all core WebAssembly tools (Merge, Split, Compress, Rotate, Extract, Reorder, Delete Pages, Password Protect, etc.) run locally on your CPU and do not require any active internet connection.",
+    aHi: "हाँ। एक बार जब आप WeLovePDF को अपने ब्राउज़र में खोल लेते हैं, तो सभी मुख्य टूल्स (मर्ज, स्प्लिट, कंप्रेस, रोटेट, पासवर्ड प्रोटेक्ट आदि) सीधे आपके सीपीयू पर चलते हैं और इन्हें इंटरनेट की आवश्यकता नहीं होती।"
+  },
+  {
+    qEn: "Are there any hidden daily limits, page caps, or watermarks?",
+    qHi: "क्या कोई छिपी हुई दैनिक सीमा, पेज सीमा या वॉटरमार्क हैं?",
+    aEn: "No. There are zero artificial limits, zero queue delays, and zero watermarks. You can process as many pages and files as your device's memory can handle, completely free forever.",
+    aHi: "नहीं। कोई भी कृत्रिम सीमा, कतार या वॉटरमार्क नहीं है। आप जितने चाहें उतने पेज और फाइलें मुफ्त में प्रोसेस कर सकते हैं।"
+  },
+  {
+    qEn: "How does local WebAssembly PDF processing work?",
+    qHi: "लोकल वेबअसेंबली पीडीएफ प्रोसेसिंग कैसे काम करती है?",
+    aEn: "We compile industry-standard C++ and JavaScript document engines into WebAssembly (WASM). When you select a document, your browser creates an isolated sandboxed worker thread in RAM that manipulates PDF byte streams directly using your local CPU cores, delivering near-instant speeds with zero upload latency.",
+    aHi: "हम उद्योग-मानक डॉक्यूमेंट इंजनों को वेबअसेंबली (WASM) में संकलित करते हैं। जब आप फाइल चुनते हैं, तो आपका ब्राउज़र आपके सीपीयू का उपयोग करके रैम में सीधे फाइल को प्रोसेस करता है।"
+  },
+  {
+    qEn: "Why do other PDF websites upload files to remote servers?",
+    qHi: "अन्य पीडीएफ वेबसाइटें फाइलों को रिमोट सर्वर पर क्यों अपलोड करती हैं?",
+    aEn: "Traditional services rely on legacy server-side architecture (like Python or PHP backends) and use upload limits to push users into expensive monthly subscriptions. WeLovePDF was built from scratch with modern browser capabilities to eliminate server hosting costs and give privacy back to users.",
+    aHi: "पारंपरिक सेवाएं पुराने सर्वर आर्किटेक्चर पर निर्भर करती हैं और पेड सब्सक्रिप्शन बेचने के लिए सीमाएं लगाती हैं। WeLovePDF को आधुनिक ब्राउज़र क्षमताओं के साथ आपकी पूर्ण गोपनीयता के लिए बनाया गया है।"
+  },
+  {
+    qEn: "Do any tools on WeLovePDF require server communication?",
+    qHi: "क्या WeLovePDF का कोई टूल सर्वर का उपयोग करता है?",
+    aEn: "Our core PDF tools (60+ tools) are 100% client-side. Only our AI-assisted features (Ask PDF, Summarize PDF, Translate PDF) securely transmit user-requested text prompts to modern LLM APIs to generate answers. Even for AI tools, data is ephemeral and never saved or used for AI training.",
+    aHi: "हमारे 60+ मुख्य टूल्स 100% क्लाइंट-साइड हैं। केवल AI फीचर्स (Ask PDF, Summarize, Translate) उत्तर देने के लिए टेक्स्ट प्रॉम्ट भेजते हैं, जिसे तुरंत नष्ट कर दिया जाता है और कभी स्टोर नहीं किया जाता।"
+  },
+  {
+    qEn: "Does WeLovePDF work smoothly on Android and iPhone/iPad?",
+    qHi: "क्या WeLovePDF एंड्रॉइड और आईफोन/आईपैड पर सुचारू रूप से काम करता है?",
+    aEn: "Yes! Because WeLovePDF runs standard web standards (HTML5, Canvas, WebAssembly), it works seamlessly in Safari on iOS, Chrome on Android, Firefox, Edge, and any modern mobile browser without requiring any app install.",
+    aHi: "हाँ! WeLovePDF मोबाइल सफारी, क्रोम, फ़ायरफ़ॉक्स और सभी आधुनिक मोबाइल ब्राउज़रों पर बिना किसी ऐप डाउनलोड के आसानी से चलता है।"
+  },
+  {
+    qEn: "Do I need to sign up, create an account, or enter a credit card?",
+    qHi: "क्या मुझे साइन अप करने, खाता बनाने या क्रेडिट कार्ड दर्ज करने की आवश्यकता है?",
+    aEn: "No signup, no login, and no credit card required. You get immediate, unrestricted access to all tools the moment you land on the site.",
+    aHi: "कोई साइनअप नहीं, कोई लॉगिन नहीं और कोई क्रेडिट कार्ड नहीं। आप साइट पर आते ही सभी टूल्स का तुरंत उपयोग कर सकते हैं।"
+  },
+  {
+    qEn: "Is WeLovePDF compliant with privacy regulations like GDPR and CCPA?",
+    qHi: "क्या WeLovePDF GDPR और CCPA जैसे गोपनीयता नियमों का अनुपालन करता है?",
+    aEn: "Yes. By architecture, WeLovePDF is Privacy-by-Design. Since we do not collect, transmit, or store your documents on any server, there is zero risk of data breach, server leaks, or unauthorized third-party access.",
+    aHi: "हाँ। डिज़ाइन के अनुसार ही WeLovePDF 100% निजी है। चूंकि आपकी फाइलें हमारे सर्वर पर नहीं आतीं, डेटा लीक का कोई जोखिम नहीं है।"
+  },
+  {
+    qEn: "Who built WeLovePDF and how can I support or contact the project?",
+    qHi: "WeLovePDF को किसने बनाया है और मैं कैसे संपर्क कर सकता हूँ?",
+    aEn: "WeLovePDF is founded and maintained by Nilesh Verma in Bettiah, West Champaran, Bihar, India. You can reach out directly via email at nileshverma99731@gmail.com, inspect our code on GitHub, or view our transparent humans.txt and llms.txt files.",
+    aHi: "WeLovePDF की स्थापना नीलेश वर्मा द्वारा बेतिया, बिहार, भारत में की गई है। आप nileshverma99731@gmail.com पर सीधे संपर्क कर सकते हैं या GitHub पर प्रोजेक्ट देख सकते हैं।"
+  }
 ];
 
 export default function Home() {
@@ -124,35 +166,94 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [droppedFile, setDroppedFile] = useState<{ name: string; size: string } | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const toolsCounter = useCountUp(tools.length, 700);
   const privacyCounter = useCountUp(100, 700);
 
-  const getTools = () => {
+  // Keyboard shortcut listener: Press "/" to focus search
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "/" && document.activeElement !== searchInputRef.current) {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      const file = e.dataTransfer.files[0];
+      const sizeStr = file.size > 1024 * 1024
+        ? `${(file.size / (1024 * 1024)).toFixed(1)} MB`
+        : `${Math.round(file.size / 1024)} KB`;
+      setDroppedFile({ name: file.name, size: sizeStr });
+    }
+  };
+
+  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      const sizeStr = file.size > 1024 * 1024
+        ? `${(file.size / (1024 * 1024)).toFixed(1)} MB`
+        : `${Math.round(file.size / 1024)} KB`;
+      setDroppedFile({ name: file.name, size: sizeStr });
+    }
+  };
+
+  const getFilteredTools = () => {
     const q = searchQuery.toLowerCase().trim();
     return tools.filter((tool) => {
       const matchSearch =
         !q ||
         tool.name.toLowerCase().includes(q) ||
         tool.desc.toLowerCase().includes(q) ||
-        tool.category.toLowerCase().includes(q);
-      const matchCat =
-        activeCategory === "All" || tool.category === activeCategory;
+        tool.category.toLowerCase().includes(q) ||
+        tool.slug.toLowerCase().includes(q);
+
+      let matchCat = true;
+      if (activeCategory === "All") {
+        matchCat = true;
+      } else if (activeCategory === "Popular") {
+        matchCat = POPULAR_SLUGS.includes(tool.slug);
+      } else {
+        matchCat = tool.category === activeCategory;
+      }
+
       return matchSearch && matchCat;
     });
   };
 
-  const filteredTools = getTools();
+  const filteredTools = getFilteredTools();
 
-  // Category tool counts
-  const catCount = (key: string) =>
-    key === "All" ? tools.length : tools.filter((t) => t.category === key).length;
+  const catCount = (key: string) => {
+    if (key === "All") return tools.length;
+    if (key === "Popular") return POPULAR_SLUGS.length;
+    return tools.filter((t) => t.category === key).length;
+  };
 
+  // Structured Data Schemas
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "WeLovePDF",
     "url": "https://www.welovepdf.best",
+    "description": "Private, in-browser PDF toolkit powered by WebAssembly. 63+ free client-side PDF tools.",
     "potentialAction": {
       "@type": "SearchAction",
       "target": "https://www.welovepdf.best/?search={search_term_string}",
@@ -170,10 +271,17 @@ export default function Home() {
       "@type": "Person",
       "name": "Nilesh Verma",
       "jobTitle": "Founder & Lead Developer",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Bettiah",
+        "addressRegion": "Bihar",
+        "addressCountry": "IN"
+      },
       "email": "nileshverma99731@gmail.com"
     },
     "sameAs": [
-      "https://github.com/Vardannilesh2006"
+      "https://github.com/Vardannilesh2006",
+      "https://www.instagram.com/welovepdf.official/"
     ]
   };
 
@@ -183,6 +291,10 @@ export default function Home() {
     "name": "WeLovePDF™ — Private In-Browser PDF Toolkit",
     "applicationCategory": "UtilitiesApplication",
     "operatingSystem": "Web Browser (Chrome, Safari, Firefox, Edge, Android, iOS)",
+    "featureList": [
+      "Merge PDF", "Compress PDF", "Split PDF", "PDF to Word", "OCR PDF",
+      "Client-Side WebAssembly Processing", "Zero Server Uploads", "Offline Support"
+    ],
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": "4.9",
@@ -200,42 +312,18 @@ export default function Home() {
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": lang === "en" ? "Is WeLovePDF safe for sensitive documents?" : "क्या WeLovePDF संवेदनशील दस्तावेज़ों के लिए सुरक्षित है?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": lang === "en"
-            ? "Yes, WeLovePDF is 100% safe. Because WeLovePDF runs entirely client-side inside your local browser memory sandbox (using JavaScript and WebAssembly), your confidential documents are never uploaded to any remote servers. This ensures complete privacy and zero data leakage risks."
-            : "हाँ, WeLovePDF 100% सुरक्षित है। क्योंकि WeLovePDF पूरी तरह से आपके ब्राउज़र मेमोरी सैंडबॉक्स में चलता है, आपके दस्तावेज़ कभी भी किसी रिमोट सर्वर पर अपलोड नहीं होते हैं।"
-        }
-      },
-      {
-        "@type": "Question",
-        "name": lang === "en" ? "Do I need to pay or create an account to use WeLovePDF?" : "क्या WeLovePDF का उपयोग करने के लिए भुगतान या खाता बनाने की आवश्यकता है?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": lang === "en"
-            ? "No, you do not need to pay or register. All core browser-first tools on WeLovePDF are free with no page caps, file limits, or watermarks. We aim to keep document utilities accessible, private, and zero-cost for everyone worldwide."
-            : "नहीं, आपको भुगतान या पंजीकरण करने की आवश्यकता नहीं है। WeLovePDF पर सभी मुख्य उपकरण बिल्कुल मुफ्त हैं।"
-        }
-      },
-      {
-        "@type": "Question",
-        "name": lang === "en" ? "Does WeLovePDF work offline?" : "क्या WeLovePDF ऑफ़लाइन काम करता है?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": lang === "en"
-            ? "Yes, WeLovePDF works offline. Once the website is loaded in your browser tab, all browser-based tasks (like merge, split, rotate, delete pages) can execute fully without an active internet connection."
-            : "हाँ, WeLovePDF ऑफ़लाइन काम करता है। एक बार लोड होने के बाद आप बिना इंटरनेट के भी काम कर सकते हैं।"
-        }
+    "mainEntity": FAQS.map((faq) => ({
+      "@type": "Question",
+      "name": lang === "en" ? faq.qEn : faq.qHi,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": lang === "en" ? faq.aEn : faq.aHi
       }
-    ]
+    }))
   };
 
   return (
-    <div className="w-full min-h-screen bg-[#FFF8F2] text-slate-800 animate-fade-in">
+    <div className="w-full min-h-screen bg-[#FAF8F5] text-slate-900 selection:bg-amber-100 selection:text-amber-900 animate-fade-in font-sans">
       {/* JSON-LD Schemas */}
       <script
         type="application/ld+json"
@@ -254,478 +342,751 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      {/* ─── HERO ─────────────────────────────────────────── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-10 sm:pt-14 pb-10 sm:pb-14">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+      {/* ─── HERO SECTION WITH AMBIENT GRADIENTS & DROPZONE ─── */}
+      <section className="relative overflow-hidden pt-8 sm:pt-14 pb-12 sm:pb-16 border-b border-slate-200/80 bg-gradient-to-b from-amber-50/40 via-white to-[#FAF8F5]">
+        {/* Subtle radial ambient glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[360px] bg-amber-200/25 blur-[120px] pointer-events-none rounded-full" />
+        <div className="absolute top-1/3 right-10 w-[400px] h-[300px] bg-emerald-200/15 blur-[100px] pointer-events-none rounded-full" />
 
-          {/* Left: Headline + CTAs */}
-          <div className="max-w-[580px]">
-            {/* Live Security Monitor Pill */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 rounded-full text-[12px] font-heading font-semibold text-emerald-700 dark:text-emerald-300 mb-3.5 shadow-sm">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span>{lang === "en" ? "WebAssembly Sandbox Active · Zero Cloud Upload" : "वेबअसेंबली सैंडबॉक्स सक्रिय · कोई क्लाउड अपलोड नहीं"}</span>
-            </div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
 
-            <h1 className="font-heading font-black text-[36px] sm:text-[46px] leading-[1.08] tracking-tight text-slate-900 mb-3.5">
-              {lang === "en"
-                ? <>100% Private PDF Engine,<br /><span className="text-[#D97706]">Powered by Your Browser.</span></>
-                : <>100% निजी PDF इंजन,<br /><span className="text-[#D97706]">आपके ब्राउज़र द्वारा संचालित।</span></>}
-            </h1>
-            <p className="text-[15px] text-slate-600 leading-relaxed mb-6 max-w-[500px]">
-              {lang === "en"
-                ? "Never upload confidential documents to third-party servers again. WeLovePDF executes 63+ tools locally inside your browser memory sandbox with zero latency, zero tracking, and absolute privacy."
-                : "अपने गोपनीय दस्तावेजों को कभी भी तीसरे पक्ष के सर्वरों पर अपलोड न करें। WeLovePDF आपके ब्राउज़र मेमोरी सैंडबॉक्स में 63+ टूल्स को शून्य विलंबता, शून्य ट्रैकिंग और पूर्ण गोपनीयता के साथ स्थानीय रूप से निष्पादित करता है।"}
-            </p>
-            <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-              <a
-                href="#workspace"
-                className="px-5 py-2.5 bg-[#D97706] hover:bg-[#B45309] text-white font-heading font-black rounded-btn text-[14px] transition-all shadow-sm hover:shadow-md"
-              >
-                {lang === "en" ? "Open Private Workspace" : "निजी वर्क्सपेस खोलें"}
-              </a>
-              <a
-                href="#comparison"
-                className="text-[14px] font-heading font-bold text-slate-600 hover:text-[#D97706] transition-colors flex items-center gap-1.5"
-              >
-                {lang === "en" ? "Why Local is Safer" : "लोकल प्रोसेसिंग क्यों सुरक्षित है"}
-                <ChevronRight className="w-4 h-4" />
-              </a>
-            </div>
-          </div>
-
-          {/* Right: Floating 3D Tool Cards */}
-          <div className="hidden lg:flex relative h-[340px] items-center justify-center" aria-hidden="true">
-            {/* Background glow */}
-            <div className="absolute inset-0 rounded-[24px] bg-gradient-to-br from-[#FFF5EB] to-[#FFF8F2]" />
-
-            {/* Row 1 — top row, 2 cards */}
-            <div className="absolute top-[20px] left-[10px] float-1">
-              <a href="/merge-pdf" className="flex items-center gap-2.5 px-4 py-2.5 bg-white border border-[#E5E7EB] rounded-[12px] shadow-md hover:border-[#D97706] hover:shadow-lg transition-all" style={{boxShadow:'0 6px 24px rgba(0,0,0,0.08)'}}>
-                <div className="w-8 h-8 rounded-[8px] bg-[#FFF5EB] flex items-center justify-center text-[#D97706]">
-                  <GitMerge className="w-4 h-4" />
-                </div>
-                <span className="font-heading font-bold text-[13px] text-slate-800">Merge PDF</span>
-              </a>
-            </div>
-
-            <div className="absolute top-[20px] right-[10px] float-2">
-              <a href="/compress-pdf" className="flex items-center gap-2.5 px-4 py-2.5 bg-white border border-[#E5E7EB] rounded-[12px] shadow-md hover:border-[#D97706] hover:shadow-lg transition-all" style={{boxShadow:'0 6px 24px rgba(0,0,0,0.08)'}}>
-                <div className="w-8 h-8 rounded-[8px] bg-[#FFF5EB] flex items-center justify-center text-[#D97706]">
-                  <Minimize2 className="w-4 h-4" />
-                </div>
-                <span className="font-heading font-bold text-[13px] text-slate-800">Compress PDF</span>
-              </a>
-            </div>
-
-            {/* Row 2 — middle, 3 cards */}
-            <div className="absolute top-[115px] left-[-10px] float-3">
-              <a href="/pdf-to-jpg" className="flex items-center gap-2.5 px-4 py-2.5 bg-white border border-[#E5E7EB] rounded-[12px] shadow-md hover:border-[#D97706] hover:shadow-lg transition-all" style={{boxShadow:'0 6px 24px rgba(0,0,0,0.08)'}}>
-                <div className="w-8 h-8 rounded-[8px] bg-[#FFF5EB] flex items-center justify-center text-[#D97706]">
-                  <ImageDown className="w-4 h-4" />
-                </div>
-                <span className="font-heading font-bold text-[13px] text-slate-800">PDF to JPG</span>
-              </a>
-            </div>
-
-            <div className="absolute top-[108px] left-1/2 -translate-x-1/2 float-1">
-              <a href="/split-pdf" className="flex items-center gap-2.5 px-4 py-2.5 bg-[#D97706] rounded-[12px] shadow-lg hover:bg-[#B45309] transition-all" style={{boxShadow:'0 8px 28px rgba(217,119,6,0.3)'}}>
-                <div className="w-8 h-8 rounded-[8px] bg-white/20 flex items-center justify-center text-white">
-                  <Scissors className="w-4 h-4" />
-                </div>
-                <span className="font-heading font-bold text-[13px] text-white">Split PDF</span>
-              </a>
-            </div>
-
-            <div className="absolute top-[115px] right-[-10px] float-4">
-              <a href="/jpg-to-pdf" className="flex items-center gap-2.5 px-4 py-2.5 bg-white border border-[#E5E7EB] rounded-[12px] shadow-md hover:border-[#D97706] hover:shadow-lg transition-all" style={{boxShadow:'0 6px 24px rgba(0,0,0,0.08)'}}>
-                <div className="w-8 h-8 rounded-[8px] bg-[#FFF5EB] flex items-center justify-center text-[#D97706]">
-                  <Upload className="w-4 h-4" />
-                </div>
-                <span className="font-heading font-bold text-[13px] text-slate-800">JPG to PDF</span>
-              </a>
-            </div>
-
-            {/* Row 3 — bottom, 2 cards */}
-            <div className="absolute bottom-[20px] left-[10px] float-5">
-              <a href="/ocr-pdf" className="flex items-center gap-2.5 px-4 py-2.5 bg-white border border-[#E5E7EB] rounded-[12px] shadow-md hover:border-[#D97706] hover:shadow-lg transition-all" style={{boxShadow:'0 6px 24px rgba(0,0,0,0.08)'}}>
-                <div className="w-8 h-8 rounded-[8px] bg-[#FFF5EB] flex items-center justify-center text-[#D97706]">
-                  <ScanText className="w-4 h-4" />
-                </div>
-                <span className="font-heading font-bold text-[13px] text-slate-800">OCR PDF</span>
-              </a>
-            </div>
-
-            <div className="absolute bottom-[20px] right-[10px] float-6">
-              <a href="/protect-pdf" className="flex items-center gap-2.5 px-4 py-2.5 bg-white border border-[#E5E7EB] rounded-[12px] shadow-md hover:border-[#D97706] hover:shadow-lg transition-all" style={{boxShadow:'0 6px 24px rgba(0,0,0,0.08)'}}>
-                <div className="w-8 h-8 rounded-[8px] bg-[#FFF5EB] flex items-center justify-center text-[#D97706]">
-                  <Lock className="w-4 h-4" />
-                </div>
-                <span className="font-heading font-bold text-[13px] text-slate-800">Protect PDF</span>
-              </a>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* ─── MOBILE HERO TOOL CARDS (hidden on lg+) ─────────── */}
-      <section className="lg:hidden px-4 sm:px-6 pb-6">
-        <div className="grid grid-cols-2 gap-3">
-          {[
-            { href: "/merge-pdf", icon: <GitMerge className="w-4 h-4" />, label: "Merge PDF" },
-            { href: "/compress-pdf", icon: <Minimize2 className="w-4 h-4" />, label: "Compress PDF" },
-            { href: "/pdf-to-jpg", icon: <ImageDown className="w-4 h-4" />, label: "PDF to JPG" },
-            { href: "/split-pdf", icon: <Scissors className="w-4 h-4" />, label: "Split PDF" },
-          ].map((item, i) => (
-            <a
-              key={i}
-              href={item.href}
-              className="flex items-center gap-2.5 px-3.5 py-2.5 bg-white border border-[#E5E7EB] rounded-[10px] hover:border-[#D97706] hover:shadow-sm transition-all"
-            >
-              <div className="w-7 h-7 rounded-[6px] bg-[#FFF5EB] flex items-center justify-center text-[#D97706] shrink-0">
-                {item.icon}
+            {/* Left Column: Value Prop & Launcher (7 cols) */}
+            <div className="lg:col-span-7 flex flex-col items-start">
+              
+              {/* Security Pill Badge */}
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/80 text-emerald-800 text-[12px] font-heading font-semibold shadow-xs mb-5">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span>{lang === "en" ? "100% In-Memory Sandbox · Zero Server Uploads · WebAssembly" : "100% इन-मेमोरी सैंडबॉक्स · कोई सर्वर अपलोड नहीं · वेबअसेंबली"}</span>
               </div>
-              <span className="font-heading font-semibold text-[13px] text-slate-800">{item.label}</span>
-            </a>
-          ))}
-        </div>
-      </section>
 
-      {/* ─── TRUST STATS ──────────────────────────────────── */}
-      <section className="border-y border-[#E5E7EB] bg-[#FFF5EB]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 grid grid-cols-2 md:grid-cols-4 gap-0 divide-x divide-[#E5E7EB]">
-          {/* Stat 1 */}
-          <div ref={toolsCounter.ref} className="flex flex-col items-center py-3 px-4">
-            <span className="font-heading font-black text-[32px] md:text-[36px] leading-none text-[#D97706]">
-              {toolsCounter.value}+
-            </span>
-            <span className="text-[11px] font-heading font-bold text-slate-400 uppercase tracking-wider mt-1.5">
-              {lang === "en" ? "PDF Tools" : "PDF टूल्स"}
-            </span>
-          </div>
-          {/* Stat 2 */}
-          <div ref={privacyCounter.ref} className="flex flex-col items-center py-3 px-4">
-            <span className="font-heading font-black text-[32px] md:text-[36px] leading-none text-emerald-600">
-              {privacyCounter.value}%
-            </span>
-            <span className="text-[11px] font-heading font-bold text-slate-400 uppercase tracking-wider mt-1.5">
-              {lang === "en" ? "In-Memory Safe" : "मेमोरी में सुरक्षित"}
-            </span>
-          </div>
-          {/* Stat 3 — static, never animated */}
-          <div className="flex flex-col items-center py-3 px-4">
-            <span className="font-heading font-black text-[32px] md:text-[36px] leading-none text-slate-800">
-              0
-            </span>
-            <span className="text-[11px] font-heading font-bold text-slate-400 uppercase tracking-wider mt-1.5">
-              {lang === "en" ? "Server Uploads" : "सर्वर अपलोड"}
-            </span>
-          </div>
-          {/* Stat 4 — static */}
-          <div className="flex flex-col items-center py-3 px-4">
-            <span className="font-heading font-black text-[32px] md:text-[36px] leading-none text-slate-800">
-              ∞
-            </span>
-            <span className="text-[11px] font-heading font-bold text-slate-400 uppercase tracking-wider mt-1.5">
-              {lang === "en" ? "Free Forever" : "हमेशा के लिए मुफ्त"}
-            </span>
-          </div>
-        </div>
-      </section>
+              {/* Main Headline */}
+              <h1 className="font-heading font-black text-[38px] sm:text-[50px] lg:text-[56px] leading-[1.06] tracking-tight text-slate-900 mb-4">
+                {lang === "en" ? (
+                  <>
+                    The Private PDF Engine,<br />
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700">
+                      Powered by Your Browser.
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    निजी और सुरक्षित PDF इंजन,<br />
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700">
+                      आपके ब्राउज़र में पूरी तरह स्थानीय।
+                    </span>
+                  </>
+                )}
+              </h1>
 
-      {/* ─── SOCIAL PROOF TRUST STRIP ─────────────────────── */}
-      <section className="border-b border-[#E5E7EB]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-center gap-5 sm:gap-10">
-          {[
-            { icon: "⚡", text: lang === "en" ? "WebAssembly Powered" : "WebAssembly संचालित" },
-            { icon: "🔒", text: lang === "en" ? "Zero Server Upload" : "कोई सर्वर अपलोड नहीं" },
-            { icon: "🇮🇳", text: lang === "en" ? "Made in India" : "भारत में निर्मित" },
-            { icon: "♾️", text: lang === "en" ? "Always Free" : "हमेशा मुफ्त" },
-            { icon: "🛡️", text: lang === "en" ? "No Signup Required" : "साइनअप की जरूरत नहीं" },
-          ].map((item, i) => (
-            <div key={i} className="flex items-center gap-1.5 text-[12px] font-heading font-semibold text-slate-500">
-              <span className="text-[14px] leading-none">{item.icon}</span>
-              <span>{item.text}</span>
+              {/* Sub-headline */}
+              <p className="text-[16px] sm:text-[17px] text-slate-600 leading-relaxed max-w-[620px] mb-6">
+                {lang === "en"
+                  ? "Stop uploading bank statements, contracts, and tax filings to remote cloud servers. WeLovePDF executes 63+ professional tools inside your browser memory sandbox with zero latency, zero tracking, and absolute privacy."
+                  : "अपने बैंक स्टेटमेंट, अनुबंध और टैक्स दस्तावेज रिमोट क्लाउड सर्वर पर अपलोड करना बंद करें। WeLovePDF आपके ब्राउज़र मेमोरी में 63+ टूल्स को शून्य विलंबता और पूर्ण गोपनीयता के साथ निष्पादित करता है।"}
+              </p>
+
+              {/* Instant Search Bar with Keyboard Shortcut */}
+              <div className="w-full max-w-[560px] mb-5">
+                <div className="relative flex items-center group">
+                  <Search className="absolute left-3.5 w-4 h-4 text-slate-400 group-focus-within:text-amber-600 transition-colors pointer-events-none" />
+                  <input
+                    ref={searchInputRef}
+                    type="search"
+                    placeholder={lang === "en" ? "Search 63+ tools (e.g. compress, merge, word, ocr)..." : "63+ टूल्स खोजें (उदा. कंप्रेस, मर्ज, वर्ड, ओसीआर)..."}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full pl-10 pr-16 py-3.5 rounded-xl bg-white border border-slate-300/80 shadow-[0_4px_16px_rgba(0,0,0,0.04)] text-[14px] text-slate-900 placeholder:text-slate-400 outline-none focus:border-amber-500 focus:ring-3 focus:ring-amber-500/15 transition-all"
+                  />
+                  <span className="absolute right-3.5 px-2 py-0.5 rounded-md bg-slate-100 border border-slate-200 text-[11px] font-mono text-slate-500 font-semibold pointer-events-none">
+                    /
+                  </span>
+                </div>
+              </div>
+
+              {/* Popular Quick-Launch Pills */}
+              <div className="flex flex-wrap items-center gap-2 mb-6">
+                <span className="text-[12px] font-heading font-bold text-slate-400 uppercase tracking-wider mr-1">
+                  {lang === "en" ? "Quick Launch:" : "शीघ्र खोलें:"}
+                </span>
+                {[
+                  { label: "Merge PDF", href: "/merge-pdf", icon: GitMerge },
+                  { label: "Compress (WASM)", href: "/compress-pdf", icon: Minimize2 },
+                  { label: "PDF to Word", href: "/pdf-to-word", icon: FileType },
+                  { label: "Split PDF", href: "/split-pdf", icon: Scissors },
+                  { label: "OCR PDF", href: "/ocr-pdf", icon: ScanText },
+                  { label: "Sign PDF", href: "/sign-pdf", icon: PenLine },
+                ].map((chip, idx) => {
+                  const ChipIcon = chip.icon;
+                  return (
+                    <a
+                      key={idx}
+                      href={chip.href}
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/80 hover:bg-amber-50 border border-slate-200/90 hover:border-amber-400/80 text-[12px] font-heading font-semibold text-slate-700 hover:text-amber-800 transition-all shadow-2xs hover:shadow-xs"
+                    >
+                      <ChipIcon className="w-3.5 h-3.5 text-amber-600" />
+                      <span>{chip.label}</span>
+                    </a>
+                  );
+                })}
+              </div>
+
+              {/* Primary Action Buttons */}
+              <div className="flex flex-wrap items-center gap-3.5">
+                <a
+                  href="#workspace"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-heading font-bold text-[14px] shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"
+                >
+                  <span>{lang === "en" ? "Browse All 63+ Tools" : "सभी 63+ टूल्स देखें"}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+                <a
+                  href="#comparison"
+                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-700 hover:text-amber-700 font-heading font-semibold text-[14px] transition-all shadow-2xs"
+                >
+                  <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                  <span>{lang === "en" ? "Why In-Browser is Safer" : "ब्राउज़र में काम करना सुरक्षित क्यों है"}</span>
+                </a>
+              </div>
+
             </div>
-          ))}
+
+            {/* Right Column: Interactive Dropzone & Live RAM Sandbox Visual (5 cols) */}
+            <div className="lg:col-span-5 flex flex-col gap-4">
+              
+              {/* Dropzone Card */}
+              <div
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+                className={`relative rounded-2xl p-6 transition-all duration-200 border-2 border-dashed ${
+                  isDragging
+                    ? "border-amber-500 bg-amber-50/70 scale-[1.02] shadow-lg"
+                    : "border-slate-300 bg-white shadow-[0_8px_28px_rgba(0,0,0,0.05)] hover:border-amber-400"
+                }`}
+              >
+                <input
+                  type="file"
+                  id="hero-file-drop"
+                  accept=".pdf"
+                  onChange={handleFileInput}
+                  className="sr-only"
+                />
+
+                {!droppedFile ? (
+                  <div className="flex flex-col items-center text-center py-4">
+                    <div className="w-14 h-14 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-center justify-center text-amber-600 mb-3 shadow-xs">
+                      <FileUp className="w-7 h-7" />
+                    </div>
+                    <h3 className="font-heading font-black text-[16px] text-slate-900 mb-1">
+                      {lang === "en" ? "Drop any PDF here for instant tools" : "त्वरित टूल्स के लिए यहाँ कोई भी PDF छोड़ें"}
+                    </h3>
+                    <p className="text-[13px] text-slate-500 max-w-[320px] mb-4">
+                      {lang === "en"
+                        ? "File is opened inside local browser RAM. Zero server upload, completely private."
+                        : "फाइल केवल स्थानीय ब्राउज़र रैम में खुलती है। कोई सर्वर अपलोड नहीं।"}
+                    </p>
+                    <label
+                      htmlFor="hero-file-drop"
+                      className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-[13px] font-heading font-bold transition-all shadow-xs"
+                    >
+                      <Upload className="w-3.5 h-3.5" />
+                      <span>{lang === "en" ? "Choose PDF File" : "PDF फाइल चुनें"}</span>
+                    </label>
+                  </div>
+                ) : (
+                  <div className="flex flex-col py-2">
+                    <div className="flex items-start justify-between gap-3 mb-4 pb-3 border-b border-slate-100">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center shrink-0">
+                          <Check className="w-5 h-5" />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="font-heading font-bold text-[14px] text-slate-900 truncate max-w-[200px] sm:max-w-[260px]">
+                            {droppedFile.name}
+                          </p>
+                          <p className="text-[12px] text-slate-400">
+                            {droppedFile.size} · {lang === "en" ? "Loaded in Local RAM" : "स्थानीय रैम में लोड"}
+                          </p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => setDroppedFile(null)}
+                        className="text-slate-400 hover:text-rose-600 p-1 transition-colors"
+                        title="Remove file"
+                        type="button"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+
+                    <p className="text-[12px] font-heading font-bold text-slate-500 mb-2 uppercase tracking-wider">
+                      {lang === "en" ? "Select Action to Launch:" : "कार्यवाही चुनें:"}
+                    </p>
+                    <div className="grid grid-cols-2 gap-2">
+                      <a
+                        href="/compress-pdf"
+                        className="flex items-center gap-2 p-2.5 rounded-lg bg-amber-50 hover:bg-amber-100/80 border border-amber-200/80 text-[12px] font-heading font-bold text-amber-900 transition-colors"
+                      >
+                        <Minimize2 className="w-3.5 h-3.5 text-amber-700" />
+                        <span>Compress (WASM)</span>
+                      </a>
+                      <a
+                        href="/split-pdf"
+                        className="flex items-center gap-2 p-2.5 rounded-lg bg-amber-50 hover:bg-amber-100/80 border border-amber-200/80 text-[12px] font-heading font-bold text-amber-900 transition-colors"
+                      >
+                        <Scissors className="w-3.5 h-3.5 text-amber-700" />
+                        <span>Split Pages</span>
+                      </a>
+                      <a
+                        href="/pdf-to-word"
+                        className="flex items-center gap-2 p-2.5 rounded-lg bg-amber-50 hover:bg-amber-100/80 border border-amber-200/80 text-[12px] font-heading font-bold text-amber-900 transition-colors"
+                      >
+                        <FileType className="w-3.5 h-3.5 text-amber-700" />
+                        <span>PDF to Word</span>
+                      </a>
+                      <a
+                        href="/ocr-pdf"
+                        className="flex items-center gap-2 p-2.5 rounded-lg bg-amber-50 hover:bg-amber-100/80 border border-amber-200/80 text-[12px] font-heading font-bold text-amber-900 transition-colors"
+                      >
+                        <ScanText className="w-3.5 h-3.5 text-amber-700" />
+                        <span>OCR Text</span>
+                      </a>
+                    </div>
+                  </div>
+                )}
+
+                {/* Sandbox Live Proof Footer */}
+                <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500 font-heading font-medium">
+                  <span className="flex items-center gap-1 text-emerald-700 font-semibold">
+                    <Cpu className="w-3 h-3 text-emerald-600" />
+                    <span>WASM Sandbox: Ready</span>
+                  </span>
+                  <span>Network Egress: 0.00 KB</span>
+                </div>
+              </div>
+
+              {/* Mini Technical Proof Card */}
+              <div className="rounded-xl p-3.5 bg-white/70 border border-slate-200/70 shadow-2xs flex items-center justify-between text-[12px]">
+                <div className="flex items-center gap-2 text-slate-700">
+                  <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>
+                    {lang === "en"
+                      ? "Zero telemetry, zero file retention, unlimited pages."
+                      : "कोई ट्रैकिंग नहीं, कोई फाइल स्टोरेज नहीं, असीमित पेज।"}
+                  </span>
+                </div>
+                <a
+                  href="/security"
+                  className="font-heading font-bold text-amber-700 hover:text-amber-800 text-[12px] shrink-0"
+                >
+                  {lang === "en" ? "Read Spec →" : "विवरण पढ़ें →"}
+                </a>
+              </div>
+
+            </div>
+
+          </div>
         </div>
       </section>
 
-      {/* ─── WORKSPACE: FILE MANAGER ──────────────────────── */}
-      <section id="workspace" className="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14 scroll-mt-20">
+      {/* ─── LIVE METRICS & TRUST STATS STRIP ─────────────────── */}
+      <section className="border-b border-slate-200/90 bg-white py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 divide-y lg:divide-y-0 lg:divide-x divide-slate-200">
+            
+            {/* Stat 1: Tools */}
+            <div ref={toolsCounter.ref} className="flex flex-col items-center text-center px-4 pt-2 lg:pt-0">
+              <span className="font-heading font-black text-[32px] sm:text-[38px] leading-none text-amber-600">
+                {toolsCounter.value}+
+              </span>
+              <span className="text-[12px] font-heading font-bold text-slate-500 uppercase tracking-wider mt-1.5">
+                {lang === "en" ? "Browser-First Tools" : "ब्राउज़र-फर्स्ट टूल्स"}
+              </span>
+              <span className="text-[11px] text-slate-400 mt-0.5">
+                {lang === "en" ? "Organize, Edit, OCR, Security" : "मर्ज, स्प्लिट, कंप्रेस, ओसीआर"}
+              </span>
+            </div>
 
-        {/* Section Header + Search */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            {/* Stat 2: In-Memory Safety */}
+            <div ref={privacyCounter.ref} className="flex flex-col items-center text-center px-4 pt-2 lg:pt-0">
+              <span className="font-heading font-black text-[32px] sm:text-[38px] leading-none text-emerald-600">
+                {privacyCounter.value}%
+              </span>
+              <span className="text-[12px] font-heading font-bold text-slate-500 uppercase tracking-wider mt-1.5">
+                {lang === "en" ? "Local RAM Processing" : "स्थानीय रैम प्रोसेसिंग"}
+              </span>
+              <span className="text-[11px] text-slate-400 mt-0.5">
+                {lang === "en" ? "WebAssembly sandbox isolation" : "वेबअसेंबली सैंडबॉक्स सुरक्षा"}
+              </span>
+            </div>
+
+            {/* Stat 3: Zero Server Uploads */}
+            <div className="flex flex-col items-center text-center px-4 pt-2 lg:pt-0">
+              <span className="font-heading font-black text-[32px] sm:text-[38px] leading-none text-slate-900">
+                0 Bytes
+              </span>
+              <span className="text-[12px] font-heading font-bold text-slate-500 uppercase tracking-wider mt-1.5">
+                {lang === "en" ? "Server Storage" : "सर्वर स्टोरेज"}
+              </span>
+              <span className="text-[11px] text-slate-400 mt-0.5">
+                {lang === "en" ? "Documents never leave device" : "दस्तावेज़ कभी अपलोड नहीं होते"}
+              </span>
+            </div>
+
+            {/* Stat 4: Free Forever */}
+            <div className="flex flex-col items-center text-center px-4 pt-2 lg:pt-0">
+              <span className="font-heading font-black text-[32px] sm:text-[38px] leading-none text-slate-900">
+                100% Free
+              </span>
+              <span className="text-[12px] font-heading font-bold text-slate-500 uppercase tracking-wider mt-1.5">
+                {lang === "en" ? "No Paywalls & No Ads" : "कोई पेवॉल नहीं, कोई विज्ञापन नहीं"}
+              </span>
+              <span className="text-[11px] text-slate-400 mt-0.5">
+                {lang === "en" ? "Open-web utility for everyone" : "सभी के लिए हमेशा निःशुल्क"}
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ─── WORKSPACE: COMPLETE TOOL CATALOG & FILTER ────────── */}
+      <section id="workspace" className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 scroll-mt-16">
+        
+        {/* Workspace Title & Search Control */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
           <div>
-            <h2 className="font-heading font-black text-[24px] text-slate-900 tracking-tight">
+            <div className="inline-flex items-center gap-1.5 text-[11px] font-heading font-black text-amber-700 bg-amber-100/60 border border-amber-200/60 px-2.5 py-0.5 rounded-md mb-2">
+              <Sparkles className="w-3 h-3 text-amber-600" />
+              <span>{lang === "en" ? "Interactive Workspace" : "इंटरएक्टिव वर्क्सपेस"}</span>
+            </div>
+            <h2 className="font-heading font-black text-[28px] sm:text-[34px] text-slate-900 tracking-tight">
               {lang === "en" ? "All PDF Tools" : "सभी PDF टूल्स"}
             </h2>
-            <p className="text-[13px] text-slate-400 mt-1">
-              {filteredTools.length}{lang === "en" ? " tools" : " टूल्स"}
+            <p className="text-[14px] text-slate-500 mt-1">
+              {filteredTools.length} {lang === "en" ? "tools available" : "टूल्स उपलब्ध"}
               {activeCategory !== "All" && ` · ${activeCategory}`}
-            </p>
-          </div>
-          {/* Search */}
-          <MagneticWrapper className="w-full sm:w-auto">
-            <div className="relative w-full sm:w-[220px] focus-within:sm:w-[260px] transition-all duration-300 ease-out group">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 group-focus-within:text-[#D97706] transition-colors pointer-events-none" />
-              <input
-                type="search"
-                placeholder={lang === "en" ? "Search… compress, OCR" : "खोजें…"}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 border border-[#E5E7EB] rounded bg-white text-[13px] outline-none focus:border-[#D97706] focus:shadow-[0_0_12px_rgba(217,119,6,0.12)] transition-all duration-300 ease-out"
-              />
-            </div>
-          </MagneticWrapper>
-        </div>
-
-        {/* Two-column layout: left rail + right grid */}
-        <div className="flex flex-col md:flex-row gap-6 items-start">
-
-          {/* LEFT RAIL: Category list */}
-          <nav className="hidden md:flex flex-col w-[190px] flex-shrink-0 gap-1 sticky top-[70px]">
-            {CATEGORIES.map((cat) => {
-              const isActive = activeCategory === cat.key;
-              const label = lang === "en" ? cat.en : cat.hi;
-              const count = catCount(cat.key);
-              return (
-                <button
-                  key={cat.key}
-                  onClick={() => setActiveCategory(cat.key)}
-                  type="button"
-                  className={`flex items-center justify-between w-full px-3 py-2 rounded text-left text-[13px] font-heading font-semibold transition-colors ${
-                    isActive
-                      ? "bg-[#D97706] text-white"
-                      : "text-slate-600 hover:bg-[#FFF5EB] hover:text-slate-900"
-                  }`}
-                >
-                  <span>{label}</span>
-                  <span className={`text-[11px] font-bold ${isActive ? "text-white/80" : "text-slate-400"}`}>
-                    {count}
-                  </span>
-                </button>
-              );
-            })}
-          </nav>
-
-          {/* Mobile: horizontal category pills */}
-          <div className="md:hidden flex gap-2.5 overflow-x-auto pb-2 mb-4 w-full">
-            {CATEGORIES.map((cat) => {
-              const isActive = activeCategory === cat.key;
-              return (
-                <button
-                  key={cat.key}
-                  onClick={() => setActiveCategory(cat.key)}
-                  type="button"
-                  className={`flex-shrink-0 px-3 py-1.5 rounded-pill text-[12px] font-heading font-bold transition-colors ${
-                    isActive
-                      ? "bg-[#D97706] text-white"
-                      : "bg-white border border-[#E5E7EB] text-slate-600 hover:border-[#D97706]"
-                  }`}
-                >
-                  {lang === "en" ? cat.en : cat.hi}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* RIGHT: Tool grid */}
-          <div className="flex-1 min-w-0">
-            {filteredTools.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-16 text-slate-400 gap-3">
-                <Search className="w-8 h-8" />
-                <p className="text-[14px] font-heading font-semibold">
-                  {lang === "en" ? "No tools found for that search." : "कोई टूल नहीं मिला।"}
-                </p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-                {filteredTools.map((tool) => (
-                  <a
-                    key={tool.slug}
-                    href={`/${tool.slug}`}
-                    className="group flex items-start gap-3.5 p-4 sm:p-4.5 border border-[#E5E7EB] rounded-card bg-white hover:border-[#D97706] hover:shadow-md hover:-translate-y-0.5 transition-all duration-150"
-                  >
-                    {/* Icon */}
-                    <div className="flex-shrink-0 w-9 h-9 rounded-[8px] bg-[#FFF5EB] flex items-center justify-center text-[#D97706] group-hover:bg-[#D97706] group-hover:text-white transition-colors">
-                      <ToolIcon name={tool.lucideIcon} className="w-4 h-4" />
-                    </div>
-                    {/* Text */}
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-1.5 flex-wrap">
-                        <h3 className="font-heading font-bold text-[14px] text-slate-900 group-hover:text-[#D97706] transition-colors leading-snug">
-                          {tool.name}
-                        </h3>
-                        {tool.isAI ? (
-                          <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-heading font-black uppercase tracking-wider bg-[#D97706]/10 text-[#D97706] border border-[#D97706]/20">
-                            <Sparkles className="w-2.5 h-2.5" />AI
-                          </span>
-                        ) : (
-                          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-heading font-bold uppercase tracking-wider bg-slate-100 text-slate-500 border border-slate-200/60">
-                            WASM
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-[12px] text-slate-400 leading-relaxed mt-1 line-clamp-2">
-                        {tool.desc}
-                      </p>
-                    </div>
-                  </a>
-                ))}
-              </div>
-            )}
-          </div>
-
-        </div>
-      </section>
-
-      {/* ─── WHY WELOVEPDF VS CLOUD TOOLS COMPARISON ──────── */}
-      <section id="comparison" className="border-t border-[#E5E7EB] bg-[#FFF5EB]/60 py-14 sm:py-18 scroll-mt-14">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <div className="text-center max-w-2xl mx-auto mb-10">
-            <span className="inline-block text-[11px] font-heading font-black uppercase tracking-[0.14em] text-[#D97706] bg-[#D97706]/10 px-3 py-1 rounded-full mb-3">
-              {lang === "en" ? "Architecture Advantage" : "तकनीकी बढ़त"}
-            </span>
-            <h2 className="font-heading font-black text-[26px] sm:text-[34px] text-slate-900 tracking-tight leading-tight">
-              {lang === "en"
-                ? "Why WeLovePDF.best Beats Cloud Uploaders"
-                : "WeLovePDF.best क्लाउड टूल्स से बेहतर क्यों है?"}
-            </h2>
-            <p className="text-[14px] text-slate-600 mt-2.5 leading-relaxed">
-              {lang === "en"
-                ? "Most PDF websites upload your sensitive files to remote servers. We execute everything directly on your CPU and RAM."
-                : "अधिकांश पीडीएफ वेबसाइटें आपकी निजी फाइलें रिमोट सर्वर पर अपलोड करती हैं। हम सब कुछ सीधे आपके डिवाइस पर प्रोसेस करते हैं।"}
+              {searchQuery && ` · matching "${searchQuery}"`}
             </p>
           </div>
 
-          {/* Comparison Table Card */}
-          <div className="bg-white border border-[#E5E7EB] rounded-[16px] overflow-hidden shadow-sm">
-            <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[#E5E7EB]">
-              
-              {/* Feature column */}
-              <div className="p-6 bg-slate-50/50">
-                <h3 className="font-heading font-bold text-[13px] text-slate-400 uppercase tracking-wider mb-4">
-                  {lang === "en" ? "Core Benchmark" : "मानक तुलना"}
-                </h3>
-                <ul className="space-y-6 text-[14px] font-heading font-semibold text-slate-700">
-                  <li className="flex items-center gap-2">🛡️ {lang === "en" ? "File Privacy & Storage" : "फाइल गोपनीयता व स्टोरेज"}</li>
-                  <li className="flex items-center gap-2">⚡ {lang === "en" ? "Processing Speed" : "प्रोसेसिंग स्पीड"}</li>
-                  <li className="flex items-center gap-2">♾️ {lang === "en" ? "Daily Usage Caps" : "दैनिक सीमा"}</li>
-                  <li className="flex items-center gap-2">📶 {lang === "en" ? "Offline Functionality" : "ऑफलाइन कार्यक्षमता"}</li>
-                  <li className="flex items-center gap-2">💳 {lang === "en" ? "Paywalls & Signups" : "पेवॉल व साइनअप"}</li>
-                </ul>
-              </div>
-
-              {/* Competitor / Clones column */}
-              <div className="p-6 bg-slate-50/30">
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="w-2.5 h-2.5 rounded-full bg-rose-400" />
-                  <h3 className="font-heading font-bold text-[13px] text-slate-500 uppercase tracking-wider">
-                    {lang === "en" ? "iLovePDF & Cloud Clones" : "क्लाउड टूल्स व क्लोन साइट्स"}
-                  </h3>
-                </div>
-                <ul className="space-y-6 text-[13px] text-slate-500">
-                  <li className="flex items-center gap-2 text-rose-600/90 font-medium">⚠️ Uploaded to 3rd-party servers</li>
-                  <li className="flex items-center gap-2">⏳ Slow (Upload & queue wait time)</li>
-                  <li className="flex items-center gap-2">🔒 2–3 files/hr limit or paywall</li>
-                  <li className="flex items-center gap-2">❌ Fails immediately offline</li>
-                  <li className="flex items-center gap-2">🛑 Frequent signup popups</li>
-                </ul>
-              </div>
-
-              {/* WeLovePDF.best column */}
-              <div className="p-6 bg-[#FFF8F2]/70 border-t-2 md:border-t-0 md:border-l-2 border-[#D97706]/40">
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-                  <h3 className="font-heading font-black text-[13px] text-[#D97706] uppercase tracking-wider">
-                    WeLovePDF.best (Local Sandbox)
-                  </h3>
-                </div>
-                <ul className="space-y-6 text-[13px] text-slate-800 font-semibold">
-                  <li className="flex items-center gap-2 text-emerald-700">✅ 100% In-Memory RAM (0 Upload)</li>
-                  <li className="flex items-center gap-2 text-emerald-700">⚡ Instant WebAssembly (0ms lag)</li>
-                  <li className="flex items-center gap-2 text-emerald-700">♾️ Unlimited Free Operations</li>
-                  <li className="flex items-center gap-2 text-emerald-700">✅ Runs 100% Offline in Browser</li>
-                  <li className="flex items-center gap-2 text-emerald-700">🎉 Zero Signups, Zero Paywalls</li>
-                </ul>
-              </div>
-
-            </div>
-          </div>
+          {/* Quick Clear Filter */}
+          {(searchQuery || activeCategory !== "All") && (
+            <button
+              onClick={() => {
+                setSearchQuery("");
+                setActiveCategory("All");
+              }}
+              type="button"
+              className="self-start md:self-auto text-[13px] font-heading font-semibold text-amber-700 hover:text-amber-800 underline underline-offset-4"
+            >
+              {lang === "en" ? "Reset filters" : "फ़िल्टर रीसेट करें"}
+            </button>
+          )}
         </div>
-      </section>
 
-      {/* ─── FAQ / AEO SECTION ────────────────────────────── */}
-      <section className="border-t border-[#E5E7EB] bg-white py-12 sm:py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <h2 className="font-heading font-black text-[24px] text-slate-900 tracking-tight mb-6 text-center">
-            {lang === "en" ? "Frequently Asked Questions (FAQ)" : "अक्सर पूछे जाने वाले प्रश्न"}
-          </h2>
-
-          <div className="flex flex-col divide-y divide-[#E5E7EB] border border-[#E5E7EB] rounded-[12px] overflow-hidden">
-            {[
-              {
-                q: lang === "en" ? "Is WeLovePDF safe for sensitive documents?" : "क्या WeLovePDF संवेदनशील दस्तावेज़ों के लिए सुरक्षित है?",
-                a: lang === "en"
-                  ? "Yes, WeLovePDF is 100% safe. Because WeLovePDF runs entirely client-side inside your local browser memory sandbox (using JavaScript and WebAssembly), your confidential documents are never uploaded to any remote servers."
-                  : "हाँ, WeLovePDF 100% सुरक्षित है। आपके दस्तावेज़ कभी भी किसी रिमोट सर्वर पर अपलोड नहीं होते हैं।"
-              },
-              {
-                q: lang === "en" ? "Do I need to pay or create an account?" : "क्या भुगतान या खाता बनाने की जरूरत है?",
-                a: lang === "en"
-                  ? "No, you do not need to pay or register. All core browser-first tools on WeLovePDF are free with no page caps, file limits, or watermarks."
-                  : "नहीं, आपको भुगतान या पंजीकरण करने की आवश्यकता नहीं है। WeLovePDF पर सभी मुख्य उपकरण बिल्कुल मुफ्त हैं।"
-              },
-              {
-                q: lang === "en" ? "Does WeLovePDF work offline?" : "क्या WeLovePDF ऑफ़लाइन काम करता है?",
-                a: lang === "en"
-                  ? "Yes, WeLovePDF works offline. Once the website is loaded in your browser tab, all browser-based tasks (merge, split, rotate, delete pages) can execute fully without an active internet connection."
-                  : "हाँ, WeLovePDF ऑफ़लाइन काम करता है। एक बार लोड होने के बाद आप बिना इंटरनेट के भी काम कर सकते हैं।"
-              },
-            ].map((faq, i) => (
-              <div key={i} className="bg-white">
-                <button
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full flex items-center justify-between px-5 py-4 text-left group"
-                  aria-expanded={openFaq === i}
-                >
-                  <h3 className="font-heading font-bold text-[15px] text-slate-800 group-hover:text-[#D97706] transition-colors pr-4">
-                    {faq.q}
-                  </h3>
-                  <span className={`shrink-0 w-5 h-5 flex items-center justify-center rounded-full border border-[#E5E7EB] text-slate-400 transition-transform duration-200 ${openFaq === i ? "rotate-45 text-[#D97706] border-[#D97706]" : ""}`}>
-                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v8M1 5h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
-                  </span>
-                </button>
-                <div
-                  className={`overflow-hidden transition-all duration-200 ease-out ${
-                    openFaq === i ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
+        {/* Category Navigation Pills (Horizontally scrollable with smooth pill style) */}
+        <div className="flex gap-2 overflow-x-auto pb-4 mb-8 scrollbar-none">
+          {CATEGORIES.map((cat) => {
+            const isActive = activeCategory === cat.key;
+            const label = lang === "en" ? cat.en : cat.hi;
+            const count = catCount(cat.key);
+            return (
+              <button
+                key={cat.key}
+                onClick={() => setActiveCategory(cat.key)}
+                type="button"
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[13px] font-heading font-semibold whitespace-nowrap transition-all duration-150 ${
+                  isActive
+                    ? "bg-slate-900 text-white shadow-sm"
+                    : "bg-white hover:bg-slate-100/80 text-slate-600 hover:text-slate-900 border border-slate-200/80"
+                }`}
+              >
+                <span>{label}</span>
+                <span
+                  className={`px-1.5 py-0.2 rounded-full text-[10px] font-bold ${
+                    isActive ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"
                   }`}
                 >
-                  <p className="px-5 pb-4 text-[13px] text-slate-500 leading-relaxed">{faq.a}</p>
+                  {count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Tool Cards Bento Grid */}
+        {filteredTools.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-20 bg-white border border-slate-200 rounded-2xl text-slate-400 gap-3">
+            <Search className="w-10 h-10 text-slate-300" />
+            <h3 className="text-[16px] font-heading font-bold text-slate-700">
+              {lang === "en" ? "No matching tools found" : "कोई टूल नहीं मिला"}
+            </h3>
+            <p className="text-[13px] text-slate-400">
+              {lang === "en"
+                ? `We couldn't find any tool matching "${searchQuery}". Try a different keyword.`
+                : `"${searchQuery}" से मेल खाता कोई टूल नहीं मिला। कृपया दूसरा शब्द खोजें।`}
+            </p>
+            <button
+              onClick={() => {
+                setSearchQuery("");
+                setActiveCategory("All");
+              }}
+              className="mt-2 px-4 py-2 rounded-lg bg-amber-600 text-white text-[13px] font-heading font-bold"
+              type="button"
+            >
+              {lang === "en" ? "View all tools" : "सभी टूल्स देखें"}
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
+            {filteredTools.map((tool) => (
+              <a
+                key={tool.slug}
+                href={`/${tool.slug}`}
+                className="group relative flex flex-col justify-between p-5 bg-white rounded-2xl border border-slate-200/90 hover:border-amber-400/80 shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_32px_rgba(217,119,6,0.12)] hover:-translate-y-1 transition-all duration-200"
+              >
+                {/* Top content */}
+                <div>
+                  <div className="flex items-start justify-between gap-3 mb-3.5">
+                    {/* Tool Icon Box */}
+                    <div className="w-11 h-11 rounded-xl bg-amber-50 border border-amber-200/60 flex items-center justify-center text-amber-600 group-hover:bg-amber-600 group-hover:text-white transition-colors duration-200 shrink-0">
+                      <ToolIcon name={tool.lucideIcon} className="w-5 h-5" />
+                    </div>
+
+                    {/* Capability Badges */}
+                    <div className="flex items-center gap-1.5">
+                      {tool.isAI ? (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-heading font-black tracking-wide bg-purple-50 text-purple-700 border border-purple-200/60">
+                          <Sparkles className="w-2.5 h-2.5 text-purple-600" />
+                          AI
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-heading font-bold tracking-wide bg-emerald-50 text-emerald-700 border border-emerald-200/60">
+                          <Zap className="w-2.5 h-2.5 text-emerald-600" />
+                          WASM
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Title & Desc */}
+                  <h3 className="font-heading font-bold text-[15px] text-slate-900 group-hover:text-amber-700 transition-colors mb-1.5 leading-snug">
+                    {tool.name}
+                  </h3>
+                  <p className="text-[13px] text-slate-500 leading-relaxed line-clamp-2 mb-4">
+                    {tool.desc}
+                  </p>
                 </div>
-              </div>
+
+                {/* Card Footer: Category & Open Action */}
+                <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-heading font-semibold text-slate-400 group-hover:text-amber-700 transition-colors">
+                  <span className="uppercase tracking-wider">{tool.category}</span>
+                  <span className="flex items-center gap-1 group-hover:translate-x-0.5 transition-transform text-amber-600 font-bold">
+                    <span>{lang === "en" ? "Open" : "खोलें"}</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </span>
+                </div>
+              </a>
             ))}
           </div>
+        )}
+
+      </section>
+
+      {/* ─── ARCHITECTURE COMPARISON: CLIENT-SIDE VS CLOUD UPLOADERS ─── */}
+      <section id="comparison" className="border-t border-slate-200/90 bg-white py-16 sm:py-20 scroll-mt-14">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-heading font-black uppercase tracking-[0.14em] text-amber-700 bg-amber-100/60 border border-amber-200/80 px-3 py-1 rounded-full mb-3">
+              <Shield className="w-3.5 h-3.5 text-amber-600" />
+              <span>{lang === "en" ? "Architecture Breakdown" : "तकनीकी तुलना"}</span>
+            </span>
+            <h2 className="font-heading font-black text-[28px] sm:text-[38px] text-slate-900 tracking-tight leading-tight">
+              {lang === "en"
+                ? "Why WeLovePDF Beats Cloud Converters"
+                : "WeLovePDF क्लाउड कन्वर्टर्स से बेहतर क्यों है?"}
+            </h2>
+            <p className="text-[15px] text-slate-600 mt-3 leading-relaxed">
+              {lang === "en"
+                ? "Most PDF websites upload your files to remote cloud storage. See how our browser-first WebAssembly engine completely changes document privacy."
+                : "अधिकांश पीडीएफ वेबसाइटें आपकी निजी फाइलों को रिमोट सर्वर पर अपलोड करती हैं। जानें कि हमारा ब्राउज़र-फर्स्ट वेबअसेंबली इंजन कैसे काम करता है।"}
+            </p>
+          </div>
+
+          {/* Side-by-Side Comparison Bento */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+            
+            {/* Old Cloud Way (iLovePDF, Smallpdf, Adobe Web) */}
+            <div className="rounded-2xl p-6 sm:p-8 bg-slate-50 border border-slate-200/80 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center font-bold">
+                    <X className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-heading font-black text-[18px] text-slate-900">
+                      {lang === "en" ? "Traditional Cloud Tools" : "पारंपरिक क्लाउड टूल्स"}
+                    </h3>
+                    <p className="text-[12px] text-slate-500">
+                      iLovePDF, Smallpdf, Sejda, Adobe Web
+                    </p>
+                  </div>
+                </div>
+
+                <ul className="space-y-4 text-[14px]">
+                  <li className="flex items-start gap-3 text-slate-700">
+                    <span className="w-5 h-5 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center shrink-0 text-[11px] font-bold mt-0.5">✕</span>
+                    <div>
+                      <strong className="text-slate-900 font-semibold">{lang === "en" ? "Files leave your device:" : "फाइलें आपके डिवाइस से बाहर जाती हैं:"}</strong>{" "}
+                      {lang === "en" ? "Uploaded across public network to unknown third-party cloud data centers." : "अज्ञात तीसरे पक्ष के सर्वरों पर इंटरनेट के माध्यम से भेजी जाती हैं।"}
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-3 text-slate-700">
+                    <span className="w-5 h-5 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center shrink-0 text-[11px] font-bold mt-0.5">✕</span>
+                    <div>
+                      <strong className="text-slate-900 font-semibold">{lang === "en" ? "Stored on server disks:" : "सर्वर डिस्क पर स्टोर होती हैं:"}</strong>{" "}
+                      {lang === "en" ? "Saved to server disks for hours or days, creating real data breach and leak liability." : "सर्वर पर घंटों या दिनों तक सुरक्षित रखी जाती हैं, जिससे लीक का खतरा रहता है।"}
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-3 text-slate-700">
+                    <span className="w-5 h-5 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center shrink-0 text-[11px] font-bold mt-0.5">✕</span>
+                    <div>
+                      <strong className="text-slate-900 font-semibold">{lang === "en" ? "Strict daily limits & paywalls:" : "दैनिक सीमा और पेवॉल:"}</strong>{" "}
+                      {lang === "en" ? "Capped at 2–3 files per day unless you pay high recurring monthly subscription fees." : "प्रति दिन केवल 2-3 फाइलों की अनुमति जब तक आप पेड सब्सक्रिप्शन न लें।"}
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-3 text-slate-700">
+                    <span className="w-5 h-5 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center shrink-0 text-[11px] font-bold mt-0.5">✕</span>
+                    <div>
+                      <strong className="text-slate-900 font-semibold">{lang === "en" ? "Offline unusable:" : "ऑफ़लाइन काम नहीं करता:"}</strong>{" "}
+                      {lang === "en" ? "Fails instantly if internet connection is unstable, slow, or disconnected." : "इंटरनेट न होने या धीमा होने पर तुरंत काम करना बंद कर देता है।"}
+                    </div>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="mt-8 pt-4 border-t border-slate-200/80 text-[12px] text-slate-400">
+                {lang === "en" ? "Architecture: Multi-tenant remote cloud worker queues" : "आर्किटेक्चर: रिमोट क्लाउड वर्कर कतारें"}
+              </div>
+            </div>
+
+            {/* WeLovePDF Modern WASM Way */}
+            <div className="rounded-2xl p-6 sm:p-8 bg-gradient-to-b from-amber-50/50 via-white to-amber-50/30 border-2 border-amber-400/80 shadow-[0_10px_36px_rgba(217,119,6,0.12)] flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center font-bold shadow-xs">
+                    <Check className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-heading font-black text-[18px] text-slate-900">
+                      WeLovePDF.best
+                    </h3>
+                    <p className="text-[12px] text-emerald-700 font-semibold">
+                      {lang === "en" ? "100% Client-Side WebAssembly Architecture" : "100% क्लाइंट-साइड वेबअसेंबली आर्किटेक्चर"}
+                    </p>
+                  </div>
+                </div>
+
+                <ul className="space-y-4 text-[14px]">
+                  <li className="flex items-start gap-3 text-slate-800">
+                    <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0 text-[11px] font-bold mt-0.5">✓</span>
+                    <div>
+                      <strong className="text-slate-950 font-bold">{lang === "en" ? "0 Bytes leave your machine:" : "0 बाइट आपके डिवाइस से बाहर जाती है:"}</strong>{" "}
+                      {lang === "en" ? "Document bytes are read straight into your browser's private RAM memory." : "डॉक्यूमेंट सीधे आपके ब्राउज़र की निजी रैम में लोड होते हैं।"}
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-3 text-slate-800">
+                    <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0 text-[11px] font-bold mt-0.5">✓</span>
+                    <div>
+                      <strong className="text-slate-950 font-bold">{lang === "en" ? "Zero server retention:" : "शून्य सर्वर स्टोरेज:"}</strong>{" "}
+                      {lang === "en" ? "We operate zero document storage servers. When you close the tab, memory clears immediately." : "हमारा कोई स्टोरेज सर्वर नहीं है। टैब बंद करते ही रैम तुरंत खाली हो जाती है।"}
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-3 text-slate-800">
+                    <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0 text-[11px] font-bold mt-0.5">✓</span>
+                    <div>
+                      <strong className="text-slate-950 font-bold">{lang === "en" ? "Unlimited & Free Forever:" : "असीमित और हमेशा मुफ्त:"}</strong>{" "}
+                      {lang === "en" ? "No daily quotas, no page paywalls, no watermarks, and no signups required." : "कोई दैनिक सीमा नहीं, कोई पेवॉल नहीं, कोई वॉटरमार्क नहीं और कोई साइनअप नहीं।"}
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-3 text-slate-800">
+                    <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0 text-[11px] font-bold mt-0.5">✓</span>
+                    <div>
+                      <strong className="text-slate-950 font-bold">{lang === "en" ? "Full offline execution:" : "पूर्ण ऑफलाइन कार्यक्षमता:"}</strong>{" "}
+                      {lang === "en" ? "Runs locally in browser on airplanes, subways, or anywhere without WiFi." : "हवाई जहाजों, यात्राओं या बिना इंटरनेट के भी आसानी से काम करता है।"}
+                    </div>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="mt-8 pt-4 border-t border-amber-200/60 flex items-center justify-between text-[12px] text-amber-900 font-heading font-semibold">
+                <span>Architecture: In-Browser WASM Thread</span>
+                <span className="flex items-center gap-1 text-emerald-700">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  Active in this browser
+                </span>
+              </div>
+            </div>
+
+          </div>
+
         </div>
       </section>
 
-      {/* ─── PRIVACY STRIP ────────────────────────────────── */}
-      <section className="border-t border-[#E5E7EB] bg-[#FFF5EB] py-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2.5 text-[13px] text-[#D97706] font-heading font-bold">
-            <ShieldCheck className="w-4 h-4" />
-            {lang === "en"
-              ? "Your files never leave your device — processed entirely in your browser."
-              : "आपकी फाइलें कभी आपके डिवाइस नहीं छोड़तीं — पूरी तरह ब्राउज़र में प्रोसेस होती हैं।"}
+      {/* ─── FOUNDER & TRANSPARENCY SECTION ─────────────────── */}
+      <section className="border-t border-slate-200/90 bg-[#FAF8F5] py-14 sm:py-18">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <div className="bg-white rounded-2xl border border-slate-200/90 p-6 sm:p-8 shadow-xs flex flex-col sm:flex-row items-start sm:items-center gap-6">
+            <div className="w-16 h-16 rounded-2xl bg-amber-600 text-white flex items-center justify-center font-heading font-black text-[24px] shadow-sm shrink-0">
+              NV
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-[12px] font-heading font-bold text-amber-700 uppercase tracking-wider">
+                  {lang === "en" ? "Open Web Commitment" : "ओपन वेब प्रतिबद्धता"}
+                </span>
+                <span className="w-1 h-1 rounded-full bg-slate-300" />
+                <span className="text-[12px] text-slate-500">Bettiah, Bihar, India</span>
+              </div>
+              <h3 className="font-heading font-black text-[20px] text-slate-900 mb-2">
+                {lang === "en"
+                  ? "Engineered with Privacy as a Fundamental Right"
+                  : "गोपनीयता को मौलिक अधिकार मानकर निर्मित"}
+              </h3>
+              <p className="text-[14px] text-slate-600 leading-relaxed mb-4">
+                {lang === "en"
+                  ? "WeLovePDF was developed by Nilesh Verma to dismantle expensive document paywalls and protect users from data surveillance. All core tools run completely free in your browser, backed by public source audits, humans.txt, and llms.txt."
+                  : "WeLovePDF को नीलेश वर्मा द्वारा महंगे पेवॉल को समाप्त करने और उपयोगकर्ताओं के डेटा की सुरक्षा के लिए बनाया गया है। सभी मुख्य टूल्स आपके ब्राउज़र में पूरी तरह मुफ्त चलते हैं।"}
+              </p>
+              <div className="flex flex-wrap items-center gap-4 text-[13px] font-heading font-semibold text-slate-700">
+                <a
+                  href="/about-us"
+                  className="text-amber-700 hover:text-amber-800 flex items-center gap-1 transition-colors"
+                >
+                  <span>{lang === "en" ? "Read founder story" : "फाउंडर की कहानी"}</span>
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </a>
+                <a
+                  href="https://github.com/Vardannilesh2006"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-slate-600 hover:text-slate-900 flex items-center gap-1 transition-colors"
+                >
+                  <span>GitHub Profile</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+                <a
+                  href="/humans.txt"
+                  target="_blank"
+                  className="text-slate-500 hover:text-slate-800 transition-colors"
+                >
+                  humans.txt
+                </a>
+                <a
+                  href="/llms.txt"
+                  target="_blank"
+                  className="text-slate-500 hover:text-slate-800 transition-colors"
+                >
+                  llms.txt
+                </a>
+              </div>
+            </div>
           </div>
-          <a
-            href="/security"
-            className="text-[13px] font-heading font-bold text-slate-500 hover:text-[#D97706] flex items-center gap-1.5 transition-colors"
-          >
-            {lang === "en" ? "Our security model" : "हमारा सुरक्षा मॉडल"}
-            <ChevronRight className="w-4 h-4" />
-          </a>
+        </div>
+      </section>
+
+      {/* ─── COMPREHENSIVE 10-QUESTION FAQ SECTION ───────────── */}
+      <section className="border-t border-slate-200/90 bg-white py-14 sm:py-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-heading font-black uppercase tracking-[0.14em] text-amber-700 bg-amber-100/60 border border-amber-200/80 px-3 py-1 rounded-full mb-3">
+              <HelpCircle className="w-3.5 h-3.5 text-amber-600" />
+              <span>{lang === "en" ? "Frequently Asked Questions" : "अक्सर पूछे जाने वाले प्रश्न"}</span>
+            </span>
+            <h2 className="font-heading font-black text-[26px] sm:text-[34px] text-slate-900 tracking-tight">
+              {lang === "en" ? "Everything You Need to Know" : "आपके सभी प्रश्नों के उत्तर"}
+            </h2>
+          </div>
+
+          <div className="flex flex-col divide-y divide-slate-200 border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-xs">
+            {FAQS.map((faq, i) => {
+              const question = lang === "en" ? faq.qEn : faq.qHi;
+              const answer = lang === "en" ? faq.aEn : faq.aHi;
+              const isOpen = openFaq === i;
+
+              return (
+                <div key={i} className="bg-white">
+                  <button
+                    onClick={() => setOpenFaq(isOpen ? null : i)}
+                    className="w-full flex items-center justify-between px-5 sm:px-6 py-4.5 text-left group transition-colors hover:bg-slate-50/70"
+                    aria-expanded={isOpen}
+                    type="button"
+                  >
+                    <h3 className="font-heading font-bold text-[15px] sm:text-[16px] text-slate-900 group-hover:text-amber-700 transition-colors pr-4 leading-snug">
+                      {question}
+                    </h3>
+                    <span
+                      className={`shrink-0 w-6 h-6 flex items-center justify-center rounded-full border border-slate-300 text-slate-500 transition-transform duration-200 ${
+                        isOpen ? "rotate-45 text-amber-600 border-amber-500 bg-amber-50" : ""
+                      }`}
+                    >
+                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                        <path d="M5 1v8M1 5h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                      </svg>
+                    </span>
+                  </button>
+                  <div
+                    className={`overflow-hidden transition-all duration-200 ease-out ${
+                      isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                    }`}
+                  >
+                    <p className="px-5 sm:px-6 pb-5 text-[14px] text-slate-600 leading-relaxed">
+                      {answer}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Need more help */}
+          <div className="mt-8 text-center text-[13px] text-slate-500">
+            {lang === "en" ? "Have a question not listed here?" : "क्या आपके पास कोई अन्य प्रश्न है?"}{" "}
+            <a href="/contact" className="font-heading font-bold text-amber-700 hover:underline">
+              {lang === "en" ? "Contact Nilesh Verma" : "नीलेश वर्मा से संपर्क करें"}
+            </a>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ─── BOTTOM SECURITY & PRIVACY CALLOUT ───────────────── */}
+      <section className="border-t border-slate-200/90 bg-amber-50/60 py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+          <div className="flex items-center gap-2.5 text-[13px] text-amber-900 font-heading font-bold">
+            <ShieldCheck className="w-4 h-4 text-amber-700 shrink-0" />
+            <span>
+              {lang === "en"
+                ? "Privacy-by-Design: Your files never leave your device memory."
+                : "आपकी फाइलें कभी आपके डिवाइस को नहीं छोड़तीं — पूरी तरह स्थानीय निष्पादन।"}
+            </span>
+          </div>
+          <div className="flex items-center gap-4 text-[13px] font-heading font-semibold text-slate-600">
+            <a href="/security" className="hover:text-amber-800 transition-colors">
+              {lang === "en" ? "Security Architecture" : "सुरक्षा मॉडल"}
+            </a>
+            <span>·</span>
+            <a href="/privacy-policy" className="hover:text-amber-800 transition-colors">
+              {lang === "en" ? "GDPR Privacy" : "गोपनीयता नीति"}
+            </a>
+            <span>·</span>
+            <a href="/cookies" className="hover:text-amber-800 transition-colors">
+              {lang === "en" ? "Cookie Policy" : "कुकी नीति"}
+            </a>
+          </div>
         </div>
       </section>
 
