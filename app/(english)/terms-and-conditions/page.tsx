@@ -18,6 +18,7 @@ export const metadata: Metadata = {
     description: "Read the WeLovePDF terms of service. Free client-side processing for both personal and commercial use cases.",
     siteName: "WeLovePDF",
     type: "website",
+    images: [{ url: "https://www.welovepdf.best/icon.svg", width: 512, height: 512, alt: "WeLovePDF Terms & Conditions" }],
   },
 };
 

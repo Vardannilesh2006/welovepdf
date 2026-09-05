@@ -19,6 +19,7 @@ export const metadata: Metadata = {
     siteName: "WeLovePDF",
     type: "website",
     locale: "hi_IN",
+    images: [{ url: "https://www.welovepdf.best/icon.svg", width: 512, height: 512, alt: "WeLovePDF Contact Hindi" }],
   },
 };
 

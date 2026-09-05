@@ -18,6 +18,7 @@ export const metadata: Metadata = {
     description: "Get in touch with the WeLovePDF support developer for any technical inquiries.",
     siteName: "WeLovePDF",
     type: "website",
+    images: [{ url: "https://www.welovepdf.best/icon.svg", width: 512, height: 512, alt: "WeLovePDF Contact Support" }],
   },
 };
 

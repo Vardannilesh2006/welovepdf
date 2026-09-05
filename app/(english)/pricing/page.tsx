@@ -12,6 +12,14 @@ export const metadata: Metadata = {
       hi: "https://www.welovepdf.best/hi/pricing",
       "x-default": "https://www.welovepdf.best/pricing",
     }
+  },
+  openGraph: {
+    url: "https://www.welovepdf.best/pricing",
+    title: "Pricing — 100% Free, No Limits | WeLovePDF",
+    description: "Every single tool, feature, and AI assistant on WeLovePDF is completely free for everyone. No credit cards, no subscriptions, no sign-ups.",
+    siteName: "WeLovePDF",
+    type: "website",
+    images: [{ url: "https://www.welovepdf.best/icon.svg", width: 512, height: 512, alt: "WeLovePDF Free Pricing" }],
   }
 };
 

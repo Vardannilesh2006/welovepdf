@@ -1,0 +1,13 @@
+/* TEAM */
+Founder & Lead Developer: Nilesh Verma
+Location: Bettiah, West Champaran, Bihar, India
+GitHub: https://github.com/Vardannilesh2006
+Email: nileshverma99731@gmail.com
+
+/* SITE */
+Last update: 2026-09-05
+Standards: HTML5, CSS3, ES2024, WebAssembly, JSON-LD, Schema.org
+Components: Next.js 14, React 18, Tailwind CSS, Lucide Icons, PDF.js, PDF-lib
+Software Architecture: 100% Client-Side In-Memory Sandbox (Zero Server Upload)
+Hosting: Vercel (Edge Network)
+Domain: https://www.welovepdf.best

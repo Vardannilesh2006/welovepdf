@@ -19,6 +19,7 @@ export const metadata: Metadata = {
     description: "Learn how WeLovePDF maintains document privacy via local client-side memory processing and sandboxing.",
     siteName: "WeLovePDF",
     type: "website",
+    images: [{ url: "https://www.welovepdf.best/icon.svg", width: 512, height: 512, alt: "WeLovePDF Security" }],
   },
 };
 

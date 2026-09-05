@@ -18,6 +18,7 @@ export const metadata: Metadata = {
     description: "Review the WeLovePDF privacy standards. No document logging, no remote uploads, 100% locally sandboxed processing.",
     siteName: "WeLovePDF",
     type: "website",
+    images: [{ url: "https://www.welovepdf.best/icon.svg", width: 512, height: 512, alt: "WeLovePDF Privacy Policy" }],
   },
 };
 
