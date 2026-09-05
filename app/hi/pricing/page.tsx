@@ -12,6 +12,15 @@ export const metadata: Metadata = {
       hi: "https://www.welovepdf.best/hi/pricing",
       "x-default": "https://www.welovepdf.best/pricing",
     }
+  },
+  openGraph: {
+    url: "https://www.welovepdf.best/hi/pricing",
+    title: "कीमतें — 100% मुफ्त, कोई सीमा नहीं | WeLovePDF",
+    description: "WeLovePDF पर हर एक टूल, फीचर और AI असिस्टेंट सभी के लिए पूरी तरह से मुफ्त है। कोई क्रेडिट कार्ड नहीं, कोई सब्सक्रिप्शन नहीं, कोई साइन-अप नहीं।",
+    siteName: "WeLovePDF",
+    type: "website",
+    locale: "hi_IN",
+    images: [{ url: "https://www.welovepdf.best/icon.svg", width: 512, height: 512, alt: "WeLovePDF Free Pricing" }],
   }
 };
 

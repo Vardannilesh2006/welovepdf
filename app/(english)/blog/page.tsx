@@ -20,6 +20,7 @@ export const metadata: Metadata = {
     description: "Learn how to compress, merge, OCR, and digitize scans securely in-memory inside your browser sandbox.",
     siteName: "WeLovePDF",
     type: "website",
+    images: [{ url: "https://www.welovepdf.best/icon.svg", width: 512, height: 512, alt: "WeLovePDF Blog & Guides" }],
   },
 };
 

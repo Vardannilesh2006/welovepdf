@@ -18,6 +18,7 @@ export const metadata: Metadata = {
     description: "Review the WeLovePDF cookie policy. We only use localStorage for your preferences with zero third-party tracking.",
     siteName: "WeLovePDF",
     type: "website",
+    images: [{ url: "https://www.welovepdf.best/icon.svg", width: 512, height: 512, alt: "WeLovePDF Cookies Policy" }],
   },
 };
 
