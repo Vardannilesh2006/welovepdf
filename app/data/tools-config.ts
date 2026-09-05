@@ -28,7 +28,7 @@ export const tools: Tool[] = [
   { slug: "flatten-pdf", name: "Flatten PDF", category: "Edit", desc: "Export a normalized copy of the PDF.", icon: "F", lucideIcon: "Layers", isBrowserWorking: true },
   { slug: "annotate-pdf", name: "Annotate PDF", category: "Edit", desc: "Add a note stamp on pages.", icon: "A", lucideIcon: "MessageSquare", isBrowserWorking: true },
   { slug: "redact-pdf", name: "Redact PDF", category: "Edit", desc: "Cover a chosen area on all pages.", icon: "X", lucideIcon: "EyeOff", isBrowserWorking: true },
-  { slug: "compare-pdf", name: "Compare PDFs", category: "Edit", desc: "Compare file names, sizes, and page counts.", icon: "=", lucideIcon: "GitCompare", isBrowserWorking: true },
+  { slug: "compare-pdf", name: "Compare PDFs", category: "Edit", desc: "Compare file metadata, page counts, and extracted text differences.", icon: "=", lucideIcon: "GitCompare", isBrowserWorking: true },
   { slug: "bookmark-editor", name: "Bookmark Editor", category: "Edit", desc: "Edit PDF document outlines and chapters.", icon: "B", lucideIcon: "Bookmark", isBrowserWorking: true },
   // Optimize
   { slug: "compress-pdf", name: "Compress PDF", category: "Optimize", desc: "Re-save the PDF with object cleanup.", icon: "C", lucideIcon: "Minimize2", isBrowserWorking: true },
@@ -222,7 +222,7 @@ export const toolGuides: Record<string, string> = {
     <ol>
       <li><strong>Select PDF:</strong> Drag and drop your document into the workspace.</li>
       <li><strong>Set Password:</strong> Enter a strong open password and choose your permissions checklist.</li>
-      <li><strong>Encrypt:</strong> Click "Run Tool" to lock the file using AES-256 encryption.</li>
+      <li><strong>Encrypt:</strong> Click "Run Tool" to lock the file using standard AES-128 encryption.</li>
       <li><strong>Download:</strong> Save your newly secured PDF.</li>
     </ol>
 
@@ -242,7 +242,7 @@ export const toolGuides: Record<string, string> = {
     </ol>
 
     <h3>Important Note on Decryption:</h3>
-    <p>This tool is designed to unlock files for which you have authorized access. If the document is locked with standard permission restrictions (no printing or no text copying), our browser sandbox can bypass it instantly without requiring a password. Strong AES-256 user-locked files require entering the password to authorize decryption.</p>
+    <p>This tool is designed to unlock files for which you have authorized access. If the document is locked with standard permission restrictions (no printing or no text copying), our browser sandbox can bypass it instantly without requiring a password. Strong AES-encrypted user-locked files require entering the password to authorize decryption.</p>
   `,
   "sign-pdf": `
     <h2>How to Digitally Sign PDF Documents Online?</h2>
