@@ -12,7 +12,15 @@ export const metadata: Metadata = {
       hi: "https://www.welovepdf.best/hi/security",
       "x-default": "https://www.welovepdf.best/security",
     }
-  }
+  },
+  openGraph: {
+    url: "https://www.welovepdf.best/hi/security",
+    title: "सुरक्षा और गोपनीयता मानक | WeLovePDF",
+    description: "जानें कि WeLovePDF स्थानीय क्लाइंट-साइड मेमोरी प्रोसेसिंग के माध्यम से दस्तावेज़ गोपनीयता कैसे बनाए रखता है।",
+    siteName: "WeLovePDF",
+    type: "website",
+    locale: "hi_IN",
+  },
 };
 
 export default function HindiSecurityPage() {

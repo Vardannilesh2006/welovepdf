@@ -1,5 +1,5 @@
 import React from "react";
-import { Github, Twitter, Linkedin, Instagram, Youtube, ShieldCheck, Heart } from "lucide-react";
+import { Github, Instagram, ShieldCheck, Heart } from "lucide-react";
 
 interface FooterProps {
   lang: "en" | "hi";
@@ -44,8 +44,7 @@ export default function Footer({ lang }: FooterProps) {
       title: lang === "en" ? "Connect" : "जुड़ें",
       links: [
         { label: "GitHub", href: "https://github.com/Vardannilesh2006", external: true },
-        { label: "Twitter / X", href: "https://x.com", external: true },
-        { label: "LinkedIn", href: "https://linkedin.com", external: true },
+        { label: "Instagram", href: "https://www.instagram.com/welovepdf.official/", external: true },
       ]
     },
     {
@@ -116,17 +115,8 @@ export default function Footer({ lang }: FooterProps) {
             <a href="https://github.com/Vardannilesh2006" target="_blank" rel="noopener noreferrer" className="text-text-secondaryLight hover:text-[#D97706] transition-colors" aria-label="GitHub">
               <Github className="w-4 h-4" />
             </a>
-            <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="text-text-secondaryLight hover:text-[#D97706] transition-colors" aria-label="Twitter">
-              <Twitter className="w-4 h-4" />
-            </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-text-secondaryLight hover:text-[#D97706] transition-colors" aria-label="LinkedIn">
-              <Linkedin className="w-4 h-4" />
-            </a>
             <a href="https://www.instagram.com/welovepdf.official/" target="_blank" rel="noopener noreferrer" className="text-text-secondaryLight hover:text-[#D97706] transition-colors" aria-label="Instagram">
               <Instagram className="w-4 h-4" />
-            </a>
-            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-text-secondaryLight hover:text-[#D97706] transition-colors" aria-label="YouTube">
-              <Youtube className="w-4 h-4" />
             </a>
           </div>
         </div>

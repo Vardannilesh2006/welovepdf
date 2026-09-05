@@ -11,7 +11,14 @@ export const metadata: Metadata = {
       hi: "https://www.welovepdf.best/hi/about-us",
       "x-default": "https://www.welovepdf.best/about-us",
     }
-  }
+  },
+  openGraph: {
+    url: "https://www.welovepdf.best/about-us",
+    title: "About Us — WeLovePDF | Browser-First PDF Toolkit",
+    description: "WeLovePDF is a browser-first document processing platform created in Bettiah, Bihar, India to build secure client-side tools.",
+    siteName: "WeLovePDF",
+    type: "website",
+  },
 };
 
 const founderSchema = {

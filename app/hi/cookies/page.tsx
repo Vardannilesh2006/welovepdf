@@ -11,7 +11,15 @@ export const metadata: Metadata = {
       hi: "https://www.welovepdf.best/hi/cookies",
       "x-default": "https://www.welovepdf.best/cookies",
     }
-  }
+  },
+  openGraph: {
+    url: "https://www.welovepdf.best/hi/cookies",
+    title: "कुकीज़ और स्टोरेज नीति | WeLovePDF",
+    description: "WeLovePDF की कुकीज़ नीति पढ़ें। हम किसी भी तृतीय-पक्ष ट्रैकिंग कुकीज़ का उपयोग नहीं करते हैं।",
+    siteName: "WeLovePDF",
+    type: "website",
+    locale: "hi_IN",
+  },
 };
 
 export default function HindiCookiesPage() {

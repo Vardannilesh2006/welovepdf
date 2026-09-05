@@ -11,7 +11,15 @@ export const metadata: Metadata = {
       hi: "https://www.welovepdf.best/hi/privacy-policy",
       "x-default": "https://www.welovepdf.best/privacy-policy",
     }
-  }
+  },
+  openGraph: {
+    url: "https://www.welovepdf.best/hi/privacy-policy",
+    title: "गोपनीयता नीति | WeLovePDF",
+    description: "WeLovePDF की गोपनीयता नीति पढ़ें। हम आपके दस्तावेज़ों को कभी भी बाहरी सर्वर पर अपलोड नहीं करते हैं।",
+    siteName: "WeLovePDF",
+    type: "website",
+    locale: "hi_IN",
+  },
 };
 
 export default function HindiPrivacyPolicyPage() {

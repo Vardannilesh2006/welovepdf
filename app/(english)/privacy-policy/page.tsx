@@ -11,7 +11,14 @@ export const metadata: Metadata = {
       hi: "https://www.welovepdf.best/hi/privacy-policy",
       "x-default": "https://www.welovepdf.best/privacy-policy",
     }
-  }
+  },
+  openGraph: {
+    url: "https://www.welovepdf.best/privacy-policy",
+    title: "Privacy Policy | WeLovePDF",
+    description: "Review the WeLovePDF privacy standards. No document logging, no remote uploads, 100% locally sandboxed processing.",
+    siteName: "WeLovePDF",
+    type: "website",
+  },
 };
 
 export default function PrivacyPolicyPage() {

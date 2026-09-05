@@ -11,7 +11,14 @@ export const metadata: Metadata = {
       hi: "https://www.welovepdf.best/hi/cookies",
       "x-default": "https://www.welovepdf.best/cookies",
     }
-  }
+  },
+  openGraph: {
+    url: "https://www.welovepdf.best/cookies",
+    title: "Cookies & Storage Policy | WeLovePDF",
+    description: "Review the WeLovePDF cookie policy. We only use localStorage for your preferences with zero third-party tracking.",
+    siteName: "WeLovePDF",
+    type: "website",
+  },
 };
 
 export default function CookiesPage() {

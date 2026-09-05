@@ -81,7 +81,7 @@ function generateDynamicGuide(toolName: string, category: string, desc: string, 
       WeLovePDF adheres to a strict <strong>No-Server-Upload</strong> model. When you open the ${toolName} tool, all required rendering code is loaded into your browser's local sandbox memory. When you execute an action, your browser's CPU and memory perform the operations directly. When you close or refresh the tab, temporary memory buffers are automatically purged by browser garbage collection.
     </p>
 
-    <h3>Troubleshooting & Troubleshooting Common Issues</h3>
+    <h3>Troubleshooting Common Issues</h3>
     <ul>
       <li><strong>File Upload Fails:</strong> Ensure your document is under 200 MB and is not corrupted. For encrypted files, unlock the PDF first using our Unlock PDF tool.</li>
       <li><strong>Slow Processing on Mobile:</strong> Close background browser tabs to free up RAM memory on lower-end smartphone devices.</li>

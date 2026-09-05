@@ -11,7 +11,15 @@ export const metadata: Metadata = {
       hi: "https://www.welovepdf.best/hi/contact",
       "x-default": "https://www.welovepdf.best/contact",
     }
-  }
+  },
+  openGraph: {
+    url: "https://www.welovepdf.best/hi/contact",
+    title: "सहायता और संपर्क | WeLovePDF",
+    description: "तकनीकी पूछताछ के लिए WeLovePDF सहायता टीम से संपर्क करें।",
+    siteName: "WeLovePDF",
+    type: "website",
+    locale: "hi_IN",
+  },
 };
 
 export default function HindiContactPage() {

@@ -11,7 +11,14 @@ export const metadata: Metadata = {
       hi: "https://www.welovepdf.best/hi/contact",
       "x-default": "https://www.welovepdf.best/contact",
     }
-  }
+  },
+  openGraph: {
+    url: "https://www.welovepdf.best/contact",
+    title: "Contact Support | WeLovePDF",
+    description: "Get in touch with the WeLovePDF support developer for any technical inquiries.",
+    siteName: "WeLovePDF",
+    type: "website",
+  },
 };
 
 export default function ContactPage() {
