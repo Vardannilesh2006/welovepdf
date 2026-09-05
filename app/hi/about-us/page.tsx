@@ -11,7 +11,15 @@ export const metadata: Metadata = {
       hi: "https://www.welovepdf.best/hi/about-us",
       "x-default": "https://www.welovepdf.best/about-us",
     }
-  }
+  },
+  openGraph: {
+    url: "https://www.welovepdf.best/hi/about-us",
+    title: "हमारे बारे में | WeLovePDF",
+    description: "WeLovePDF भारत में बनाया गया एक सुरक्षित ब्राउज़र-प्रथम दस्तावेज़ प्रसंस्करण प्लेटफ़ॉर्म है।",
+    siteName: "WeLovePDF",
+    type: "website",
+    locale: "hi_IN",
+  },
 };
 
 const founderSchema = {

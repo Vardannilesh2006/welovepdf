@@ -11,7 +11,15 @@ export const metadata: Metadata = {
       hi: "https://www.welovepdf.best/hi/terms-and-conditions",
       "x-default": "https://www.welovepdf.best/terms-and-conditions",
     }
-  }
+  },
+  openGraph: {
+    url: "https://www.welovepdf.best/hi/terms-and-conditions",
+    title: "नियम और शर्तें | WeLovePDF",
+    description: "WeLovePDF के नियम और शर्तें पढ़ें। व्यक्तिगत और व्यावसायिक उपयोग के लिए मुफ़्त उपकरण।",
+    siteName: "WeLovePDF",
+    type: "website",
+    locale: "hi_IN",
+  },
 };
 
 export default function HindiTermsAndConditionsPage() {
@@ -21,7 +29,7 @@ export default function HindiTermsAndConditionsPage() {
         नियम और शर्तें
       </h1>
       <p className="text-[14px] text-text-secondaryLight leading-relaxed mb-16">
-        अंतिम अद्यतन: 28 जून, 2026। WeLovePDF का उपयोग करके, आप स्थानीय सैंडबॉक्स किए गए प्रोसेसिंग सीमाओं से सहमत होते हैं। कोर टूल व्यक्तिगत और व्यावसायिक उपयोग के लिए मुफ्त हैं और सर्वर-साइड अनुरोधों पर उचित उपयोग की सीमाएं लागू हैं।
+        अंतिम अद्यतन: 28 जून, 2026। WeLovePDF का उपयोग करके, आप इन शर्तों से सहमत होते हैं। सभी मुख्य ब्राउज़र-आधारित PDF टूल (मर्ज, स्प्लिट, कंप्रेस, कनवर्ट आदि) व्यक्तिगत और व्यावसायिक उपयोग के लिए बिना किसी दैनिक सीमा या वॉटरमार्क के पूरी तरह असीमित और मुफ्त हैं। AI-सहायक टूल (Ask PDF, Summarize PDF, Translate PDF) जो सर्वर-साइड प्रोसेसिंग पर निर्भर हैं, सभी उपयोगकर्ताओं के लिए उचित पहुँच सुनिश्चित करने हेतु उच्च-उपयोग समय में दर सीमाएं लागू कर सकते हैं।
       </p>
       <h3 className="text-lg font-bold mb-8">वापसी नीति (Refund Policy)</h3>
       <p className="text-[14px] text-text-secondaryLight leading-relaxed">

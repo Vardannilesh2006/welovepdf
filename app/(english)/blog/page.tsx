@@ -13,11 +13,24 @@ export const metadata: Metadata = {
       hi: "https://www.welovepdf.best/hi/blog",
       "x-default": "https://www.welovepdf.best/blog",
     }
-  }
+  },
+  openGraph: {
+    url: "https://www.welovepdf.best/blog",
+    title: "WeLovePDF Document Guides & Blog",
+    description: "Learn how to compress, merge, OCR, and digitize scans securely in-memory inside your browser sandbox.",
+    siteName: "WeLovePDF",
+    type: "website",
+  },
 };
 
 export default function BlogListPage() {
-  const articlesList = Object.entries(blogArticles).map(([slug, art]) => ({ slug, ...art }));
+  const articlesList = Object.entries(blogArticles)
+    .map(([slug, art]) => ({ slug, ...art }))
+    .sort((a, b) => {
+      const dateA = new Date(a.date).getTime();
+      const dateB = new Date(b.date).getTime();
+      return dateB - dateA; // newest first
+    });
 
   return (
     <div className="max-w-7xl mx-auto px-16 py-64">

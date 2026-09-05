@@ -63,7 +63,7 @@ export const tools: Tool[] = [
   { slug: "text-to-pdf", name: "Text to PDF", category: "Convert to PDF", desc: "Convert typed or uploaded text into PDF.", icon: "T", lucideIcon: "AlignLeft", isBrowserWorking: true },
   { slug: "url-to-pdf", name: "URL to PDF", category: "Convert to PDF", desc: "Render URL webpage contents into PDF.", icon: "U", lucideIcon: "Link", isBrowserWorking: true },
   // Security
-  { slug: "protect-pdf", name: "Protect PDF", category: "Security", desc: "Add a password protection notice.", icon: "P", lucideIcon: "Lock", isBrowserWorking: true },
+  { slug: "protect-pdf", name: "Protect PDF", category: "Security", desc: "Password-protect PDF with AES-128 encryption in your browser.", icon: "P", lucideIcon: "Lock", isBrowserWorking: true },
   { slug: "unlock-pdf", name: "Unlock PDF", category: "Security", desc: "Load and re-save PDFs that are not strongly encrypted.", icon: "U", lucideIcon: "Unlock", isBrowserWorking: true },
   { slug: "sign-pdf", name: "Sign PDF", category: "Security", desc: "Add typed signature text.", icon: "S", lucideIcon: "PenLine", isBrowserWorking: true },
   { slug: "verify-signature", name: "Verify Signature", category: "Security", desc: "Scan and verify digital signatures.", icon: "V", lucideIcon: "BadgeCheck", isBrowserWorking: true },

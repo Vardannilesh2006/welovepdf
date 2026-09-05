@@ -12,7 +12,14 @@ export const metadata: Metadata = {
       hi: "https://www.welovepdf.best/hi/security",
       "x-default": "https://www.welovepdf.best/security",
     }
-  }
+  },
+  openGraph: {
+    url: "https://www.welovepdf.best/security",
+    title: "Security and Privacy Standards | WeLovePDF",
+    description: "Learn how WeLovePDF maintains document privacy via local client-side memory processing and sandboxing.",
+    siteName: "WeLovePDF",
+    type: "website",
+  },
 };
 
 export default function SecurityPage() {

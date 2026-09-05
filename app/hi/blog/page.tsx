@@ -13,7 +13,15 @@ export const metadata: Metadata = {
       hi: "https://www.welovepdf.best/hi/blog",
       "x-default": "https://www.welovepdf.best/blog",
     }
-  }
+  },
+  openGraph: {
+    url: "https://www.welovepdf.best/hi/blog",
+    title: "WeLovePDF दस्तावेज़ गाइड और ब्लॉग",
+    description: "अपने ब्राउज़र सैंडबॉक्स में सुरक्षित रूप से दस्तावेज़ों को मर्ज, कंप्रेस और ओसीआर करना सीखें।",
+    siteName: "WeLovePDF",
+    type: "website",
+    locale: "hi_IN",
+  },
 };
 
 export default function HindiBlogListPage() {
