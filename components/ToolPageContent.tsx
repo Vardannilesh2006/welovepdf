@@ -1,16 +1,55 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import { tools, toolDescriptions, toolGuides, toolFaqs } from "../app/data/tools-config";
+import { getToolInputFormats, getToolHowToSteps, getToolLimitations } from "../app/data/toolCapabilities";
 import WorkspaceCard from "./WorkspaceCard";
 import { ChevronRight } from "lucide-react";
 
 function generateDynamicGuide(toolName: string, category: string, desc: string, slug: string): string {
+  const formats = getToolInputFormats(slug).join(", ");
+  const steps = getToolHowToSteps(slug);
+  const limitations = getToolLimitations(slug);
+
+  const stepsHtml = steps.length > 0
+    ? `<ol>
+        ${steps.map(s => `<li><strong>${s.name}:</strong> ${s.text}</li>`).join("")}
+      </ol>`
+    : `<ol>
+        <li>
+          <strong>Select Document:</strong> 
+          Drag and drop your file into the workspace active container above, or click "Browse Files" to choose from your storage.
+        </li>
+        <li>
+          <strong>Configure Parameters:</strong> 
+          Adjust optional settings in the right drawer such as page selection, compression ratio, resolution, or security settings.
+        </li>
+        <li>
+          <strong>Process File:</strong> 
+          Click the primary action button. The browser sandbox compiles the document nodes locally with real-time status feedback.
+        </li>
+        <li>
+          <strong>Download Result:</strong> 
+          Click "Download PDF" to save your processed document directly to your local device folder.
+        </li>
+      </ol>`;
+
+  const limitationsHtml = limitations.length > 0
+    ? `<h3>Important Trust & Security Disclosures</h3>
+       <div style="background-color: #fffbeb; border-left: 4px solid #f59e0b; padding: 12px 16px; margin: 16px 0; border-radius: 6px;">
+         <ul style="margin: 0; padding-left: 20px;">
+           ${limitations.map(l => `<li style="margin-bottom: 6px; color: #92400e; font-size: 13px;">${l}</li>`).join("")}
+         </ul>
+       </div>`
+    : "";
+
   return `
     <h2>Complete Guide to ${toolName} Online</h2>
     <p>
       Welcome to WeLovePDF's browser-first <strong>${toolName}</strong> utility. This tool allows you to ${desc.toLowerCase()} quickly, accurately, and securely. 
       Operating under the <strong>${category}</strong> category, this application executes 100% locally inside your web browser sandbox using modern JavaScript and WebAssembly compiled modules.
     </p>
+
+    ${limitationsHtml}
 
     <h3>Tool Specifications & Compatibility</h3>
     <table>
@@ -23,7 +62,7 @@ function generateDynamicGuide(toolName: string, category: string, desc: string, 
       <tbody>
         <tr>
           <td><strong>Supported Formats</strong></td>
-          <td>PDF, JPG, PNG, WEBP, DOCX, XLSX, TXT</td>
+          <td>${formats}</td>
         </tr>
         <tr>
           <td><strong>Processing Engine</strong></td>
@@ -49,24 +88,7 @@ function generateDynamicGuide(toolName: string, category: string, desc: string, 
     </ul>
 
     <h3>How to Use ${toolName} (Step-by-Step)</h3>
-    <ol>
-      <li>
-        <strong>Select Document:</strong> 
-        Drag and drop your file into the workspace active container above, or click "Browse Files" to choose from your storage.
-      </li>
-      <li>
-        <strong>Configure Parameters:</strong> 
-        Adjust optional settings in the right drawer such as page selection, compression ratio, resolution, or security settings.
-      </li>
-      <li>
-        <strong>Process File:</strong> 
-        Click the primary action button. The browser sandbox compiles the document nodes locally with real-time status feedback.
-      </li>
-      <li>
-        <strong>Download Result:</strong> 
-        Click "Download PDF" to save your processed document directly to your local device folder.
-      </li>
-    </ol>
+    ${stepsHtml}
 
     <h3>Practical Use Cases</h3>
     <ul>
@@ -91,6 +113,7 @@ function generateDynamicGuide(toolName: string, category: string, desc: string, 
 }
 
 function generateDynamicHindiGuide(toolName: string, category: string, desc: string, slug: string): string {
+  const formats = getToolInputFormats(slug).join(", ");
   return `
     <h2>${toolName} ऑनलाइन उपयोग करने की संपूर्ण गाइड</h2>
     <p>
@@ -109,7 +132,7 @@ function generateDynamicHindiGuide(toolName: string, category: string, desc: str
       <tbody>
         <tr>
           <td><strong>समर्थित प्रारूप (Formats)</strong></td>
-          <td>PDF, JPG, PNG, WEBP, DOCX, XLSX, TXT</td>
+          <td>${formats}</td>
         </tr>
         <tr>
           <td><strong>प्रोसेसिंग इंजन</strong></td>
@@ -312,27 +335,34 @@ export function ToolPageContent({ params, lang }: { params: { tool: string }; la
     }
   };
 
+  const toolSteps = getToolHowToSteps(tool.slug);
   const howToSchema = {
     "@context": "https://schema.org",
     "@type": "HowTo",
     "name": `How to use ${tool.name}`,
-    "step": [
-      {
-        "@type": "HowToStep",
-        "name": "Upload Document",
-        "text": "Select files from your local storage or drag them directly into the browser sandbox container."
-      },
-      {
-        "@type": "HowToStep",
-        "name": "Configure settings",
-        "text": "Adjust processing mode levels, file parameters, passwords, or margins in the settings panel."
-      },
-      {
-        "@type": "HowToStep",
-        "name": "Run and Download",
-        "text": "Click the run action button and download your compiled output document instantly."
-      }
-    ]
+    "step": toolSteps.length > 0
+      ? toolSteps.map((s) => ({
+          "@type": "HowToStep",
+          "name": s.name,
+          "text": s.text,
+        }))
+      : [
+          {
+            "@type": "HowToStep",
+            "name": "Upload Document",
+            "text": "Select files from your local storage or drag them directly into the browser sandbox container."
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Configure settings",
+            "text": "Adjust processing mode levels, file parameters, passwords, or margins in the settings panel."
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Run and Download",
+            "text": "Click the run action button and download your compiled output document instantly."
+          }
+        ]
   };
 
   const faqs = toolFaqs[tool.slug] || [
