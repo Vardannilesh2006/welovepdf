@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "WeLovePDF — 100% Private In-Browser PDF Toolkit",
+  "version": "1.0.0",
+  "description": "Fast, 100% private PDF tools (Merge, Compress to 100KB/200KB, Split, OCR). Zero server uploads, powered by WebAssembly.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "WeLovePDF Quick Launcher"
+  },
+  "homepage_url": "https://www.welovepdf.best"
+}

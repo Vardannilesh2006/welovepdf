@@ -33,7 +33,33 @@ export default function ArchetypeC({
   onAddFile,
 }: ArchetypeCProps) {
   // Tool-specific local states
+  const getInitialTargetKB = () => {
+    if (toolSlug === "compress-pdf-to-100kb") return 100;
+    if (toolSlug === "compress-pdf-to-200kb") return 200;
+    if (toolSlug === "compress-pdf-to-50kb") return 50;
+    if (toolSlug === "compress-pdf-to-500kb") return 500;
+    return null;
+  };
+  const [activePreset, setActivePreset] = useState<number | null>(getInitialTargetKB());
   const [compressLevel, setCompressLevel] = useState<number>(70);
+
+  const applyTargetKB = (targetKB: number) => {
+    setActivePreset(targetKB);
+    const originalKB = Math.round(fileSize / 1024);
+    if (originalKB > 0) {
+      const calculatedPct = Math.min(95, Math.max(20, Math.round((targetKB / originalKB) * 100)));
+      setCompressLevel(calculatedPct);
+    }
+  };
+
+  React.useEffect(() => {
+    if (activePreset && fileSize > 0) {
+      const originalKB = Math.round(fileSize / 1024);
+      const calculatedPct = Math.min(95, Math.max(20, Math.round((activePreset / originalKB) * 100)));
+      setCompressLevel(calculatedPct);
+    }
+  }, [fileSize, activePreset]);
+
   const [watermarkText, setWatermarkText] = useState("CONFIDENTIAL");
   const [watermarkPos, setWatermarkPos] = useState("center");
   const [watermarkOpacity, setWatermarkOpacity] = useState(50);
@@ -159,24 +185,66 @@ export default function ArchetypeC({
               {toolName} Configuration
             </span>
 
-            {/* Compress PDF */}
-            {toolSlug === "compress-pdf" && (
-              <div className="space-y-3 max-w-md text-xs">
-                <div className="flex justify-between">
-                  <span className="font-medium text-[#262B36]">Compression Level</span>
-                  <span className="text-[#E8792A] font-medium">{compressLevel}%</span>
+            {/* Compress PDF & Programmatic Target Size Presets */}
+            {toolSlug.startsWith("compress-pdf") && (
+              <div className="space-y-4 max-w-lg text-xs">
+                {/* 1-Click Govt Exam & Target Size Presets */}
+                <div>
+                  <span className="block font-medium text-[#262B36] mb-1.5">
+                    {lang === "hi" ? "1-क्लिक परीक्षा व साइज प्रीसेट्स:" : "1-Click Govt Exam & Target Size Presets:"}
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {[
+                      { label: "UPSC (100 KB)", kb: 100 },
+                      { label: "SSC CGL (200 KB)", kb: 200 },
+                      { label: "Photo / Sign (50 KB)", kb: 50 },
+                      { label: "College (500 KB)", kb: 500 },
+                      { label: "Court / Legal (2 MB)", kb: 2048 },
+                    ].map((p) => {
+                      const isSelected = activePreset === p.kb;
+                      return (
+                        <button
+                          key={p.kb}
+                          type="button"
+                          onClick={() => applyTargetKB(p.kb)}
+                          className={`px-2.5 py-1 rounded-md text-[11px] font-medium border transition-colors ${
+                            isSelected
+                              ? "bg-[#D97706] text-white border-[#D97706]"
+                              : "bg-[#FFF5EB] text-[#262B36] border-[#EFE1D2] hover:border-[#D97706]"
+                          }`}
+                        >
+                          {p.label}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
-                <input
-                  type="range"
-                  min="20"
-                  max="90"
-                  value={compressLevel}
-                  onChange={(e) => setCompressLevel(Number(e.target.value))}
-                  className="w-full accent-[#E8792A]"
-                />
-                <div className="flex justify-between text-[#9C9488]">
-                  <span>Original: {Math.round(fileSize / 1024)} KB</span>
-                  <span className="font-medium text-[#262B36]">Est. Output: ~{estimatedSizeKB} KB</span>
+
+                {/* Compression Slider */}
+                <div className="space-y-2 pt-1 border-t border-slate-100">
+                  <div className="flex justify-between">
+                    <span className="font-medium text-[#262B36]">
+                      {lang === "hi" ? "कंप्रेशन स्तर:" : "Compression Quality:"}
+                    </span>
+                    <span className="text-[#D97706] font-semibold">{compressLevel}%</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="20"
+                    max="95"
+                    value={compressLevel}
+                    onChange={(e) => {
+                      setActivePreset(null);
+                      setCompressLevel(Number(e.target.value));
+                    }}
+                    className="w-full accent-[#D97706]"
+                  />
+                  <div className="flex justify-between text-[#9C9488] text-[11px]">
+                    <span>Original: {Math.round(fileSize / 1024)} KB</span>
+                    <span className="font-semibold text-slate-800">
+                      Est. Output: ~{estimatedSizeKB} KB {activePreset && `(Target: <${activePreset >= 1024 ? `${activePreset / 1024}MB` : `${activePreset}KB`})`}
+                    </span>
+                  </div>
                 </div>
               </div>
             )}

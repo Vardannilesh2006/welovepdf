@@ -210,6 +210,60 @@ export const toolCapabilities: Record<string, ToolCapability> = {
     ],
     limitations: ['Compression effectiveness depends on embedded raster image volume. Text-only vector PDFs show smaller reduction percentages.']
   },
+  'compress-pdf-to-100kb': {
+    inputFormats: ['PDF'],
+    outputFormats: ['PDF'],
+    howToSteps: [
+      { name: 'Upload PDF', text: 'Select your PDF document for UPSC or Govt application.' },
+      { name: '1-Click Target', text: 'Target size is automatically pre-configured to under 100KB.' },
+      { name: 'Compress', text: 'Click Run Tool to execute in-browser WebAssembly downsampling.' },
+      { name: 'Download', text: 'Save your optimized under-100KB PDF for instant portal upload.' }
+    ],
+    limitations: ['Extremely large multi-page scanned documents may require balancing text readability against strict 100KB limits.']
+  },
+  'compress-pdf-to-200kb': {
+    inputFormats: ['PDF'],
+    outputFormats: ['PDF'],
+    howToSteps: [
+      { name: 'Upload PDF', text: 'Select your PDF file for SSC CGL, CHSL, or Railway application.' },
+      { name: '200KB Preset', text: 'Pre-calibrated to compress images and fonts under 200KB.' },
+      { name: 'Compress', text: 'Execute client-side optimization in your local browser sandbox.' },
+      { name: 'Download', text: 'Download your under-200KB PDF ready for submission.' }
+    ],
+    limitations: ['Zero server upload: processing runs 100% in local device memory.']
+  },
+  'compress-pdf-to-50kb': {
+    inputFormats: ['PDF'],
+    outputFormats: ['PDF'],
+    howToSteps: [
+      { name: 'Upload Document', text: 'Select signature, photo, or small certificate PDF.' },
+      { name: '50KB Preset', text: 'High-compression ratio targeted strictly for under 50KB limits.' },
+      { name: 'Process', text: 'Compress file locally in RAM with zero network upload.' },
+      { name: 'Download', text: 'Download the lightweight PDF.' }
+    ],
+    limitations: ['Ideal for 1-page documents, photos, or certificates. Multi-page books cannot fit under 50KB without heavy quality reduction.']
+  },
+  'compress-pdf-to-500kb': {
+    inputFormats: ['PDF'],
+    outputFormats: ['PDF'],
+    howToSteps: [
+      { name: 'Upload Marksheets', text: 'Select college certificates or admission PDFs.' },
+      { name: '500KB Balanced', text: 'Balanced compression preserving crystal-clear text readability under 500KB.' },
+      { name: 'Compress', text: 'Run WebAssembly optimization in your browser.' },
+      { name: 'Download', text: 'Download your admission-ready PDF.' }
+    ]
+  },
+  'compress-pdf-for-ssc-upsc': {
+    inputFormats: ['PDF'],
+    outputFormats: ['PDF'],
+    howToSteps: [
+      { name: 'Upload Exam PDF', text: 'Upload any marksheet, caste certificate, or application document.' },
+      { name: 'Select Govt Exam', text: 'Choose your portal preset: SSC (200KB), UPSC (100KB), or IBPS (50KB).' },
+      { name: 'Compress', text: 'Execute instant zero-queue client-side processing.' },
+      { name: 'Download', text: 'Download your verified portal-compliant PDF.' }
+    ],
+    limitations: ['Guaranteed zero server retention: your confidential certificates are never uploaded to any remote server.']
+  },
   'grayscale-pdf': {
     inputFormats: ['PDF'],
     outputFormats: ['PDF'],

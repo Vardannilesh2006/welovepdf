@@ -14,7 +14,7 @@ import {
   Contrast, BookMarked, Search, MessageCircle, ListCollapse, Languages,
   HelpCircle, Receipt, UserSquare, FileSpreadsheet, QrCode, BookOpen,
   Sparkles, ChevronRight, ShieldCheck, Cpu, Zap, Check, X, ArrowRight,
-  Shield, ExternalLink, HardDrive, Wifi, FileUp
+  Shield, ExternalLink, HardDrive, Wifi, FileUp, FileCheck
 } from "lucide-react";
 
 // Map lucideIcon string to actual component
@@ -27,7 +27,7 @@ const LucideIconMap: Record<string, React.ComponentType<{ className?: string }>>
   FileImage, Images, FileInput, TableProperties, Monitor, Globe, FileSymlink,
   AlignLeft, Link, Lock, Unlock, PenLine, BadgeCheck, Gavel, Accessibility,
   Contrast, BookMarked, Search, MessageCircle, ListCollapse, Languages,
-  HelpCircle, Receipt, UserSquare, FileSpreadsheet, QrCode, BookOpen,
+  HelpCircle, Receipt, UserSquare, FileSpreadsheet, QrCode, BookOpen, FileCheck,
 };
 
 function ToolIcon({ name, className }: { name: string; className?: string }) {
@@ -412,6 +412,7 @@ export default function Home() {
                 {[
                   { label: "Merge PDF", href: "/merge-pdf", icon: GitMerge },
                   { label: "Compress (WASM)", href: "/compress-pdf", icon: Minimize2 },
+                  { label: "Govt Exam (100KB)", href: "/compress-pdf-for-ssc-upsc", icon: FileCheck },
                   { label: "PDF to Word", href: "/pdf-to-word", icon: FileType },
                   { label: "Split PDF", href: "/split-pdf", icon: Scissors },
                   { label: "OCR PDF", href: "/ocr-pdf", icon: ScanText },

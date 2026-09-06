@@ -663,7 +663,7 @@ export async function POST(req: NextRequest, { params }: { params: { tool: strin
       }
 
       output = await makePdfFromText(`${tool.toUpperCase()} REPORT`, aiResponse);
-    } else if (tool === "compress-pdf") {
+    } else if (tool.startsWith("compress-pdf")) {
       output = await compressPdf(buffers[0].buffer, quality);
     } else if (tool === "merge-pdf") {
       output = await merge(buffers.map(b => b.buffer));

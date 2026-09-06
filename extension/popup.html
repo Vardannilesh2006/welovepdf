@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WeLovePDF Quick Launch</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { width: 340px; background: #FAF8F5; color: #1E293B; padding: 14px; }
+    .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .brand { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .logo { width: 26px; height: 26px; border-radius: 6px; background: #D97706; color: white; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 14px; }
+    .title { font-size: 15px; font-weight: 800; color: #0F172A; }
+    .badge { font-size: 10px; background: #ECFDF5; border: 1px solid #A7F3D0; color: #065F46; padding: 2px 6px; border-radius: 99px; font-weight: 700; display: flex; align-items: center; gap: 4px; }
+    .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: #10B981; }
+    .search-box { margin-bottom: 12px; }
+    .search-input { width: 100%; padding: 8px 10px; font-size: 12px; border: 1px solid #CBD5E1; border-radius: 8px; outline: none; background: white; }
+    .search-input:focus { border-color: #D97706; box-shadow: 0 0 0 2px rgba(217, 119, 6, 0.15); }
+    .section-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 800; color: #64748B; margin-bottom: 6px; }
+    .grid { display: grid; grid-cols: 2; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 12px; }
+    .tool-btn { display: flex; align-items: center; gap: 6px; padding: 8px; background: white; border: 1px solid #E2E8F0; border-radius: 8px; text-decoration: none; color: #334155; font-size: 11px; font-weight: 600; transition: all 0.15s; }
+    .tool-btn:hover { border-color: #D97706; color: #D97706; background: #FFFBEB; transform: translateY(-1px); }
+    .tool-icon { font-size: 13px; }
+    .exam-strip { background: #FEF3C7; border: 1px solid #FDE68A; border-radius: 8px; padding: 8px 10px; margin-bottom: 12px; }
+    .exam-title { font-size: 11px; font-weight: 800; color: #92400E; margin-bottom: 4px; display: flex; align-items: center; gap: 4px; }
+    .exam-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+    .exam-tag { font-size: 10px; font-weight: 700; background: white; border: 1px solid #FCD34D; color: #78350F; padding: 2px 6px; border-radius: 4px; text-decoration: none; }
+    .exam-tag:hover { background: #D97706; color: white; border-color: #D97706; }
+    .footer { text-align: center; border-top: 1px solid #E2E8F0; padding-top: 8px; display: flex; justify-content: space-between; align-items: center; }
+    .full-site-link { font-size: 11px; color: #D97706; text-decoration: none; font-weight: 700; }
+    .full-site-link:hover { text-decoration: underline; }
+    .privacy-tag { font-size: 10px; color: #94A3B8; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <a href="https://www.welovepdf.best" target="_blank" class="brand">
+      <div class="logo">W</div>
+      <div class="title">WeLovePDF</div>
+    </a>
+    <div class="badge">
+      <span class="badge-dot"></span>
+      <span>0 Uploads</span>
+    </div>
+  </div>
+
+  <div class="search-box">
+    <input type="text" id="search-input" class="search-input" placeholder="Search tool (e.g., merge, 100kb)..." autofocus />
+  </div>
+
+  <div class="exam-strip">
+    <div class="exam-title">⚡ Govt Exam & College Presets</div>
+    <div class="exam-tags">
+      <a href="https://www.welovepdf.best/compress-pdf-to-100kb" target="_blank" class="exam-tag">UPSC 100KB</a>
+      <a href="https://www.welovepdf.best/compress-pdf-to-200kb" target="_blank" class="exam-tag">SSC CGL 200KB</a>
+      <a href="https://www.welovepdf.best/compress-pdf-to-50kb" target="_blank" class="exam-tag">Sign 50KB</a>
+      <a href="https://www.welovepdf.best/compress-pdf-to-500kb" target="_blank" class="exam-tag">College 500KB</a>
+    </div>
+  </div>
+
+  <div class="section-label">Popular Tools</div>
+  <div class="grid" id="tools-grid">
+    <a href="https://www.welovepdf.best/merge-pdf" target="_blank" class="tool-btn" data-name="merge pdf">
+      <span class="tool-icon">🔀</span>
+      <span>Merge PDF</span>
+    </a>
+    <a href="https://www.welovepdf.best/compress-pdf" target="_blank" class="tool-btn" data-name="compress pdf">
+      <span class="tool-icon">📉</span>
+      <span>Compress PDF</span>
+    </a>
+    <a href="https://www.welovepdf.best/split-pdf" target="_blank" class="tool-btn" data-name="split pdf">
+      <span class="tool-icon">✂️</span>
+      <span>Split PDF</span>
+    </a>
+    <a href="https://www.welovepdf.best/pdf-to-word" target="_blank" class="tool-btn" data-name="pdf to word doc">
+      <span class="tool-icon">📝</span>
+      <span>PDF to Word</span>
+    </a>
+    <a href="https://www.welovepdf.best/ocr-pdf" target="_blank" class="tool-btn" data-name="ocr scan extract text">
+      <span class="tool-icon">🔍</span>
+      <span>OCR PDF</span>
+    </a>
+    <a href="https://www.welovepdf.best/sign-pdf" target="_blank" class="tool-btn" data-name="sign signature pdf">
+      <span class="tool-icon">✍️</span>
+      <span>Sign PDF</span>
+    </a>
+    <a href="https://www.welovepdf.best/pdf-to-jpg" target="_blank" class="tool-btn" data-name="pdf to jpg image">
+      <span class="tool-icon">🖼️</span>
+      <span>PDF to JPG</span>
+    </a>
+    <a href="https://www.welovepdf.best/protect-pdf" target="_blank" class="tool-btn" data-name="protect password lock">
+      <span class="tool-icon">🔒</span>
+      <span>Protect PDF</span>
+    </a>
+  </div>
+
+  <div class="footer">
+    <a href="https://www.welovepdf.best" target="_blank" class="full-site-link">Open Full Workspace (63+ Tools) →</a>
+    <span class="privacy-tag">100% Client-Side</span>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

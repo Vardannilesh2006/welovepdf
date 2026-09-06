@@ -356,13 +356,13 @@ function getArchetypeForTool(slug: string): "A" | "B" | "C" | "D" | "E" | "F" | 
 
   // Archetype C: Upload + options (16 tools)
   if (
+    slug.startsWith("compress-pdf") ||
     [
       "page-numbers",
       "watermark-pdf",
       "header-footer",
       "metadata-editor",
       "flatten-pdf",
-      "compress-pdf",
       "grayscale-pdf",
       "repair-pdf",
       "remove-hidden-data",
