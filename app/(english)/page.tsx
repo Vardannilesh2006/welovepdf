@@ -530,28 +530,28 @@ export default function Home() {
                         className="flex items-center gap-2 p-2.5 rounded-lg bg-amber-50 hover:bg-amber-100/80 border border-amber-200/80 text-[12px] font-heading font-bold text-amber-900 transition-colors"
                       >
                         <Minimize2 className="w-3.5 h-3.5 text-amber-700" />
-                        <span>Compress (WASM)</span>
+                        <span>{lang === "en" ? "Compress (WASM)" : "कंप्रेस (WASM)"}</span>
                       </a>
                       <a
                         href="/split-pdf"
                         className="flex items-center gap-2 p-2.5 rounded-lg bg-amber-50 hover:bg-amber-100/80 border border-amber-200/80 text-[12px] font-heading font-bold text-amber-900 transition-colors"
                       >
                         <Scissors className="w-3.5 h-3.5 text-amber-700" />
-                        <span>Split Pages</span>
+                        <span>{lang === "en" ? "Split Pages" : "स्प्लिट पेज"}</span>
+                      </a>
+                      <a
+                        href="/pdf-to-jpg"
+                        className="flex items-center gap-2 p-2.5 rounded-lg bg-amber-50 hover:bg-amber-100/80 border border-amber-200/80 text-[12px] font-heading font-bold text-amber-900 transition-colors"
+                      >
+                        <Image className="w-3.5 h-3.5 text-amber-700" />
+                        <span>{lang === "en" ? "PDF to JPG" : "PDF से JPG"}</span>
                       </a>
                       <a
                         href="/pdf-to-word"
                         className="flex items-center gap-2 p-2.5 rounded-lg bg-amber-50 hover:bg-amber-100/80 border border-amber-200/80 text-[12px] font-heading font-bold text-amber-900 transition-colors"
                       >
                         <FileType className="w-3.5 h-3.5 text-amber-700" />
-                        <span>PDF to Word</span>
-                      </a>
-                      <a
-                        href="/ocr-pdf"
-                        className="flex items-center gap-2 p-2.5 rounded-lg bg-amber-50 hover:bg-amber-100/80 border border-amber-200/80 text-[12px] font-heading font-bold text-amber-900 transition-colors"
-                      >
-                        <ScanText className="w-3.5 h-3.5 text-amber-700" />
-                        <span>OCR Text</span>
+                        <span>{lang === "en" ? "PDF to Word" : "PDF से Word"}</span>
                       </a>
                     </div>
                   </div>
