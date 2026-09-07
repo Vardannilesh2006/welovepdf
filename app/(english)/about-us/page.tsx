@@ -31,7 +31,7 @@ const founderSchema = {
   "url": "https://www.welovepdf.best/about-us",
   "sameAs": [
     "https://github.com/Vardannilesh2006",
-    "https://www.instagram.com/welovepdf.official/"
+    "https://www.instagram.com/welovepdf.best/"
   ],
   "homeLocation": {
     "@type": "Place",
@@ -112,9 +112,12 @@ export default function AboutUsPage() {
           <p className="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
             Nilesh Verma is an independent full-stack software engineer based in Bettiah, West Champaran, Bihar. Passionate about decentralized web technologies, client-side cryptography, and privacy-respecting software, he built WeLovePDF to offer students, legal practitioners, healthcare professionals, and businesses a completely private, zero-upload document editing suite.
           </p>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-4">
             <a href="https://github.com/Vardannilesh2006" target="_blank" rel="noopener noreferrer" className="text-[13px] font-heading font-bold text-[#D97706] hover:underline">
               GitHub Profile →
+            </a>
+            <a href="https://www.instagram.com/welovepdf.best/" target="_blank" rel="noopener noreferrer" className="text-[13px] font-heading font-bold text-[#E1306C] hover:underline">
+              Instagram (@welovepdf.best) →
             </a>
             <a href="mailto:nileshverma99731@gmail.com" className="text-[13px] font-heading font-semibold text-slate-500 hover:text-slate-800 dark:hover:text-white">
               Contact Nilesh

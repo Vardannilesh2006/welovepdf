@@ -32,7 +32,7 @@ const founderSchema = {
   "url": "https://www.welovepdf.best/about-us",
   "sameAs": [
     "https://github.com/Vardannilesh2006",
-    "https://www.instagram.com/welovepdf.official/"
+    "https://www.instagram.com/welovepdf.best/"
   ],
   "homeLocation": {
     "@type": "Place",
@@ -113,9 +113,12 @@ export default function HindiAboutUsPage() {
           <p className="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
             नीलेश वर्मा बेतिया, पश्चिम चंपारण, बिहार में स्थित एक स्वतंत्र सॉफ़्टवेयर इंजीनियर हैं। गोपनीयता-सम्मानित और विकेंद्रीकृत वेब प्रौद्योगिकियों के समर्थक, उन्होंने छात्रों, अधिवक्ताओं और पेशेवरों को एक सुरक्षित, शून्य-अपलोड दस्तावेज़ संपादक प्रदान करने के लिए WeLovePDF का निर्माण किया।
           </p>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-4">
             <a href="https://github.com/Vardannilesh2006" target="_blank" rel="noopener noreferrer" className="text-[13px] font-heading font-bold text-[#D97706] hover:underline">
               गिटहब प्रोफाइल →
+            </a>
+            <a href="https://www.instagram.com/welovepdf.best/" target="_blank" rel="noopener noreferrer" className="text-[13px] font-heading font-bold text-[#E1306C] hover:underline">
+              Instagram (@welovepdf.best) →
             </a>
             <a href="mailto:nileshverma99731@gmail.com" className="text-[13px] font-heading font-semibold text-slate-500 hover:text-slate-800 dark:hover:text-white">
               संपर्क करें

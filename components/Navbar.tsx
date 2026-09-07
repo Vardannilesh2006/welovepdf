@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { Instagram } from "lucide-react";
 
 interface NavbarProps {
   lang: "en" | "hi";
@@ -73,6 +74,18 @@ export default function Navbar({ lang, setLang }: NavbarProps) {
               </a>
             );
           })}
+
+          {/* Instagram Profile */}
+          <a
+            href="https://www.instagram.com/welovepdf.best/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ml-1 p-1.5 text-slate-500 hover:text-[#E1306C] hover:bg-[#FFF0F5] rounded-lg transition-colors border border-transparent hover:border-[#FCE7F3] flex items-center justify-center"
+            aria-label="Follow WeLovePDF on Instagram @welovepdf.best"
+            title="Follow WeLovePDF on Instagram (@welovepdf.best)"
+          >
+            <Instagram className="w-4 h-4" />
+          </a>
 
           {/* Language Toggle */}
           <button

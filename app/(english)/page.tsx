@@ -14,7 +14,7 @@ import {
   Contrast, BookMarked, Search, MessageCircle, ListCollapse, Languages,
   HelpCircle, Receipt, UserSquare, FileSpreadsheet, QrCode, BookOpen,
   Sparkles, ChevronRight, ShieldCheck, Cpu, Zap, Check, X, ArrowRight,
-  Shield, ExternalLink, HardDrive, Wifi, FileUp, FileCheck
+  Shield, ExternalLink, HardDrive, Wifi, FileUp, FileCheck, Instagram
 } from "lucide-react";
 
 // Map lucideIcon string to actual component
@@ -281,7 +281,7 @@ export default function Home() {
     },
     "sameAs": [
       "https://github.com/Vardannilesh2006",
-      "https://www.instagram.com/welovepdf.official/"
+      "https://www.instagram.com/welovepdf.best/"
     ]
   };
 
@@ -976,7 +976,17 @@ export default function Home() {
                   rel="noopener noreferrer"
                   className="text-slate-600 hover:text-slate-900 flex items-center gap-1 transition-colors"
                 >
-                  <span>GitHub Profile</span>
+                  <span>GitHub</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+                <a
+                  href="https://www.instagram.com/welovepdf.best/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#E1306C] hover:text-[#C13584] flex items-center gap-1 transition-colors font-semibold"
+                >
+                  <Instagram className="w-3.5 h-3.5" />
+                  <span>Instagram (@welovepdf.best)</span>
                   <ExternalLink className="w-3 h-3" />
                 </a>
                 <a

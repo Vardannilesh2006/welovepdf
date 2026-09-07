@@ -44,7 +44,7 @@ export default function Footer({ lang }: FooterProps) {
       title: lang === "en" ? "Connect" : "जुड़ें",
       links: [
         { label: "GitHub", href: "https://github.com/Vardannilesh2006", external: true },
-        { label: "Instagram", href: "https://www.instagram.com/welovepdf.official/", external: true },
+        { label: "Instagram (@welovepdf.best)", href: "https://www.instagram.com/welovepdf.best/", external: true },
       ]
     },
     {
@@ -111,12 +111,25 @@ export default function Footer({ lang }: FooterProps) {
           </div>
 
           {/* Social Icons */}
-          <div className="flex items-center gap-4">
-            <a href="https://github.com/Vardannilesh2006" target="_blank" rel="noopener noreferrer" className="text-text-secondaryLight hover:text-[#D97706] transition-colors" aria-label="GitHub">
+          <div className="flex items-center gap-3">
+            <a
+              href="https://github.com/Vardannilesh2006"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-1.5 text-text-secondaryLight hover:text-slate-900 transition-colors rounded-lg hover:bg-[#FFF5EB]"
+              aria-label="GitHub"
+            >
               <Github className="w-4 h-4" />
             </a>
-            <a href="https://www.instagram.com/welovepdf.official/" target="_blank" rel="noopener noreferrer" className="text-text-secondaryLight hover:text-[#D97706] transition-colors" aria-label="Instagram">
-              <Instagram className="w-4 h-4" />
+            <a
+              href="https://www.instagram.com/welovepdf.best/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3 py-1 text-[12px] font-medium text-slate-700 hover:text-[#E1306C] bg-white border border-[#E5E7EB] hover:border-[#E1306C]/40 rounded-full shadow-2xs hover:shadow-xs transition-all duration-150 group"
+              aria-label="Follow WeLovePDF on Instagram @welovepdf.best"
+            >
+              <Instagram className="w-4 h-4 text-[#E1306C] group-hover:scale-110 transition-transform" />
+              <span className="font-heading font-semibold text-[11.5px]">@welovepdf.best</span>
             </a>
           </div>
         </div>
