@@ -16,7 +16,7 @@ export async function fetchBloggerPosts(): Promise<UnifiedArticle[]> {
   const bloggerUrl =
     process.env.BLOGGER_BLOG_URL ||
     process.env.NEXT_PUBLIC_BLOGGER_URL ||
-    "https://sarkaripixels.blogspot.com";
+    "https://passiveearningstips.blogspot.com";
 
   const cleanUrl = bloggerUrl.replace(/\/+$/, "");
   const feedUrl = `${cleanUrl}/feeds/posts/default?alt=json&max-results=50`;
