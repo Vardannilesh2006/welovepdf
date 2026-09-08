@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ChevronLeft, Calendar, User, ShieldCheck, ArrowRight } from "lucide-react";
 import { getCombinedArticles, getArticleBySlug } from "@/lib/blogger";
 import { blogArticlesHindi, blogGuidesHindi } from "../../../data/blog-posts";
+import "../blog-article.css";
 
 export const dynamicParams = true; // Allow new Blogger posts to be served on demand
 export const revalidate = 300; // 5 minutes ISR cache
@@ -175,7 +176,7 @@ export default async function BlogDetail({
       {/* Article Body (In-Site Reader) */}
       <article
         dangerouslySetInnerHTML={{ __html: String(article.content) }}
-        className="prose prose-slate max-w-none prose-headings:font-heading prose-headings:font-bold prose-h2:text-2xl prose-h3:text-xl prose-a:text-amber-600 prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl text-[15px] sm:text-[16px] leading-relaxed"
+        className="blog-article-content blogger-premium-article max-w-none text-[16px] sm:text-[17px] leading-relaxed"
       />
 
       {/* In-Site Tool CTA Card */}
