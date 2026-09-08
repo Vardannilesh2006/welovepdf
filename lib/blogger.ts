@@ -67,15 +67,60 @@ export async function fetchBloggerPosts(): Promise<UnifiedArticle[]> {
         .trim()
         .substring(0, 180) + "...";
 
+      // Rewrite broken external GitHub images or relative paths in post HTML to /blog-images/
+      const processedContent = rawContent
+        .replace(
+          /https?:\/\/raw\.githubusercontent\.com\/[^\/]+\/[^\/]+\/[^\/]+\/(?:blogger_posts\/)?images\/([^\s"'<>]+)/gi,
+          "/blog-images/$1"
+        )
+        .replace(
+          /src=["'](?:\/)?images\/([^\s"'<>]+)["']/gi,
+          'src="/blog-images/$1"'
+        );
+
       // Extract thumbnail
       let thumbnail = entry.media$thumbnail?.url || "";
       if (thumbnail) {
         // Upgrade Blogger thumbnail size to full quality s1600
         thumbnail = thumbnail.replace(/\/s\d+(-c)?\//, "/s1600/");
       } else {
-        const imgMatch = rawContent.match(/<img[^>]+src=["']([^"']+)["']/i);
+        const imgMatch = processedContent.match(/<img[^>]+src=["']([^"']+)["']/i);
         if (imgMatch && imgMatch[1]) {
           thumbnail = imgMatch[1];
+        }
+      }
+
+      // Convert any GitHub raw or relative image paths to /blog-images/
+      if (thumbnail) {
+        const fnMatch = thumbnail.match(/([^\/\?#]+\.(?:jpg|jpeg|png|webp))/i);
+        if (fnMatch && fnMatch[1]) {
+          thumbnail = `/blog-images/${fnMatch[1]}`;
+        }
+      }
+
+      // Smart fallback thumbnail based on post title & slug
+      if (!thumbnail || thumbnail.includes("b16-rounded") || thumbnail.includes("inline_art")) {
+        const lower = (slug + " " + title).toLowerCase();
+        if (lower.includes("10-saas") || lower.includes("web-design")) {
+          thumbnail = "/blog-images/10-saas-web-design-secrets.jpg";
+        } else if (lower.includes("passive-income") || lower.includes("passive income")) {
+          thumbnail = "/blog-images/5-best-passive-income-ideas.jpg";
+        } else if (lower.includes("sarkaripixels") || lower.includes("login")) {
+          thumbnail = "/blog-images/sarkaripixels-login-registration-problem.jpg";
+        } else if (lower.includes("compress") && lower.includes("100kb")) {
+          thumbnail = "/blog-images/compress-pdf-to-100kb-online-free.jpg";
+        } else if (lower.includes("compress")) {
+          thumbnail = "/blog-images/compress-pdf-complete-guide.jpg";
+        } else if (lower.includes("sarkari") || lower.includes("yojana")) {
+          thumbnail = "/blog-images/sarkari-yojana-complete-guide.jpg";
+        } else if (lower.includes("secure") || lower.includes("password") || lower.includes("protect")) {
+          thumbnail = "/blog-images/pdf-security-password-protection-guide.jpg";
+        } else if (lower.includes("conversion") || lower.includes("converter") || lower.includes("ocr")) {
+          thumbnail = "/blog-images/pdf-converter-complete-hub.jpg";
+        } else if (lower.includes("vishwakarma")) {
+          thumbnail = "/blog-images/pm-vishwakarma-yojana-online-apply-2026.jpg";
+        } else {
+          thumbnail = "/blog-images/test-5-free-pdf-tools-adobe-alternative.jpg";
         }
       }
 
@@ -94,7 +139,7 @@ export async function fetchBloggerPosts(): Promise<UnifiedArticle[]> {
         slug,
         title,
         desc: strippedDesc,
-        content: rawContent,
+        content: processedContent,
         date: dateFormatted,
         tag,
         thumbnail: thumbnail || undefined,
