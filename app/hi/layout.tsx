@@ -43,6 +43,13 @@ export default function HindiRootLayout({
   return (
     <html lang="hi">
       <head>
+        {/* Google AdSense */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6714385905703896"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
         {/* Google tag (gtag.js) — G-J28XZEQQ83 */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-J28XZEQQ83"
