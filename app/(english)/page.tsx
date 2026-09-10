@@ -102,7 +102,7 @@ const FAQS = [
   {
     qEn: "Is WeLovePDF safe for confidential documents, tax returns, and bank statements?",
     qHi: "क्या WeLovePDF गोपनीय दस्तावेज़ों, टैक्स रिटर्न और बैंक स्टेटमेंट के लिए सुरक्षित है?",
-    aEn: "Yes, 100% safe. Unlike traditional PDF websites that upload your files to remote cloud servers, WeLovePDF executes client-side WebAssembly directly in your browser's private memory sandbox. Your sensitive files never leave your computer or phone — zero bytes are sent across the network.",
+    aEn: "Yes, your documents are kept private. Unlike traditional PDF websites that upload your files to remote cloud servers, WeLovePDF executes client-side WebAssembly directly in your browser's private memory sandbox. For core tools, your files remain on your device — zero document bytes are transmitted across the network.",
     aHi: "हाँ, 100% सुरक्षित है। पारंपरिक पीडीएफ वेबसाइटों के विपरीत जो आपकी फाइलों को रिमोट सर्वर पर अपलोड करती हैं, WeLovePDF सीधे आपके ब्राउज़र के स्थानीय मेमोरी सैंडबॉक्स में वेबअसेंबली चलाता है। आपकी गोपनीय फाइलें आपके डिवाइस को कभी नहीं छोड़ती हैं।"
   },
   {
@@ -295,13 +295,6 @@ export default function Home() {
       "Merge PDF", "Compress PDF", "Split PDF", "PDF to Word", "OCR PDF",
       "Client-Side WebAssembly Processing", "Zero Server Uploads", "Offline Support"
     ],
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.9",
-      "ratingCount": "2450",
-      "bestRating": "5",
-      "worstRating": "1"
-    },
     "offers": {
       "@type": "Offer",
       "price": "0",

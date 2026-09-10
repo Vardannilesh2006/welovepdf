@@ -1,6 +1,7 @@
 import React from "react";
 import { Metadata } from "next";
 import { Mail, MessageSquare, Bug, Lightbulb, Clock, CheckCircle2, HelpCircle } from "lucide-react";
+import ContactForm from "../../../components/ContactForm";
 
 export const metadata: Metadata = {
   title: "Contact Support & Technical Inquiries | WeLovePDF",
@@ -113,6 +114,9 @@ export default function ContactPage() {
           </span>
         </div>
       </div>
+
+      {/* Interactive Contact Form */}
+      <ContactForm lang="en" />
 
       {/* Troubleshooting Checklist */}
       <div className="border border-border-light dark:border-border-dark rounded-card bg-white dark:bg-surface-dark p-28 mb-48">

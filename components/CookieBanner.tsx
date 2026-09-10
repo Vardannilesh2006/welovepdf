@@ -16,11 +16,13 @@ export default function CookieBanner() {
   const handleAccept = () => {
     localStorage.setItem("wlp_cookie_consent", "accepted");
     setVisible(false);
-    // Enable GA4 measurement after consent
+    // Enable measurement and advertising consent in Google Consent Mode v2
     if (typeof window !== "undefined" && (window as any).gtag) {
       (window as any).gtag("consent", "update", {
         analytics_storage: "granted",
-        ad_storage: "denied",
+        ad_storage: "granted",
+        ad_user_data: "granted",
+        ad_personalization: "granted",
       });
     }
   };
@@ -28,11 +30,13 @@ export default function CookieBanner() {
   const handleDecline = () => {
     localStorage.setItem("wlp_cookie_consent", "declined");
     setVisible(false);
-    // Deny GA4 measurement
+    // Deny all measurement and advertising storage
     if (typeof window !== "undefined" && (window as any).gtag) {
       (window as any).gtag("consent", "update", {
         analytics_storage: "denied",
         ad_storage: "denied",
+        ad_user_data: "denied",
+        ad_personalization: "denied",
       });
     }
   };
@@ -74,15 +78,20 @@ export default function CookieBanner() {
         <span style={{ fontSize: "20px", flexShrink: 0 }}>🍪</span>
         <div>
           <p style={{ color: "#f1f5f9", fontSize: "13px", lineHeight: "1.5", margin: 0 }}>
-            We use cookies and analytics to improve your experience.
-            All PDF processing happens{" "}
-            <strong style={{ color: "#D97706" }}>100% locally</strong> in your
-            browser — your files are never uploaded.{" "}
+            We use cookies for site analytics and optional advertising to keep our tools free.
+            Core PDF operations execute <strong style={{ color: "#D97706" }}>100% locally</strong> in your browser memory — your documents are never uploaded.{" "}
             <a
               href="/cookies"
               style={{ color: "#60a5fa", textDecoration: "underline", fontSize: "12px" }}
             >
               Cookie Policy
+            </a>
+            {" · "}
+            <a
+              href="/privacy-policy"
+              style={{ color: "#60a5fa", textDecoration: "underline", fontSize: "12px" }}
+            >
+              Privacy
             </a>
           </p>
         </div>

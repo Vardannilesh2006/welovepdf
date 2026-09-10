@@ -53,7 +53,7 @@ export const tools: Tool[] = [
   { slug: "pdf-to-long-image", name: "PDF to Long Image", category: "Convert from PDF", desc: "Render all pages into one tall PNG.", icon: "L", lucideIcon: "GalleryVertical", isBrowserWorking: true },
   { slug: "pdf-to-word", name: "PDF to Word", category: "Convert from PDF", desc: "Extract text into a Word-readable document.", icon: "W", lucideIcon: "FileType", isBrowserWorking: true },
   { slug: "pdf-to-excel", name: "PDF to Excel", category: "Convert from PDF", desc: "Extract text tables into CSV.", icon: "X", lucideIcon: "Table", isBrowserWorking: true },
-  { slug: "pdf-to-powerpoint", name: "PDF to PowerPoint", category: "Convert from PDF", desc: "Create an HTML slide handoff from pages.", icon: "PPT", lucideIcon: "Presentation", isBrowserWorking: true },
+  { slug: "pdf-to-powerpoint", name: "PDF to PowerPoint", category: "Convert from PDF", desc: "Convert PDF pages into editable PowerPoint (.pptx) presentation slides.", icon: "PPT", lucideIcon: "Presentation", isBrowserWorking: true },
   { slug: "pdf-to-html", name: "PDF to HTML", category: "Convert from PDF", desc: "Extract text into a clean HTML file.", icon: "H", lucideIcon: "Code2", isBrowserWorking: true },
   { slug: "pdf-to-csv", name: "PDF to CSV", category: "Convert from PDF", desc: "Extract line text into CSV rows.", icon: "CSV", lucideIcon: "Sheet", isBrowserWorking: true },
   // Convert to PDF

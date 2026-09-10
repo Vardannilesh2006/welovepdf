@@ -1,36 +1,35 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import { tools, toolDescriptions, toolGuides, toolFaqs } from "../app/data/tools-config";
-import { getToolInputFormats, getToolHowToSteps, getToolLimitations } from "../app/data/toolCapabilities";
+import { getToolManifest, ToolManifestEntry } from "../app/data/toolManifest";
 import WorkspaceCard from "./WorkspaceCard";
+import ProcessingModeBadge from "./ProcessingModeBadge";
 import { ChevronRight } from "lucide-react";
 
 function generateDynamicGuide(toolName: string, category: string, desc: string, slug: string): string {
-  const formats = getToolInputFormats(slug).join(", ");
-  const steps = getToolHowToSteps(slug);
-  const limitations = getToolLimitations(slug);
+  const manifest = getToolManifest(slug);
+  const formats = manifest ? manifest.acceptMimeTypes.join(", ") : "PDF";
+  const outputFormat = manifest ? (manifest.outputMimeType || "Visual / Direct Preview") : "PDF";
+  const engine = manifest ? manifest.engine : "WebAssembly (pdf-lib)";
+  const maxSize = manifest ? (manifest.maxBytes === 209715200 ? "Up to 200 MB" : "Up to 25 MB") : "Up to 200 MB";
+  const steps = manifest?.howToSteps && manifest.howToSteps.length > 0 ? manifest.howToSteps : [];
+  const limitations = manifest?.limitations || [];
+
+  const privacyText = manifest?.processingMode === "local"
+    ? "Zero Server Uploads — Document bytes are processed locally in your device RAM sandbox."
+    : (manifest?.processingMode === "hybrid"
+      ? "Hybrid Processing — Document text is extracted locally; questions and prompts are processed ephemerally using Google Gemini API with no permanent storage."
+      : "Ephemeral Cloud AI — Text is sent over TLS to our secure AI endpoint, processed in-memory, and immediately discarded.");
 
   const stepsHtml = steps.length > 0
     ? `<ol>
         ${steps.map(s => `<li><strong>${s.name}:</strong> ${s.text}</li>`).join("")}
       </ol>`
     : `<ol>
-        <li>
-          <strong>Select Document:</strong> 
-          Drag and drop your file into the workspace active container above, or click "Browse Files" to choose from your storage.
-        </li>
-        <li>
-          <strong>Configure Parameters:</strong> 
-          Adjust optional settings in the right drawer such as page selection, compression ratio, resolution, or security settings.
-        </li>
-        <li>
-          <strong>Process File:</strong> 
-          Click the primary action button. The browser sandbox compiles the document nodes locally with real-time status feedback.
-        </li>
-        <li>
-          <strong>Download Result:</strong> 
-          Click "Download PDF" to save your processed document directly to your local device folder.
-        </li>
+        <li><strong>Select Document:</strong> Choose your file from local storage or drag it into the active workspace.</li>
+        <li><strong>Configure Options:</strong> Select desired parameters in the configuration panel.</li>
+        <li><strong>Process:</strong> Click the action button to process the file with real-time feedback.</li>
+        <li><strong>Download:</strong> Save your completed file directly to your device.</li>
       </ol>`;
 
   const limitationsHtml = limitations.length > 0
@@ -45,13 +44,13 @@ function generateDynamicGuide(toolName: string, category: string, desc: string, 
   return `
     <h2>Complete Guide to ${toolName} Online</h2>
     <p>
-      Welcome to WeLovePDF's browser-first <strong>${toolName}</strong> utility. This tool allows you to ${desc.toLowerCase()} quickly, accurately, and securely. 
-      Operating under the <strong>${category}</strong> category, this application executes 100% locally inside your web browser sandbox using modern JavaScript and WebAssembly compiled modules.
+      Welcome to WeLovePDF's <strong>${toolName}</strong> utility. This tool allows you to ${desc.toLowerCase()} reliably and securely. 
+      Operating under the <strong>${category}</strong> category, this application executes via ${engine}.
     </p>
 
     ${limitationsHtml}
 
-    <h3>Tool Specifications & Compatibility</h3>
+    <h3>Tool Specifications & Supported Formats</h3>
     <table>
       <thead>
         <tr>
@@ -61,67 +60,74 @@ function generateDynamicGuide(toolName: string, category: string, desc: string, 
       </thead>
       <tbody>
         <tr>
-          <td><strong>Supported Formats</strong></td>
-          <td>${formats}</td>
+          <td><strong>Accepted Input Formats</strong></td>
+          <td><code>${formats}</code></td>
+        </tr>
+        <tr>
+          <td><strong>Output Format</strong></td>
+          <td><code>${outputFormat}</code></td>
         </tr>
         <tr>
           <td><strong>Processing Engine</strong></td>
-          <td>100% Local In-Browser WebAssembly / PDF.js Sandbox</td>
+          <td>${engine}</td>
         </tr>
         <tr>
-          <td><strong>Maximum File Size</strong></td>
-          <td>Up to 200 MB per processing session</td>
+          <td><strong>File Size Limit</strong></td>
+          <td>${maxSize}</td>
         </tr>
         <tr>
-          <td><strong>Privacy & Retention</strong></td>
-          <td>Zero Server Uploads — Files remain in your device memory</td>
+          <td><strong>Privacy & Data Handling</strong></td>
+          <td>${privacyText}</td>
         </tr>
       </tbody>
     </table>
 
     <h3>Why Choose WeLovePDF's ${toolName}?</h3>
     <ul>
-      <li><strong>100% Client-Side Sandbox:</strong> Your files never touch external servers or third-party cloud storage. Complete privacy is guaranteed by architecture.</li>
-      <li><strong>Free & Unlimited:</strong> No hidden subscription fees, daily limits, page caps, or mandatory account registrations.</li>
-      <li><strong>Fast & Offline Capable:</strong> Local processing eliminates server upload delays and functions smoothly even on unstable mobile connections once cached.</li>
-      <li><strong>Cross-Platform Support:</strong> Fully optimized for desktop browsers (Chrome, Edge, Firefox, Safari) and mobile devices (Android, iOS).</li>
+      <li><strong>Architecture-First Privacy:</strong> Built to minimize data transmission. Core tools run client-side in your browser memory sandbox.</li>
+      <li><strong>Free & Direct:</strong> No subscription paywalls, artificial daily quotas, or mandatory account registrations.</li>
+      <li><strong>Cross-Platform Compatibility:</strong> Optimized for all modern desktop browsers (Chrome, Edge, Firefox, Safari) and mobile platforms (Android, iOS).</li>
     </ul>
 
     <h3>How to Use ${toolName} (Step-by-Step)</h3>
     ${stepsHtml}
 
-    <h3>Practical Use Cases</h3>
-    <ul>
-      <li><strong>Email Attachment Optimization:</strong> Shrink large PDFs to fit email attachment size limits (e.g., Gmail's 25MB cap).</li>
-      <li><strong>Official & Government Submissions:</strong> Prepare compliant PDF files for portal uploads, university applications, or visa processing.</li>
-      <li><strong>Privacy-Sensitive Work:</strong> Process medical records, financial statements, contracts, or tax documents without uploading them to third-party servers.</li>
-      <li><strong>Mobile Workflow:</strong> Easily edit and process PDF documents on budget smartphones directly within mobile Chrome or Safari.</li>
-    </ul>
-
-    <h3>Privacy & Security Guarantee</h3>
-    <p>
-      WeLovePDF adheres to a strict <strong>No-Server-Upload</strong> model. When you open the ${toolName} tool, all required rendering code is loaded into your browser's local sandbox memory. When you execute an action, your browser's CPU and memory perform the operations directly. When you close or refresh the tab, temporary memory buffers are automatically purged by browser garbage collection.
-    </p>
-
     <h3>Troubleshooting Common Issues</h3>
     <ul>
-      <li><strong>File Upload Fails:</strong> Ensure your document is under 200 MB and is not corrupted. For encrypted files, unlock the PDF first using our Unlock PDF tool.</li>
-      <li><strong>Slow Processing on Mobile:</strong> Close background browser tabs to free up RAM memory on lower-end smartphone devices.</li>
-      <li><strong>Download Didn't Start:</strong> Verify that pop-up blockers or download permissions are allowed in your browser settings.</li>
+      <li><strong>File Upload Issues:</strong> Verify the document format matches the supported formats list and stays under ${maxSize}.</li>
+      <li><strong>Browser Memory:</strong> For large batch operations on mobile, keep other browser tabs minimized.</li>
+      <li><strong>Permissions:</strong> Ensure download permissions are enabled in your browser settings.</li>
     </ul>
   `;
 }
 
 function generateDynamicHindiGuide(toolName: string, category: string, desc: string, slug: string): string {
-  const formats = getToolInputFormats(slug).join(", ");
+  const manifest = getToolManifest(slug);
+  const formats = manifest ? manifest.acceptMimeTypes.join(", ") : "PDF";
+  const outputFormat = manifest ? (manifest.outputMimeType || "Visual Preview") : "PDF";
+  const engine = manifest ? manifest.engine : "WebAssembly";
+  const maxSize = manifest ? (manifest.maxBytes === 209715200 ? "200 MB तक" : "25 MB तक") : "200 MB तक";
+  const steps = manifest?.howToSteps && manifest.howToSteps.length > 0 ? manifest.howToSteps : [];
+
+  const stepsHtml = steps.length > 0
+    ? `<ol>
+        ${steps.map(s => `<li><strong>${s.name}:</strong> ${s.text}</li>`).join("")}
+      </ol>`
+    : `<ol>
+        <li><strong>फ़ाइल चुनें:</strong> अपने डिवाइस से फ़ाइल चुनें या ड्रैग-एंड-ड्रॉप करें।</li>
+        <li><strong>सेटिंग्स सेट करें:</strong> आवश्यकतानुसार विकल्प चुनें।</li>
+        <li><strong>प्रोसेस करें:</strong> एक्शन बटन पर क्लिक करें।</li>
+        <li><strong>डाउनलोड करें:</strong> तैयार फ़ाइल को सहेजें।</li>
+      </ol>`;
+
   return `
     <h2>${toolName} ऑनलाइन उपयोग करने की संपूर्ण गाइड</h2>
     <p>
-      WeLovePDF के ब्राउज़र-फ़र्स्ट <strong>${toolName}</strong> टूल में आपका स्वागत है। यह टूल आपको आसानी से ${desc.toLowerCase()} करने में मदद करता है।
-      <strong>${category}</strong> श्रेणी के तहत काम करते हुए, यह एप्लिकेशन आपके वेब ब्राउज़र सैंडबॉक्स के भीतर 100% स्थानीय रूप से जावास्क्रिप्ट और वेबअसेंबली के माध्यम से निष्पादित होता है।
+      WeLovePDF के <strong>${toolName}</strong> टूल में आपका स्वागत है। यह टूल आपको ${desc.toLowerCase()} करने की सुविधा देता है।
+      <strong>${category}</strong> श्रेणी के अंतर्गत, यह ${engine} के माध्यम से सुरक्षित रूप से कार्य करता है।
     </p>
 
-    <h3>टूल विनिर्देश और संगतता (Specifications)</h3>
+    <h3>टूल विनिर्देश और समर्थित प्रारूप (Specifications)</h3>
     <table>
       <thead>
         <tr>
@@ -131,68 +137,31 @@ function generateDynamicHindiGuide(toolName: string, category: string, desc: str
       </thead>
       <tbody>
         <tr>
-          <td><strong>समर्थित प्रारूप (Formats)</strong></td>
-          <td>${formats}</td>
+          <td><strong>समर्थित इनपुट प्रारूप</strong></td>
+          <td><code>${formats}</code></td>
+        </tr>
+        <tr>
+          <td><strong>आउटपुट प्रारूप</strong></td>
+          <td><code>${outputFormat}</code></td>
         </tr>
         <tr>
           <td><strong>प्रोसेसिंग इंजन</strong></td>
-          <td>100% लोकल इन-ब्राउज़र सैंडबॉक्स (वेबअसेंबली)</td>
+          <td>${engine}</td>
         </tr>
         <tr>
-          <td><strong>अधिकतम फाइल आकार</strong></td>
-          <td>200 MB तक प्रति सत्र</td>
-        </tr>
-        <tr>
-          <td><strong>गोपनीयता</strong></td>
-          <td>जीरो सर्वर अपलोड — फाइलें आपके डिवाइस मेमोरी में ही रहती हैं</td>
+          <td><strong>अधिकतम फ़ाइल आकार</strong></td>
+          <td>${maxSize}</td>
         </tr>
       </tbody>
     </table>
 
-    <h3>WeLovePDF का ${toolName} क्यों चुनें?</h3>
-    <ul>
-      <li><strong>100% क्लाइंट-साइड सैंडबॉक्स:</strong> आपकी फाइलें कभी भी आपके डिवाइस से बाहर नहीं जाती हैं। पूर्ण गोपनीयता की गारंटी है।</li>
-      <li><strong>मुफ्त और असीमित:</strong> कोई छिपी हुई लागत, सदस्यता शुल्क, सीमाएं या वॉटरमार्क नहीं।</li>
-      <li><strong>तेज़ और ऑफलाइन सक्षम:</strong> स्थानीय प्रोसेसिंग से अपलोडिंग/डाउनलोडिंग की देरी समाप्त हो जाती है।</li>
-      <li><strong>मोबाईल और डेस्कटॉप संगत:</strong> एंड्रॉइड, आईओएस, क्रोम और सफारी पर पूरी तरह से काम करता है।</li>
-    </ul>
-
-    <h3>${toolName} का उपयोग कैसे करें (चरण-दर-चरण निर्देश)</h3>
-    <ol>
-      <li>
-        <strong>फाइल चुनें:</strong> 
-        अपनी फाइलों को सीधे कार्यक्षेत्र में खींचें और छोड़ें (Drag and drop) या "फ़ाइलें चुनें" बटन पर क्लिक करें।
-      </li>
-      <li>
-        <strong>सेटिंग्स कॉन्फ़िगर करें:</strong> 
-        लोड होने के बाद आवश्यकतानुसार विकल्पों को समायोजित करें (जैसे कंप्रेस स्तर, पेज रेंज या पासवर्ड)।
-      </li>
-      <li>
-        <strong>प्रोसेस करें:</strong> 
-        मुख्य बटन पर क्लिक करें। सैंडबॉक्स इंजन आपके ब्राउज़र में फाइलों को प्रोसेस करेगा।
-      </li>
-      <li>
-        <strong>डाउनलोड करें:</strong> 
-        "डाउनलोड पीडीएफ" पर क्लिक करके अपडेटेड फाइल को सीधे अपने डिवाइस में सहेजें।
-      </li>
-    </ol>
-
-    <h3>व्यावहारिक उपयोग (Practical Use Cases)</h3>
-    <ul>
-      <li><strong>ईमेल अटैचमेंट:</strong> बड़ी पीडीएफ फाइलों का आकार छोटा करें ताकि वे ईमेल लिमिट में फिट हो सकें।</li>
-      <li><strong>सरकारी और आधिकारिक फॉर्म:</strong> सरकारी पोर्टलों के लिए सही साइज और फॉर्मेट में दस्तावेज तैयार करें।</li>
-      <li><strong>गोपनीय कार्य:</strong> वित्तीय और व्यक्तिगत फाइलों को बिना किसी सर्वर पर भेजे सुरक्षित रूप से प्रोसेस करें।</li>
-    </ul>
-
-    <h3>गोपनीयता और सुरक्षा गारंटी</h3>
-    <p>
-      WeLovePDF <strong>जीरो सर्वर अपलोड</strong> सिद्धांत पर काम करता है। सभी कार्य आपके डिवाइस की रैम और सीपीयू पर होते हैं। टैब बंद करते ही अस्थायी डेटा स्वतः नष्ट हो जाता है।
-    </p>
+    <h3>${toolName} का उपयोग कैसे करें (चरण-दर-चरण)</h3>
+    ${stepsHtml}
 
     <h3>समस्या निवारण (Troubleshooting)</h3>
     <ul>
-      <li><strong>फाइल प्रोसेस नहीं हो रही:</strong> जांचें कि फाइल का आकार 200MB से कम है और फाइल पासवर्ड से सुरक्षित तो नहीं है।</li>
-      <li><strong>डाउनलोड नहीं हो रहा:</strong> अपने ब्राउज़र की पॉप-अप और डाउनलोड अनुमतियों (Permissions) की जांच करें।</li>
+      <li><strong>फ़ाइल चयन त्रुटि:</strong> सुनिश्चित करें कि आपकी फ़ाइल का प्रारूप समर्थित सूची से मेल खाता है।</li>
+      <li><strong>धीमी गति:</strong> बड़े दस्तावेज़ों के लिए पृष्ठभूमि के अनावश्यक टैब बंद करें।</li>
     </ul>
   `;
 }
@@ -277,6 +246,7 @@ export function ToolPageContent({ params, lang }: { params: { tool: string }; la
   if (!tool) {
     notFound();
   }
+  const manifest = getToolManifest(tool.slug);
 
   // Schema structured data definitions
   const webAppSchema = {
@@ -321,13 +291,6 @@ export function ToolPageContent({ params, lang }: { params: { tool: string }; la
     "name": `${tool.name} — WeLovePDF`,
     "operatingSystem": "Web Browser (Chrome, Safari, Firefox, Edge, Android, iOS)",
     "applicationCategory": "UtilitiesApplication",
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.9",
-      "ratingCount": "1280",
-      "bestRating": "5",
-      "worstRating": "1"
-    },
     "offers": {
       "@type": "Offer",
       "price": "0",
@@ -335,7 +298,7 @@ export function ToolPageContent({ params, lang }: { params: { tool: string }; la
     }
   };
 
-  const toolSteps = getToolHowToSteps(tool.slug);
+  const toolSteps = manifest?.howToSteps && manifest.howToSteps.length > 0 ? manifest.howToSteps : [];
   const howToSchema = {
     "@context": "https://schema.org",
     "@type": "HowTo",
@@ -449,9 +412,12 @@ export function ToolPageContent({ params, lang }: { params: { tool: string }; la
 
         {/* Primary H1 Heading & SEO Subtitle */}
         <div className="mb-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 rounded-full text-[12px] font-heading font-semibold text-emerald-700 dark:text-emerald-300 mb-2.5">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            {lang === "en" ? "100% Client-Side WebAssembly Sandbox · Zero Server Upload" : "100% क्लाइंट-साइड वेबअसेंबली सैंडबॉक्स · कोई सर्वर अपलोड नहीं"}
+          <div className="mb-2.5">
+            <ProcessingModeBadge
+              mode={manifest?.processingMode || (tool.isAI ? "server" : "local")}
+              status={manifest?.status || "stable"}
+              lang={lang}
+            />
           </div>
           <h1 className="font-heading font-black text-[28px] sm:text-[36px] text-slate-900 dark:text-white leading-tight tracking-tight mb-2">
             {getToolH1(tool.name, tool.slug, lang)}

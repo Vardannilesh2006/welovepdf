@@ -9,6 +9,9 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  experimental: {
+    serverComponentsExternalPackages: ['muhammara'],
+  },
   webpack: (config) => {
     config.resolve.alias.canvas = false;
     return config;

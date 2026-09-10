@@ -1,6 +1,7 @@
 import React from "react";
 import { Metadata } from "next";
 import { Mail, MessageSquare, Bug, Lightbulb, Clock, CheckCircle2, HelpCircle } from "lucide-react";
+import ContactForm from "../../../components/ContactForm";
 
 export const metadata: Metadata = {
   title: "सहायता एवं तकनीकी पूछताछ | WeLovePDF",
@@ -109,6 +110,9 @@ export default function HindiContactPage() {
           </span>
         </div>
       </div>
+
+      {/* Interactive Contact Form */}
+      <ContactForm lang="hi" />
 
       <div className="border border-border-light dark:border-border-dark rounded-card bg-white dark:bg-surface-dark p-28 mb-48">
         <h2 className="text-xl font-bold mb-16 text-text-primaryLight dark:text-text-primaryDark">

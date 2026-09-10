@@ -41,6 +41,41 @@ export default function ArchetypeD({
 
   const isBatchImageTool = ["jpg-to-pdf", "png-to-pdf", "image-to-pdf"].includes(toolSlug);
 
+  const getDownloadFilename = (slug: string) => {
+    switch (slug) {
+      case "pdf-to-powerpoint":
+        return "converted-presentation.pptx";
+      case "pdf-to-word":
+        return "converted-document.docx";
+      case "pdf-to-excel":
+        return "converted-sheet.xlsx";
+      case "pdf-to-csv":
+        return "converted-data.csv";
+      case "pdf-to-text":
+        return "extracted-text.txt";
+      case "pdf-to-markdown":
+        return "extracted-document.md";
+      case "pdf-to-html":
+        return "extracted-page.html";
+      case "pdf-to-jpg":
+        return "converted-page.jpg";
+      case "pdf-to-png":
+        return "converted-page.png";
+      case "pdf-to-long-image":
+        return "combined-pages.png";
+      default:
+        return `${slug}-output.pdf`;
+    }
+  };
+
+  const getAcceptedFormats = (slug: string) => {
+    if (isBatchImageTool) return "image/*,.jpg,.jpeg,.png,.webp";
+    if (slug === "word-to-pdf") return ".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+    if (slug === "excel-to-pdf") return ".xls,.xlsx,.csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    if (slug === "powerpoint-to-pdf") return ".ppt,.pptx,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation";
+    return ".pdf,application/pdf";
+  };
+
   if (resultUrl) {
     return (
       <div className="w-full bg-[#FFFFFF] border-[0.5px] border-[#EFE1D2] rounded-[12px] p-6 text-center shadow-none my-2">
@@ -56,7 +91,7 @@ export default function ArchetypeD({
         <div className="flex flex-wrap items-center justify-center gap-3">
           <a
             href={resultUrl}
-            download={`${toolSlug}-output.pdf`}
+            download={getDownloadFilename(toolSlug)}
             className="px-6 py-3 bg-[#E8792A] hover:bg-[#D66B1E] text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2"
           >
             <Upload className="w-4 h-4 rotate-180" />
@@ -80,7 +115,7 @@ export default function ArchetypeD({
           <input
             type="file"
             multiple={isBatchImageTool}
-            accept={isBatchImageTool ? "image/*" : ".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx"}
+            accept={getAcceptedFormats(toolSlug)}
             className="hidden"
             onChange={handleFileInput}
           />

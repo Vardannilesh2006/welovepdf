@@ -65,7 +65,7 @@ export default function Footer({ lang }: FooterProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-4">
           <div className="flex items-center gap-2 text-[12px] text-[#D97706] font-semibold">
             <ShieldCheck className="w-3.5 h-3.5" />
-            <span>{lang === "en" ? "Enterprise Grade Encryption Sandbox" : "एंटरप्राइज ग्रेड एन्क्रिप्शन सैंडबॉक्स"}</span>
+            <span>{lang === "en" ? "Client-Side In-Browser Memory Sandbox" : "क्लाइंट-साइड इन-ब्राउज़र मेमोरी सैंडबॉक्स"}</span>
           </div>
           <div className="text-[12px] text-text-secondaryLight font-medium">
             {lang === "en" ? "No uploads. No signup required." : "कोई अपलोड नहीं। कोई साइनअप नहीं।"}

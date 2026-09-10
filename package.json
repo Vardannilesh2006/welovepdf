@@ -8,26 +8,29 @@
     "build": "next build",
     "start": "node .next/standalone/server.js",
     "lint": "next lint",
-    "seo-check": "node scripts/seo-ssr-regression-check.mjs"
+    "seo-check": "node scripts/seo-ssr-regression-check.mjs",
+    "test:p0": "node scripts/verify-p0-suite.mjs"
   },
   "dependencies": {
-    "next": "^14.1.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "pdf-lib": "^1.17.1",
-    "pdfjs-dist": "^4.0.3",
-    "tesseract.js": "^5.0.3",
+    "@sentry/nextjs": "^7.100.0",
     "jimp": "^1.6.0",
     "lucide-react": "^0.331.0",
-    "@sentry/nextjs": "^7.100.0"
+    "muhammara": "^6.0.6",
+    "next": "^14.1.0",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^4.0.3",
+    "pptxgenjs": "^4.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tesseract.js": "^5.0.3"
   },
   "devDependencies": {
-    "typescript": "^5.3.3",
     "@types/node": "^20.11.19",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
-    "tailwindcss": "^3.4.1",
+    "autoprefixer": "^10.4.17",
     "postcss": "^8.4.35",
-    "autoprefixer": "^10.4.17"
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.3.3"
   }
 }

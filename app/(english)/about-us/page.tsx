@@ -82,7 +82,7 @@ export default function AboutUsPage() {
           <Cpu className="w-6 h-6 text-blue-600" />
           <h3 className="font-bold text-[15px] text-slate-900 dark:text-white">WebAssembly Powered</h3>
           <p className="text-[13px] text-text-secondaryLight dark:text-text-secondaryDark leading-relaxed">
-            Near-native binary execution speeds. Merging 50-page documents happens in under 200 milliseconds without network upload lag.
+            Near-native binary execution speeds. Merging and compressing documents happens directly on your device CPU without network upload lag.
           </p>
         </div>
         <div className="p-5 border border-border-light dark:border-border-dark rounded-card bg-white dark:bg-surface-dark flex flex-col gap-2">
