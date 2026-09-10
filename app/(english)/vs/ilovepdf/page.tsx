@@ -7,7 +7,15 @@ export const metadata: Metadata = {
   description: "An honest comparison between WeLovePDF and iLovePDF. Discover why browser-first local sandbox processing is safer and faster than server uploads.",
   alternates: {
     canonical: "https://www.welovepdf.best/vs/ilovepdf",
-  }
+  },
+  openGraph: {
+    title: "WeLovePDF vs iLovePDF — The Best Free Alternative | WeLovePDF",
+    description: "An honest comparison between WeLovePDF and iLovePDF. Discover why browser-first local sandbox processing is safer and faster than server uploads.",
+    url: "https://www.welovepdf.best/vs/ilovepdf",
+    siteName: "WeLovePDF",
+    type: "website",
+    images: [{ url: "https://www.welovepdf.best/icon.svg", width: 512, height: 512, alt: "WeLovePDF vs iLovePDF" }],
+  },
 };
 
 export default function iLovePdfComparison() {

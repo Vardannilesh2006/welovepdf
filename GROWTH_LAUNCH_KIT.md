@@ -111,7 +111,7 @@ Submit to these directories (all free submissions):
   I built a free web tool tailored specifically for Indian students and govt exam aspirants:
   - 1-Click Presets: SSC (200KB), UPSC (100KB), Signature/Photo (50KB), College (500KB).
   - 100% Private: Runs directly inside your browser using WebAssembly. Your marksheets and certificates are NOT uploaded to any server.
-  - No ads that block your work, no watermarks, completely free.
+  - No forced signups, no watermarks, completely free.
 
   Check it out: https://www.welovepdf.best/compress-pdf-for-ssc-upsc
 

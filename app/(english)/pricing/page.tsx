@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 const pricingFaqs = [
   {
     question: "Is WeLovePDF really 100% free without any trial limits?",
-    answer: "Yes, completely free. There are no 7-day trials, no daily quota limits, no credit card requests, and no locked 'Pro only' buttons. You have unlimited access to every single tool."
+    answer: "Yes, completely free. There are no 7-day trials, no daily quota limits, no credit card requests, and no locked 'Pro only' buttons. You have unlimited access to every core browser tool, with standard fair-use guidelines on server-side AI requests."
   },
   {
     question: "How can WeLovePDF offer free tools without charging subscriptions?",

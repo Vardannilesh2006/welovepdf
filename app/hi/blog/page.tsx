@@ -29,7 +29,7 @@ export default function HindiBlogListPage() {
   const articlesList = [
     ...Object.entries(blogArticlesHindi).map(([slug, art]) => ({ slug, ...art })),
     ...Object.entries(blogGuidesHindi).map(([slug, art]) => ({ slug, ...art }))
-  ];
+  ].sort((a, b) => (new Date(b.date).getTime() || 0) - (new Date(a.date).getTime() || 0));
 
   return (
     <div className="max-w-7xl mx-auto px-16 py-64">

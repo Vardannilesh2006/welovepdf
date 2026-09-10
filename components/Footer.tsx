@@ -68,7 +68,7 @@ export default function Footer({ lang }: FooterProps) {
             <span>{lang === "en" ? "Enterprise Grade Encryption Sandbox" : "एंटरप्राइज ग्रेड एन्क्रिप्शन सैंडबॉक्स"}</span>
           </div>
           <div className="text-[12px] text-text-secondaryLight font-medium">
-            {lang === "en" ? "No ads. No uploads. No signup." : "कोई विज्ञापन नहीं। कोई अपलोड नहीं। कोई साइनअप नहीं।"}
+            {lang === "en" ? "No uploads. No signup required." : "कोई अपलोड नहीं। कोई साइनअप नहीं।"}
           </div>
         </div>
       </div>

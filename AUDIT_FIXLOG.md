@@ -1,65 +1,66 @@
-# WeLovePDF — Master Fix Audit Log
+# WeLovePDF.best — Unified Master Fix & AdSense-Readiness Fix Log
 
 **Site:** welovepdf.best  
 **Repo:** github.com/Vardannilesh2006/welovepdf  
-**Started:** 2026-09-05  
-**Updated:** 2026-09-05  
-**Status:** All 32 Fix IDs Executed & Verified (170/170 Static Pages Built)
+**Started:** 2026-09-10  
+**Updated:** 2026-09-10  
+**Status:** In Progress — Executing Unified Master Fix & AdSense-Readiness Brief
 
 ---
 
 ## Fix ID Status Table
 
-| Fix ID | Title | Status | Branch / PR | Evidence |
-|--------|-------|--------|-------------|----------|
-| QW-01 | Fix og:url on static pages | Done | ix/QW-01-06-quick-wins | 14 static pages (7 EN + 7 HI) have explicit openGraph.url |
-| QW-02 | Fix duplicated Troubleshooting heading | Done | ix/QW-01-06-quick-wins | ToolPageContent.tsx duplicated H3 removed |
-| QW-03 | Fix footer social links | Done | ix/QW-01-06-quick-wins | Footer generic Twitter/LinkedIn replaced with real GitHub & Instagram |
-| QW-04 | Sort blog posts reverse-chronological | Done | ix/QW-01-06-quick-wins | log/page.tsx sorted with 
-ew Date(b.date) - new Date(a.date) |
-| QW-05 | Fix Protect PDF claim contradiction | Done | ix/QW-01-06-quick-wins | 	ools-config.ts desc updated to AES-128 in-browser encryption |
-| QW-06 | Fix Terms fair-use vs Unlimited contradiction | Done | ix/QW-01-06-quick-wins | Clarified: core browser tools are completely unlimited; AI tools have fair use |
-| P0-01 | SSR/SSG verification | Done | main | All 170/170 pages statically pre-rendered with H1, title, meta |
-| P0-02 | Canonical tag audit | Done | main | Zero formfit references; canonical points to welovepdf.best/{slug} |
-| P0-03 | Redirect ghost URLs | Done | main | 14x 301 permanent redirects in 
-ext.config.js |
-| P0-04 | Full Privacy Policy content | Done | ix/P0-04-05-legal-pages-full-content | GDPR/DPDPA compliant policy with controller, GA4 disclosure, user rights |
-| P0-05 | Full Cookie Policy content | Done | ix/P0-04-05-legal-pages-full-content | Cookie policy with categories table (localStorage, _ga), opt-out guidance |
-| P0-06 | Build tool capability manifest | Done | ix/P0-06-tool-capability-manifest | pp/data/toolCapabilities.ts created for all 63 tools with formats, steps, limitations |
-| P0-07 | Fix Compare PDF description | Done | ix/P0-accuracy-and-trust | Updated to state metadata, page counts, and text diffing |
-| P0-08 | Fix Ask PDF wrong how-to steps | Done | ix/P0-accuracy-and-trust | Dynamic HowTo steps: Upload → Text parsing → Natural language query → AI answer |
-| P0-09 | Fix Redact PDF wrong how-to steps | Done | ix/P0-accuracy-and-trust | Dynamic HowTo steps: Upload → Define rectangular area → Visual overlay → Download |
-| P0-10 | Fix Supported Formats table per tool | Done | ix/P0-accuracy-and-trust | Dynamic getToolInputFormats(slug) in table instead of hardcoded 7-format list |
-| P0-11 | Redact PDF visual-only disclosure | Done | ix/P0-accuracy-and-trust | High-visibility amber trust disclosure callout in guide + schema limitations |
-| P0-12 | Protect PDF AES claim verification | Done | ix/P0-accuracy-and-trust | Aligned claims across tools-config and guide to AES-128 |
-| P0-13 | Verify Signature capability disclosure | Done | ix/P0-accuracy-and-trust | Disclosed: AcroForm structural presence scan; not PKI CA trust verification |
-| P1-01 | Tool-specific HowTo steps | Done | ix/P0-accuracy-and-trust | Rendered via getToolHowToSteps(slug) in both HTML guide and JSON-LD schema |
-| P1-02 | Pricing/Plans page | Done | ix/P1-P2-brand-credibility-and-seo | 100% Free explanation + complete openGraph metadata & social cards |
-| P1-03 | Per-tool Supported Formats from manifest | Done | ix/P0-accuracy-and-trust | Integrated into generateDynamicGuide and generateDynamicHindiGuide |
-| P1-04 | og:image on static pages | Done | ix/P1-P2-brand-credibility-and-seo | Added images to openGraph across all 18 static pages (EN & HI) |
-| P1-05 | Site-wide FAQ page | Done | ix/P1-P2-brand-credibility-and-seo | 10 comprehensive FAQs + Schema.org FAQPage on both /faq and /hi/faq |
-| P1-06 | Expand About Us page | Done | ix/P1-P2-brand-credibility-and-seo | Rich founder story, Bettiah, Bihar roots, 4 architectural pillars, schema |
-| P2-01 | Add llms.txt | Done | main | public/llms.txt verified for AI search/LLM crawlers |
-| P2-02 | Add humans.txt | Done | ix/P1-P2-brand-credibility-and-seo | public/humans.txt created with team & site technical specifications |
-| T-01 | Smoke test QW group | Done | main | Quick wins verified in build output and git diffs |
-| T-02 | Smoke test P0 group | Done | main | All P0 trust, privacy, and capability updates verified |
-| T-03 | GSC sitemap re-index check | Done | main | Sitemap valid at https://www.welovepdf.best/sitemap.xml |
-| T-04 | curl meta tag verification | Done | main | Automated Python test suite confirmed 100% PASS |
+| ID | Title | Status | Branch / PR | Evidence |
+|---|---|---|---|---|
+| QW-01 | Fix `og:url` on static pages | Done | fix/unified-quick-wins | All 21 static pages verified with exact canonical openGraph.url (zero root fallbacks) |
+| QW-02 | Fix duplicated "Troubleshooting" heading | Done | fix/unified-quick-wins | Grep verified: zero matches for duplicated "Troubleshooting & Troubleshooting" sitewide |
+| QW-03 | Replace placeholder social links | Done | fix/unified-quick-wins | Footer verified: Twitter/LinkedIn removed; real GitHub (@Vardannilesh2006) & Instagram (@welovepdf.best) only |
+| QW-04 | Fix blog listing sort order | Done | fix/unified-quick-wins | Both EN (lib/blogger.ts) and HI (app/hi/blog/page.tsx) sorted strictly descending by date |
+| QW-05 | Reconcile Protect PDF homepage-vs-page copy | Done | fix/unified-quick-wins | All descriptions reconciled to AES-128 in-browser encryption in tools-config.ts & guides |
+| QW-06 | Reconcile Terms "fair use" vs homepage "unlimited" | Done | fix/unified-quick-wins | Terms, Pricing FAQs, and Homepage aligned: core tools 100% unlimited, AI tools fair-use |
+| QW-07 | Change "No ads. No uploads. No signup." wording | Done | fix/unified-quick-wins | Replaced with "No uploads. No signup required." across footer & homepage; 0 matches for "No ads" sitewide |
+| P0-01 | Confirm/fix SSR-CSR rendering via GSC | In Progress | - | - |
+| P0-02 | Full-site canonical audit | Not Started | - | - |
+| P0-03 | Redirect/404 audit + fix | Not Started | - | - |
+| P0-04 | Verify robots.txt & sitemap.xml | Not Started | - | - |
+| P0-05 | Check GSC for manual actions/security issues | Not Started | - | - |
+| P0-06 | Build tool manifest (foundational) | Not Started | - | - |
+| P0-07 | Add processing-mode labels per tool | Not Started | - | - |
+| P0-08 | Rewrite absolute-claim language site-wide | Not Started | - | - |
+| P0-09 | Expand Privacy Policy to AdSense-ready version | Not Started | - | - |
+| P0-10 | Audit existing cookie-consent mechanism | Not Started | - | - |
+| P0-11 | Fix PDF to PowerPoint output/claim mismatch | Not Started | - | - |
+| P0-12 | Fix Ask PDF's wrong "How to Use" steps | Not Started | - | - |
+| P0-13 | Fix Redact PDF's wrong "How to Use" steps | Not Started | - | - |
+| P0-14 | Fix generic Supported-Formats table | Not Started | - | - |
+| P0-15 | Implement true redaction | Not Started | - | - |
+| P0-16 | Verify/fix Protect PDF encryption claim | Not Started | - | - |
+| P0-17 | Scope down or rebuild Verify Signature | Not Started | - | - |
+| P1-01 | About Us light edit | Not Started | - | - |
+| P1-02 | Contact page functionality + trust check | Not Started | - | - |
+| P1-03 | Terms & Conditions full AdSense-ready review | Not Started | - | - |
+| P1-04 | Tool-page section completeness audit | Not Started | - | - |
+| P1-05 | Set content-depth bar; expand priority guides | Not Started | - | - |
+| P1-06 | Audit existing blog articles; fix comparison pages | Not Started | - | - |
+| P1-07 | Internal linking audit | Not Started | - | - |
+| P1-08 | Main navigation audit | Not Started | - | - |
+| P1-09 | Site-wide SEO basics verification | Not Started | - | - |
+| P1-10 | Implement valid structured data | Not Started | - | - |
+| P1-11 | Replace universal template with archetypes | Not Started | - | - |
+| P1-12 | Remove filler phrases site-wide | Not Started | - | - |
+| P1-13 | Show only relevant controls per tool | Not Started | - | - |
+| P1-14 | Label experimental/stable tools | Not Started | - | - |
+| P1-15 | Surface "Made in India / Bettiah" detail | Not Started | - | - |
+| P2-01 | Full technical QA sweep (excl. ad-space layout) | Not Started | - | - |
+| P2-02 | Document future ad-placement policy (no layout change) | Not Started | - | - |
+| T-01 | Output-format assertion tests | Not Started | - | - |
+| T-02 | Redaction verification test | Not Started | - | - |
+| T-03 | Encrypted-PDF cross-viewer test | Not Started | - | - |
+| T-04 | Local-only network-request test | Not Started | - | - |
+| FIN-01 | Final AdSense-readiness audit + go/no-go | Not Started | - | - |
 
 ---
 
-## Build & Deployment Status
-- **Next.js Version:** 14.2.35
-- **Prerendered Static Routes:** 170 / 170 pages compiled with 0 errors
-- **Git Branch:** main pushed to github.com/Vardannilesh2006/welovepdf.git
-- **Auto-deployment:** Triggered on Vercel
-
----
-
-## UI/UX Pro Max Redesign Milestone (2026-09-05)
-- **Hero Transformation:** High-contrast modern SaaS typography, ambient radial glow, live WebAssembly sandbox badge, keyboard-driven search (`/`), interactive instant PDF drag-and-drop workspace launcher.
-- **Trust & Diagnostics Strip:** Real-time WebAssembly engine status, 0 byte egress proof, local RAM memory counters.
-- **Catalog Navigation & Bento Grid:** Modern cards with subtle border depth, hover lift, WASM/AI badges, and active category pills with count indicators.
-- **Visual Architecture Breakdown:** Side-by-side comparison illustrating why client-side browser memory sandboxing beats traditional cloud uploaders.
-- **Founder & Transparency Section:** Nilesh Verma, Bettiah, Bihar roots, open web values, and direct links to humans.txt, llms.txt, and security specs.
-- **Comprehensive FAQ Section:** 10 structured Q&As synced with Google FAQPage JSON-LD schema for rich search snippets.
+## Discovered - Out of Scope
+*(Items discovered during audit that are outside the scope of this brief)*
+- None yet.

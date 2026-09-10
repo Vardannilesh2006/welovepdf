@@ -641,7 +641,7 @@ export default function Home() {
                 100% Free
               </span>
               <span className="text-[12px] font-heading font-bold text-slate-500 uppercase tracking-wider mt-1.5">
-                {lang === "en" ? "No Paywalls & No Ads" : "कोई पेवॉल नहीं, कोई विज्ञापन नहीं"}
+                {lang === "en" ? "No Paywalls & No Signup" : "कोई पेवॉल नहीं, कोई साइनअप नहीं"}
               </span>
               <span className="text-[11px] text-slate-400 mt-0.5">
                 {lang === "en" ? "Open-web utility for everyone" : "सभी के लिए हमेशा निःशुल्क"}

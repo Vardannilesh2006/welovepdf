@@ -7,7 +7,15 @@ export const metadata: Metadata = {
   description: "An honest comparison of WeLovePDF and Adobe Acrobat. Learn how to edit, sign, and compress your PDFs without downloading heavy desktop software.",
   alternates: {
     canonical: "https://www.welovepdf.best/vs/adobe-acrobat",
-  }
+  },
+  openGraph: {
+    title: "WeLovePDF vs Adobe Acrobat — The Best Free Alternative | WeLovePDF",
+    description: "An honest comparison of WeLovePDF and Adobe Acrobat. Learn how to edit, sign, and compress your PDFs without downloading heavy desktop software.",
+    url: "https://www.welovepdf.best/vs/adobe-acrobat",
+    siteName: "WeLovePDF",
+    type: "website",
+    images: [{ url: "https://www.welovepdf.best/icon.svg", width: 512, height: 512, alt: "WeLovePDF vs Adobe Acrobat" }],
+  },
 };
 
 export default function AdobeComparison() {

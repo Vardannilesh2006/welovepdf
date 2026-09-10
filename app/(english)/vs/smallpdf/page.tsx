@@ -7,7 +7,15 @@ export const metadata: Metadata = {
   description: "Compare WeLovePDF and Smallpdf. Discover how you can bypass Smallpdf's daily caps, page restrictions, and paywalls with our free local tools.",
   alternates: {
     canonical: "https://www.welovepdf.best/vs/smallpdf",
-  }
+  },
+  openGraph: {
+    title: "WeLovePDF vs Smallpdf — The Best Free Alternative | WeLovePDF",
+    description: "Compare WeLovePDF and Smallpdf. Discover how you can bypass Smallpdf's daily caps, page restrictions, and paywalls with our free local tools.",
+    url: "https://www.welovepdf.best/vs/smallpdf",
+    siteName: "WeLovePDF",
+    type: "website",
+    images: [{ url: "https://www.welovepdf.best/icon.svg", width: 512, height: 512, alt: "WeLovePDF vs Smallpdf" }],
+  },
 };
 
 export default function SmallpdfComparison() {
