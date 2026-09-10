@@ -98,27 +98,35 @@ export async function fetchBloggerPosts(): Promise<UnifiedArticle[]> {
         }
       }
 
+      const categories = entry.category?.map((c: any) => c.term || "") || [];
+      const isSarkari =
+        categories.some((c: string) => c.toLowerCase().includes("sarkaripixels")) ||
+        /sarkari|yojana|vishwakarma|kisan|ayushman|aadhaar|voter|bpsc|upsc|ssc-cgl|admit card|sarkaripixels/i.test(slug + " " + title);
+
+      // EXCLUDE SarkariPixels articles from WeLovePDF!
+      if (isSarkari) {
+        return null;
+      }
+
       // Smart fallback thumbnail based on post title & slug
       if (!thumbnail || thumbnail.includes("b16-rounded") || thumbnail.includes("inline_art")) {
         const lower = (slug + " " + title).toLowerCase();
-        if (lower.includes("10-saas") || lower.includes("web-design")) {
+        if (lower.includes("how-to-password-protect")) {
+          thumbnail = "/blog-images/how-to-password-protect-pdf-file-online.jpg";
+        } else if (lower.includes("convert-scanned-pdf") || lower.includes("editable-word")) {
+          thumbnail = "/blog-images/convert-scanned-pdf-to-editable-word.jpg";
+        } else if (lower.includes("10-saas") || lower.includes("web-design")) {
           thumbnail = "/blog-images/10-saas-web-design-secrets.jpg";
         } else if (lower.includes("passive-income") || lower.includes("passive income")) {
           thumbnail = "/blog-images/5-best-passive-income-ideas.jpg";
-        } else if (lower.includes("sarkaripixels") || lower.includes("login")) {
-          thumbnail = "/blog-images/sarkaripixels-login-registration-problem.jpg";
         } else if (lower.includes("compress") && lower.includes("100kb")) {
           thumbnail = "/blog-images/compress-pdf-to-100kb-online-free.jpg";
         } else if (lower.includes("compress")) {
           thumbnail = "/blog-images/compress-pdf-complete-guide.jpg";
-        } else if (lower.includes("sarkari") || lower.includes("yojana")) {
-          thumbnail = "/blog-images/sarkari-yojana-complete-guide.jpg";
         } else if (lower.includes("secure") || lower.includes("password") || lower.includes("protect")) {
           thumbnail = "/blog-images/pdf-security-password-protection-guide.jpg";
         } else if (lower.includes("conversion") || lower.includes("converter") || lower.includes("ocr")) {
           thumbnail = "/blog-images/pdf-converter-complete-hub.jpg";
-        } else if (lower.includes("vishwakarma")) {
-          thumbnail = "/blog-images/pm-vishwakarma-yojana-online-apply-2026.jpg";
         } else {
           thumbnail = "/blog-images/test-5-free-pdf-tools-adobe-alternative.jpg";
         }
@@ -142,11 +150,11 @@ export async function fetchBloggerPosts(): Promise<UnifiedArticle[]> {
         content: processedContent,
         date: dateFormatted,
         tag,
-        thumbnail: thumbnail || undefined,
+        thumbnail: thumbnail || "/blog-images/test-5-free-pdf-tools-adobe-alternative.jpg",
         source: "blogger" as const,
         externalUrl: altLink,
       };
-    });
+    }).filter(Boolean) as UnifiedArticle[];
   } catch (error) {
     console.error("[Blogger API Error]", error);
     return [];
@@ -156,6 +164,17 @@ export async function fetchBloggerPosts(): Promise<UnifiedArticle[]> {
 export async function getCombinedArticles(): Promise<UnifiedArticle[]> {
   const bloggerArticles = await fetchBloggerPosts();
 
+  const LOCAL_THUMBNAIL_MAP: Record<string, string> = {
+    "why-browser-first-pdf-tools-are-better-for-data-security": "/blog-images/why-browser-first-pdf-tools-are-better-for-data-security.jpg",
+    "pdf-compression-without-quality-loss": "/blog-images/pdf-compression-without-quality-loss.jpg",
+    "a-guide-to-digitizing-scans-with-ocr-and-bates-numbering": "/blog-images/a-guide-to-digitizing-scans-with-ocr-and-bates-numbering.jpg",
+    "generating-resumes-invoices-auto-filled-from-markdown": "/blog-images/generating-resumes-invoices-auto-filled-from-markdown.jpg",
+    "best-free-pdf-tools-in-2026": "/blog-images/best-free-pdf-tools-in-2026.jpg",
+    "how-to-merge-pdf-files-offline": "/blog-images/how-to-merge-pdf-files-offline.jpg",
+    "browser-based-pdf-processing-vs-cloud-processing": "/blog-images/browser-based-pdf-processing-vs-cloud-processing.jpg",
+    "is-ilovepdf-safe-for-sensitive-documents": "/blog-images/is-ilovepdf-safe-for-sensitive-documents.jpg",
+  };
+
   const localArticles: UnifiedArticle[] = Object.entries(blogArticles).map(
     ([slug, art]) => ({
       slug,
@@ -164,6 +183,7 @@ export async function getCombinedArticles(): Promise<UnifiedArticle[]> {
       content: art.content,
       date: art.date,
       tag: art.tag,
+      thumbnail: LOCAL_THUMBNAIL_MAP[slug] || "/blog-images/test-5-free-pdf-tools-adobe-alternative.jpg",
       source: "local" as const,
     })
   );
