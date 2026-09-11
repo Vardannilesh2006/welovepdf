@@ -123,9 +123,40 @@ export default function iLovePdfComparison() {
         </p>
 
         <h3 className="font-heading font-bold text-xl mb-12">Performance & Speed Advantage</h3>
-        <p className="text-[14px] text-text-secondaryLight leading-relaxed">
+        <p className="text-[14px] text-text-secondaryLight leading-relaxed mb-48">
           Since no uploading or downloading of large raw files is necessary, WeLovePDF operates instantly. A 20MB document merges or splits in under 300ms, making it significantly faster than waiting for file uploads on a standard internet connection.
         </p>
+
+        {/* FAQs */}
+        <h2 className="font-heading font-bold text-2xl mb-16">Frequently Asked Questions: WeLovePDF vs iLovePDF</h2>
+        <div className="space-y-16 mb-48">
+          <div className="p-20 border border-border-light dark:border-border-dark rounded-card bg-white dark:bg-surface-dark">
+            <h3 className="font-bold text-[16px] text-text-primaryLight dark:text-text-primaryDark mb-8">
+              Why does iLovePDF limit free users to 2 tasks, and is WeLovePDF truly unlimited?
+            </h3>
+            <p className="text-[14px] text-text-secondaryLight dark:text-text-secondaryDark leading-relaxed">
+              iLovePDF incurs high cloud server costs for every document uploaded to their data centers, forcing them to restrict free users to 2 tasks per hour. WeLovePDF executes processing on your local device CPU via WebAssembly, requiring zero server compute. This allows us to keep all 62+ tools permanently free with zero daily caps.
+            </p>
+          </div>
+
+          <div className="p-20 border border-border-light dark:border-border-dark rounded-card bg-white dark:bg-surface-dark">
+            <h3 className="font-bold text-[16px] text-text-primaryLight dark:text-text-primaryDark mb-8">
+              Can I process PDFs larger than 15MB without paying for an iLovePDF Pro subscription?
+            </h3>
+            <p className="text-[14px] text-text-secondaryLight dark:text-text-secondaryDark leading-relaxed">
+              Yes. You can merge, compress, and split documents up to 200MB on WeLovePDF without credit card requirements, trials, or paying a single rupee.
+            </p>
+          </div>
+
+          <div className="p-20 border border-border-light dark:border-border-dark rounded-card bg-white dark:bg-surface-dark">
+            <h3 className="font-bold text-[16px] text-text-primaryLight dark:text-text-primaryDark mb-8">
+              Is WeLovePDF compliant with corporate, legal, and financial confidentiality standards?
+            </h3>
+            <p className="text-[14px] text-text-secondaryLight dark:text-text-secondaryDark leading-relaxed">
+              Yes. Because files never leave your device, sensitive financial records, legal contracts, and medical documents comply strictly with GDPR and data minimization mandates.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

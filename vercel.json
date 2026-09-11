@@ -12,6 +12,28 @@
       ],
       "destination": "https://www.welovepdf.best/:path*",
       "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "welovepdf.vercel.app"
+        }
+      ],
+      "destination": "https://www.welovepdf.best/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "we-love-pdf.vercel.app"
+        }
+      ],
+      "destination": "https://www.welovepdf.best/:path*",
+      "permanent": true
     }
   ]
 }

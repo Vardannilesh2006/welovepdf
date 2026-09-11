@@ -22,6 +22,26 @@ const nextConfig = {
   // Ghost 404s collected from GSC Coverage report — redirect to nearest live page
   async redirects() {
     return [
+      // Apex and Vercel subdomains → https://www.welovepdf.best
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'welovepdf.best' }],
+        destination: 'https://www.welovepdf.best/:path*',
+        permanent: true,
+      },
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'welovepdf.vercel.app' }],
+        destination: 'https://www.welovepdf.best/:path*',
+        permanent: true,
+      },
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'we-love-pdf.vercel.app' }],
+        destination: 'https://www.welovepdf.best/:path*',
+        permanent: true,
+      },
+
       // Duplicate homepage fix
       { source: '/index', destination: '/', permanent: true },
       { source: '/index.html', destination: '/', permanent: true },
