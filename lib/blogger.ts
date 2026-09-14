@@ -67,30 +67,30 @@ export async function fetchBloggerPosts(): Promise<UnifiedArticle[]> {
         .trim()
         .substring(0, 180) + "...";
 
-      // Rewrite broken external GitHub images or relative paths in post HTML to /blog-images/
+      // Rewrite any GitHub raw or relative image paths in post HTML to clean /blog-images/
       const processedContent = rawContent
         .replace(
-          /https?:\/\/raw\.githubusercontent\.com\/[^\/]+\/[^\/]+\/[^\/]+\/(?:blogger_posts\/)?images\/([^\s"'<>]+)/gi,
+          /https?:\/\/raw\.githubusercontent\.com\/[^\s"'<>]+\/([^\/\s"'<>]+\.(?:jpg|jpeg|png|webp))/gi,
           "/blog-images/$1"
         )
         .replace(
-          /src=["'](?:\/)?images\/([^\s"'<>]+)["']/gi,
+          /src=["'](?:.*?\/)?([^\/\s"'<>]+\.(?:jpg|jpeg|png|webp))["']/gi,
           'src="/blog-images/$1"'
         );
 
       // Extract thumbnail
-      let thumbnail = entry.media$thumbnail?.url || "";
-      if (thumbnail) {
-        // Upgrade Blogger thumbnail size to full quality s1600
-        thumbnail = thumbnail.replace(/\/s\d+(-c)?\//, "/s1600/");
+      let thumbnail = "";
+      if (entry.media$thumbnail?.url) {
+        // Upgrade Blogger thumbnail to full resolution s1600
+        thumbnail = entry.media$thumbnail.url.replace(/\/s\d+(-c)?\//, "/s1600/");
       } else {
-        const imgMatch = processedContent.match(/<img[^>]+src=["']([^"']+)["']/i);
+        const imgMatch = rawContent.match(/<img[^>]+src=["']([^"']+)["']/i);
         if (imgMatch && imgMatch[1]) {
           thumbnail = imgMatch[1];
         }
       }
 
-      // Convert any GitHub raw or relative image paths to /blog-images/
+      // If thumbnail is a filename or GitHub raw link, normalize to local /blog-images/
       if (thumbnail) {
         const fnMatch = thumbnail.match(/([^\/\?#]+\.(?:jpg|jpeg|png|webp))/i);
         if (fnMatch && fnMatch[1]) {
