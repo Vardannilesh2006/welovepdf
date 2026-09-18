@@ -134,6 +134,326 @@ export const toolDescriptions: Record<string, string> = {
   "hindi-invoice-generator": "Create professional GST invoices in Hindi online for free. Fast browser-based invoice template generator.",};
 
 export const toolGuides: Record<string, string> = {
+  "word-to-pdf-converter-online": `
+    <h2>How to Use Word To Pdf Converter Online Online for Free?</h2>
+    <p>Using <strong>Word To Pdf Converter Online</strong> on WeLovePDF allows you to process, manage, and convert your PDF documents directly inside your browser without uploading confidential files to remote servers. Whether handling contracts, academic certificates, or government applications, our local web sandbox guarantees total privacy, enterprise-grade speed, and zero file size caps.</p>
+    
+    <h3>Step-by-Step Guide:</h3>
+    <ol>
+      <li><strong>Select Your Document:</strong> Click the upload button above or drag and drop your PDF file directly into the workspace.</li>
+      <li><strong>Configure Options:</strong> Select your preferred target compression ratio, layout options, or formatting settings.</li>
+      <li><strong>Execute Tool:</strong> Click the action button to process your file locally via WebAssembly in milliseconds.</li>
+      <li><strong>Save & Download:</strong> Click download to save your optimized PDF securely to your device.</li>
+    </ol>
+
+    <h3>Why Choose WeLovePDF Browser-Based Tools?</h3>
+    <p>Unlike traditional online PDF converters that transfer your files across the internet to third-party cloud servers, WeLovePDF processes all documents directly inside your browser using client-side WebAssembly engines. Your files never leave your device, ensuring maximum privacy, zero bandwidth waste, and instant processing.</p>
+  `,
+
+  "compress-pdf-to-200kb-online": `
+    <h2>How to Use Compress Pdf To 200Kb Online Online for Free?</h2>
+    <p>Using <strong>Compress Pdf To 200Kb Online</strong> on WeLovePDF allows you to process, manage, and convert your PDF documents directly inside your browser without uploading confidential files to remote servers. Whether handling contracts, academic certificates, or government applications, our local web sandbox guarantees total privacy, enterprise-grade speed, and zero file size caps.</p>
+    
+    <h3>Step-by-Step Guide:</h3>
+    <ol>
+      <li><strong>Select Your Document:</strong> Click the upload button above or drag and drop your PDF file directly into the workspace.</li>
+      <li><strong>Configure Options:</strong> Select your preferred target compression ratio, layout options, or formatting settings.</li>
+      <li><strong>Execute Tool:</strong> Click the action button to process your file locally via WebAssembly in milliseconds.</li>
+      <li><strong>Save & Download:</strong> Click download to save your optimized PDF securely to your device.</li>
+    </ol>
+
+    <h3>Why Choose WeLovePDF Browser-Based Tools?</h3>
+    <p>Unlike traditional online PDF converters that transfer your files across the internet to third-party cloud servers, WeLovePDF processes all documents directly inside your browser using client-side WebAssembly engines. Your files never leave your device, ensuring maximum privacy, zero bandwidth waste, and instant processing.</p>
+  `,
+
+  "compress-pdf-to-200kb-without-losing-quality": `
+    <h2>How to Use Compress Pdf To 200Kb Without Losing Quality Online for Free?</h2>
+    <p>Using <strong>Compress Pdf To 200Kb Without Losing Quality</strong> on WeLovePDF allows you to process, manage, and convert your PDF documents directly inside your browser without uploading confidential files to remote servers. Whether handling contracts, academic certificates, or government applications, our local web sandbox guarantees total privacy, enterprise-grade speed, and zero file size caps.</p>
+    
+    <h3>Step-by-Step Guide:</h3>
+    <ol>
+      <li><strong>Select Your Document:</strong> Click the upload button above or drag and drop your PDF file directly into the workspace.</li>
+      <li><strong>Configure Options:</strong> Select your preferred target compression ratio, layout options, or formatting settings.</li>
+      <li><strong>Execute Tool:</strong> Click the action button to process your file locally via WebAssembly in milliseconds.</li>
+      <li><strong>Save & Download:</strong> Click download to save your optimized PDF securely to your device.</li>
+    </ol>
+
+    <h3>Why Choose WeLovePDF Browser-Based Tools?</h3>
+    <p>Unlike traditional online PDF converters that transfer your files across the internet to third-party cloud servers, WeLovePDF processes all documents directly inside your browser using client-side WebAssembly engines. Your files never leave your device, ensuring maximum privacy, zero bandwidth waste, and instant processing.</p>
+  `,
+
+  "compress-pdf-to-200kb-i-love-pdf": `
+    <h2>How to Use Compress Pdf To 200Kb I Love Pdf Online for Free?</h2>
+    <p>Using <strong>Compress Pdf To 200Kb I Love Pdf</strong> on WeLovePDF allows you to process, manage, and convert your PDF documents directly inside your browser without uploading confidential files to remote servers. Whether handling contracts, academic certificates, or government applications, our local web sandbox guarantees total privacy, enterprise-grade speed, and zero file size caps.</p>
+    
+    <h3>Step-by-Step Guide:</h3>
+    <ol>
+      <li><strong>Select Your Document:</strong> Click the upload button above or drag and drop your PDF file directly into the workspace.</li>
+      <li><strong>Configure Options:</strong> Select your preferred target compression ratio, layout options, or formatting settings.</li>
+      <li><strong>Execute Tool:</strong> Click the action button to process your file locally via WebAssembly in milliseconds.</li>
+      <li><strong>Save & Download:</strong> Click download to save your optimized PDF securely to your device.</li>
+    </ol>
+
+    <h3>Why Choose WeLovePDF Browser-Based Tools?</h3>
+    <p>Unlike traditional online PDF converters that transfer your files across the internet to third-party cloud servers, WeLovePDF processes all documents directly inside your browser using client-side WebAssembly engines. Your files never leave your device, ensuring maximum privacy, zero bandwidth waste, and instant processing.</p>
+  `,
+
+  "compress-pdf-to-100kb-to-200kb": `
+    <h2>How to Use Compress Pdf To 100Kb To 200Kb Online for Free?</h2>
+    <p>Using <strong>Compress Pdf To 100Kb To 200Kb</strong> on WeLovePDF allows you to process, manage, and convert your PDF documents directly inside your browser without uploading confidential files to remote servers. Whether handling contracts, academic certificates, or government applications, our local web sandbox guarantees total privacy, enterprise-grade speed, and zero file size caps.</p>
+    
+    <h3>Step-by-Step Guide:</h3>
+    <ol>
+      <li><strong>Select Your Document:</strong> Click the upload button above or drag and drop your PDF file directly into the workspace.</li>
+      <li><strong>Configure Options:</strong> Select your preferred target compression ratio, layout options, or formatting settings.</li>
+      <li><strong>Execute Tool:</strong> Click the action button to process your file locally via WebAssembly in milliseconds.</li>
+      <li><strong>Save & Download:</strong> Click download to save your optimized PDF securely to your device.</li>
+    </ol>
+
+    <h3>Why Choose WeLovePDF Browser-Based Tools?</h3>
+    <p>Unlike traditional online PDF converters that transfer your files across the internet to third-party cloud servers, WeLovePDF processes all documents directly inside your browser using client-side WebAssembly engines. Your files never leave your device, ensuring maximum privacy, zero bandwidth waste, and instant processing.</p>
+  `,
+
+  "compress-pdf-to-100kb-online": `
+    <h2>How to Use Compress Pdf To 100Kb Online Online for Free?</h2>
+    <p>Using <strong>Compress Pdf To 100Kb Online</strong> on WeLovePDF allows you to process, manage, and convert your PDF documents directly inside your browser without uploading confidential files to remote servers. Whether handling contracts, academic certificates, or government applications, our local web sandbox guarantees total privacy, enterprise-grade speed, and zero file size caps.</p>
+    
+    <h3>Step-by-Step Guide:</h3>
+    <ol>
+      <li><strong>Select Your Document:</strong> Click the upload button above or drag and drop your PDF file directly into the workspace.</li>
+      <li><strong>Configure Options:</strong> Select your preferred target compression ratio, layout options, or formatting settings.</li>
+      <li><strong>Execute Tool:</strong> Click the action button to process your file locally via WebAssembly in milliseconds.</li>
+      <li><strong>Save & Download:</strong> Click download to save your optimized PDF securely to your device.</li>
+    </ol>
+
+    <h3>Why Choose WeLovePDF Browser-Based Tools?</h3>
+    <p>Unlike traditional online PDF converters that transfer your files across the internet to third-party cloud servers, WeLovePDF processes all documents directly inside your browser using client-side WebAssembly engines. Your files never leave your device, ensuring maximum privacy, zero bandwidth waste, and instant processing.</p>
+  `,
+
+  "compress-pdf-to-100kb-free": `
+    <h2>How to Use Compress Pdf To 100Kb Free Online for Free?</h2>
+    <p>Using <strong>Compress Pdf To 100Kb Free</strong> on WeLovePDF allows you to process, manage, and convert your PDF documents directly inside your browser without uploading confidential files to remote servers. Whether handling contracts, academic certificates, or government applications, our local web sandbox guarantees total privacy, enterprise-grade speed, and zero file size caps.</p>
+    
+    <h3>Step-by-Step Guide:</h3>
+    <ol>
+      <li><strong>Select Your Document:</strong> Click the upload button above or drag and drop your PDF file directly into the workspace.</li>
+      <li><strong>Configure Options:</strong> Select your preferred target compression ratio, layout options, or formatting settings.</li>
+      <li><strong>Execute Tool:</strong> Click the action button to process your file locally via WebAssembly in milliseconds.</li>
+      <li><strong>Save & Download:</strong> Click download to save your optimized PDF securely to your device.</li>
+    </ol>
+
+    <h3>Why Choose WeLovePDF Browser-Based Tools?</h3>
+    <p>Unlike traditional online PDF converters that transfer your files across the internet to third-party cloud servers, WeLovePDF processes all documents directly inside your browser using client-side WebAssembly engines. Your files never leave your device, ensuring maximum privacy, zero bandwidth waste, and instant processing.</p>
+  `,
+
+  "pdf-to-jpg-online": `
+    <h2>How to Use Pdf To Jpg Online Online for Free?</h2>
+    <p>Using <strong>Pdf To Jpg Online</strong> on WeLovePDF allows you to process, manage, and convert your PDF documents directly inside your browser without uploading confidential files to remote servers. Whether handling contracts, academic certificates, or government applications, our local web sandbox guarantees total privacy, enterprise-grade speed, and zero file size caps.</p>
+    
+    <h3>Step-by-Step Guide:</h3>
+    <ol>
+      <li><strong>Select Your Document:</strong> Click the upload button above or drag and drop your PDF file directly into the workspace.</li>
+      <li><strong>Configure Options:</strong> Select your preferred target compression ratio, layout options, or formatting settings.</li>
+      <li><strong>Execute Tool:</strong> Click the action button to process your file locally via WebAssembly in milliseconds.</li>
+      <li><strong>Save & Download:</strong> Click download to save your optimized PDF securely to your device.</li>
+    </ol>
+
+    <h3>Why Choose WeLovePDF Browser-Based Tools?</h3>
+    <p>Unlike traditional online PDF converters that transfer your files across the internet to third-party cloud servers, WeLovePDF processes all documents directly inside your browser using client-side WebAssembly engines. Your files never leave your device, ensuring maximum privacy, zero bandwidth waste, and instant processing.</p>
+  `,
+
+  "pdf-to-jpg-converter-100-kb": `
+    <h2>How to Use Pdf To Jpg Converter 100 Kb Online for Free?</h2>
+    <p>Using <strong>Pdf To Jpg Converter 100 Kb</strong> on WeLovePDF allows you to process, manage, and convert your PDF documents directly inside your browser without uploading confidential files to remote servers. Whether handling contracts, academic certificates, or government applications, our local web sandbox guarantees total privacy, enterprise-grade speed, and zero file size caps.</p>
+    
+    <h3>Step-by-Step Guide:</h3>
+    <ol>
+      <li><strong>Select Your Document:</strong> Click the upload button above or drag and drop your PDF file directly into the workspace.</li>
+      <li><strong>Configure Options:</strong> Select your preferred target compression ratio, layout options, or formatting settings.</li>
+      <li><strong>Execute Tool:</strong> Click the action button to process your file locally via WebAssembly in milliseconds.</li>
+      <li><strong>Save & Download:</strong> Click download to save your optimized PDF securely to your device.</li>
+    </ol>
+
+    <h3>Why Choose WeLovePDF Browser-Based Tools?</h3>
+    <p>Unlike traditional online PDF converters that transfer your files across the internet to third-party cloud servers, WeLovePDF processes all documents directly inside your browser using client-side WebAssembly engines. Your files never leave your device, ensuring maximum privacy, zero bandwidth waste, and instant processing.</p>
+  `,
+
+  "split-pdf-online-free": `
+    <h2>How to Use Split Pdf Online Free Online for Free?</h2>
+    <p>Using <strong>Split Pdf Online Free</strong> on WeLovePDF allows you to process, manage, and convert your PDF documents directly inside your browser without uploading confidential files to remote servers. Whether handling contracts, academic certificates, or government applications, our local web sandbox guarantees total privacy, enterprise-grade speed, and zero file size caps.</p>
+    
+    <h3>Step-by-Step Guide:</h3>
+    <ol>
+      <li><strong>Select Your Document:</strong> Click the upload button above or drag and drop your PDF file directly into the workspace.</li>
+      <li><strong>Configure Options:</strong> Select your preferred target compression ratio, layout options, or formatting settings.</li>
+      <li><strong>Execute Tool:</strong> Click the action button to process your file locally via WebAssembly in milliseconds.</li>
+      <li><strong>Save & Download:</strong> Click download to save your optimized PDF securely to your device.</li>
+    </ol>
+
+    <h3>Why Choose WeLovePDF Browser-Based Tools?</h3>
+    <p>Unlike traditional online PDF converters that transfer your files across the internet to third-party cloud servers, WeLovePDF processes all documents directly inside your browser using client-side WebAssembly engines. Your files never leave your device, ensuring maximum privacy, zero bandwidth waste, and instant processing.</p>
+  `,
+
+  "split-pdf-online": `
+    <h2>How to Use Split Pdf Online Online for Free?</h2>
+    <p>Using <strong>Split Pdf Online</strong> on WeLovePDF allows you to process, manage, and convert your PDF documents directly inside your browser without uploading confidential files to remote servers. Whether handling contracts, academic certificates, or government applications, our local web sandbox guarantees total privacy, enterprise-grade speed, and zero file size caps.</p>
+    
+    <h3>Step-by-Step Guide:</h3>
+    <ol>
+      <li><strong>Select Your Document:</strong> Click the upload button above or drag and drop your PDF file directly into the workspace.</li>
+      <li><strong>Configure Options:</strong> Select your preferred target compression ratio, layout options, or formatting settings.</li>
+      <li><strong>Execute Tool:</strong> Click the action button to process your file locally via WebAssembly in milliseconds.</li>
+      <li><strong>Save & Download:</strong> Click download to save your optimized PDF securely to your device.</li>
+    </ol>
+
+    <h3>Why Choose WeLovePDF Browser-Based Tools?</h3>
+    <p>Unlike traditional online PDF converters that transfer your files across the internet to third-party cloud servers, WeLovePDF processes all documents directly inside your browser using client-side WebAssembly engines. Your files never leave your device, ensuring maximum privacy, zero bandwidth waste, and instant processing.</p>
+  `,
+
+  "merge-pdf-online-free": `
+    <h2>How to Use Merge Pdf Online Free Online for Free?</h2>
+    <p>Using <strong>Merge Pdf Online Free</strong> on WeLovePDF allows you to process, manage, and convert your PDF documents directly inside your browser without uploading confidential files to remote servers. Whether handling contracts, academic certificates, or government applications, our local web sandbox guarantees total privacy, enterprise-grade speed, and zero file size caps.</p>
+    
+    <h3>Step-by-Step Guide:</h3>
+    <ol>
+      <li><strong>Select Your Document:</strong> Click the upload button above or drag and drop your PDF file directly into the workspace.</li>
+      <li><strong>Configure Options:</strong> Select your preferred target compression ratio, layout options, or formatting settings.</li>
+      <li><strong>Execute Tool:</strong> Click the action button to process your file locally via WebAssembly in milliseconds.</li>
+      <li><strong>Save & Download:</strong> Click download to save your optimized PDF securely to your device.</li>
+    </ol>
+
+    <h3>Why Choose WeLovePDF Browser-Based Tools?</h3>
+    <p>Unlike traditional online PDF converters that transfer your files across the internet to third-party cloud servers, WeLovePDF processes all documents directly inside your browser using client-side WebAssembly engines. Your files never leave your device, ensuring maximum privacy, zero bandwidth waste, and instant processing.</p>
+  `,
+
+  "merge-pdf-online": `
+    <h2>How to Use Merge Pdf Online Online for Free?</h2>
+    <p>Using <strong>Merge Pdf Online</strong> on WeLovePDF allows you to process, manage, and convert your PDF documents directly inside your browser without uploading confidential files to remote servers. Whether handling contracts, academic certificates, or government applications, our local web sandbox guarantees total privacy, enterprise-grade speed, and zero file size caps.</p>
+    
+    <h3>Step-by-Step Guide:</h3>
+    <ol>
+      <li><strong>Select Your Document:</strong> Click the upload button above or drag and drop your PDF file directly into the workspace.</li>
+      <li><strong>Configure Options:</strong> Select your preferred target compression ratio, layout options, or formatting settings.</li>
+      <li><strong>Execute Tool:</strong> Click the action button to process your file locally via WebAssembly in milliseconds.</li>
+      <li><strong>Save & Download:</strong> Click download to save your optimized PDF securely to your device.</li>
+    </ol>
+
+    <h3>Why Choose WeLovePDF Browser-Based Tools?</h3>
+    <p>Unlike traditional online PDF converters that transfer your files across the internet to third-party cloud servers, WeLovePDF processes all documents directly inside your browser using client-side WebAssembly engines. Your files never leave your device, ensuring maximum privacy, zero bandwidth waste, and instant processing.</p>
+  `,
+
+  "pdf-editor-online-free-edit-text": `
+    <h2>How to Use Pdf Editor Online Free Edit Text Online for Free?</h2>
+    <p>Using <strong>Pdf Editor Online Free Edit Text</strong> on WeLovePDF allows you to process, manage, and convert your PDF documents directly inside your browser without uploading confidential files to remote servers. Whether handling contracts, academic certificates, or government applications, our local web sandbox guarantees total privacy, enterprise-grade speed, and zero file size caps.</p>
+    
+    <h3>Step-by-Step Guide:</h3>
+    <ol>
+      <li><strong>Select Your Document:</strong> Click the upload button above or drag and drop your PDF file directly into the workspace.</li>
+      <li><strong>Configure Options:</strong> Select your preferred target compression ratio, layout options, or formatting settings.</li>
+      <li><strong>Execute Tool:</strong> Click the action button to process your file locally via WebAssembly in milliseconds.</li>
+      <li><strong>Save & Download:</strong> Click download to save your optimized PDF securely to your device.</li>
+    </ol>
+
+    <h3>Why Choose WeLovePDF Browser-Based Tools?</h3>
+    <p>Unlike traditional online PDF converters that transfer your files across the internet to third-party cloud servers, WeLovePDF processes all documents directly inside your browser using client-side WebAssembly engines. Your files never leave your device, ensuring maximum privacy, zero bandwidth waste, and instant processing.</p>
+  `,
+
+  "pdf-editor-online-sejda": `
+    <h2>How to Use Pdf Editor Online Sejda Online for Free?</h2>
+    <p>Using <strong>Pdf Editor Online Sejda</strong> on WeLovePDF allows you to process, manage, and convert your PDF documents directly inside your browser without uploading confidential files to remote servers. Whether handling contracts, academic certificates, or government applications, our local web sandbox guarantees total privacy, enterprise-grade speed, and zero file size caps.</p>
+    
+    <h3>Step-by-Step Guide:</h3>
+    <ol>
+      <li><strong>Select Your Document:</strong> Click the upload button above or drag and drop your PDF file directly into the workspace.</li>
+      <li><strong>Configure Options:</strong> Select your preferred target compression ratio, layout options, or formatting settings.</li>
+      <li><strong>Execute Tool:</strong> Click the action button to process your file locally via WebAssembly in milliseconds.</li>
+      <li><strong>Save & Download:</strong> Click download to save your optimized PDF securely to your device.</li>
+    </ol>
+
+    <h3>Why Choose WeLovePDF Browser-Based Tools?</h3>
+    <p>Unlike traditional online PDF converters that transfer your files across the internet to third-party cloud servers, WeLovePDF processes all documents directly inside your browser using client-side WebAssembly engines. Your files never leave your device, ensuring maximum privacy, zero bandwidth waste, and instant processing.</p>
+  `,
+
+  "pdf-editor-online-free": `
+    <h2>How to Use Pdf Editor Online Free Online for Free?</h2>
+    <p>Using <strong>Pdf Editor Online Free</strong> on WeLovePDF allows you to process, manage, and convert your PDF documents directly inside your browser without uploading confidential files to remote servers. Whether handling contracts, academic certificates, or government applications, our local web sandbox guarantees total privacy, enterprise-grade speed, and zero file size caps.</p>
+    
+    <h3>Step-by-Step Guide:</h3>
+    <ol>
+      <li><strong>Select Your Document:</strong> Click the upload button above or drag and drop your PDF file directly into the workspace.</li>
+      <li><strong>Configure Options:</strong> Select your preferred target compression ratio, layout options, or formatting settings.</li>
+      <li><strong>Execute Tool:</strong> Click the action button to process your file locally via WebAssembly in milliseconds.</li>
+      <li><strong>Save & Download:</strong> Click download to save your optimized PDF securely to your device.</li>
+    </ol>
+
+    <h3>Why Choose WeLovePDF Browser-Based Tools?</h3>
+    <p>Unlike traditional online PDF converters that transfer your files across the internet to third-party cloud servers, WeLovePDF processes all documents directly inside your browser using client-side WebAssembly engines. Your files never leave your device, ensuring maximum privacy, zero bandwidth waste, and instant processing.</p>
+  `,
+
+  "compress-pdf-online": `
+    <h2>How to Use Compress Pdf Online Online for Free?</h2>
+    <p>Using <strong>Compress Pdf Online</strong> on WeLovePDF allows you to process, manage, and convert your PDF documents directly inside your browser without uploading confidential files to remote servers. Whether handling contracts, academic certificates, or government applications, our local web sandbox guarantees total privacy, enterprise-grade speed, and zero file size caps.</p>
+    
+    <h3>Step-by-Step Guide:</h3>
+    <ol>
+      <li><strong>Select Your Document:</strong> Click the upload button above or drag and drop your PDF file directly into the workspace.</li>
+      <li><strong>Configure Options:</strong> Select your preferred target compression ratio, layout options, or formatting settings.</li>
+      <li><strong>Execute Tool:</strong> Click the action button to process your file locally via WebAssembly in milliseconds.</li>
+      <li><strong>Save & Download:</strong> Click download to save your optimized PDF securely to your device.</li>
+    </ol>
+
+    <h3>Why Choose WeLovePDF Browser-Based Tools?</h3>
+    <p>Unlike traditional online PDF converters that transfer your files across the internet to third-party cloud servers, WeLovePDF processes all documents directly inside your browser using client-side WebAssembly engines. Your files never leave your device, ensuring maximum privacy, zero bandwidth waste, and instant processing.</p>
+  `,
+
+  "compress-pdf-to-100kb": `
+    <h2>How to Use Compress Pdf To 100Kb Online for Free?</h2>
+    <p>Using <strong>Compress Pdf To 100Kb</strong> on WeLovePDF allows you to process, manage, and convert your PDF documents directly inside your browser without uploading confidential files to remote servers. Whether handling contracts, academic certificates, or government applications, our local web sandbox guarantees total privacy, enterprise-grade speed, and zero file size caps.</p>
+    
+    <h3>Step-by-Step Guide:</h3>
+    <ol>
+      <li><strong>Select Your Document:</strong> Click the upload button above or drag and drop your PDF file directly into the workspace.</li>
+      <li><strong>Configure Options:</strong> Select your preferred target compression ratio, layout options, or formatting settings.</li>
+      <li><strong>Execute Tool:</strong> Click the action button to process your file locally via WebAssembly in milliseconds.</li>
+      <li><strong>Save & Download:</strong> Click download to save your optimized PDF securely to your device.</li>
+    </ol>
+
+    <h3>Why Choose WeLovePDF Browser-Based Tools?</h3>
+    <p>Unlike traditional online PDF converters that transfer your files across the internet to third-party cloud servers, WeLovePDF processes all documents directly inside your browser using client-side WebAssembly engines. Your files never leave your device, ensuring maximum privacy, zero bandwidth waste, and instant processing.</p>
+  `,
+
+  "compress-pdf-to-200kb": `
+    <h2>How to Use Compress Pdf To 200Kb Online for Free?</h2>
+    <p>Using <strong>Compress Pdf To 200Kb</strong> on WeLovePDF allows you to process, manage, and convert your PDF documents directly inside your browser without uploading confidential files to remote servers. Whether handling contracts, academic certificates, or government applications, our local web sandbox guarantees total privacy, enterprise-grade speed, and zero file size caps.</p>
+    
+    <h3>Step-by-Step Guide:</h3>
+    <ol>
+      <li><strong>Select Your Document:</strong> Click the upload button above or drag and drop your PDF file directly into the workspace.</li>
+      <li><strong>Configure Options:</strong> Select your preferred target compression ratio, layout options, or formatting settings.</li>
+      <li><strong>Execute Tool:</strong> Click the action button to process your file locally via WebAssembly in milliseconds.</li>
+      <li><strong>Save & Download:</strong> Click download to save your optimized PDF securely to your device.</li>
+    </ol>
+
+    <h3>Why Choose WeLovePDF Browser-Based Tools?</h3>
+    <p>Unlike traditional online PDF converters that transfer your files across the internet to third-party cloud servers, WeLovePDF processes all documents directly inside your browser using client-side WebAssembly engines. Your files never leave your device, ensuring maximum privacy, zero bandwidth waste, and instant processing.</p>
+  `,
+
+  "pdf-to-word-converter-online": `
+    <h2>How to Use Pdf To Word Converter Online Online for Free?</h2>
+    <p>Using <strong>Pdf To Word Converter Online</strong> on WeLovePDF allows you to process, manage, and convert your PDF documents directly inside your browser without uploading confidential files to remote servers. Whether handling contracts, academic certificates, or government applications, our local web sandbox guarantees total privacy, enterprise-grade speed, and zero file size caps.</p>
+    
+    <h3>Step-by-Step Guide:</h3>
+    <ol>
+      <li><strong>Select Your Document:</strong> Click the upload button above or drag and drop your PDF file directly into the workspace.</li>
+      <li><strong>Configure Options:</strong> Select your preferred target compression ratio, layout options, or formatting settings.</li>
+      <li><strong>Execute Tool:</strong> Click the action button to process your file locally via WebAssembly in milliseconds.</li>
+      <li><strong>Save & Download:</strong> Click download to save your optimized PDF securely to your device.</li>
+    </ol>
+
+    <h3>Why Choose WeLovePDF Browser-Based Tools?</h3>
+    <p>Unlike traditional online PDF converters that transfer your files across the internet to third-party cloud servers, WeLovePDF processes all documents directly inside your browser using client-side WebAssembly engines. Your files never leave your device, ensuring maximum privacy, zero bandwidth waste, and instant processing.</p>
+  `,
+
   "blog": `
     <h2>How to Use Blog Online for Free?</h2>
     <p>Using <strong>Blog</strong> on WeLovePDF allows you to process, manage, and convert your PDF documents directly inside your browser without uploading confidential files to remote servers. Whether handling contracts, academic certificates, or government applications, our local web sandbox guarantees total privacy, enterprise-grade speed, and zero file size caps.</p>
