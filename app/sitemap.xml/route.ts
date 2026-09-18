@@ -17,6 +17,7 @@ export async function GET() {
     { path: "cookies", priority: "0.5" },
     { path: "privacy-policy", priority: "0.5" },
     { path: "security", priority: "0.7" },
+    { path: "research/pdf-security-statistics-2026", priority: "0.9" },
     { path: "terms-and-conditions", priority: "0.5" },
     { path: "blog", priority: "0.9" },
   ];

@@ -38,6 +38,7 @@ export default function Footer({ lang }: FooterProps) {
         { label: lang === "en" ? "About Us" : "हमारे बारे में", href: "/about-us" },
         { label: lang === "en" ? "Contact" : "संपर्क करें", href: "/contact" },
         { label: lang === "en" ? "Blog" : "ब्लॉग", href: "/blog" },
+        { label: lang === "en" ? "2026 PDF Security Report" : "2026 सुरक्षा रिपोर्ट", href: "/research/pdf-security-statistics-2026" },
       ]
     },
     {
