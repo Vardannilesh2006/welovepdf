@@ -15,5 +15,5 @@ export const metadata = {
 };
 
 export default function HindiHome() {
-  return <Home />;
+  return <Home initialLang="hi" />;
 }

@@ -47,8 +47,13 @@ const nextConfig = {
       { source: '/index.html', destination: '/', permanent: true },
       { source: '/home', destination: '/', permanent: true },
 
-      // Ghost 404s → nearest live page
+      // Ghost 404s & Language Path Redirects
+      { source: '/hi/vs/:path*', destination: '/vs/:path*', permanent: true },
+      { source: '/hi/research/:path*', destination: '/research/:path*', permanent: true },
+      { source: '/en', destination: '/', permanent: true },
+      { source: '/en/:path*', destination: '/:path*', permanent: true },
       { source: '/tools', destination: '/#workspace', permanent: true },
+      { source: '/tools/:path*', destination: '/:path*', permanent: true },
       { source: '/pdf-tools', destination: '/#workspace', permanent: true },
       { source: '/tool', destination: '/', permanent: true },
       { source: '/merge', destination: '/merge-pdf', permanent: true },

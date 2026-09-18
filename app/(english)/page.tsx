@@ -161,8 +161,10 @@ const FAQS = [
   }
 ];
 
-export default function Home() {
-  const { lang } = useLang();
+export default function Home({ initialLang }: { initialLang?: "en" | "hi" } = {}) {
+  const { lang: contextLang } = useLang();
+  const lang = initialLang || contextLang;
+  const prefix = lang === "hi" ? "/hi" : "";
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -415,7 +417,7 @@ export default function Home() {
                   return (
                     <a
                       key={idx}
-                      href={chip.href}
+                      href={`${prefix}${chip.href}`}
                       className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/80 hover:bg-amber-50 border border-slate-200/90 hover:border-amber-400/80 text-[12px] font-heading font-semibold text-slate-700 hover:text-amber-800 transition-all shadow-2xs hover:shadow-xs"
                     >
                       <ChipIcon className="w-3.5 h-3.5 text-amber-600" />
@@ -738,7 +740,7 @@ export default function Home() {
             {filteredTools.map((tool) => (
               <a
                 key={tool.slug}
-                href={`/${tool.slug}`}
+                href={`${prefix}/${tool.slug}`}
                 className="group relative flex flex-col justify-between p-5 bg-white rounded-2xl border border-slate-200/90 hover:border-amber-400/80 shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_32px_rgba(217,119,6,0.12)] hover:-translate-y-1 transition-all duration-200"
               >
                 {/* Top content */}
@@ -1059,7 +1061,7 @@ export default function Home() {
           {/* Need more help */}
           <div className="mt-8 text-center text-[13px] text-slate-500">
             {lang === "en" ? "Have a question not listed here?" : "क्या आपके पास कोई अन्य प्रश्न है?"}{" "}
-            <a href="/contact" className="font-heading font-bold text-amber-700 hover:underline">
+            <a href={`${prefix}/contact`} className="font-heading font-bold text-amber-700 hover:underline">
               {lang === "en" ? "Contact Nilesh Verma" : "नीलेश वर्मा से संपर्क करें"}
             </a>
           </div>
@@ -1079,15 +1081,15 @@ export default function Home() {
             </span>
           </div>
           <div className="flex items-center gap-4 text-[13px] font-heading font-semibold text-slate-600">
-            <a href="/security" className="hover:text-amber-800 transition-colors">
+            <a href={`${prefix}/security`} className="hover:text-amber-800 transition-colors">
               {lang === "en" ? "Security Architecture" : "सुरक्षा मॉडल"}
             </a>
             <span>·</span>
-            <a href="/privacy-policy" className="hover:text-amber-800 transition-colors">
+            <a href={`${prefix}/privacy-policy`} className="hover:text-amber-800 transition-colors">
               {lang === "en" ? "GDPR Privacy" : "गोपनीयता नीति"}
             </a>
             <span>·</span>
-            <a href="/cookies" className="hover:text-amber-800 transition-colors">
+            <a href={`${prefix}/cookies`} className="hover:text-amber-800 transition-colors">
               {lang === "en" ? "Cookie Policy" : "कुकी नीति"}
             </a>
           </div>

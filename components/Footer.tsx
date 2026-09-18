@@ -9,6 +9,7 @@ interface FooterLink {
   label: string;
   href: string;
   external?: boolean;
+  noPrefix?: boolean;
 }
 
 export default function Footer({ lang }: FooterProps) {
@@ -38,7 +39,7 @@ export default function Footer({ lang }: FooterProps) {
         { label: lang === "en" ? "About Us" : "हमारे बारे में", href: "/about-us" },
         { label: lang === "en" ? "Contact" : "संपर्क करें", href: "/contact" },
         { label: lang === "en" ? "Blog" : "ब्लॉग", href: "/blog" },
-        { label: lang === "en" ? "2026 PDF Security Report" : "2026 सुरक्षा रिपोर्ट", href: "/research/pdf-security-statistics-2026" },
+        { label: lang === "en" ? "2026 PDF Security Report" : "2026 सुरक्षा रिपोर्ट", href: "/research/pdf-security-statistics-2026", noPrefix: true },
       ]
     },
     {
@@ -51,9 +52,9 @@ export default function Footer({ lang }: FooterProps) {
     {
       title: lang === "en" ? "Compare" : "तुलना",
       links: [
-        { label: "vs Adobe Acrobat", href: "/vs/adobe-acrobat" },
-        { label: "vs iLovePDF", href: "/vs/ilovepdf" },
-        { label: "vs Smallpdf", href: "/vs/smallpdf" },
+        { label: "vs Adobe Acrobat", href: "/vs/adobe-acrobat", noPrefix: true },
+        { label: "vs iLovePDF", href: "/vs/ilovepdf", noPrefix: true },
+        { label: "vs Smallpdf", href: "/vs/smallpdf", noPrefix: true },
       ]
     }
   ];
@@ -86,7 +87,7 @@ export default function Footer({ lang }: FooterProps) {
                 {col.links.map((link, lIdx) => (
                   <li key={lIdx}>
                     <a
-                      href={link.external ? link.href : `${prefix}${link.href}`}
+                      href={link.external || link.noPrefix ? link.href : `${prefix}${link.href}`}
                       target={link.external ? "_blank" : undefined}
                       rel={link.external ? "noopener noreferrer" : undefined}
                       className="text-[12px] text-text-secondaryLight hover:text-[#D97706] transition-colors"
