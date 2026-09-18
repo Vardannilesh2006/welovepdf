@@ -134,6 +134,38 @@ export const toolDescriptions: Record<string, string> = {
   "hindi-invoice-generator": "Create professional GST invoices in Hindi online for free. Fast browser-based invoice template generator.",};
 
 export const toolGuides: Record<string, string> = {
+  "blog": `
+    <h2>How to Use Blog Online for Free?</h2>
+    <p>Using <strong>Blog</strong> on WeLovePDF allows you to process, manage, and convert your PDF documents directly inside your browser without uploading confidential files to remote servers. Whether handling contracts, academic certificates, or government applications, our local web sandbox guarantees total privacy, enterprise-grade speed, and zero file size caps.</p>
+    
+    <h3>Step-by-Step Guide:</h3>
+    <ol>
+      <li><strong>Select Your Document:</strong> Click the upload button above or drag and drop your PDF file directly into the workspace.</li>
+      <li><strong>Configure Options:</strong> Select your preferred target compression ratio, layout options, or formatting settings.</li>
+      <li><strong>Execute Tool:</strong> Click the action button to process your file locally via WebAssembly in milliseconds.</li>
+      <li><strong>Save & Download:</strong> Click download to save your optimized PDF securely to your device.</li>
+    </ol>
+
+    <h3>Why Choose WeLovePDF Browser-Based Tools?</h3>
+    <p>Unlike traditional online PDF converters that transfer your files across the internet to third-party cloud servers, WeLovePDF processes all documents directly inside your browser using client-side WebAssembly engines. Your files never leave your device, ensuring maximum privacy, zero bandwidth waste, and instant processing.</p>
+  `,
+
+  "cookies": `
+    <h2>How to Use Cookies Online for Free?</h2>
+    <p>Using <strong>Cookies</strong> on WeLovePDF allows you to process, manage, and convert your PDF documents directly inside your browser without uploading confidential files to remote servers. Whether handling contracts, academic certificates, or government applications, our local web sandbox guarantees total privacy, enterprise-grade speed, and zero file size caps.</p>
+    
+    <h3>Step-by-Step Guide:</h3>
+    <ol>
+      <li><strong>Select Your Document:</strong> Click the upload button above or drag and drop your PDF file directly into the workspace.</li>
+      <li><strong>Configure Options:</strong> Select your preferred target compression ratio, layout options, or formatting settings.</li>
+      <li><strong>Execute Tool:</strong> Click the action button to process your file locally via WebAssembly in milliseconds.</li>
+      <li><strong>Save & Download:</strong> Click download to save your optimized PDF securely to your device.</li>
+    </ol>
+
+    <h3>Why Choose WeLovePDF Browser-Based Tools?</h3>
+    <p>Unlike traditional online PDF converters that transfer your files across the internet to third-party cloud servers, WeLovePDF processes all documents directly inside your browser using client-side WebAssembly engines. Your files never leave your device, ensuring maximum privacy, zero bandwidth waste, and instant processing.</p>
+  `,
+
   "merge-pdf": `
     <h2>How to Merge PDF Files Online for Free?</h2>
     <p>Merging multiple PDF files into a single document is incredibly easy with <strong>WeLovePDF</strong>. Whether you need to combine reports, invoices, receipts, or study materials, our browser-first tool does it securely without uploading your files to a server. Combining files locally ensures that your private data never leaves your computer, which is ideal for sensitive corporate agreements, academic transcripts, or personal records.</p>
