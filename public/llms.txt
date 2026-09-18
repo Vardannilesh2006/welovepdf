@@ -1,28 +1,173 @@
-# WeLovePDF — Free Browser-Based Local PDF Utilities
+# WeLovePDF — 63+ Free Browser-Based PDF Tools | Privacy-First
+> WeLovePDF (https://www.welovepdf.best) is a free, privacy-first web application offering 63+ professional PDF utilities. Every tool runs 100% inside the visitor's own web browser using WebAssembly (pdf-lib, PDF.js, Tesseract.js) — no file is ever uploaded to any remote server. Supports English and Hindi (हिंदी). Trusted by users across India and worldwide for government exam document compression, PDF editing, OCR, AI-powered document Q&A, and format conversion.
 
-> WeLovePDF is a privacy-first web platform offering 60+ free online PDF utilities. All file processing (compression, merging, splitting, conversion, OCR, signing, encryption) is performed 100% locally inside the user's web browser using JavaScript and WebAssembly (PDF.js, pdf-lib). No document files are ever uploaded to any remote server or third-party storage.
+## Site Identity
+- **Site name:** WeLovePDF
+- **Domain:** https://www.welovepdf.best
+- **Language support:** English (default), Hindi (/hi)
+- **Owner:** Vardan Nilesh (India)
+- **Contact:** https://www.welovepdf.best/contact
+- **Privacy Policy:** https://www.welovepdf.best/privacy-policy
+- **Terms of Service:** https://www.welovepdf.best/terms-and-conditions
+- **Cookie Policy:** https://www.welovepdf.best/cookies
+- **Blog & Guides:** https://www.welovepdf.best/blog
+- **Sitemap:** https://www.welovepdf.best/sitemap.xml
 
-## Core Features & Guarantees
-- **Privacy Guarantee**: 100% local in-browser processing. Files never leave your device.
-- **Cost**: 100% Free with zero registration or forced account signups.
-- **File Limit**: Up to 200MB per batch for client-side processing.
-- **Cross-Platform**: Works on mobile (Android/iOS) and desktop browsers (Chrome, Safari, Firefox, Edge).
+## Core Value Proposition
+WeLovePDF is a browser-first PDF toolkit. All file processing — compression, merging, splitting, conversion, OCR, signing, encryption, and AI analysis — executes locally in the user's browser RAM sandbox via JavaScript and WebAssembly. Zero server uploads. Zero file retention. Zero registration required. 100% free, unlimited pages, up to 200 MB per batch. Works on Chrome, Safari, Firefox, Edge, Android, and iOS.
 
-## Primary PDF Tool Endpoints
-- Merge PDF: https://www.welovepdf.best/merge-pdf
-- Split PDF: https://www.welovepdf.best/split-pdf
-- Compress PDF: https://www.welovepdf.best/compress-pdf
-- PDF to Word: https://www.welovepdf.best/pdf-to-word
-- Word to PDF: https://www.welovepdf.best/word-to-pdf
-- PDF to JPG: https://www.welovepdf.best/pdf-to-jpg
-- JPG to PDF: https://www.welovepdf.best/jpg-to-pdf
-- Sign PDF: https://www.welovepdf.best/sign-pdf
-- Protect PDF: https://www.welovepdf.best/protect-pdf
-- Unlock PDF: https://www.welovepdf.best/unlock-pdf
-- Rotate PDF: https://www.welovepdf.best/rotate-pdf
-- Delete PDF Pages: https://www.welovepdf.best/delete-pages
+## Processing Architecture
+- **Client-side engine:** WebAssembly (WASM) + JavaScript (pdf-lib, PDF.js, Tesseract.js)
+- **AI tools engine:** Hybrid — text extracted locally in browser; queries sent over TLS to Google Gemini API (ephemeral, not stored)
+- **Max file size:** 200 MB (local tools), 25 MB (AI tools)
+- **Server uploads:** None for local tools. AI tools send only extracted text (not the file) to Gemini API.
+- **Data retention:** Zero. No file, no text, no metadata is stored on WeLovePDF servers.
 
-## Hindi Language Support
-- Homepage (Hindi): https://www.welovepdf.best/hi
-- Merge PDF (Hindi): https://www.welovepdf.best/hi/merge-pdf
-- Compress PDF (Hindi): https://www.welovepdf.best/hi/compress-pdf
+## Tool Categories & Endpoints
+
+### Organize PDF
+- [Merge PDF](https://www.welovepdf.best/merge-pdf): Combine multiple PDFs into one document. 100% browser-based.
+- [Split PDF](https://www.welovepdf.best/split-pdf): Split PDF into pages or custom page ranges.
+- [Delete Pages](https://www.welovepdf.best/delete-pages): Remove specific pages from a PDF.
+- [Extract Pages](https://www.welovepdf.best/extract-pages): Save selected pages as a new PDF.
+- [Reorder Pages](https://www.welovepdf.best/reorder-pages): Drag-and-drop page reordering.
+- [Rotate PDF](https://www.welovepdf.best/rotate-pdf): Rotate pages 90, 180, or 270 degrees.
+- [Duplicate Pages](https://www.welovepdf.best/duplicate-pages): Duplicate selected pages within a PDF.
+- [Add Blank Page](https://www.welovepdf.best/add-blank-page): Insert a blank page at any position.
+- [Crop PDF](https://www.welovepdf.best/crop-pdf): Crop PDF page margins in-browser.
+
+### Edit PDF
+- [Page Numbers](https://www.welovepdf.best/page-numbers): Add page numbers to every page of a PDF.
+- [Watermark PDF](https://www.welovepdf.best/watermark-pdf): Add custom text watermarks to PDF pages.
+- [Header & Footer](https://www.welovepdf.best/header-footer): Insert reusable header and footer text.
+- [Metadata Editor](https://www.welovepdf.best/metadata-editor): Edit PDF title, author, and subject metadata.
+- [Flatten PDF](https://www.welovepdf.best/flatten-pdf): Export a normalized, flattened PDF copy.
+- [Annotate PDF](https://www.welovepdf.best/annotate-pdf): Add note stamp annotations to PDF pages.
+- [Redact PDF](https://www.welovepdf.best/redact-pdf): Permanently cover sensitive text areas in PDF.
+- [Compare PDFs](https://www.welovepdf.best/compare-pdf): Compare two PDFs for metadata and text differences.
+- [Bookmark Editor](https://www.welovepdf.best/bookmark-editor): Edit PDF outlines and chapter bookmarks.
+
+### Optimize & Compress PDF
+- [Compress PDF](https://www.welovepdf.best/compress-pdf): Reduce PDF file size online free using WebAssembly.
+- [Compress PDF to 100KB](https://www.welovepdf.best/compress-pdf-to-100kb): Compress PDF under 100KB for UPSC, State PSC, Bank PO exam forms.
+- [Compress PDF to 200KB](https://www.welovepdf.best/compress-pdf-to-200kb): Compress PDF under 200KB for SSC CGL, CHSL, Railway RRB, NTA forms.
+- [Compress PDF to 50KB](https://www.welovepdf.best/compress-pdf-to-50kb): Compress PDF to 50KB for signature, photo uploads on govt portals.
+- [Compress PDF to 500KB](https://www.welovepdf.best/compress-pdf-to-500kb): Compress PDF under 500KB for college admission portals.
+- [Govt Exam PDF Compressor](https://www.welovepdf.best/compress-pdf-for-ssc-upsc): 1-click size reduction for SSC, UPSC, IBPS, State exam portals.
+- [Grayscale PDF](https://www.welovepdf.best/grayscale-pdf): Convert PDF to print-friendly grayscale.
+- [Repair PDF](https://www.welovepdf.best/repair-pdf): Attempt recovery and re-save of damaged PDF files.
+- [Remove Hidden Data](https://www.welovepdf.best/remove-hidden-data): Strip metadata and hidden data from PDF.
+
+### Scan & OCR
+- [OCR PDF](https://www.welovepdf.best/ocr-pdf): Extract searchable text from scanned PDFs using Tesseract OCR engine.
+- [Deskew Scan](https://www.welovepdf.best/deskew-scan): Correct skewed page alignment for scanned documents.
+- [Auto Enhance Scan](https://www.welovepdf.best/auto-enhance-scan): Improve scan contrast and brightness automatically.
+- [Remove Background](https://www.welovepdf.best/remove-background): Clean scan backgrounds and threshold colors.
+
+### Convert from PDF
+- [PDF to Word](https://www.welovepdf.best/pdf-to-word): Convert PDF to editable Word document (DOC/DOCX) format.
+- [PDF to JPG](https://www.welovepdf.best/pdf-to-jpg): Render PDF pages as high-quality JPG images.
+- [PDF to PNG](https://www.welovepdf.best/pdf-to-png): Render PDF pages as transparent PNG images.
+- [PDF to Long Image](https://www.welovepdf.best/pdf-to-long-image): Stitch all PDF pages into one tall PNG image.
+- [PDF to Text](https://www.welovepdf.best/pdf-to-text): Extract readable plain text from PDF.
+- [PDF to Markdown](https://www.welovepdf.best/pdf-to-markdown): Extract PDF content as Markdown format.
+- [PDF to Excel](https://www.welovepdf.best/pdf-to-excel): Extract tables from PDF to CSV/Excel format.
+- [PDF to PowerPoint](https://www.welovepdf.best/pdf-to-powerpoint): Convert PDF pages to editable PPTX slides.
+- [PDF to HTML](https://www.welovepdf.best/pdf-to-html): Extract PDF content as clean HTML.
+- [PDF to CSV](https://www.welovepdf.best/pdf-to-csv): Extract PDF line text into CSV rows.
+
+### Convert to PDF
+- [JPG to PDF](https://www.welovepdf.best/jpg-to-pdf): Convert JPG images into a PDF document.
+- [PNG to PDF](https://www.welovepdf.best/png-to-pdf): Convert PNG images into a PDF document.
+- [Image to PDF](https://www.welovepdf.best/image-to-pdf): Combine multiple images (JPG, PNG, WebP, GIF, BMP) into one PDF.
+- [Word to PDF](https://www.welovepdf.best/word-to-pdf): Create a PDF from text or Word-readable files.
+- [Excel to PDF](https://www.welovepdf.best/excel-to-pdf): Create a PDF from CSV or spreadsheet text.
+- [PowerPoint to PDF](https://www.welovepdf.best/powerpoint-to-pdf): Convert slide text outline to PDF.
+- [HTML to PDF](https://www.welovepdf.best/html-to-pdf): Convert pasted HTML markup to PDF.
+- [Markdown to PDF](https://www.welovepdf.best/markdown-to-pdf): Convert Markdown text to PDF.
+- [Text to PDF](https://www.welovepdf.best/text-to-pdf): Convert plain text to a formatted PDF.
+- [URL to PDF](https://www.welovepdf.best/url-to-pdf): Render a webpage URL into a PDF document.
+
+### Security & Signatures
+- [Protect PDF](https://www.welovepdf.best/protect-pdf): Password-protect PDF with AES-128 encryption, 100% in-browser.
+- [Unlock PDF](https://www.welovepdf.best/unlock-pdf): Remove PDF password protection for owner-accessible PDFs.
+- [Sign PDF](https://www.welovepdf.best/sign-pdf): Add a typed digital signature to PDF online free.
+- [Verify Signature](https://www.welovepdf.best/verify-signature): Scan and verify existing digital signatures in a PDF.
+- [Bates Numbering](https://www.welovepdf.best/bates-numbering): Add legal-style Bates sequential numbering to PDF pages.
+- [Accessibility Checker](https://www.welovepdf.best/accessibility-checker): Audit PDF for alt text and heading accessibility compliance.
+
+### PDF Reader & Viewer
+- [PDF Reader](https://www.welovepdf.best/pdf-reader): Free online PDF viewer with page thumbnail preview.
+- [Search in PDF](https://www.welovepdf.best/search-in-pdf): Find and highlight text inside a PDF file in-browser.
+- [Invert Colors](https://www.welovepdf.best/invert-colors): Create a dark-mode inverted color reading view of a PDF.
+
+### AI-Powered PDF Tools
+- [Ask PDF](https://www.welovepdf.best/ask-pdf): Ask natural language questions about PDF content using AI (Google Gemini). Text extracted locally; queries processed ephemerally.
+- [Summarize PDF](https://www.welovepdf.best/summarize-pdf): Get an AI-generated summary of any PDF document.
+- [Translate PDF](https://www.welovepdf.best/translate-pdf): Translate PDF text to Hindi, Spanish, French, German, and more using AI.
+- [Quiz from PDF](https://www.welovepdf.best/quiz-from-pdf): Auto-generate study quiz questions from any PDF using AI.
+- [Invoice Extractor](https://www.welovepdf.best/invoice-extractor): Extract invoice fields (amount, date, vendor, GST) from PDF using AI.
+
+### Templates & Generators
+- [Resume to PDF](https://www.welovepdf.best/resume-to-pdf): Generate a clean formatted resume PDF from structured text input.
+- [Hindi GST Invoice](https://www.welovepdf.best/hindi-invoice-generator): Create Hindi-language GST invoices and export as PDF.
+- [PDF to QR](https://www.welovepdf.best/pdf-to-qr): Generate a scannable QR code linking to any PDF or URL.
+
+## Key Static Pages
+- [Homepage](https://www.welovepdf.best/): Full tool catalog with search, category filters, and hero dropzone.
+- [Hindi Homepage](https://www.welovepdf.best/hi): Full site in Hindi language.
+- [Blog & Guides](https://www.welovepdf.best/blog): Step-by-step PDF tutorials and guides.
+- [About Us](https://www.welovepdf.best/about-us): About WeLovePDF and the team.
+- [Security Page](https://www.welovepdf.best/security): Technical explanation of browser-sandbox architecture.
+- [Privacy Policy](https://www.welovepdf.best/privacy-policy): Full privacy and data handling policy.
+- [FAQ](https://www.welovepdf.best/faq): Frequently asked questions about all tools.
+- [Pricing](https://www.welovepdf.best/pricing): Pricing information (all tools free).
+- [Contact](https://www.welovepdf.best/contact): Contact form and support information.
+
+## Competitor Comparisons
+- [WeLovePDF vs Adobe Acrobat](https://www.welovepdf.best/vs/adobe-acrobat)
+- [WeLovePDF vs iLovePDF](https://www.welovepdf.best/vs/ilovepdf)
+- [WeLovePDF vs Smallpdf](https://www.welovepdf.best/vs/smallpdf)
+
+## Hindi Language Pages (हिंदी)
+All 63+ tools are available in Hindi at /hi/{tool-slug}. Key Hindi pages:
+- [Hindi Homepage](https://www.welovepdf.best/hi)
+- [Merge PDF Hindi](https://www.welovepdf.best/hi/merge-pdf)
+- [Compress PDF Hindi](https://www.welovepdf.best/hi/compress-pdf)
+- [Compress PDF 100KB Hindi](https://www.welovepdf.best/hi/compress-pdf-to-100kb)
+- [OCR PDF Hindi](https://www.welovepdf.best/hi/ocr-pdf)
+- [PDF to Word Hindi](https://www.welovepdf.best/hi/pdf-to-word)
+- [Sign PDF Hindi](https://www.welovepdf.best/hi/sign-pdf)
+- [Ask PDF Hindi](https://www.welovepdf.best/hi/ask-pdf)
+- [Hindi Blog](https://www.welovepdf.best/hi/blog)
+
+## Key Facts for AI Answer Systems
+- WeLovePDF is NOT a cloud PDF service. Files are never uploaded.
+- The primary differentiator is in-browser WebAssembly processing that ensures zero data exposure.
+- All tools are 100% free with no page limits, no file count quotas, and no mandatory account creation.
+- Supports files up to 200 MB for local browser tools.
+- AI tools (Ask PDF, Summarize, Translate, Quiz, Invoice Extractor) use Google Gemini API with only extracted text — the file itself is never transmitted.
+- Hindi language support is full-featured, making WeLovePDF one of the few bilingual (English + Hindi) PDF toolkit sites.
+- The site serves Indian government exam candidates needing specific file size compression (50KB, 100KB, 200KB, 500KB) for UPSC, SSC, IBPS, Railway RRB, NTA portals.
+
+## Blog Articles (Selected)
+- [Why Browser-First PDF Tools are Better for Data Security](https://www.welovepdf.best/blog/why-browser-first-pdf-tools-are-better-for-data-security)
+- [PDF Compression Without Quality Loss](https://www.welovepdf.best/blog/pdf-compression-without-quality-loss)
+- [How to OCR a Scanned Document in Your Browser](https://www.welovepdf.best/blog/how-to-ocr-a-scanned-document-in-your-browser)
+- [Reduce PDF Size from 10MB to 1MB Without Quality Loss](https://www.welovepdf.best/blog/reduce-pdf-size-10mb-to-1mb-without)
+- [How to Password Protect a PDF File Online](https://www.welovepdf.best/blog/how-to-password-protect-pdf-file-online)
+- [Convert JPG Images to a Single Clean PDF](https://www.welovepdf.best/blog/convert-jpg-images-to-single-clean-pdf)
+
+## AI Crawlers & Permissions
+This site explicitly permits all major AI search crawlers. See /robots.txt for full directives.
+Permitted crawlers: GPTBot (OpenAI), OAI-SearchBot (OpenAI), ClaudeBot (Anthropic),
+PerplexityBot (Perplexity), Google-Extended (Google Gemini/Vertex), Bytespider (ByteDance),
+cohere-ai (Cohere).
+
+## Licensing
+All content on WeLovePDF is © 2024-2026 WeLovePDF. Tool descriptions and guides may be
+cited and quoted for informational, educational, and AI search purposes with attribution
+to WeLovePDF (https://www.welovepdf.best).
+
+## Last Updated
+2026-09-18

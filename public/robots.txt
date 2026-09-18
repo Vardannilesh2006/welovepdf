@@ -1,8 +1,45 @@
+# WeLovePDF robots.txt — https://www.welovepdf.best
+# Updated: 2026-09-18
+
+# ── Google AdSense crawler ──────────────────────────────────
 User-agent: Mediapartners-Google
 Allow: /
 
+# ── All standard crawlers (Google, Bing, etc.) ─────────────
 User-agent: *
 Allow: /
 Disallow: /api/
 
+# ── AI Search Crawlers (explicitly allowed for AI visibility) ──
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+# ── Sitemap ─────────────────────────────────────────────────
 Sitemap: https://www.welovepdf.best/sitemap.xml
+
+# ── llms.txt (for non-Google AI services) ──────────────────
+# https://www.welovepdf.best/llms.txt
