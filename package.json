@@ -9,7 +9,8 @@
     "start": "node .next/standalone/server.js",
     "lint": "next lint",
     "seo-check": "node scripts/seo-ssr-regression-check.mjs",
-    "test:p0": "node scripts/verify-p0-suite.mjs"
+    "test:p0": "node scripts/verify-p0-suite.mjs",
+    "test:all-tools": "tsx scripts/test-all-tools.ts"
   },
   "dependencies": {
     "@sentry/nextjs": "^7.100.0",
@@ -31,6 +32,7 @@
     "autoprefixer": "^10.4.17",
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1",
+    "tsx": "^4.23.15",
     "typescript": "^5.3.3"
   }
 }

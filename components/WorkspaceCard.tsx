@@ -140,11 +140,57 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
     try {
       const formData = new FormData();
       files.forEach((f) => formData.append("files", f.file));
-      if (options.text) formData.append("text", options.text);
-      if (options.quality) formData.append("quality", String(options.quality));
-      if (options.password) formData.append("password", options.password);
-      if (options.ocrLang) formData.append("ocrLang", options.ocrLang);
-      if (options.splitInterval) formData.append("pages", String(options.splitInterval));
+
+      // Handle raw string option (Archetype H: Ask PDF query)
+      const promptText = typeof options === "string" ? options : (options?.text || "");
+      if (promptText) formData.append("text", promptText);
+
+      // Quality / Compression level
+      const qualityVal = options?.compressLevel ?? options?.quality;
+      if (qualityVal !== undefined && qualityVal !== null) formData.append("quality", String(qualityVal));
+
+      // Security / Passwords
+      if (options?.password) formData.append("password", options.password);
+
+      // OCR Language
+      if (options?.ocrLang) formData.append("ocrLang", options.ocrLang);
+
+      // Page ranges / split / interval
+      const pageParam = options?.rangeInput || options?.pages || options?.splitInterval;
+      if (pageParam) formData.append("pages", String(pageParam));
+
+      // Canvas / Crop Coordinates
+      if (options?.cropLeft !== undefined) formData.append("cropLeft", String(options.cropLeft));
+      if (options?.cropRight !== undefined) formData.append("cropRight", String(options.cropRight));
+      if (options?.cropTop !== undefined) formData.append("cropTop", String(options.cropTop));
+      if (options?.cropBottom !== undefined) formData.append("cropBottom", String(options.cropBottom));
+
+      // Watermark options
+      if (options?.watermarkText) formData.append("watermarkText", options.watermarkText);
+      if (options?.watermarkPos) formData.append("watermarkPos", options.watermarkPos);
+      if (options?.watermarkOpacity !== undefined) formData.append("watermarkOpacity", String(options.watermarkOpacity));
+
+      // Sign options
+      if (options?.signatureText) formData.append("signatureText", options.signatureText);
+      if (options?.signerTitle) formData.append("signerTitle", options.signerTitle);
+
+      // Bookmark / Outline
+      if (options?.bookmarkTitle) formData.append("bookmarkTitle", options.bookmarkTitle);
+
+      // Format options (Page size / orientation)
+      if (options?.pageSize) formData.append("pageSize", options.pageSize);
+      if (options?.orientation) formData.append("orientation", options.orientation);
+
+      // Generator options (Archetype I: Resume / QR / Invoices)
+      if (options?.fullName) formData.append("fullName", options.fullName);
+      if (options?.email) formData.append("email", options.email);
+      if (options?.title) formData.append("title", options.title);
+      if (options?.qrUrl) formData.append("qrUrl", options.qrUrl);
+
+      // Pass full page state array from Archetype B (rotations, selections)
+      if (pages && pages.length > 0) {
+        formData.append("pagesState", JSON.stringify(pages));
+      }
 
       const res = await fetch(`/api/process/${toolSlug}`, {
         method: "POST",
