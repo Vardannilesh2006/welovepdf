@@ -171,8 +171,12 @@ export default function ArchetypeB({
                         <input
                           type="checkbox"
                           checked={p.selected}
-                          onChange={() => onToggleSelect && onToggleSelect(idx)}
-                          className="w-4 h-4 accent-[#E8792A] rounded"
+                          onChange={(e) => {
+                            e.stopPropagation();
+                            onToggleSelect && onToggleSelect(idx);
+                          }}
+                          onClick={(e) => e.stopPropagation()}
+                          className="w-4 h-4 accent-[#E8792A] rounded cursor-pointer"
                         />
                       )}
                     </div>
@@ -252,7 +256,7 @@ export default function ArchetypeB({
                 onProcess({
                   splitMode,
                   splitInterval,
-                  rangeInput,
+                  rangeInput: toolSlug === "split-pdf" ? rangeInput : "",
                   cropLeft,
                   cropRight,
                   cropTop,

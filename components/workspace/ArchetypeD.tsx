@@ -46,9 +46,9 @@ export default function ArchetypeD({
       case "pdf-to-powerpoint":
         return "converted-presentation.pptx";
       case "pdf-to-word":
-        return "converted-document.docx";
+        return "converted-document.doc";
       case "pdf-to-excel":
-        return "converted-sheet.xlsx";
+        return "converted-sheet.csv";
       case "pdf-to-csv":
         return "converted-data.csv";
       case "pdf-to-text":

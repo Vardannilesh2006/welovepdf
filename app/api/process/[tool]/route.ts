@@ -295,13 +295,26 @@ async function watermarkPdf(buffer: Buffer, watermarkText: string = "CONFIDENTIA
 
   pages.forEach((page) => {
     const { width, height } = page.getSize();
-    const size = Math.min(width, height) * 0.08;
-    const textWidth = font.widthOfTextAtSize(watermarkText || "CONFIDENTIAL", size);
+    let size = Math.min(width, height) * 0.06;
+    let textWidth = font.widthOfTextAtSize(watermarkText || "CONFIDENTIAL", size);
+    const maxAllowedWidth = Math.min(width, height) * 0.7;
+    if (textWidth > maxAllowedWidth && textWidth > 0) {
+      size = size * (maxAllowedWidth / textWidth);
+      textWidth = font.widthOfTextAtSize(watermarkText || "CONFIDENTIAL", size);
+    }
 
     if (position === "center") {
+      const rad = (45 * Math.PI) / 180;
+      const cos45 = Math.cos(rad);
+      const sin45 = Math.sin(rad);
+      const centerX = width / 2;
+      const centerY = height / 2;
+      const startX = centerX - (textWidth * cos45) / 2;
+      const startY = centerY - (textWidth * sin45) / 2;
+
       page.drawText(watermarkText || "CONFIDENTIAL", {
-        x: (width - textWidth * 0.7) / 2,
-        y: height / 2 - 20,
+        x: Math.max(20, startX),
+        y: Math.max(20, startY),
         size,
         font,
         color: rgb(0.8, 0.2, 0.2),
@@ -312,7 +325,7 @@ async function watermarkPdf(buffer: Buffer, watermarkText: string = "CONFIDENTIA
       page.drawText(watermarkText || "CONFIDENTIAL", {
         x: 40,
         y: height - 60,
-        size: 18,
+        size: Math.min(size, 20),
         font,
         color: rgb(0.5, 0.5, 0.5),
         opacity,
@@ -612,27 +625,70 @@ async function merge(buffers: Buffer[]): Promise<Uint8Array> {
 }
 
 // 23. Page Operations (Split, Delete, Extract, Reorder, Duplicate, Add Blank)
-async function pageOperation(tool: string, buffer: Buffer, pages: string): Promise<Uint8Array> {
+async function pageOperation(tool: string, buffer: Buffer, pages: string, pagesStateStr?: string): Promise<Uint8Array> {
   const doc = await PDFDocument.load(buffer, { ignoreEncryption: true });
   const total = doc.getPageCount();
-  const indices = parsePages(pages, total);
 
-  if (tool === "split-pdf" || tool === "extract-pages") {
+  let stateArr: any[] = [];
+  try {
+    if (pagesStateStr) {
+      stateArr = JSON.parse(pagesStateStr);
+    }
+  } catch {}
+
+  // Check if user selected pages interactively in the UI
+  const selectedIndices: number[] = [];
+  if (Array.isArray(stateArr)) {
+    stateArr.forEach((p, idx) => {
+      if (p.selected && idx < total) {
+        selectedIndices.push(idx);
+      }
+    });
+  }
+
+  // Check split points
+  const splitIndices: number[] = [];
+  if (Array.isArray(stateArr)) {
+    stateArr.forEach((p, idx) => {
+      if (p.isSplitPoint && idx < total) {
+        splitIndices.push(idx);
+      }
+    });
+  }
+
+  if (tool === "delete-pages") {
+    const indicesToDelete = selectedIndices.length > 0 
+      ? selectedIndices 
+      : (pages && pages !== "1-" ? parsePages(pages, total) : [0]);
+    const newDoc = await PDFDocument.create();
+    const toKeep = Array.from({ length: total }, (_, i) => i).filter((i) => !indicesToDelete.includes(i));
+    const copied = await newDoc.copyPages(doc, toKeep.length > 0 ? toKeep : [0]);
+    copied.forEach((p) => newDoc.addPage(p));
+    return await newDoc.save();
+  }
+
+  if (tool === "extract-pages") {
+    const indicesToExtract = selectedIndices.length > 0 
+      ? selectedIndices 
+      : (pages ? parsePages(pages, total) : [0]);
+    const newDoc = await PDFDocument.create();
+    const copied = await newDoc.copyPages(doc, indicesToExtract.length > 0 ? indicesToExtract : [0]);
+    copied.forEach((p) => newDoc.addPage(p));
+    return await newDoc.save();
+  }
+
+  if (tool === "split-pdf") {
+    const indices = splitIndices.length > 0
+      ? splitIndices
+      : (pages ? parsePages(pages, total) : [0]);
     const newDoc = await PDFDocument.create();
     const copied = await newDoc.copyPages(doc, indices.length > 0 ? indices : [0]);
     copied.forEach((p) => newDoc.addPage(p));
     return await newDoc.save();
   }
 
-  if (tool === "delete-pages") {
-    const newDoc = await PDFDocument.create();
-    const toKeep = Array.from({ length: total }, (_, i) => i).filter((i) => !indices.includes(i));
-    const copied = await newDoc.copyPages(doc, toKeep.length > 0 ? toKeep : [0]);
-    copied.forEach((p) => newDoc.addPage(p));
-    return await newDoc.save();
-  }
-
   if (tool === "duplicate-pages") {
+    const indices = selectedIndices.length > 0 ? selectedIndices : parsePages(pages, total);
     const newDoc = await PDFDocument.create();
     const all = await newDoc.copyPages(doc, doc.getPageIndices());
     all.forEach(p => newDoc.addPage(p));
@@ -650,8 +706,14 @@ async function pageOperation(tool: string, buffer: Buffer, pages: string): Promi
 
   if (tool === "reorder-pages") {
     const newDoc = await PDFDocument.create();
-    const order = indices.length > 0 ? indices : Array.from({ length: total }, (_, i) => total - 1 - i);
-    const copied = await newDoc.copyPages(doc, order);
+    let order: number[] = [];
+    if (Array.isArray(stateArr) && stateArr.length === total) {
+      order = stateArr.map(p => (typeof p.pageNumber === "number" ? p.pageNumber - 1 : 0)).filter(i => i >= 0 && i < total);
+    }
+    if (order.length !== total) {
+      order = pages && pages !== "1-" ? parsePages(pages, total) : Array.from({ length: total }, (_, i) => total - 1 - i);
+    }
+    const copied = await newDoc.copyPages(doc, order.length > 0 ? order : doc.getPageIndices());
     copied.forEach((p) => newDoc.addPage(p));
     return await newDoc.save();
   }
@@ -1148,7 +1210,7 @@ export async function POST(req: NextRequest, { params }: { params: { tool: strin
     } else if (tool === "merge-pdf" || tool === "compare-pdf") {
       output = await merge(buffers.map(b => b.buffer));
     } else if (["split-pdf", "extract-pages", "delete-pages", "duplicate-pages", "add-blank-page", "reorder-pages"].includes(tool)) {
-      output = await pageOperation(tool, buffers[0].buffer, pagesRange);
+      output = await pageOperation(tool, buffers[0].buffer, pagesRange, pagesState);
     } else if (tool === "crop-pdf") {
       output = await cropPdf(buffers[0].buffer, cropLeft, cropRight, cropTop, cropBottom);
     } else if (tool === "bookmark-editor") {
