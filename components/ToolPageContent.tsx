@@ -6,6 +6,94 @@ import WorkspaceCard from "./WorkspaceCard";
 import ProcessingModeBadge from "./ProcessingModeBadge";
 import { ChevronRight } from "lucide-react";
 
+function getCategorySpecificContent(category: string, toolSlug: string, isHindi: boolean) {
+  if (isHindi) {
+    switch (category) {
+      case "Optimize":
+        return `
+          <h3>सरकारी परीक्षा एवं ऑनलाइन फॉर्म के लिए पीडीएफ अनुकूलन</h3>
+          <p>
+            भारत में UPSC, SSC (CGL, CHSL, MTS), IBPS, State PSC, और NTA (JEE, NEET) जैसी प्रतियोगी परीक्षाओं के ऑनलाइन आवेदन में दस्तावेज़, मार्कशीट, जाति प्रमाण पत्र और पहचान पत्र को अक्सर 50KB, 100KB या 200KB के सटीक आकार में अपलोड करना अनिवार्य होता है। 
+            WeLovePDF का इन-ब्राउज़र कंप्रेसर इमेज रिज़ॉल्यूशन को संतुलित करते हुए फ़ाइल साइज़ को सटीक रूप से कम करता है ताकि आपका फॉर्म तकनीकी त्रुटि के बिना सबमिट हो सके।
+          </p>
+          <h3>गोपनीयता और डेटा सुरक्षा</h3>
+          <p>
+            आधार कार्ड, पैन कार्ड, या बैंक पासबुक जैसे संवेदनशील दस्तावेज़ों को बाहरी सर्वर पर अपलोड करना जोखिम भरा हो सकता है। हमारा टूल आपकी फ़ाइल को स्थानीय ब्राउज़र मेमोरी (RAM) में ही प्रोसेस करता है, जिससे डेटा लीक का कोई खतरा नहीं रहता।
+          </p>
+        `;
+      case "Convert from PDF":
+      case "Convert to PDF":
+        return `
+          <h3>सटीक फॉन्ट और लेआउट संरक्षण</h3>
+          <p>
+            कन्वर्ज़न के दौरान फ़ॉर्मेटिंग का बिगड़ना एक आम समस्या है। WeLovePDF आधुनिक पार्सिंग तकनीक का उपयोग करता है जिससे हेडर, पैराग्राफ, टेबल स्ट्रक्चर और हिंदी/अंग्रेजी फॉन्ट मूल दस्तावेज़ की तरह ही सुरक्षित रहते हैं। 
+            चाहे कॉलेज असाइनमेंट हो, कानूनी डीड या व्यावसायिक इनवॉइस—कन्वर्ज़न के बाद भी लेआउट स्पष्ट और प्रिंट-रेडी रहता है।
+          </p>
+        `;
+      case "Security":
+      case "Edit":
+        return `
+          <h3>दस्तावेज़ सुरक्षा और ISO 32000 मानक</h3>
+          <p>
+            पीडीएफ सुरक्षा के लिए अंतरराष्ट्रीय ISO 32000 मानकों के तहत 128-बिट AES एन्क्रिप्शन का प्रयोग किया जाता है। पासवर्ड प्रोटेक्शन और रिडैक्शन (Redaction) दोनों प्रक्रियाएं सीधे आपके डिवाइस पर पूरी होती हैं। 
+            जब आप किसी गोपनीय जानकारी को ब्लैक आउट करते हैं, तो वह हमेशा के लिए हटा दी जाती है और किसी भी पीडीएफ व्यूअर से रिकवर नहीं की जा सकती।
+          </p>
+        `;
+      default:
+        return `
+          <h3>दैनिक दस्तावेज़ प्रबंधन का सरल समाधान</h3>
+          <p>
+            चाहे कई फ़ाइलों को एक साथ जोड़ना हो, अतिरिक्त पेज हटाना हो, या स्कैन की गई प्रतियों को सीधा (Deskew) करना हो—WeLovePDF आपको बिना किसी जटिल सॉफ़्टवेयर इंस्टॉलेशन के तुरंत परिणाम देता है। 
+            यह टूल एंड्रॉइड, आईफोन, विंडोज़ और मैक सभी ऑपरेटिंग सिस्टम पर समान गति से कार्य करता है।
+          </p>
+        `;
+    }
+  }
+
+  // English
+  switch (category) {
+    case "Optimize":
+      return `
+        <h3>Tailored for Exam Portals, Portals, and Corporate Compliance</h3>
+        <p>
+          Online application portals—ranging from government portals (UPSC, SSC, State PSCs) to university admission systems and HR databases—frequently enforce stringent PDF size ceilings (e.g., strictly under 100KB, 200KB, or 500KB). 
+          WeLovePDF applies adaptive vector stream compression and smart image downsampling to preserve typography and fine lines while dramatically shrinking byte overhead, ensuring your document satisfies portal validation rules without rejection.
+        </p>
+        <h3>Client-Side Confidentiality for Financial & ID Files</h3>
+        <p>
+          Compressing sensitive credentials such as Aadhaar cards, tax returns, passport copies, or payroll statements should never involve uploading unencrypted documents to unknown third-party cloud buckets. 
+          Because WeLovePDF executes locally via WebAssembly, your documents never cross the network perimeter.
+        </p>
+      `;
+    case "Convert from PDF":
+    case "Convert to PDF":
+      return `
+        <h3>High-Fidelity Document Structure & Font Rendering</h3>
+        <p>
+          Format conversion often struggles with broken tables, displaced margins, and scrambled font encodings. 
+          Our conversion pipelines isolate typography definitions, preserve tabular bounding boxes, and maintain inline image color profiles. Whether turning scanned contracts into editable text or packaging spreadsheets into archivable PDFs, visual parity is maintained across all platforms.
+        </p>
+      `;
+    case "Security":
+    case "Edit":
+      return `
+        <h3>Cryptographic Security & ISO 32000 Compliance</h3>
+        <p>
+          All encryption and redaction mechanisms conform to official ISO 32000 PDF specifications. When encrypting, standard AES algorithms lock document permissions securely. 
+          When redacting, content streams are purged at the byte level rather than merely obscured with transparent layers, ensuring sensitive numbers, signatures, and confidential clauses are permanent and irreversible.
+        </p>
+      `;
+    default:
+      return `
+        <h3>Streamlined Workflow for Modern Productivity</h3>
+        <p>
+          From reordering misaligned pages to extracting vital chapters and merging multi-part reports, WeLovePDF provides frictionless document organization. 
+          With responsive design optimized for touchscreens, trackpads, and mobile viewports, your documents can be organized and exported in seconds without registration paywalls.
+        </p>
+      `;
+  }
+}
+
 function generateDynamicGuide(toolName: string, category: string, desc: string, slug: string): string {
   const manifest = getToolManifest(slug);
   const formats = manifest ? manifest.acceptMimeTypes.join(", ") : "PDF";
@@ -41,14 +129,18 @@ function generateDynamicGuide(toolName: string, category: string, desc: string, 
        </div>`
     : "";
 
+  const categoryDeepDive = getCategorySpecificContent(category, slug, false);
+
   return `
     <h2>Complete Guide to ${toolName} Online</h2>
     <p>
-      Welcome to WeLovePDF's <strong>${toolName}</strong> utility. This tool allows you to ${desc.toLowerCase()} reliably and securely. 
-      Operating under the <strong>${category}</strong> category, this application executes via ${engine}.
+      Welcome to WeLovePDF's <strong>${toolName}</strong> utility. This tool allows you to ${desc.toLowerCase()} reliably, privately, and securely. 
+      Operating under the <strong>${category}</strong> category, this application executes via ${engine} directly in your browser.
     </p>
 
     ${limitationsHtml}
+
+    ${categoryDeepDive}
 
     <h3>Tool Specifications & Supported Formats</h3>
     <table>
@@ -120,12 +212,16 @@ function generateDynamicHindiGuide(toolName: string, category: string, desc: str
         <li><strong>डाउनलोड करें:</strong> तैयार फ़ाइल को सहेजें।</li>
       </ol>`;
 
+  const categoryDeepDive = getCategorySpecificContent(category, slug, true);
+
   return `
     <h2>${toolName} ऑनलाइन उपयोग करने की संपूर्ण गाइड</h2>
     <p>
-      WeLovePDF के <strong>${toolName}</strong> टूल में आपका स्वागत है। यह टूल आपको ${desc.toLowerCase()} करने की सुविधा देता है।
-      <strong>${category}</strong> श्रेणी के अंतर्गत, यह ${engine} के माध्यम से सुरक्षित रूप से कार्य करता है।
+      WeLovePDF के <strong>${toolName}</strong> टूल में आपका स्वागत है। यह टूल आपको ${desc.toLowerCase()} करने की मुफ़्त और सुरक्षित सुविधा देता है।
+      <strong>${category}</strong> श्रेणी के अंतर्गत, यह ${engine} के माध्यम से सीधे आपके ब्राउज़र में सुरक्षित रूप से कार्य करता है।
     </p>
+
+    ${categoryDeepDive}
 
     <h3>टूल विनिर्देश और समर्थित प्रारूप (Specifications)</h3>
     <table>
@@ -152,16 +248,28 @@ function generateDynamicHindiGuide(toolName: string, category: string, desc: str
           <td><strong>अधिकतम फ़ाइल आकार</strong></td>
           <td>${maxSize}</td>
         </tr>
+        <tr>
+          <td><strong>डेटा सुरक्षा</strong></td>
+          <td>100% प्राइवेट इन-ब्राउज़र मेमोरी सैंडबॉक्स (जीरो सर्वर अपलोड)</td>
+        </tr>
       </tbody>
     </table>
+
+    <h3>WeLovePDF क्यों चुनें?</h3>
+    <ul>
+      <li><strong>पूर्ण गोपनीयता:</strong> कोई फ़ाइल सर्वर पर अपलोड नहीं होती। पूरा काम आपके कंप्यूटर या मोबाइल के रैम में होता है।</li>
+      <li><strong>असीमित और मुफ़्त:</strong> कोई दैनिक सीमा नहीं, कोई लॉगिन या क्रेडिट कार्ड की आवश्यकता नहीं।</li>
+      <li><strong>सभी डिवाइस पर समर्थित:</strong> एंड्रॉइड, आईफोन, विंडोज़ पीसी और मैक सभी पर बिना किसी ऐप डाउनलोड के आसानी से चलता है।</li>
+    </ul>
 
     <h3>${toolName} का उपयोग कैसे करें (चरण-दर-चरण)</h3>
     ${stepsHtml}
 
     <h3>समस्या निवारण (Troubleshooting)</h3>
     <ul>
-      <li><strong>फ़ाइल चयन त्रुटि:</strong> सुनिश्चित करें कि आपकी फ़ाइल का प्रारूप समर्थित सूची से मेल खाता है।</li>
-      <li><strong>धीमी गति:</strong> बड़े दस्तावेज़ों के लिए पृष्ठभूमि के अनावश्यक टैब बंद करें।</li>
+      <li><strong>फ़ाइल चयन त्रुटि:</strong> सुनिश्चित करें कि आपकी फ़ाइल का प्रारूप समर्थित सूची (${formats}) से मेल खाता है और साइज़ ${maxSize} के अंदर है।</li>
+      <li><strong>धीमी गति:</strong> बड़े दस्तावेज़ों की प्रोसेसिंग के समय अन्य भारी ऐप्स या बैकग्राउंड टैब बंद रखें।</li>
+      <li><strong>डाउनलोड अनुमति:</strong> ब्राउज़र में 'Allow Downloads' परमिशन चालू रखें।</li>
     </ul>
   `;
 }
