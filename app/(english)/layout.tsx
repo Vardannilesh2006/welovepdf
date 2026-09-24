@@ -5,8 +5,8 @@ import Script from "next/script";
 import CookieBanner from "../../components/CookieBanner";
 
 export const metadata = {
-  title: "WeLovePDF — 100% Private PDF Engine (Runs in Browser, Zero Upload)",
-  description: "Process, merge, compress & edit PDFs privately inside your browser memory sandbox. Zero server uploads, zero data tracking, instant WebAssembly speed. 100% free forever.",
+  title: "WeLovePDF — Free & Unlimited Online PDF Tools (No File Limit, 100% Private)",
+  description: "Merge, compress, convert & edit PDFs privately inside your browser. No 2-file hourly limits, zero server uploads, 1-click UPSC & SSC exam presets. 100% free forever.",
   metadataBase: new URL("https://www.welovepdf.best"),
   robots: {
     index: true,
@@ -21,8 +21,8 @@ export const metadata = {
     }
   },
   openGraph: {
-    title: "WeLovePDF — 100% Private PDF Engine (Runs in Browser, Zero Upload)",
-    description: "Process, merge, compress & edit PDFs privately inside your browser memory sandbox. Zero server uploads, zero data tracking, instant WebAssembly speed. 100% free forever.",
+    title: "WeLovePDF — Free & Unlimited Online PDF Tools (No File Limit, 100% Private)",
+    description: "Merge, compress, convert & edit PDFs privately inside your browser. No 2-file hourly limits, zero server uploads, 1-click UPSC & SSC exam presets. 100% free forever.",
     url: "https://www.welovepdf.best",
     siteName: "WeLovePDF",
     locale: "en_US",
@@ -30,8 +30,8 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "WeLovePDF™ — 100% Private PDF Engine (Runs in Browser, Zero Upload)",
-    description: "Process, merge, compress & edit PDFs privately inside your browser memory sandbox. Zero server uploads, zero data tracking, instant WebAssembly speed. 100% free forever.",
+    title: "WeLovePDF™ — Free & Unlimited Online PDF Tools (No File Limit, 100% Private)",
+    description: "Merge, compress, convert & edit PDFs privately inside your browser. No 2-file hourly limits, zero server uploads, 1-click UPSC & SSC exam presets. 100% free forever.",
   }
 };
 

@@ -71,6 +71,54 @@ const hindiActionVerbs: Record<string, string> = {
   "resume-to-pdf": "रिज्यूमे से पीडीएफ बनाएं",
 };
 
+function getHighCtrHindiTitle(slug: string, name: string, hindiAction: string): string {
+  switch (slug) {
+    case "compress-pdf-to-100kb":
+      return "पीडीएफ 100KB में कंप्रेस करें (UPSC व सरकारी फॉर्म हेतु) — WeLovePDF";
+    case "compress-pdf-to-200kb":
+      return "पीडीएफ 200KB में कंप्रेस करें (SSC CGL व रेलवे परीक्षा) — WeLovePDF";
+    case "compress-pdf-to-50kb":
+      return "पीडीएफ 50KB में कंप्रेस करें (फोटो व साइन अपलोड) — WeLovePDF";
+    case "compress-pdf-for-ssc-upsc":
+      return "सरकारी परीक्षा पीडीएफ कंप्रेसर (UPSC, SSC, IBPS) — WeLovePDF";
+    case "compress-pdf":
+      return "मुफ़्त पीडीएफ कंप्रेस करें (अनलिमिटेड, बिना क्वालिटी खोए) — WeLovePDF";
+    case "merge-pdf":
+      return "पीडीएफ मर्ज करें ऑनलाइन (असीमित पेज, कोई अपलोड नहीं) — WeLovePDF";
+    case "split-pdf":
+      return "पीडीएफ स्प्लिट करें (मनचाहे पेज अलग करें तुरंत) — WeLovePDF";
+    case "pdf-to-word":
+      return "पीडीएफ से वर्ड में बदलें (100% सही फॉन्ट व लेआउट) — WeLovePDF";
+    case "word-to-pdf":
+      return "वर्ड से पीडीएफ बनाएं (1-क्लिक DOCX से PDF) — WeLovePDF";
+    case "protect-pdf":
+      return "पीडीएफ में पासवर्ड लगाएं (128-बिट सुरक्षित एन्क्रिप्शन) — WeLovePDF";
+    case "unlock-pdf":
+      return "पीडीएफ अनलॉक करें (पासवर्ड व पाबंदियां तुरंत हटाएं) — WeLovePDF";
+    case "hindi-invoice-generator":
+      return "मुफ़्त हिंदी जीएसटी बिल जनरेटर (तुरंत पीडीएफ बनाएं) — WeLovePDF";
+    default:
+      return `${hindiAction} ऑनलाइन (100% प्राइवेट, कोई लिमिट नहीं) — WeLovePDF`;
+  }
+}
+
+function getHighCtrHindiDescription(slug: string, name: string, hindiAction: string): string {
+  switch (slug) {
+    case "compress-pdf-to-100kb":
+      return "UPSC, State PSC, और Bank PO ऑनलाइन फॉर्म के लिए पीडीएफ को 100KB से कम साइज में कंप्रेस करें। 100% प्राइवेट इन-ब्राउज़र प्रोसेसिंग, कोई सर्वर अपलोड नहीं।";
+    case "compress-pdf-to-200kb":
+      return "SSC CGL, CHSL, Railway और NTA फॉर्म्स के लिए पीडीएफ को 200KB के अंदर कंप्रेस करें। फॉन्ट और क्वालिटी सुरक्षित रहती है।";
+    case "compress-pdf-to-50kb":
+      return "सरकारी नौकरी फॉर्म के लिए फोटो, हस्ताक्षर और अंगूठे के निशान वाली पीडीएफ को 50KB में कंप्रेस करें।";
+    case "compress-pdf-for-ssc-upsc":
+      return "भारतीय प्रतियोगी परीक्षाओं (UPSC, SSC, IBPS, NTA) के लिए विशेष पीडीएफ कंप्रेसर। 1-क्लिक में पोर्टल के अनुसार सही साइज पाएं।";
+    case "merge-pdf":
+      return "कई पीडीएफ फाइलों को एक साथ जोड़ें। कोई फाइल लिमिट नहीं, कोई वाटरमार्क नहीं, सीधे आपके फोन/पीसी के ब्राउज़र में प्रोसेस होता है।";
+    default:
+      return `${hindiAction} ऑनलाइन — 100% सुरक्षित और स्थानीय इन-ब्राउज़र प्रोसेसिंग। कोई सर्वर अपलोड नहीं, जीरो डेटा ट्रैकिंग, और असीमित मुफ्त उपयोग।`;
+  }
+}
+
 export async function generateMetadata({ params }: { params: { tool: string } }): Promise<Metadata> {
   const tool = tools.find((t) => t.slug === params.tool);
   if (!tool) return {};
@@ -79,10 +127,11 @@ export async function generateMetadata({ params }: { params: { tool: string } })
   const canonicalUrl = `https://www.welovepdf.best/hi/${params.tool}`;
   const enUrl = `https://www.welovepdf.best/${params.tool}`;
 
-  const hindiDesc = `${tool.name} ऑनलाइन — 100% सुरक्षित और स्थानीय इन-ब्राउज़र प्रोसेसिंग। कोई सर्वर अपलोड नहीं, जीरो डेटा ट्रैकिंग, और असीमित मुफ्त उपयोग।`;
+  const title = getHighCtrHindiTitle(params.tool, tool.name, hindiAction);
+  const hindiDesc = getHighCtrHindiDescription(params.tool, tool.name, hindiAction);
 
   return {
-    title: `${tool.name} ऑनलाइन (100% प्राइवेट, जीरो सर्वर अपलोड) — WeLovePDF`,
+    title,
     description: hindiDesc.slice(0, 160),
     robots: {
       index: true,
@@ -97,7 +146,7 @@ export async function generateMetadata({ params }: { params: { tool: string } })
       },
     },
     openGraph: {
-      title: `${tool.name} — ${hindiAction} | WeLovePDF`,
+      title,
       description: hindiDesc.slice(0, 160),
       url: canonicalUrl,
       locale: "hi_IN",

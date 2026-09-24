@@ -76,6 +76,80 @@ const toolActionVerbs: Record<string, string> = {
   "pdf-to-qr": "PDF QR Code Generator",
 };
 
+function getHighCtrTitle(slug: string, name: string): string {
+  switch (slug) {
+    case "compress-pdf":
+      return "Compress PDF Online Free (Unlimited, No 2-File Limit) — WeLovePDF";
+    case "compress-pdf-to-100kb":
+      return "Compress PDF to 100KB Online (Exact Size for UPSC & Govt Forms) — WeLovePDF";
+    case "compress-pdf-to-200kb":
+      return "Compress PDF to 200KB Online (For SSC CGL & Railway Forms) — WeLovePDF";
+    case "compress-pdf-to-50kb":
+      return "Compress PDF to 50KB Online (For Photo & Signature Uploads) — WeLovePDF";
+    case "compress-pdf-to-500kb":
+      return "Compress PDF to 500KB Online (College & Job Portals) — WeLovePDF";
+    case "compress-pdf-for-ssc-upsc":
+      return "Govt Exam PDF Compressor (1-Click UPSC, SSC, IBPS Presets) — WeLovePDF";
+    case "merge-pdf":
+      return "Merge PDF Online Free (Unlimited Pages, No Signup Required) — WeLovePDF";
+    case "split-pdf":
+      return "Split PDF Online Free (Extract Any Page Range Instantly) — WeLovePDF";
+    case "pdf-to-word":
+      return "Convert PDF to Word Free (100% Layout & Font Accuracy) — WeLovePDF";
+    case "word-to-pdf":
+      return "Convert Word to PDF Online (Instant 1-Click DOCX to PDF) — WeLovePDF";
+    case "pdf-to-jpg":
+      return "Convert PDF to JPG Free (High DPI Image Extraction) — WeLovePDF";
+    case "jpg-to-pdf":
+      return "Convert JPG to PDF Online (Combine Photos into Single PDF) — WeLovePDF";
+    case "pdf-to-excel":
+      return "Convert PDF to Excel Free (Accurate Table Extraction) — WeLovePDF";
+    case "protect-pdf":
+      return "Protect PDF with Password (AES-128 Client-Side Encryption) — WeLovePDF";
+    case "unlock-pdf":
+      return "Unlock PDF Online (Remove Password & Restrictions Safely) — WeLovePDF";
+    case "sign-pdf":
+      return "Sign PDF Online Free (Add Digital & Drawn Signatures) — WeLovePDF";
+    case "redact-pdf":
+      return "Redact PDF Online (Permanently Blackout Confidential Data) — WeLovePDF";
+    case "watermark-pdf":
+      return "Watermark PDF Online (Add Custom Text Stamp on Pages) — WeLovePDF";
+    case "page-numbers":
+      return "Add Page Numbers to PDF (Custom Position & Format) — WeLovePDF";
+    case "ocr-pdf":
+      return "OCR PDF Online (Convert Scanned PDF to Searchable Text) — WeLovePDF";
+    case "bates-numbering":
+      return "Bates Numbering Online (Legal & Court Document Indexing) — WeLovePDF";
+    case "hindi-invoice-generator":
+      return "Hindi GST Invoice Generator Online (Free PDF Bill Maker) — WeLovePDF";
+    default:
+      return `${name} Online Free (100% Private, Zero Cloud Upload) — WeLovePDF`;
+  }
+}
+
+function getHighCtrDescription(slug: string, name: string, defaultDesc?: string): string {
+  switch (slug) {
+    case "compress-pdf-to-100kb":
+      return "Compress PDF strictly under 100KB online for UPSC, State PSC, and Bank PO online forms. 100% client-side WebAssembly compression with zero quality blur.";
+    case "compress-pdf-to-200kb":
+      return "Reduce PDF file size under 200KB for SSC CGL, CHSL, Railway, and NTA forms. Instant in-browser compression with zero server uploads.";
+    case "compress-pdf-to-50kb":
+      return "Compress PDF under 50KB online for signature, thumb impression, and passport photo uploads on Indian government exam portals.";
+    case "compress-pdf-for-ssc-upsc":
+      return "Dedicated PDF compressor for Indian competitive exam portals (UPSC, SSC, IBPS, NTA). 1-click presets guarantee portal-compliant file sizes.";
+    case "merge-pdf":
+      return "Merge multiple PDF files into one single document online for free. Unlimited file combinations, zero server uploads, 100% private in-browser memory sandbox.";
+    case "split-pdf":
+      return "Split PDF pages or extract custom ranges into a new document. Instant client-side processing without uploading confidential files to any cloud server.";
+    case "pdf-to-word":
+      return "Convert PDF documents into editable Word (DOCX) files with 100% formatting and font fidelity. Works locally in your browser memory sandbox.";
+    default:
+      return defaultDesc 
+        ? `${defaultDesc} 100% free, unlimited, and private in-browser WebAssembly processing with zero server uploads.`
+        : `Use ${name} online for free. 100% client-side privacy via WebAssembly sandbox with zero data uploads, no watermarks, and unlimited processing.`;
+  }
+}
+
 // Generate parameters for static site generation (SSG) for all 62 tools
 export async function generateStaticParams() {
   return tools.map((t) => ({
@@ -87,12 +161,8 @@ export async function generateMetadata({ params }: { params: { tool: string } })
   const tool = tools.find((t) => t.slug === params.tool);
   if (!tool) return {};
 
-  const actionVerb = toolActionVerbs[params.tool] || "PDF Tool";
-  const title = `${tool.name} Online (100% Private, Zero Cloud Upload) — WeLovePDF`;
-  const customDesc = toolDescriptions[params.tool];
-  const desc = customDesc 
-    ? `${customDesc} Processed locally in your browser memory sandbox with zero server uploads.`
-    : `Use ${tool.name} online for free. 100% client-side privacy via WebAssembly sandbox with zero data uploads, no watermarks, and unlimited processing.`;
+  const title = getHighCtrTitle(params.tool, tool.name);
+  const desc = getHighCtrDescription(params.tool, tool.name, toolDescriptions[params.tool]);
 
   const top10 = [
     "compress-pdf",
