@@ -4,7 +4,7 @@ import { tools, toolDescriptions, toolGuides, toolFaqs } from "../app/data/tools
 import { getToolManifest, ToolManifestEntry } from "../app/data/toolManifest";
 import WorkspaceCard from "./WorkspaceCard";
 import ProcessingModeBadge from "./ProcessingModeBadge";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, ChevronDown, ShieldCheck, Zap, Award, Lock, FileCheck, CheckCircle2, ArrowRight } from "lucide-react";
 
 function getCategorySpecificContent(category: string, toolSlug: string, isHindi: boolean) {
   if (isHindi) {
@@ -506,76 +506,204 @@ export function ToolPageContent({ params, lang }: { params: { tool: string }; la
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
-        {/* Breadcrumb navigation */}
-        <div className="flex items-center gap-1.5 text-[13px] text-text-secondaryLight dark:text-text-secondaryDark mb-3">
-          <a href={prefix || "/"} className="hover:text-brand-blue">Home</a>
-          <ChevronRight className="w-3 h-3" />
-          <a href={`${prefix}/#tools`} className="hover:text-brand-blue">Tools</a>
-          <ChevronRight className="w-3 h-3" />
-          <span className="text-text-primaryLight dark:text-text-primaryDark font-semibold">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-6">
+        {/* Compact Breadcrumb navigation */}
+        <div className="flex items-center gap-1.5 text-xs text-text-secondaryLight dark:text-text-secondaryDark mb-2.5">
+          <a href={prefix || "/"} className="hover:text-[#E8792A] transition-colors">Home</a>
+          <ChevronRight className="w-3 h-3 text-[#9C9488]" />
+          <a href={`${prefix}/#tools`} className="hover:text-[#E8792A] transition-colors">Tools</a>
+          <ChevronRight className="w-3 h-3 text-[#9C9488]" />
+          <span className="text-text-primaryLight dark:text-text-primaryDark font-medium truncate max-w-[200px]">
             {tool.name}
           </span>
         </div>
 
-        {/* Primary H1 Heading & SEO Subtitle */}
-        <div className="mb-4">
-          <div className="mb-2.5">
+        {/* Primary Hero Header: Compact & Focused */}
+        <div className="mb-4 sm:mb-6 text-center max-w-3xl mx-auto">
+          <div className="inline-flex items-center justify-center mb-2">
             <ProcessingModeBadge
               mode={manifest?.processingMode || (tool.isAI ? "server" : "local")}
               status={manifest?.status || "stable"}
               lang={lang}
             />
           </div>
-          <h1 className="font-heading font-black text-[28px] sm:text-[36px] text-slate-900 dark:text-white leading-tight tracking-tight mb-2">
+          <h1 className="font-heading font-black text-2xl sm:text-3xl lg:text-4xl text-slate-900 dark:text-white leading-tight tracking-tight mb-2">
             {getToolH1(tool.name, tool.slug, lang)}
           </h1>
-          <p className="text-[15px] text-text-secondaryLight dark:text-text-secondaryDark max-w-3xl leading-relaxed">
-            {toolDescriptions[tool.slug] || `${tool.name} online for free — no file upload required. 100% private in-browser processing.`}
+          <p className="text-xs sm:text-sm text-text-secondaryLight dark:text-text-secondaryDark leading-relaxed">
+            {toolDescriptions[tool.slug] || `${tool.name} online for free — 100% private in-browser processing. Zero file uploads.`}
           </p>
         </div>
 
-        {/* Workspace Card (Drag & Drop box + Options sidebar) */}
-        <WorkspaceCard toolSlug={tool.slug} toolName={tool.name} lang={lang} />
+        {/* THE HERO STUDIO WORKSPACE (Dominant, App-Like Stage) */}
+        <div className="w-full mb-10">
+          <WorkspaceCard toolSlug={tool.slug} toolName={tool.name} lang={lang} />
+        </div>
 
-        {/* Detailed Guide & Text Copy Sections */}
-        <section className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
-          {/* Main content: Description + Steps */}
-          <div className="lg:col-span-8 p-6 sm:p-8 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-modal shadow-sm prose dark:prose-invert">
-            <div dangerouslySetInnerHTML={{ __html: toolGuides[tool.slug] || (lang === "hi" ? generateDynamicHindiGuide(tool.name, tool.category, tool.desc, tool.slug) : generateDynamicGuide(tool.name, tool.category, tool.desc, tool.slug)) }} />
+        {/* BELOW THE FOLD: Clean 3-Step Visual Process Bar */}
+        <div className="border-t border-[#EFE1D2]/80 pt-10 pb-8">
+          <div className="text-center max-w-xl mx-auto mb-8">
+            <h2 className="text-xs font-bold text-[#E8792A] uppercase tracking-wider mb-1">
+              {lang === "hi" ? "सरल 3-चरण प्रक्रिया" : "How It Works"}
+            </h2>
+            <p className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+              {lang === "hi" ? `${tool.name} का उपयोग कैसे करें` : `Quick, Secure & Frictionless in 3 Steps`}
+            </p>
           </div>
 
-          {/* Sidebar: FAQs & Related tools */}
-          <div className="lg:col-span-4 flex flex-col gap-6">
-            {/* FAQ Block */}
-            <div className="p-5 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-modal shadow-sm">
-              <h3 className="font-heading font-black text-[15px] mb-3 text-slate-800 dark:text-white uppercase tracking-wider">
-                {lang === "en" ? "Frequently Asked Questions" : "अक्सर पूछे जाने वाले प्रश्न"}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-10">
+            <div className="bg-white dark:bg-surface-dark border border-[#EFE1D2] rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+              <div className="w-10 h-10 rounded-lg bg-[#E8792A]/10 text-[#E8792A] flex items-center justify-center font-bold text-base mb-3">
+                1
+              </div>
+              <h3 className="font-bold text-sm text-slate-900 dark:text-white mb-1.5">
+                {lang === "hi" ? "दस्तावेज़ चुनें या ड्रॉप करें" : "1. Select or Drop File"}
               </h3>
-              <div className="flex flex-col gap-3">
+              <p className="text-xs text-text-secondaryLight dark:text-text-secondaryDark leading-relaxed">
+                {lang === "hi" 
+                  ? "अपने डिवाइस से पीडीएफ चुनें या सीधे वर्कस्पेस में ड्रैग और ड्रॉप करें। फाइलें आपके लोकल रैम में तुरंत लोड होती हैं।" 
+                  : "Choose your PDF from local storage or drag it into the active workspace. Files load instantly in local device memory."}
+              </p>
+            </div>
+
+            <div className="bg-white dark:bg-surface-dark border border-[#EFE1D2] rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+              <div className="w-10 h-10 rounded-lg bg-[#E8792A]/10 text-[#E8792A] flex items-center justify-center font-bold text-base mb-3">
+                2
+              </div>
+              <h3 className="font-bold text-sm text-slate-900 dark:text-white mb-1.5">
+                {lang === "hi" ? "कस्टमाइज़ और फाइन-ट्यून करें" : "2. Fine-Tune Parameters"}
+              </h3>
+              <p className="text-xs text-text-secondaryLight dark:text-text-secondaryDark leading-relaxed">
+                {lang === "hi"
+                  ? "लाइव स्टूडियो कंट्रोल्स से रोटेशन, पेजेस, कंप्रेसन टार्गेट, या वॉटरमार्क पोजीशन सेट करें। रियल-टाइम प्रीव्यू देखें।"
+                  : "Adjust rotation, select pages, choose compression target, or set watermark positions with real-time interactive previews."}
+              </p>
+            </div>
+
+            <div className="bg-white dark:bg-surface-dark border border-[#EFE1D2] rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+              <div className="w-10 h-10 rounded-lg bg-[#E8792A]/10 text-[#E8792A] flex items-center justify-center font-bold text-base mb-3">
+                3
+              </div>
+              <h3 className="font-bold text-sm text-slate-900 dark:text-white mb-1.5">
+                {lang === "hi" ? "तुरंत प्रोसेस और डाउनलोड" : "3. Instant Process & Save"}
+              </h3>
+              <p className="text-xs text-text-secondaryLight dark:text-text-secondaryDark leading-relaxed">
+                {lang === "hi"
+                  ? "एक क्लिक में प्रोसेस करें और तैयार फाइल तुरंत डाउनलोड करें। शून्य सर्वर अपलोड, पूर्ण गोपनीयता।"
+                  : "Click execute and download your ready output file instantly. 100% private WebAssembly processing with zero wait times."}
+              </p>
+            </div>
+          </div>
+
+          {/* 4 Core Pillars of Trust & Performance */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-12">
+            <div className="bg-[#FFFFFF] border border-[#EFE1D2] rounded-lg p-3.5 flex items-center gap-3">
+              <div className="p-2 bg-emerald-50 text-emerald-600 rounded-md shrink-0">
+                <Lock className="w-4 h-4" />
+              </div>
+              <div>
+                <h4 className="text-xs font-bold text-slate-900 dark:text-white">100% Local RAM</h4>
+                <p className="text-[11px] text-[#9C9488]">Zero Server Uploads</p>
+              </div>
+            </div>
+
+            <div className="bg-[#FFFFFF] border border-[#EFE1D2] rounded-lg p-3.5 flex items-center gap-3">
+              <div className="p-2 bg-amber-50 text-amber-600 rounded-md shrink-0">
+                <Zap className="w-4 h-4" />
+              </div>
+              <div>
+                <h4 className="text-xs font-bold text-slate-900 dark:text-white">WebAssembly Speed</h4>
+                <p className="text-[11px] text-[#9C9488]">Instant Processing</p>
+              </div>
+            </div>
+
+            <div className="bg-[#FFFFFF] border border-[#EFE1D2] rounded-lg p-3.5 flex items-center gap-3">
+              <div className="p-2 bg-blue-50 text-blue-600 rounded-md shrink-0">
+                <FileCheck className="w-4 h-4" />
+              </div>
+              <div>
+                <h4 className="text-xs font-bold text-slate-900 dark:text-white">ISO 32000 Standard</h4>
+                <p className="text-[11px] text-[#9C9488]">Preserves Fonts & Layout</p>
+              </div>
+            </div>
+
+            <div className="bg-[#FFFFFF] border border-[#EFE1D2] rounded-lg p-3.5 flex items-center gap-3">
+              <div className="p-2 bg-purple-50 text-purple-600 rounded-md shrink-0">
+                <Award className="w-4 h-4" />
+              </div>
+              <div>
+                <h4 className="text-xs font-bold text-slate-900 dark:text-white">Unlimited & Free</h4>
+                <p className="text-[11px] text-[#9C9488]">No Watermarks or Caps</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* PROGRESSIVE DISCLOSURE SEO & REFERENCE SECTION */}
+        <section className="mt-2 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+          {/* Main Column: Comprehensive Guide & Specifications */}
+          <div className="lg:col-span-8 space-y-6">
+            <div className="bg-white dark:bg-surface-dark border border-[#EFE1D2] rounded-xl p-6 sm:p-8 shadow-sm">
+              <div className="flex items-center gap-2 pb-4 mb-6 border-b border-[#EFE1D2]">
+                <FileCheck className="w-5 h-5 text-[#E8792A]" />
+                <h2 className="font-heading font-bold text-base sm:text-lg text-slate-900 dark:text-white">
+                  {lang === "hi" ? `${tool.name} संपूर्ण गाइड एवं तकनीकी जानकारी` : `${tool.name} Comprehensive Guide & Best Practices`}
+                </h2>
+              </div>
+              <div 
+                className="prose dark:prose-invert max-w-none text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed"
+                dangerouslySetInnerHTML={{ 
+                  __html: toolGuides[tool.slug] || (lang === "hi" ? generateDynamicHindiGuide(tool.name, tool.category, tool.desc, tool.slug) : generateDynamicGuide(tool.name, tool.category, tool.desc, tool.slug)) 
+                }} 
+              />
+            </div>
+          </div>
+
+          {/* Sidebar Column: Interactive FAQs & Related Tools */}
+          <div className="lg:col-span-4 flex flex-col gap-6">
+            {/* Interactive Modern FAQ Accordion */}
+            <div className="bg-white dark:bg-surface-dark border border-[#EFE1D2] rounded-xl p-5 shadow-sm">
+              <h3 className="font-heading font-bold text-sm text-slate-900 dark:text-white uppercase tracking-wider mb-4 flex items-center justify-between">
+                <span>{lang === "en" ? "Frequently Asked Questions" : "अक्सर पूछे जाने वाले प्रश्न"}</span>
+                <span className="text-[11px] text-[#E8792A] font-semibold">{faqs.length} FAQs</span>
+              </h3>
+              <div className="space-y-2.5">
                 {faqs.map((faq, idx) => (
-                  <div key={idx} className="p-3.5 border border-border-light dark:border-border-dark rounded-card bg-white dark:bg-surface-dark">
-                    <h4 className="font-bold text-[14px] mb-1.5 text-text-primaryLight dark:text-text-primaryDark leading-snug">{faq.q}</h4>
-                    <p className="text-[12px] text-text-secondaryLight dark:text-text-secondaryDark leading-relaxed">{faq.a}</p>
-                  </div>
+                  <details
+                    key={idx}
+                    className="group border border-[#EFE1D2] rounded-lg bg-[#FBF1E9]/20 open:bg-white dark:open:bg-surface-dark transition-all"
+                  >
+                    <summary className="flex items-center justify-between p-3 cursor-pointer font-medium text-xs text-slate-900 dark:text-white list-none select-none">
+                      <span className="leading-snug pr-2">{faq.q}</span>
+                      <ChevronDown className="w-3.5 h-3.5 text-[#9C9488] group-open:rotate-180 transition-transform shrink-0" />
+                    </summary>
+                    <div className="px-3 pb-3 pt-1 text-[11.5px] text-text-secondaryLight dark:text-text-secondaryDark leading-relaxed border-t border-[#EFE1D2]/60">
+                      {faq.a}
+                    </div>
+                  </details>
                 ))}
               </div>
             </div>
 
-            {/* Related Tools Block */}
-            <div className="p-5 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-modal shadow-sm">
-              <h3 className="font-heading font-black text-[15px] mb-3 text-slate-800 dark:text-white uppercase tracking-wider">
-                {lang === "en" ? "Related PDF Tools" : "संबंधित पीडीएफ टूल्स"}
+            {/* Related Tools Quick-Launch Grid */}
+            <div className="bg-white dark:bg-surface-dark border border-[#EFE1D2] rounded-xl p-5 shadow-sm">
+              <h3 className="font-heading font-bold text-xs text-[#E8792A] uppercase tracking-wider mb-3">
+                {lang === "en" ? "Complementary Utilities" : "संबंधित उपयोगी टूल्स"}
               </h3>
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-2">
                 {relatedTools.map((rel) => (
                   <a
                     key={rel.slug}
                     href={`${prefix}/${rel.slug}`}
-                    className="p-3.5 border border-border-light dark:border-border-dark rounded-card bg-[#FFF8F2]/30 dark:bg-surface-dark hover:border-[#D97706] transition-all flex flex-col gap-1.5"
+                    className="group p-2.5 border border-[#EFE1D2] rounded-lg bg-white dark:bg-surface-dark hover:border-[#E8792A] hover:bg-[#FBF1E9]/30 transition-all flex items-center justify-between"
                   >
-                    <h4 className="font-bold text-[13px] text-slate-800 dark:text-white hover:text-[#D97706] transition-colors">{rel.name}</h4>
-                    <p className="text-[11px] text-text-secondaryLight dark:text-text-secondaryDark line-clamp-2 leading-relaxed">{rel.desc}</p>
+                    <div className="min-w-0 pr-2">
+                      <h4 className="font-bold text-xs text-slate-800 dark:text-white group-hover:text-[#E8792A] transition-colors truncate">
+                        {rel.name}
+                      </h4>
+                      <p className="text-[10.5px] text-[#9C9488] truncate">{rel.desc}</p>
+                    </div>
+                    <ArrowRight className="w-3.5 h-3.5 text-[#9C9488] group-hover:text-[#E8792A] group-hover:translate-x-0.5 transition-all shrink-0" />
                   </a>
                 ))}
               </div>

@@ -33,17 +33,17 @@ async function runAllToolsTest() {
   const p3 = pdfDoc.addPage([595, 842]);
   p3.drawText("WeLovePDF Validation Fixture - Page 3");
   const pdfBytes = await pdfDoc.save();
-  const pdfBlob = new Blob([pdfBytes], { type: "application/pdf" });
+  const pdfBlob = new Blob([pdfBytes as any], { type: "application/pdf" });
 
   // B. Valid JPEG fixture
   const jimpJpg = new Jimp({ width: 200, height: 200, color: 0xff0000ff });
   const jpgBuffer = await jimpJpg.getBuffer("image/jpeg");
-  const jpgBlob = new Blob([jpgBuffer], { type: "image/jpeg" });
+  const jpgBlob = new Blob([jpgBuffer as any], { type: "image/jpeg" });
 
   // C. Valid PNG fixture
   const jimpPng = new Jimp({ width: 200, height: 200, color: 0x00ff00ff });
   const pngBuffer = await jimpPng.getBuffer("image/png");
-  const pngBlob = new Blob([pngBuffer], { type: "image/png" });
+  const pngBlob = new Blob([pngBuffer as any], { type: "image/png" });
 
   const results: TestResult[] = [];
 

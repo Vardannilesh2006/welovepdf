@@ -223,7 +223,7 @@ export default function WorkspaceCard({ toolSlug, toolName, lang }: WorkspaceCar
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto px-2 sm:px-4">
+    <div className="w-full max-w-6xl mx-auto px-0 sm:px-2">
       {errorMsg && (
         <div className="mb-3 p-3 bg-red-50 border-[0.5px] border-red-200 text-red-700 text-xs rounded-lg flex items-center justify-between">
           <span>{errorMsg}</span>
