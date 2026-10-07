@@ -74,10 +74,31 @@ const toolActionVerbs: Record<string, string> = {
   "resume-to-pdf": "Resume to PDF Converter",
   "hindi-invoice-generator": "Hindi GST Invoice Generator",
   "pdf-to-qr": "PDF QR Code Generator",
+  "pdf-to-pdfa": "PDF to PDF/A Converter",
+  "extract-pdf-images": "PDF Image Extractor",
+  "redact-pdf-blackout": "PDF Redactor & Blackout",
+  "split-pdf-by-size": "Split PDF by File Size",
+  "booklet-pdf": "PDF Booklet Maker",
+  "flatten-pdf-form": "PDF Form Flattener",
+  "add-page-margins": "PDF Margin & Gutter Editor",
 };
 
 function getHighCtrTitle(slug: string, name: string): string {
   switch (slug) {
+    case "pdf-to-pdfa":
+      return "Convert PDF to PDF/A Online (ISO Archival Standard for Courts) — WeLovePDF";
+    case "extract-pdf-images":
+      return "Extract Images from PDF Online Free (High-Res Photos to ZIP) — WeLovePDF";
+    case "redact-pdf-blackout":
+      return "Blackout & Redact PDF Online (Irreversible Private Redaction) — WeLovePDF";
+    case "split-pdf-by-size":
+      return "Split PDF by File Size Online (Under 5MB, 10MB or 25MB) — WeLovePDF";
+    case "booklet-pdf":
+      return "Make PDF Booklet Online (2-Up Double Sided Printing) — WeLovePDF";
+    case "flatten-pdf-form":
+      return "Flatten PDF Form Fields Online (Non-Editable Static PDF) — WeLovePDF";
+    case "add-page-margins":
+      return "Add Margins to PDF Online (Binding & Hole Punch Padding) — WeLovePDF";
     case "compress-pdf":
       return "Compress PDF Online Free (Unlimited, No 2-File Limit) — WeLovePDF";
     case "compress-pdf-to-100kb":

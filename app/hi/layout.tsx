@@ -32,7 +32,10 @@ export const metadata = {
     card: "summary_large_image",
     title: "WeLovePDF™ — मुफ़्त व असीमित ऑनलाइन पीडीएफ टूल्स (कोई फाइल लिमिट नहीं)",
     description: "ब्राउज़र में सीधे पीडीएफ मर्ज, कंप्रेस, कन्वर्ट और एडिट करें। कोई सर्वर अपलोड नहीं, 1-क्लिक UPSC व SSC परीक्षा कंप्रेसर, 100% मुफ़्त व सुरक्षित।",
-  }
+  },
+  other: {
+    "google-adsense-account": "ca-pub-6714385905703896",
+  },
 };
 
 export default function HindiRootLayout({
@@ -43,7 +46,8 @@ export default function HindiRootLayout({
   return (
     <html lang="hi">
       <head>
-        {/* Google AdSense */}
+        {/* Google AdSense Verification Meta Tag & Script */}
+        <meta name="google-adsense-account" content="ca-pub-6714385905703896" />
         <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6714385905703896"

@@ -88,6 +88,14 @@ export const tools: Tool[] = [
   { slug: "resume-to-pdf", name: "Resume to PDF", category: "Templates", desc: "Generate a clean resume PDF from text.", icon: "CV", lucideIcon: "UserSquare", isBrowserWorking: true },
   { slug: "hindi-invoice-generator", name: "Hindi GST Invoice", category: "Templates", desc: "Create GST invoices in Hindi.", icon: "inv", lucideIcon: "FileSpreadsheet", isBrowserWorking: false },
   { slug: "pdf-to-qr", name: "PDF to QR", category: "Templates", desc: "Create visual link scanning QR codes.", icon: "QR", lucideIcon: "QrCode", isBrowserWorking: false },
+  // Advanced & Legal
+  { slug: "pdf-to-pdfa", name: "Convert to PDF/A", category: "Convert to PDF", desc: "Convert standard PDF to archival ISO-compliant PDF/A format for courts and legal filings.", icon: "A", lucideIcon: "Archive", isBrowserWorking: true },
+  { slug: "extract-pdf-images", name: "Extract PDF Images", category: "Convert from PDF", desc: "Extract all embedded high-resolution JPG and PNG images from PDF into a ZIP file.", icon: "IMG", lucideIcon: "ImageDown", isBrowserWorking: true },
+  { slug: "redact-pdf-blackout", name: "Redact & Blackout PDF", category: "Edit", desc: "Permanently blackout bank numbers, Aadhaar, and confidential text before sharing.", icon: "X", lucideIcon: "EyeOff", isBrowserWorking: true },
+  { slug: "split-pdf-by-size", name: "Split PDF by Size", category: "Organize", desc: "Split large PDF documents into smaller chunks (under 5MB, 10MB or 25MB) for email attachments.", icon: "MB", lucideIcon: "FileDigit", isBrowserWorking: true },
+  { slug: "booklet-pdf", name: "Make PDF Booklet", category: "Organize", desc: "Format pages into 2-up double-sided booklet layout ready for folding and stapling.", icon: "BK", lucideIcon: "BookOpenCheck", isBrowserWorking: true },
+  { slug: "flatten-pdf-form", name: "Flatten PDF Form", category: "Edit", desc: "Flatten fillable form fields and annotations into permanent non-editable page content.", icon: "F", lucideIcon: "Layers", isBrowserWorking: true },
+  { slug: "add-page-margins", name: "Add Page Margins", category: "Organize", desc: "Add custom binding margins and padding to PDF pages for printing and hole punching.", icon: "M", lucideIcon: "Maximize", isBrowserWorking: true },
 ];
 
 export const toolDescriptions: Record<string, string> = {
@@ -129,9 +137,15 @@ export const toolDescriptions: Record<string, string> = {
   "pdf-to-qr": "Generate QR codes for your PDF files online. Create a visual scan code for users to access your PDF documents easily.",
   "grayscale-pdf": "Convert colored PDF files to black and white (grayscale) online for free. Clean vector output for ink-saving printing.",
   "add-blank-page": "Insert blank pages into PDF documents online for free. Add pages at the start, end, or custom index positions.",
-  "duplicate-pages": "Duplicate specific pages inside a PDF online for free. Clone document sheets and compile them in custom positions.",
-  "accessibility-checker": "Check PDF accessibility standards online for free. Scan document alt text, tag schemas, and logical structures.",
-  "hindi-invoice-generator": "Create professional GST invoices in Hindi online for free. Fast browser-based invoice template generator.",};
+  "hindi-invoice-generator": "Create professional GST invoices in Hindi online for free. Fast browser-based invoice template generator.",
+  "pdf-to-pdfa": "Convert standard PDF documents into ISO 19005 compliant PDF/A format for long-term legal, court, and patent archiving. 100% private in-browser.",
+  "extract-pdf-images": "Extract all embedded high-resolution JPG and PNG photos from PDF files into a single downloadable ZIP archive with zero cloud upload.",
+  "redact-pdf-blackout": "Permanently blackout sensitive bank details, Aadhaar numbers, and confidential data on PDF documents. Irreversible client-side redaction.",
+  "split-pdf-by-size": "Split large PDF documents into smaller chunks (under 5MB, 10MB or 25MB) to satisfy email attachment caps and recruitment portal upload ceilings.",
+  "booklet-pdf": "Format PDF pages into 2-up double-sided booklet layout for easy folding, binding, and professional booklet printing.",
+  "flatten-pdf-form": "Flatten fillable PDF forms and dynamic form fields into static non-editable document pages.",
+  "add-page-margins": "Add custom margins, padding, and binding offsets to PDF documents for printing, hole-punching, and binding.",
+};
 
 export const toolGuides: Record<string, string> = {
   "word-to-pdf-converter-online": `

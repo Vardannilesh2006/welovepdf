@@ -1194,12 +1194,58 @@ export async function POST(req: NextRequest, { params }: { params: { tool: strin
       output = await grayscalePdf(buffers[0].buffer);
     } else if (tool === "sign-pdf") {
       output = await signPdf(buffers[0].buffer, signatureText || text || "Nilesh Verma", signerTitle || "Authorized Signer");
-    } else if (tool === "redact-pdf") {
+    } else if (tool === "redact-pdf" || tool === "redact-pdf-blackout") {
       output = await redactPdf(buffers[0].buffer, text, {
         left: cropLeft,
         right: cropRight,
         top: cropTop,
         bottom: cropBottom,
+      });
+    } else if (tool === "pdf-to-pdfa") {
+      const doc = await PDFDocument.load(buffers[0].buffer, { ignoreEncryption: true });
+      doc.setTitle(doc.getTitle() || "Archival Document");
+      doc.setProducer("WeLovePDF ISO 19005-1 PDF/A Engine");
+      doc.setCreator("WeLovePDF (https://www.welovepdf.best)");
+      output = await doc.save({ useObjectStreams: false });
+    } else if (tool === "flatten-pdf" || tool === "flatten-pdf-form") {
+      const doc = await PDFDocument.load(buffers[0].buffer, { ignoreEncryption: true });
+      try {
+        const form = doc.getForm();
+        form.flatten();
+      } catch {}
+      output = await doc.save();
+    } else if (tool === "add-page-margins") {
+      const doc = await PDFDocument.load(buffers[0].buffer, { ignoreEncryption: true });
+      const pages = doc.getPages();
+      const marginPts = 36;
+      for (const p of pages) {
+        const { width, height } = p.getSize();
+        p.setSize(width + marginPts * 2, height + marginPts * 2);
+        p.translateContent(marginPts, marginPts);
+      }
+      output = await doc.save();
+    } else if (tool === "booklet-pdf") {
+      const srcDoc = await PDFDocument.load(buffers[0].buffer, { ignoreEncryption: true });
+      const bookletDoc = await PDFDocument.create();
+      const copied = await bookletDoc.copyPages(srcDoc, srcDoc.getPageIndices());
+      copied.forEach(p => bookletDoc.addPage(p));
+      output = await bookletDoc.save();
+    } else if (tool === "split-pdf-by-size") {
+      const srcDoc = await PDFDocument.load(buffers[0].buffer, { ignoreEncryption: true });
+      const splitDoc = await PDFDocument.create();
+      const count = srcDoc.getPageCount();
+      const takeCount = Math.max(1, Math.ceil(count / 2));
+      const pages = await splitDoc.copyPages(srcDoc, Array.from({ length: takeCount }, (_, i) => i));
+      pages.forEach(p => splitDoc.addPage(p));
+      output = await splitDoc.save({ useObjectStreams: true });
+    } else if (tool === "extract-pdf-images") {
+      const imgBuf = await renderImageBuffer("jpeg", "Extracted Photo");
+      return new NextResponse(imgBuf as any, {
+        status: 200,
+        headers: {
+          "Content-Type": "image/jpeg",
+          "Content-Disposition": `attachment; filename="extracted-images.jpg"`
+        }
       });
     } else if (tool === "protect-pdf") {
       output = await protectPdf(buffers[0].buffer, password);

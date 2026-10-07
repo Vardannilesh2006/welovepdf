@@ -395,6 +395,7 @@ function getArchetypeForTool(slug: string): "A" | "B" | "C" | "D" | "E" | "F" | 
       "crop-pdf",
       "annotate-pdf",
       "redact-pdf",
+      "redact-pdf-blackout",
       "bookmark-editor",
     ].includes(slug)
   )
@@ -419,6 +420,11 @@ function getArchetypeForTool(slug: string): "A" | "B" | "C" | "D" | "E" | "F" | 
       "protect-pdf",
       "unlock-pdf",
       "bates-numbering",
+      "pdf-to-pdfa",
+      "split-pdf-by-size",
+      "booklet-pdf",
+      "flatten-pdf-form",
+      "add-page-margins",
     ].includes(slug)
   )
     return "C";
@@ -431,6 +437,7 @@ function getArchetypeForTool(slug: string): "A" | "B" | "C" | "D" | "E" | "F" | 
       "pdf-to-jpg",
       "pdf-to-png",
       "pdf-to-long-image",
+      "extract-pdf-images",
       "pdf-to-word",
       "pdf-to-excel",
       "pdf-to-powerpoint",

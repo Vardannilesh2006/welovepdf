@@ -32,7 +32,10 @@ export const metadata = {
     card: "summary_large_image",
     title: "WeLovePDF™ — Free & Unlimited Online PDF Tools (No File Limit, 100% Private)",
     description: "Merge, compress, convert & edit PDFs privately inside your browser. No 2-file hourly limits, zero server uploads, 1-click UPSC & SSC exam presets. 100% free forever.",
-  }
+  },
+  other: {
+    "google-adsense-account": "ca-pub-6714385905703896",
+  },
 };
 
 export default function RootLayout({
@@ -43,7 +46,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Google AdSense */}
+        {/* Google AdSense Verification Meta Tag & Script */}
+        <meta name="google-adsense-account" content="ca-pub-6714385905703896" />
         <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6714385905703896"

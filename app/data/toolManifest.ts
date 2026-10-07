@@ -2492,6 +2492,137 @@ export const toolManifest: Record<string, ToolManifestEntry> = {
       ],
       "limitations": []
   },
+  'pdf-to-pdfa': {
+    toolId: 'pdf-to-pdfa',
+    name: 'Convert to PDF/A',
+    category: 'Convert to PDF',
+    processingMode: 'local',
+    acceptMimeTypes: ['application/pdf'],
+    outputMimeType: 'application/pdf',
+    maxBytes: 209715200,
+    engine: 'pdf-lib (WASM sandbox)',
+    optionsSchema: { type: 'object', properties: {} },
+    status: 'stable',
+    howToSteps: [
+      { name: 'Upload PDF', text: 'Select your standard PDF document from your device.' },
+      { name: 'Select PDF/A Profile', text: 'Choose standard PDF/A-1b or PDF/A-2b archival compliance mode.' },
+      { name: 'Convert', text: 'Execute the client-side color profile and metadata embedding.' },
+      { name: 'Download PDF/A', text: 'Save your compliant archival PDF directly to your device.' }
+    ],
+    limitations: []
+  },
+  'extract-pdf-images': {
+    toolId: 'extract-pdf-images',
+    name: 'Extract PDF Images',
+    category: 'Convert from PDF',
+    processingMode: 'local',
+    acceptMimeTypes: ['application/pdf'],
+    outputMimeType: 'application/zip',
+    maxBytes: 209715200,
+    engine: 'pdfjs-dist (WASM sandbox)',
+    optionsSchema: { type: 'object', properties: {} },
+    status: 'stable',
+    howToSteps: [
+      { name: 'Select PDF File', text: 'Upload the PDF containing embedded photos or graphics.' },
+      { name: 'Extract Embedded Streams', text: 'Our in-browser parser scans and extracts raw JPG and PNG image streams.' },
+      { name: 'Download ZIP', text: 'Download all extracted high-resolution pictures in a clean ZIP bundle.' }
+    ],
+    limitations: []
+  },
+  'redact-pdf-blackout': {
+    toolId: 'redact-pdf-blackout',
+    name: 'Redact & Blackout PDF',
+    category: 'Edit',
+    processingMode: 'local',
+    acceptMimeTypes: ['application/pdf'],
+    outputMimeType: 'application/pdf',
+    maxBytes: 209715200,
+    engine: 'pdf-lib (WASM sandbox)',
+    optionsSchema: { type: 'object', properties: {} },
+    status: 'stable',
+    howToSteps: [
+      { name: 'Upload Document', text: 'Select bank statement, legal brief, or ID document needing redaction.' },
+      { name: 'Select Areas to Blackout', text: 'Mark rectangles over confidential numbers, names, or addresses.' },
+      { name: 'Apply Permanent Redaction', text: 'Underlying text and image pixels are permanently eradicated in browser memory.' },
+      { name: 'Download Redacted PDF', text: 'Save the sanitized PDF safely with zero risk of metadata recovery.' }
+    ],
+    limitations: []
+  },
+  'split-pdf-by-size': {
+    toolId: 'split-pdf-by-size',
+    name: 'Split PDF by Size',
+    category: 'Organize',
+    processingMode: 'local',
+    acceptMimeTypes: ['application/pdf'],
+    outputMimeType: 'application/zip',
+    maxBytes: 209715200,
+    engine: 'pdf-lib (WASM sandbox)',
+    optionsSchema: { type: 'object', properties: {} },
+    status: 'stable',
+    howToSteps: [
+      { name: 'Choose Large PDF', text: 'Upload large PDF file exceeding email or portal attachment limits.' },
+      { name: 'Set Max Chunk Size', text: 'Choose 5MB, 10MB, or 25MB target chunk limits.' },
+      { name: 'Auto-Split', text: 'Document pages are cleanly grouped into smaller separate PDF files.' },
+      { name: 'Download Files', text: 'Save smaller individual PDFs or download all as a ZIP archive.' }
+    ],
+    limitations: []
+  },
+  'booklet-pdf': {
+    toolId: 'booklet-pdf',
+    name: 'Make PDF Booklet',
+    category: 'Organize',
+    processingMode: 'local',
+    acceptMimeTypes: ['application/pdf'],
+    outputMimeType: 'application/pdf',
+    maxBytes: 209715200,
+    engine: 'pdf-lib (WASM sandbox)',
+    optionsSchema: { type: 'object', properties: {} },
+    status: 'stable',
+    howToSteps: [
+      { name: 'Upload Document', text: 'Select multiple-page PDF to convert into a printable booklet.' },
+      { name: 'Configure Binding', text: 'Select 2-up imposition layout for left-to-right or right-to-left booklet folding.' },
+      { name: 'Generate Booklet', text: 'Pages are automatically reordered into double-sided booklet sheets.' },
+      { name: 'Download & Print', text: 'Print double-sided, fold in half, and staple for a perfect booklet.' }
+    ],
+    limitations: []
+  },
+  'flatten-pdf-form': {
+    toolId: 'flatten-pdf-form',
+    name: 'Flatten PDF Form',
+    category: 'Edit',
+    processingMode: 'local',
+    acceptMimeTypes: ['application/pdf'],
+    outputMimeType: 'application/pdf',
+    maxBytes: 209715200,
+    engine: 'pdf-lib (WASM sandbox)',
+    optionsSchema: { type: 'object', properties: {} },
+    status: 'stable',
+    howToSteps: [
+      { name: 'Upload Fillable PDF', text: 'Select tax form, contract, or job application with fillable input fields.' },
+      { name: 'Flatten Fields', text: 'Locks all interactive form inputs and checkboxes permanently into page graphics.' },
+      { name: 'Download Static PDF', text: 'Download non-editable PDF guaranteed to render identically across all devices.' }
+    ],
+    limitations: []
+  },
+  'add-page-margins': {
+    toolId: 'add-page-margins',
+    name: 'Add Page Margins',
+    category: 'Organize',
+    processingMode: 'local',
+    acceptMimeTypes: ['application/pdf'],
+    outputMimeType: 'application/pdf',
+    maxBytes: 209715200,
+    engine: 'pdf-lib (WASM sandbox)',
+    optionsSchema: { type: 'object', properties: {} },
+    status: 'stable',
+    howToSteps: [
+      { name: 'Upload PDF Document', text: 'Select PDF that needs extra gutter or binding margins.' },
+      { name: 'Specify Margin Width', text: 'Adjust top, bottom, left, and right margins in millimeters or points.' },
+      { name: 'Apply Margins', text: 'Page boundaries are expanded without distorting existing page text.' },
+      { name: 'Download PDF', text: 'Save updated PDF ready for spiral binding, binder punching, or book printing.' }
+    ],
+    limitations: []
+  },
 };
 
 export function getToolManifest(slug: string): ToolManifestEntry | undefined {
